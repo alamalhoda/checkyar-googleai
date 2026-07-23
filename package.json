@@ -1,0 +1,30 @@
+{
+  "name": "cheque-yar",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@vicons/ionicons5": "^0.12.0",
+    "@vicons/utils": "^0.1.4",
+    "axios": "^1.7.9",
+    "naive-ui": "^2.41.0",
+    "pinia": "^3.0.1",
+    "vooks": "^0.2.12",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "autoprefixer": "^10.4.21",
+    "tailwindcss": "^4.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.3"
+  }
+}

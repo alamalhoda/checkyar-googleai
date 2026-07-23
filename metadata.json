@@ -1,0 +1,6 @@
+{
+  "name": "Cheque Yar",
+  "description": "Iranian financial receivables and cheque trading platform (سامانه معامله و مدیریت چِک و مطالبات)",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
