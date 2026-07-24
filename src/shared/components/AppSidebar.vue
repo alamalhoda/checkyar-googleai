@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, h } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { NMenu, NBadge, NIcon } from 'naive-ui';
+import { NMenu, NBadge, NIcon, NDrawer, NDrawerContent } from 'naive-ui';
 import {
   StorefrontOutline,
   AddCircleOutline,
@@ -17,11 +17,13 @@ import {
 } from '@vicons/ionicons5';
 import { useAuthStore } from '../../stores/auth';
 import { useBackendSimulatorStore } from '../../stores/useBackendSimulatorStore';
+import { useUiStore } from '../../stores/useUiStore';
 
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 const simulatorStore = useBackendSimulatorStore();
+const uiStore = useUiStore();
 
 const unreadCount = computed(() => {
   return (simulatorStore.notifications || []).filter(n => !n?.read_at).length;
@@ -135,11 +137,13 @@ const activeKey = computed(() => route.path);
 
 const handleMenuSelect = (key: string) => {
   router.push(key);
+  uiStore.closeMobileMenu();
 };
 </script>
 
 <template>
-  <aside class="w-64 bg-slate-900 border-l border-slate-800 flex flex-col shrink-0 min-h-screen">
+  <!-- Desktop Sidebar -->
+  <aside class="hidden md:flex w-64 bg-slate-900 border-l border-slate-800 flex-col shrink-0 h-screen sticky top-0 z-30">
     <!-- Brand Title -->
     <div class="p-5 border-b border-slate-800 flex items-center gap-3">
       <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-lg">
@@ -174,6 +178,53 @@ const handleMenuSelect = (key: string) => {
       </div>
     </div>
   </aside>
+
+  <!-- Mobile Drawer Sidebar -->
+  <NDrawer
+    v-model:show="uiStore.isMobileMenuOpen"
+    :width="280"
+    placement="right"
+    class="bg-slate-900 text-slate-100 md:hidden"
+  >
+    <NDrawerContent
+      closable
+      body-content-style="padding: 0; display: flex; flex-direction: column; height: 100%; background-color: #0f172a;"
+      header-style="background-color: #0f172a; border-bottom: 1px solid #1e293b; padding: 1rem;"
+    >
+      <template #header>
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">
+            چک
+          </div>
+          <div>
+            <h1 class="text-sm font-bold text-slate-100 tracking-tight">چک‌یار</h1>
+            <p class="text-[10px] text-slate-400">سامانه معامله مطالبات و چک صیادی</p>
+          </div>
+        </div>
+      </template>
+
+      <div class="flex-1 py-3 px-2 overflow-y-auto">
+        <NMenu
+          :options="menuOptions"
+          :value="activeKey"
+          @update:value="handleMenuSelect"
+          :indent="18"
+          accordion
+        />
+      </div>
+
+      <div class="p-4 border-t border-slate-800 bg-slate-950/40 text-xs text-slate-400 mt-auto">
+        <div class="flex items-center justify-between">
+          <span>نقش فعلی کاربر:</span>
+          <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+            {{ authStore.userRole === 'check_holder' ? 'دارنده چک' :
+               authStore.userRole === 'investor' ? 'سرمایه‌گذار' :
+               authStore.userRole === 'moderator' ? 'ناظر سیستم' : 'مدیر کل' }}
+          </span>
+        </div>
+      </div>
+    </NDrawerContent>
+  </NDrawer>
 </template>
 
 <style scoped>

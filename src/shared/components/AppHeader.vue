@@ -16,10 +16,12 @@ import {
   PersonOutline,
   LogOutOutline,
   SwapHorizontalOutline,
-  ConstructOutline
+  ConstructOutline,
+  MenuOutline
 } from '@vicons/ionicons5';
 import { useAuthStore } from '../../stores/auth';
 import { useBackendSimulatorStore } from '../../stores/useBackendSimulatorStore';
+import { useUiStore } from '../../stores/useUiStore';
 import { getMockMode, setMockMode } from '../../api';
 import type { UserRole } from '../../types/api';
 
@@ -28,6 +30,7 @@ const route = useRoute();
 const message = useMessage();
 const authStore = useAuthStore();
 const simulatorStore = useBackendSimulatorStore();
+const uiStore = useUiStore();
 
 const isSimulatorMode = computed({
   get: () => getMockMode(),
@@ -97,10 +100,23 @@ const pageTitle = computed(() => {
 </script>
 
 <template>
-  <header class="h-16 border-b border-slate-800 bg-slate-900/80 backdrop-blur px-6 flex items-center justify-between sticky top-0 z-40">
-    <!-- Page Title & Breadcrumb -->
-    <div class="flex items-center gap-3">
-      <h2 class="text-sm font-semibold text-slate-100 tracking-tight">{{ pageTitle }}</h2>
+  <header class="h-16 border-b border-slate-800 bg-slate-900/80 backdrop-blur px-4 sm:px-6 flex items-center justify-between sticky top-0 z-40">
+    <!-- Page Title & Mobile Menu Toggle -->
+    <div class="flex items-center gap-3 min-w-0">
+      <NButton
+        quaternary
+        circle
+        size="small"
+        class="md:hidden text-slate-300 shrink-0"
+        @click="uiStore.toggleMobileMenu"
+        aria-label="باز کردن منو"
+      >
+        <template #icon>
+          <MenuOutline class="w-5 h-5 text-slate-200" />
+        </template>
+      </NButton>
+
+      <h2 class="text-sm font-semibold text-slate-100 tracking-tight truncate">{{ pageTitle }}</h2>
     </div>
 
     <!-- Actions Right -->

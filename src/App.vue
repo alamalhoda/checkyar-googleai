@@ -79,7 +79,7 @@ const themeOverrides = {
             <AppSidebar />
             <div class="flex-1 flex flex-col min-w-0 min-h-screen">
               <AppHeader />
-              <main class="flex-1 p-6 overflow-y-auto max-w-[1400px] w-full mx-auto">
+              <main class="flex-1 p-3 sm:p-4 md:p-6 overflow-y-auto max-w-[1400px] w-full mx-auto">
                 <router-view />
               </main>
             </div>
