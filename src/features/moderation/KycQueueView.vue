@@ -145,7 +145,7 @@ const getDocumentTypeLabel = (type: string) => {
         </div>
 
         <NSpin :show="loading">
-          <div v-if="kycItems.length > 0" class="space-y-4">
+          <div v-if="kycItems && kycItems.length > 0" class="space-y-4">
             <NCard
               v-for="item in kycItems"
               :key="item.id"

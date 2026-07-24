@@ -168,7 +168,7 @@ onMounted(loadMyListings);
           </div>
 
           <!-- Empty State -->
-          <div v-else-if="listings.length === 0" class="text-center py-16 space-y-3">
+          <div v-else-if="listings && listings.length === 0" class="text-center py-16 space-y-3">
             <div class="text-slate-500 text-4xl">📄</div>
             <div class="text-slate-300 font-bold">هنوز هیچ آگهی چکی ثبت نکرده‌اید.</div>
             <p class="text-xs text-slate-500">جهت فروش چک صیادی خود، دکمه ثبت آگهی جدید را فشار دهید.</p>

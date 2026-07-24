@@ -24,7 +24,7 @@ const authStore = useAuthStore();
 const simulatorStore = useBackendSimulatorStore();
 
 const unreadCount = computed(() => {
-  return simulatorStore.notifications.filter(n => !n.read_at).length;
+  return (simulatorStore.notifications || []).filter(n => !n?.read_at).length;
 });
 
 const renderIcon = (icon: any) => {

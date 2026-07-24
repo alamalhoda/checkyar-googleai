@@ -652,7 +652,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       const mItem: MarketplaceListing = {
         ...l,
         days_to_due: diff > 0 ? diff : 0,
-        interest_count: matches.value.filter(m => m.listing.id === l.id).length,
+        interest_count: (matches.value || []).filter(m => m?.listing?.id === l.id).length,
         published_at: l.updated_at
       };
       return mItem;
@@ -680,11 +680,11 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     const page = filters.page || 1;
     const pageSize = filters.page_size || 10;
     const start = (page - 1) * pageSize;
-    const paged = result.slice(start, start + pageSize);
+    const paged = (result || []).slice(start, start + pageSize);
 
     return {
-      count: result.length,
-      next: start + pageSize < result.length ? `?page=${page + 1}` : null,
+      count: (result || []).length,
+      next: start + pageSize < (result || []).length ? `?page=${page + 1}` : null,
       previous: page > 1 ? `?page=${page - 1}` : null,
       results: paged
     };
@@ -972,25 +972,29 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
 
   // --- Admin Stats ---
   function getAdminStats(): AdminDashboardStats {
+    const list = listings.value || [];
+    const usr = users.value || [];
+    const ver = verifications.value || [];
+    const notif = notifications.value || [];
     return {
       listings: {
-        total: listings.value.length,
-        published: listings.value.filter(l => l.status === 'published').length,
-        pending_moderation: listings.value.filter(l => l.status === 'pending_moderation').length,
-        rejected: listings.value.filter(l => l.status === 'rejected').length,
-        expired: listings.value.filter(l => l.status === 'expired').length,
-        matched: listings.value.filter(l => l.status === 'matched').length
+        total: list.length,
+        published: list.filter(l => l?.status === 'published').length,
+        pending_moderation: list.filter(l => l?.status === 'pending_moderation').length,
+        rejected: list.filter(l => l?.status === 'rejected').length,
+        expired: list.filter(l => l?.status === 'expired').length,
+        matched: list.filter(l => l?.status === 'matched').length
       },
       users: {
-        total: users.value.length,
-        kyc_pending: verifications.value.filter(v => v.status === 'pending').length,
-        kyc_approved: verifications.value.filter(v => v.status === 'approved').length
+        total: usr.length,
+        kyc_pending: ver.filter(v => v?.status === 'pending').length,
+        kyc_approved: ver.filter(v => v?.status === 'approved').length
       },
       verifications: {
-        pending: verifications.value.filter(v => v.status === 'pending').length
+        pending: ver.filter(v => v?.status === 'pending').length
       },
       notifications: {
-        unread: notifications.value.filter(n => !n.read_at).length
+        unread: notif.filter(n => !n?.read_at).length
       }
     };
   }

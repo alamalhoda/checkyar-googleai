@@ -68,7 +68,7 @@ const goToEdit = (id: number) => {
     </NTabs>
 
     <NSpin :show="loading">
-      <div v-if="filteredListings.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div v-if="filteredListings && filteredListings.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <ListingCard
           v-for="item in filteredListings"
           :key="item.id"

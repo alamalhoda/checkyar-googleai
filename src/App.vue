@@ -7,7 +7,19 @@ import {
   NDialogProvider,
   faIR,
   dateFaIR,
-  darkTheme
+  darkTheme,
+  unstableSelectRtl,
+  unstablePopoverRtl,
+  unstableButtonRtl,
+  unstableInputRtl,
+  unstableDataTableRtl,
+  unstableDialogRtl,
+  unstableMessageRtl,
+  unstableNotificationRtl,
+  unstableCardRtl,
+  unstableTagRtl,
+  unstablePaginationRtl,
+  unstableListRtl
 } from 'naive-ui';
 import AppSidebar from './shared/components/AppSidebar.vue';
 import AppHeader from './shared/components/AppHeader.vue';
@@ -15,6 +27,21 @@ import { useAuthStore } from './stores/auth';
 
 const route = useRoute();
 const authStore = useAuthStore();
+
+const rtlPlugins = [
+  unstableSelectRtl,
+  unstablePopoverRtl,
+  unstableButtonRtl,
+  unstableInputRtl,
+  unstableDataTableRtl,
+  unstableDialogRtl,
+  unstableMessageRtl,
+  unstableNotificationRtl,
+  unstableCardRtl,
+  unstableTagRtl,
+  unstablePaginationRtl,
+  unstableListRtl
+];
 
 const isAuthPage = computed(() => {
   return route.path === '/login' || route.path === '/register';
@@ -42,6 +69,7 @@ const themeOverrides = {
     :date-locale="dateFaIR"
     :theme="darkTheme"
     :theme-overrides="themeOverrides"
+    :rtl-plugins="rtlPlugins"
   >
     <NMessageProvider>
       <NDialogProvider>

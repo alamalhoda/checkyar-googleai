@@ -41,7 +41,7 @@ const statusOptions = [
 ];
 
 const unreadCount = computed(() => {
-  return notifications.value.filter(n => !n.read_at).length;
+  return (notifications.value || []).filter(n => !n?.read_at).length;
 });
 
 const loadNotifications = async () => {
@@ -182,7 +182,7 @@ const goToPreferences = () => {
 
         <!-- Content list -->
         <NSpin :show="loading">
-          <div v-if="notifications.length > 0" class="space-y-3">
+          <div v-if="notifications && notifications.length > 0" class="space-y-3">
             <NotificationItem
               v-for="item in notifications"
               :key="item.id"

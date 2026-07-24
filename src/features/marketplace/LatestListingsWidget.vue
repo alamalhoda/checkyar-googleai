@@ -54,7 +54,7 @@ const goToDetail = (id: number) => {
     </div>
 
     <NSpin :show="loading">
-      <div v-if="latestListings.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div v-if="latestListings && latestListings.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <NCard
           v-for="item in latestListings"
           :key="item.id"

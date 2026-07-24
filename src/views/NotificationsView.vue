@@ -52,7 +52,7 @@ const goToPreferences = () => {
     </div>
 
     <NSpin :show="loading">
-      <div v-if="notificationsList.length > 0" class="space-y-3">
+      <div v-if="notificationsList && notificationsList.length > 0" class="space-y-3">
         <NCard
           v-for="item in notificationsList"
           :key="item.id"

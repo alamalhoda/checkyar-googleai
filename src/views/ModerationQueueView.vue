@@ -87,7 +87,7 @@ const submitReject = async () => {
     </div>
 
     <NSpin :show="loading">
-      <div v-if="queueItems.length > 0" class="space-y-4">
+      <div v-if="queueItems && queueItems.length > 0" class="space-y-4">
         <NCard v-for="item in queueItems" :key="item.id" class="bg-slate-900 border border-slate-800 rounded-xl">
           <div class="flex flex-wrap items-start justify-between gap-4">
             <div class="space-y-2">

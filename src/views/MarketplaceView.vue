@@ -145,7 +145,7 @@ const goToExpressInterest = (id: number) => {
 
     <!-- Listings Grid -->
     <NSpin :show="loading">
-      <div v-if="listings.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div v-if="listings && listings.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <ListingCard
           v-for="item in listings"
           :key="item.id"

@@ -46,11 +46,11 @@ const currentUserId = computed(() => authStore.user?.id || 1);
 
 // Filter matches into Received (check_holder is me) and Sent (investor is me)
 const receivedMatches = computed(() => {
-  return matches.value.filter(m => m.check_holder.id === currentUserId.value || authStore.userRole === 'check_holder');
+  return (matches.value || []).filter(m => m?.check_holder?.id === currentUserId.value || authStore.userRole === 'check_holder');
 });
 
 const sentMatches = computed(() => {
-  return matches.value.filter(m => m.investor.id === currentUserId.value || authStore.userRole === 'investor');
+  return (matches.value || []).filter(m => m?.investor?.id === currentUserId.value || authStore.userRole === 'investor');
 });
 
 const loadMatches = async () => {
@@ -177,8 +177,8 @@ const handleDeclineSubmit = async () => {
 
         <!-- Navigation Tabs -->
         <NTabs v-model:value="activeTab" type="line" animated class="custom-tabs">
-          <NTabPane name="received" :tab="`پیشنهادهای دریافتی (دارنده چک) [${receivedMatches.length}]`" />
-          <NTabPane name="sent" :tab="`پیشنهادهای ارسالی (سرمایه‌گذار) [${sentMatches.length}]`" />
+          <NTabPane name="received" :tab="`پیشنهادهای دریافتی (دارنده چک) [${(receivedMatches || []).length}]`" />
+          <NTabPane name="sent" :tab="`پیشنهادهای ارسالی (سرمایه‌گذار) [${(sentMatches || []).length}]`" />
         </NTabs>
 
         <!-- Loading State -->
@@ -189,7 +189,7 @@ const handleDeclineSubmit = async () => {
         <div v-else class="space-y-4">
           <!-- Received Matches Tab -->
           <template v-if="activeTab === 'received'">
-            <div v-if="receivedMatches.length > 0" class="space-y-4">
+            <div v-if="receivedMatches && receivedMatches.length > 0" class="space-y-4">
               <NCard
                 v-for="item in receivedMatches"
                 :key="item.id"
@@ -310,7 +310,7 @@ const handleDeclineSubmit = async () => {
 
           <!-- Sent Matches Tab -->
           <template v-if="activeTab === 'sent'">
-            <div v-if="sentMatches.length > 0" class="space-y-4">
+            <div v-if="sentMatches && sentMatches.length > 0" class="space-y-4">
               <NCard
                 v-for="item in sentMatches"
                 :key="item.id"

@@ -37,7 +37,7 @@ const handleDecision = (id: number, status: 'approved' | 'rejected') => {
     </div>
 
     <NSpin :show="loading">
-      <div v-if="kycItems.length > 0" class="space-y-4">
+      <div v-if="kycItems && kycItems.length > 0" class="space-y-4">
         <NCard v-for="item in kycItems" :key="item.id" class="bg-slate-900 border border-slate-800 rounded-xl">
           <div class="flex flex-wrap items-center justify-between gap-4">
             <div class="space-y-1">

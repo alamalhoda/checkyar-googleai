@@ -187,7 +187,7 @@ onMounted(loadListingDetail);
 
             <!-- Documents List Card -->
             <NCard class="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl" title="مدارک و تصاویر مربوطه">
-              <div v-if="!listing.documents || listing.documents.length === 0" class="text-xs text-slate-500 py-4 text-center">
+              <div v-if="!listing || !listing.documents || listing.documents.length === 0" class="text-xs text-slate-500 py-4 text-center">
                 هنوز هیچ مدرکی برای این آگهی بارگذاری نشده است.
               </div>
 

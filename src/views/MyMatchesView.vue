@@ -47,7 +47,7 @@ const goToMatchDetail = (id: number) => {
     </div>
 
     <NSpin :show="loading">
-      <div v-if="matchesList.length > 0" class="space-y-4">
+      <div v-if="matchesList && matchesList.length > 0" class="space-y-4">
         <NCard
           v-for="item in matchesList"
           :key="item.id"

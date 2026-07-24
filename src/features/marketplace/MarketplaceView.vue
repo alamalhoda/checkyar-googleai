@@ -275,7 +275,7 @@ const goToExpressInterest = (id: number) => {
             <!-- Top Controls bar -->
             <div class="flex items-center justify-between bg-slate-900 border border-slate-800 rounded-xl p-3">
               <div class="text-xs text-slate-400">
-                نمایش <span class="font-bold text-slate-100">{{ listings.length }}</span> از <span class="font-bold text-slate-100">{{ totalCount }}</span> آگهی چک صیادی
+                نمایش <span class="font-bold text-slate-100">{{ listings ? listings.length : 0 }}</span> از <span class="font-bold text-slate-100">{{ totalCount }}</span> آگهی چک صیادی
               </div>
 
               <div class="flex items-center gap-2">
@@ -302,7 +302,7 @@ const goToExpressInterest = (id: number) => {
 
             <!-- Content Grid/Table -->
             <NSpin :show="loading">
-              <template v-if="listings.length > 0">
+              <template v-if="listings && listings.length > 0">
                 <!-- Cards Mode -->
                 <div v-if="viewMode === 'cards'" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <ListingCard

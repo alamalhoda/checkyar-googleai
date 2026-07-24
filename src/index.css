@@ -19,3 +19,11 @@
   height: 1em;
 }
 
+/* Fix for Naive UI / @vueuc/binder popover & dropdown positioning in RTL layout */
+.v-binder-follower-container,
+.v-binder-follower-content {
+  left: 0 !important;
+  right: auto !important;
+  top: 0 !important;
+}
+
