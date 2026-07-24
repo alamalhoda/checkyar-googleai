@@ -27,3 +27,441 @@
   top: 0 !important;
 }
 
+/* ================= INTERACTIVE HOVER EFFECTS ON CARDS & BOXES ================= */
+.n-card,
+.card-hover,
+.bg-slate-900 {
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.n-card:hover,
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(16, 185, 129, 0.4) !important;
+  border-color: rgba(16, 185, 129, 0.5) !important;
+}
+
+/* ================= THEME STYLING ================= */
+
+/* --- 1. DARK SLATE (Default) --- */
+[data-theme="dark"] .n-card:hover {
+  border-color: rgba(16, 185, 129, 0.5) !important;
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.5), 0 0 15px rgba(16, 185, 129, 0.15) !important;
+}
+
+/* --- 2. LIGHT THEME OVERRIDES --- */
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="light"] body,
+[data-theme="light"] #app,
+[data-theme="light"] .bg-slate-950 {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .bg-slate-950\/70,
+[data-theme="light"] .bg-slate-950\/60,
+[data-theme="light"] .bg-slate-950\/40,
+[data-theme="light"] .bg-slate-950\/80,
+[data-theme="light"] .bg-slate-950\/90 {
+  background-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] .bg-slate-900,
+[data-theme="light"] .bg-slate-900\/80,
+[data-theme="light"] .bg-slate-900\/90 {
+  background-color: #ffffff !important;
+}
+
+[data-theme="light"] .bg-slate-800,
+[data-theme="light"] .bg-slate-800\/50,
+[data-theme="light"] .bg-slate-800\/80 {
+  background-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .border-slate-800,
+[data-theme="light"] .border-slate-800\/80,
+[data-theme="light"] .border-slate-800\/50,
+[data-theme="light"] .border-slate-800\/30,
+[data-theme="light"] .border-slate-700 {
+  border-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .text-slate-100,
+[data-theme="light"] .text-slate-200 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .text-slate-300,
+[data-theme="light"] .text-slate-400 {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .text-slate-500 {
+  color: #64748b !important;
+}
+
+[data-theme="light"] aside,
+[data-theme="light"] header {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .n-card {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .n-card:hover {
+  border-color: #10b981 !important;
+  box-shadow: 0 12px 28px -6px rgba(16, 185, 129, 0.15), 0 0 0 1px rgba(16, 185, 129, 0.3) !important;
+  background-color: #ffffff !important;
+}
+
+/* --- 3. WARM CREAM & TERRACOTTA THEME --- */
+[data-theme="warm"] {
+  color-scheme: light;
+}
+
+[data-theme="warm"] body,
+[data-theme="warm"] #app,
+[data-theme="warm"] .bg-slate-950 {
+  background-color: #fcf8f2 !important;
+  color: #292524 !important;
+}
+
+[data-theme="warm"] .bg-slate-950\/70,
+[data-theme="warm"] .bg-slate-950\/60,
+[data-theme="warm"] .bg-slate-950\/40,
+[data-theme="warm"] .bg-slate-950\/80,
+[data-theme="warm"] .bg-slate-950\/90 {
+  background-color: #f5efe6 !important;
+}
+
+[data-theme="warm"] .bg-slate-900,
+[data-theme="warm"] .bg-slate-900\/80,
+[data-theme="warm"] .bg-slate-900\/90 {
+  background-color: #fffdfa !important;
+}
+
+[data-theme="warm"] .bg-slate-800,
+[data-theme="warm"] .bg-slate-800\/50,
+[data-theme="warm"] .bg-slate-800\/80 {
+  background-color: #f0e6d8 !important;
+}
+
+[data-theme="warm"] .border-slate-800,
+[data-theme="warm"] .border-slate-800\/80,
+[data-theme="warm"] .border-slate-800\/50,
+[data-theme="warm"] .border-slate-800\/30,
+[data-theme="warm"] .border-slate-700 {
+  border-color: #e7e5e4 !important;
+}
+
+[data-theme="warm"] .text-slate-100,
+[data-theme="warm"] .text-slate-200 {
+  color: #292524 !important;
+}
+
+[data-theme="warm"] .text-slate-300,
+[data-theme="warm"] .text-slate-400 {
+  color: #57534e !important;
+}
+
+[data-theme="warm"] .text-slate-500 {
+  color: #78716c !important;
+}
+
+[data-theme="warm"] aside,
+[data-theme="warm"] header {
+  background-color: #fffdfa !important;
+  border-color: #e7e5e4 !important;
+}
+
+[data-theme="warm"] .text-emerald-400,
+[data-theme="warm"] .text-emerald-500 {
+  color: #d97706 !important;
+}
+
+[data-theme="warm"] .bg-emerald-500\/10,
+[data-theme="warm"] .bg-emerald-500\/20 {
+  background-color: rgba(217, 119, 6, 0.15) !important;
+}
+
+[data-theme="warm"] .border-emerald-500\/30 {
+  border-color: rgba(217, 119, 6, 0.35) !important;
+}
+
+[data-theme="warm"] .n-card {
+  background-color: #fffdfa !important;
+  border-color: #e7e5e4 !important;
+  color: #292524 !important;
+}
+
+[data-theme="warm"] .n-card:hover {
+  border-color: #d97706 !important;
+  box-shadow: 0 12px 28px -6px rgba(217, 119, 6, 0.18), 0 0 0 1px rgba(217, 119, 6, 0.3) !important;
+}
+
+/* --- 4. NAVY & GOLD THEME --- */
+[data-theme="navy"] {
+  color-scheme: dark;
+}
+
+[data-theme="navy"] body,
+[data-theme="navy"] #app,
+[data-theme="navy"] .bg-slate-950 {
+  background-color: #060c1d !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="navy"] .bg-slate-950\/70,
+[data-theme="navy"] .bg-slate-950\/60,
+[data-theme="navy"] .bg-slate-950\/40,
+[data-theme="navy"] .bg-slate-950\/80,
+[data-theme="navy"] .bg-slate-950\/90 {
+  background-color: #0d1630 !important;
+}
+
+[data-theme="navy"] .bg-slate-900,
+[data-theme="navy"] .bg-slate-900\/80,
+[data-theme="navy"] .bg-slate-900\/90 {
+  background-color: #111e3f !important;
+}
+
+[data-theme="navy"] .bg-slate-800,
+[data-theme="navy"] .bg-slate-800\/50,
+[data-theme="navy"] .bg-slate-800\/80 {
+  background-color: #192a54 !important;
+}
+
+[data-theme="navy"] .border-slate-800,
+[data-theme="navy"] .border-slate-800\/80,
+[data-theme="navy"] .border-slate-800\/50,
+[data-theme="navy"] .border-slate-800\/30,
+[data-theme="navy"] .border-slate-700 {
+  border-color: #1f3463 !important;
+}
+
+[data-theme="navy"] .text-slate-100,
+[data-theme="navy"] .text-slate-200 {
+  color: #f8fafc !important;
+}
+
+[data-theme="navy"] .text-slate-300,
+[data-theme="navy"] .text-slate-400 {
+  color: #93c5fd !important;
+}
+
+[data-theme="navy"] .text-slate-500 {
+  color: #60a5fa !important;
+}
+
+[data-theme="navy"] aside,
+[data-theme="navy"] header {
+  background-color: #0c1630 !important;
+  border-color: #1f3463 !important;
+}
+
+[data-theme="navy"] .text-emerald-400,
+[data-theme="navy"] .text-emerald-500 {
+  color: #fbbf24 !important;
+}
+
+[data-theme="navy"] .bg-emerald-500\/10,
+[data-theme="navy"] .bg-emerald-500\/20 {
+  background-color: rgba(245, 158, 11, 0.18) !important;
+}
+
+[data-theme="navy"] .border-emerald-500\/30 {
+  border-color: rgba(245, 158, 11, 0.4) !important;
+}
+
+[data-theme="navy"] .n-card {
+  background-color: #111e3f !important;
+  border-color: #1f3463 !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="navy"] .n-card:hover {
+  border-color: #f59e0b !important;
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.5), 0 0 15px rgba(245, 158, 11, 0.25) !important;
+}
+
+/* --- 5. VELVET VIOLET THEME --- */
+[data-theme="violet"] {
+  color-scheme: dark;
+}
+
+[data-theme="violet"] body,
+[data-theme="violet"] #app,
+[data-theme="violet"] .bg-slate-950 {
+  background-color: #0d0818 !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="violet"] .bg-slate-950\/70,
+[data-theme="violet"] .bg-slate-950\/60,
+[data-theme="violet"] .bg-slate-950\/40,
+[data-theme="violet"] .bg-slate-950\/80,
+[data-theme="violet"] .bg-slate-950\/90 {
+  background-color: #160d29 !important;
+}
+
+[data-theme="violet"] .bg-slate-900,
+[data-theme="violet"] .bg-slate-900\/80,
+[data-theme="violet"] .bg-slate-900\/90 {
+  background-color: #1e1333 !important;
+}
+
+[data-theme="violet"] .bg-slate-800,
+[data-theme="violet"] .bg-slate-800\/50,
+[data-theme="violet"] .bg-slate-800\/80 {
+  background-color: #2b1b47 !important;
+}
+
+[data-theme="violet"] .border-slate-800,
+[data-theme="violet"] .border-slate-800\/80,
+[data-theme="violet"] .border-slate-800\/50,
+[data-theme="violet"] .border-slate-800\/30,
+[data-theme="violet"] .border-slate-700 {
+  border-color: #38235a !important;
+}
+
+[data-theme="violet"] .text-slate-100,
+[data-theme="violet"] .text-slate-200 {
+  color: #f8fafc !important;
+}
+
+[data-theme="violet"] .text-slate-300,
+[data-theme="violet"] .text-slate-400 {
+  color: #e9d5ff !important;
+}
+
+[data-theme="violet"] .text-slate-500 {
+  color: #c084fc !important;
+}
+
+[data-theme="violet"] aside,
+[data-theme="violet"] header {
+  background-color: #160d29 !important;
+  border-color: #38235a !important;
+}
+
+[data-theme="violet"] .text-emerald-400,
+[data-theme="violet"] .text-emerald-500 {
+  color: #c084fc !important;
+}
+
+[data-theme="violet"] .bg-emerald-500\/10,
+[data-theme="violet"] .bg-emerald-500\/20 {
+  background-color: rgba(168, 85, 247, 0.18) !important;
+}
+
+[data-theme="violet"] .border-emerald-500\/30 {
+  border-color: rgba(168, 85, 247, 0.4) !important;
+}
+
+[data-theme="violet"] .n-card {
+  background-color: #1e1333 !important;
+  border-color: #38235a !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="violet"] .n-card:hover {
+  border-color: #a855f7 !important;
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.5), 0 0 15px rgba(168, 85, 247, 0.25) !important;
+}
+
+/* --- 6. DEEP EMERALD THEME --- */
+[data-theme="emerald"] {
+  color-scheme: dark;
+}
+
+[data-theme="emerald"] body,
+[data-theme="emerald"] #app,
+[data-theme="emerald"] .bg-slate-950 {
+  background-color: #021a14 !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="emerald"] .bg-slate-950\/70,
+[data-theme="emerald"] .bg-slate-950\/60,
+[data-theme="emerald"] .bg-slate-950\/40,
+[data-theme="emerald"] .bg-slate-950\/80,
+[data-theme="emerald"] .bg-slate-950\/90 {
+  background-color: #04241c !important;
+}
+
+[data-theme="emerald"] .bg-slate-900,
+[data-theme="emerald"] .bg-slate-900\/80,
+[data-theme="emerald"] .bg-slate-900\/90 {
+  background-color: #062e24 !important;
+}
+
+[data-theme="emerald"] .bg-slate-800,
+[data-theme="emerald"] .bg-slate-800\/50,
+[data-theme="emerald"] .bg-slate-800\/80 {
+  background-color: #0a4032 !important;
+}
+
+[data-theme="emerald"] .border-slate-800,
+[data-theme="emerald"] .border-slate-800\/80,
+[data-theme="emerald"] .border-slate-800\/50,
+[data-theme="emerald"] .border-slate-800\/30,
+[data-theme="emerald"] .border-slate-700 {
+  border-color: #0d5442 !important;
+}
+
+[data-theme="emerald"] .text-slate-100,
+[data-theme="emerald"] .text-slate-200 {
+  color: #f8fafc !important;
+}
+
+[data-theme="emerald"] .text-slate-300,
+[data-theme="emerald"] .text-slate-400 {
+  color: #99f6e4 !important;
+}
+
+[data-theme="emerald"] .text-slate-500 {
+  color: #2dd4bf !important;
+}
+
+[data-theme="emerald"] aside,
+[data-theme="emerald"] header {
+  background-color: #04241c !important;
+  border-color: #0d5442 !important;
+}
+
+[data-theme="emerald"] .text-emerald-400,
+[data-theme="emerald"] .text-emerald-500 {
+  color: #2dd4bf !important;
+}
+
+[data-theme="emerald"] .bg-emerald-500\/10,
+[data-theme="emerald"] .bg-emerald-500\/20 {
+  background-color: rgba(20, 184, 166, 0.18) !important;
+}
+
+[data-theme="emerald"] .border-emerald-500\/30 {
+  border-color: rgba(20, 184, 166, 0.4) !important;
+}
+
+[data-theme="emerald"] .n-card {
+  background-color: #062e24 !important;
+  border-color: #0d5442 !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="emerald"] .n-card:hover {
+  border-color: #14b8a6 !important;
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.5), 0 0 15px rgba(20, 184, 166, 0.25) !important;
+}
+
+

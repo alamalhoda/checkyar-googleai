@@ -17,11 +17,14 @@ import {
   LogOutOutline,
   SwapHorizontalOutline,
   ConstructOutline,
-  MenuOutline
+  MenuOutline,
+  SunnyOutline,
+  MoonOutline,
+  ColorPaletteOutline
 } from '@vicons/ionicons5';
 import { useAuthStore } from '../../stores/auth';
 import { useBackendSimulatorStore } from '../../stores/useBackendSimulatorStore';
-import { useUiStore } from '../../stores/useUiStore';
+import { useUiStore, type AppTheme } from '../../stores/useUiStore';
 import { getMockMode, setMockMode } from '../../api';
 import type { UserRole } from '../../types/api';
 
@@ -57,6 +60,53 @@ const selectedRole = computed({
     authStore.switchRole(val);
   }
 });
+
+const themeOptions = [
+  {
+    label: '🌙 تم تاریک (اسلیت)',
+    key: 'dark',
+    icon: () => h(NIcon, { size: 16 }, { default: () => h(MoonOutline) })
+  },
+  {
+    label: '☀️ تم روشن (سپید)',
+    key: 'light',
+    icon: () => h(NIcon, { size: 16 }, { default: () => h(SunnyOutline) })
+  },
+  {
+    label: '🍯 تم گرم (کرم و آجر)',
+    key: 'warm',
+    icon: () => h(NIcon, { size: 16 }, { default: () => h(SunnyOutline) })
+  },
+  {
+    label: '🎨 تم سرمه‌ای (نیلی و طلایی)',
+    key: 'navy',
+    icon: () => h(NIcon, { size: 16 }, { default: () => h(ColorPaletteOutline) })
+  },
+  {
+    label: '🔮 تم بنفش (ارغوانی)',
+    key: 'violet',
+    icon: () => h(NIcon, { size: 16 }, { default: () => h(ColorPaletteOutline) })
+  },
+  {
+    label: '🌲 تم یشمی (زمرد عمیق)',
+    key: 'emerald',
+    icon: () => h(NIcon, { size: 16 }, { default: () => h(ColorPaletteOutline) })
+  }
+];
+
+const handleThemeSelect = (key: string) => {
+  const theme = key as AppTheme;
+  uiStore.setTheme(theme);
+  const themeNames: Record<AppTheme, string> = {
+    dark: 'تم تاریک (اسلیت)',
+    light: 'تم روشن (سپید)',
+    warm: 'تم گرم (کرم)',
+    navy: 'تم سرمه‌ای',
+    violet: 'تم بنفش',
+    emerald: 'تم یشمی'
+  };
+  message.success(`پوسته برنامه به ${themeNames[theme]} تغییر یافت.`);
+};
 
 const userDropdownOptions = [
   {
@@ -120,7 +170,7 @@ const pageTitle = computed(() => {
     </div>
 
     <!-- Actions Right -->
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-2 sm:gap-4">
       <!-- Dev Role Switcher & Simulator Toggle -->
       <div class="hidden lg:flex items-center gap-2.5 bg-slate-950/60 border border-slate-800/80 rounded-lg px-2.5 py-1 text-[11px] text-slate-300">
         <div class="flex items-center gap-1.5">
@@ -144,6 +194,27 @@ const pageTitle = computed(() => {
           </NSwitch>
         </div>
       </div>
+
+      <!-- Theme Selector Dropdown -->
+      <NDropdown
+        :options="themeOptions"
+        @select="handleThemeSelect"
+        trigger="click"
+      >
+        <NButton
+          quaternary
+          circle
+          size="small"
+          aria-label="تغییر پوسته برنامه"
+          title="تغییر پوسته و رنگ برنامه"
+        >
+          <template #icon>
+            <SunnyOutline v-if="uiStore.currentTheme === 'light'" class="w-4 h-4 text-amber-500" />
+            <ColorPaletteOutline v-else-if="uiStore.currentTheme === 'navy'" class="w-4 h-4 text-amber-400" />
+            <MoonOutline v-else class="w-4 h-4 text-slate-300" />
+          </template>
+        </NButton>
+      </NDropdown>
 
       <!-- Notification Bell Button -->
       <NButton
