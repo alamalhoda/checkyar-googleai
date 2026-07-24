@@ -8,8 +8,6 @@ import {
   PersonOutline, CheckmarkCircleOutline, CloseCircleOutline,
   DocumentTextOutline, RefreshOutline, EyeOutline
 } from '@vicons/ionicons5';
-import AppHeader from '../../shared/components/AppHeader.vue';
-import AppSidebar from '../../shared/components/AppSidebar.vue';
 import ConfirmDialog from '../../shared/components/ConfirmDialog.vue';
 import { moderationApi } from '../../api';
 import type { Verification, RejectionCode } from '../../types/api';
@@ -128,13 +126,7 @@ const getDocumentTypeLabel = (type: string) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col dir-rtl">
-    <AppHeader />
-
-    <div class="flex-1 flex max-w-7xl w-full mx-auto p-4 gap-6">
-      <AppSidebar />
-
-      <main class="flex-1 min-w-0 space-y-6">
+  <div class="space-y-6 dir-rtl">
         <div class="flex items-center justify-between border-b border-slate-800 pb-4">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold">
@@ -239,8 +231,6 @@ const getDocumentTypeLabel = (type: string) => {
             class="py-20 bg-slate-900 border border-slate-800 rounded-2xl"
           />
         </NSpin>
-      </main>
-    </div>
 
     <!-- Document Preview Modal -->
     <NModal

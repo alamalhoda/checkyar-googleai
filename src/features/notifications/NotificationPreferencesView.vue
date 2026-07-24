@@ -8,8 +8,6 @@ import {
   ArrowBackOutline, SettingsOutline, NotificationsOutline,
   CallOutline, MailOutline, SaveOutline
 } from '@vicons/ionicons5';
-import AppHeader from '../../shared/components/AppHeader.vue';
-import AppSidebar from '../../shared/components/AppSidebar.vue';
 import { notificationsApi } from '../../api';
 import type { NotificationPreferences } from '../../types/api';
 
@@ -55,13 +53,7 @@ const handleSave = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col dir-rtl">
-    <AppHeader />
-
-    <div class="flex-1 flex max-w-7xl w-full mx-auto p-4 gap-6">
-      <AppSidebar />
-
-      <main class="flex-1 min-w-0 space-y-6">
+  <div class="space-y-6 dir-rtl">
         <div class="flex items-center justify-between border-b border-slate-800 pb-4">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold">
@@ -137,7 +129,5 @@ const handleSave = async () => {
             </div>
           </NCard>
         </NSpin>
-      </main>
-    </div>
   </div>
 </template>

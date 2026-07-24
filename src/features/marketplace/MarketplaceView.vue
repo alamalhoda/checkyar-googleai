@@ -9,8 +9,6 @@ import {
   FilterOutline, RefreshOutline, GridOutline, ListOutline, BusinessOutline,
   CalendarOutline, TrendingDownOutline, ShieldCheckmarkOutline
 } from '@vicons/ionicons5';
-import AppHeader from '../../shared/components/AppHeader.vue';
-import AppSidebar from '../../shared/components/AppSidebar.vue';
 import ListingCard from '../../shared/components/ListingCard.vue';
 import LatestListingsWidget from './LatestListingsWidget.vue';
 import { marketplaceApi } from '../../api';
@@ -216,18 +214,12 @@ const goToExpressInterest = (id: number) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col dir-rtl">
-    <AppHeader />
+  <div class="space-y-6 dir-rtl">
+    <!-- Latest Listings Widget -->
+    <LatestListingsWidget />
 
-    <div class="flex-1 flex max-w-7xl w-full mx-auto p-4 gap-6">
-      <AppSidebar />
-
-      <main class="flex-1 min-w-0 space-y-6">
-        <!-- Latest Listings Widget -->
-        <LatestListingsWidget />
-
-        <!-- Main Marketplace Section -->
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <!-- Main Marketplace Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <!-- Sidebar Filters -->
           <NCard class="lg:col-span-1 bg-slate-900 border border-slate-800 rounded-2xl h-fit">
             <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-800">
@@ -347,7 +339,5 @@ const goToExpressInterest = (id: number) => {
             </div>
           </div>
         </div>
-      </main>
-    </div>
   </div>
 </template>

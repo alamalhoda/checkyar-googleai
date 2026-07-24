@@ -7,8 +7,6 @@ import {
 import {
   NotificationsOutline, CheckmarkDoneOutline, SettingsOutline, FilterOutline
 } from '@vicons/ionicons5';
-import AppHeader from '../../shared/components/AppHeader.vue';
-import AppSidebar from '../../shared/components/AppSidebar.vue';
 import NotificationItem from './NotificationItem.vue';
 import { notificationsApi } from '../../api';
 import type { Notification, NotificationType, NotificationStatus } from '../../types/api';
@@ -113,13 +111,7 @@ const goToPreferences = () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col dir-rtl">
-    <AppHeader />
-
-    <div class="flex-1 flex max-w-7xl w-full mx-auto p-4 gap-6">
-      <AppSidebar />
-
-      <main class="flex-1 min-w-0 space-y-6">
+  <div class="space-y-6 dir-rtl">
         <!-- Header bar -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-4 gap-4">
           <div class="flex items-center gap-3">
@@ -214,7 +206,5 @@ const goToPreferences = () => {
             class="py-20 bg-slate-900 border border-slate-800 rounded-2xl"
           />
         </NSpin>
-      </main>
-    </div>
   </div>
 </template>

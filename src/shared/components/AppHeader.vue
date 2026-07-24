@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, h } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import {
   NButton,
@@ -8,6 +8,7 @@ import {
   NBadge,
   NSelect,
   NSwitch,
+  NIcon,
   useMessage
 } from 'naive-ui';
 import {
@@ -58,16 +59,14 @@ const userDropdownOptions = [
   {
     label: 'پروفایل و هویت',
     key: 'profile',
-    icon: () => h(PersonOutline, { class: 'w-3.5 h-3.5' })
+    icon: () => h(NIcon, { size: 16 }, { default: () => h(PersonOutline) })
   },
   {
     label: 'خروج از حساب',
     key: 'logout',
-    icon: () => h(LogOutOutline, { class: 'w-3.5 h-3.5 text-rose-400' })
+    icon: () => h(NIcon, { size: 16, class: 'text-rose-400' }, { default: () => h(LogOutOutline) })
   }
 ];
-
-import { h } from 'vue';
 
 const handleDropdownSelect = (key: string) => {
   if (key === 'profile') {

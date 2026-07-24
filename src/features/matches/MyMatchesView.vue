@@ -10,8 +10,6 @@ import {
   CallOutline, MailOutline, PersonOutline, BusinessOutline,
   CalendarOutline, CashOutline, SwapHorizontalOutline, DocumentTextOutline
 } from '@vicons/ionicons5';
-import AppHeader from '../../shared/components/AppHeader.vue';
-import AppSidebar from '../../shared/components/AppSidebar.vue';
 import ConfirmDialog from '../../shared/components/ConfirmDialog.vue';
 import { matchesApi } from '../../api';
 import { useAuthStore } from '../../stores/auth';
@@ -169,13 +167,7 @@ const handleDeclineSubmit = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col dir-rtl">
-    <AppHeader />
-
-    <div class="flex-1 flex max-w-7xl w-full mx-auto p-4 gap-6">
-      <AppSidebar />
-
-      <main class="flex-1 min-w-0 space-y-6">
+  <div class="space-y-6 dir-rtl">
         <div class="flex items-center justify-between border-b border-slate-800 pb-4">
           <div>
             <h1 class="text-2xl font-black text-slate-100">مدیریت پیشنهادها و تطابق‌ها</h1>
@@ -417,8 +409,6 @@ const handleDeclineSubmit = async () => {
             <NEmpty v-else description="شما هنوز هیچ پیشنهاد خریدی ارسال نکرده‌اید." class="py-20 bg-slate-900 border border-slate-800 rounded-2xl" />
           </template>
         </div>
-      </main>
-    </div>
 
     <!-- Decline Modal -->
     <NModal v-model:show="showDeclineModal" preset="card" title="رد پیشنهاد خرید" class="max-w-md bg-slate-900 border border-slate-800">

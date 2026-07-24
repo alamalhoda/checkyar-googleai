@@ -6,8 +6,6 @@ import {
   NDatePicker, NButton, NAlert, NUpload, NUploadDragger, NIcon, NText, NDivider,
   useMessage
 } from 'naive-ui';
-import AppHeader from '../../shared/components/AppHeader.vue';
-import AppSidebar from '../../shared/components/AppSidebar.vue';
 import { listingsApi } from '../../api';
 import type { IssuerType } from '../../types/api';
 
@@ -145,13 +143,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col dir-rtl">
-    <AppHeader />
-
-    <div class="flex-1 flex max-w-7xl w-full mx-auto p-4 gap-6">
-      <AppSidebar />
-
-      <main class="flex-1 min-w-0 space-y-6">
+  <div class="space-y-6 dir-rtl">
         <div class="border-b border-slate-800 pb-4">
           <h1 class="text-2xl font-black text-slate-100">ثبت آگهی جدید چک صیادی</h1>
           <p class="text-xs text-slate-400 mt-1">فرآیند ۳ مرحله‌ای ثبت مشخصات، اطلاعات صیادی و مدارک جهت فروش چک</p>
@@ -316,7 +308,5 @@ const handleSubmit = async () => {
             </div>
           </div>
         </NCard>
-      </main>
-    </div>
   </div>
 </template>

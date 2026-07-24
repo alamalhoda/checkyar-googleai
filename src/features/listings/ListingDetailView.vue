@@ -4,8 +4,6 @@ import { useRoute, useRouter } from 'vue-router';
 import {
   NCard, NTag, NButton, NSpin, NAlert, NDescriptions, NDescriptionsItem, NDivider, useMessage
 } from 'naive-ui';
-import AppHeader from '../../shared/components/AppHeader.vue';
-import AppSidebar from '../../shared/components/AppSidebar.vue';
 import ConfirmDialog from '../../shared/components/ConfirmDialog.vue';
 import { listingsApi, complianceApi } from '../../api';
 import { useAuthStore } from '../../stores/auth';
@@ -100,13 +98,7 @@ onMounted(loadListingDetail);
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col dir-rtl">
-    <AppHeader />
-
-    <div class="flex-1 flex max-w-7xl w-full mx-auto p-4 gap-6">
-      <AppSidebar />
-
-      <main class="flex-1 min-w-0 space-y-6">
+  <div class="space-y-6 dir-rtl">
         <!-- Header -->
         <div class="flex items-center justify-between border-b border-slate-800 pb-4">
           <div class="flex items-center gap-3">
@@ -292,8 +284,6 @@ onMounted(loadListingDetail);
             </NCard>
           </div>
         </div>
-      </main>
-    </div>
 
     <!-- Confirm Resubmit Dialog -->
     <ConfirmDialog

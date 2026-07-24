@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, h } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { NMenu, NBadge } from 'naive-ui';
+import { NMenu, NBadge, NIcon } from 'naive-ui';
 import {
   StorefrontOutline,
   AddCircleOutline,
@@ -28,7 +28,7 @@ const unreadCount = computed(() => {
 });
 
 const renderIcon = (icon: any) => {
-  return () => h(icon, { class: 'w-5 h-5' });
+  return () => h(NIcon, { size: 18 }, { default: () => h(icon) });
 };
 
 const menuOptions = computed(() => {

@@ -4,8 +4,6 @@ import { useRouter } from 'vue-router';
 import {
   NCard, NDataTable, NButton, NTag, NAlert, NSpin, NSpace, NPagination, useMessage
 } from 'naive-ui';
-import AppHeader from '../../shared/components/AppHeader.vue';
-import AppSidebar from '../../shared/components/AppSidebar.vue';
 import ConfirmDialog from '../../shared/components/ConfirmDialog.vue';
 import { listingsApi } from '../../api';
 import { LISTING_STATUS_LABELS, type ChequeListing, type ListingStatus } from '../../types/api';
@@ -148,13 +146,7 @@ onMounted(loadMyListings);
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col dir-rtl">
-    <AppHeader />
-
-    <div class="flex-1 flex max-w-7xl w-full mx-auto p-4 gap-6">
-      <AppSidebar />
-
-      <main class="flex-1 min-w-0 space-y-6">
+  <div class="space-y-6 dir-rtl">
         <div class="flex items-center justify-between border-b border-slate-800 pb-4">
           <div>
             <h1 class="text-2xl font-black text-slate-100">آگهی‌های من</h1>
@@ -195,8 +187,6 @@ onMounted(loadMyListings);
             />
           </div>
         </NCard>
-      </main>
-    </div>
 
     <!-- Confirm Resubmit Modal -->
     <ConfirmDialog

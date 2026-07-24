@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@layer base {
+  svg {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+
+  /* Default fallback size for icons without explicit width or Tailwind w-*/size- classes */
+  svg:not([width]):not([height]):not([class*="w-"]):not([class*="h-"]):not([class*="size-"]) {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+.n-icon svg {
+  width: 1em;
+  height: 1em;
+}
+

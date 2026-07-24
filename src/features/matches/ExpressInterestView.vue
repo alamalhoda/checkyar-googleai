@@ -2,8 +2,6 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { NCard, NForm, NFormItem, NInput, NSelect, NButton, NAlert, NSpin, useMessage } from 'naive-ui';
-import AppHeader from '../../shared/components/AppHeader.vue';
-import AppSidebar from '../../shared/components/AppSidebar.vue';
 import ConfirmDialog from '../../shared/components/ConfirmDialog.vue';
 import { matchesApi, marketplaceApi } from '../../api';
 import { useAuthStore } from '../../stores/auth';
@@ -86,13 +84,7 @@ onMounted(loadListing);
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col dir-rtl">
-    <AppHeader />
-
-    <div class="flex-1 flex max-w-7xl w-full mx-auto p-4 gap-6">
-      <AppSidebar />
-
-      <main class="flex-1 min-w-0 space-y-6">
+  <div class="space-y-6 dir-rtl">
         <div class="flex items-center justify-between border-b border-slate-800 pb-4">
           <div class="flex items-center gap-3">
             <NButton secondary size="small" @click="router.back()">← انصراف</NButton>
@@ -184,8 +176,6 @@ onMounted(loadListing);
             </NCard>
           </div>
         </NSpin>
-      </main>
-    </div>
 
     <ConfirmDialog
       :show="showConfirmModal"
