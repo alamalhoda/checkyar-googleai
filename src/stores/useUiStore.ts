@@ -7,6 +7,26 @@ export const useUiStore = defineStore('ui', () => {
   const isMobileMenuOpen = ref(false);
   const currentTheme = ref<AppTheme>('dark');
 
+  // Hybrid UX Preferences
+  const wizardMode = ref<boolean>(localStorage.getItem('chequeyar_wizard_mode') !== 'false'); // default true (wizard)
+  const isPowerUser = ref<boolean>(localStorage.getItem('chequeyar_power_user') === 'true'); // default false
+  const isAdvancedModerator = ref<boolean>(localStorage.getItem('chequeyar_advanced_mod') === 'true'); // default false
+
+  function setWizardMode(val: boolean) {
+    wizardMode.value = val;
+    localStorage.setItem('chequeyar_wizard_mode', String(val));
+  }
+
+  function setPowerUser(val: boolean) {
+    isPowerUser.value = val;
+    localStorage.setItem('chequeyar_power_user', String(val));
+  }
+
+  function setAdvancedModerator(val: boolean) {
+    isAdvancedModerator.value = val;
+    localStorage.setItem('chequeyar_advanced_mod', String(val));
+  }
+
   function initTheme() {
     const saved = localStorage.getItem('chequeyar_app_theme') as AppTheme | null;
     if (saved && ['dark', 'light', 'navy', 'violet', 'emerald', 'warm'].includes(saved)) {
@@ -49,6 +69,12 @@ export const useUiStore = defineStore('ui', () => {
   return {
     isMobileMenuOpen,
     currentTheme,
+    wizardMode,
+    isPowerUser,
+    isAdvancedModerator,
+    setWizardMode,
+    setPowerUser,
+    setAdvancedModerator,
     initTheme,
     setTheme,
     toggleMobileMenu,

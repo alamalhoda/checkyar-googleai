@@ -29,6 +29,35 @@ import type {
   AdminDashboardStats
 } from '../types/api';
 
+export type {
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+  RegisterResponse,
+  RefreshTokenRequest,
+  RefreshTokenResponse,
+  Profile,
+  ChequeListing,
+  CreateListingRequest,
+  UpdateListingRequest,
+  ListingFilters,
+  MarketplaceListing,
+  PaginatedResponse,
+  Match,
+  CreateMatchRequest,
+  UpdateMatchStatusRequest,
+  ModerationQueueItem,
+  ModerationDecisionRequest,
+  ModerationDecisionResponse,
+  Notification,
+  NotificationPreferences,
+  Verification,
+  CreateVerificationRequest,
+  FeatureFlag,
+  AuditEvent,
+  AdminDashboardStats
+};
+
 export { api, setMockMode, getMockMode };
 export const isMock = () => getMockMode();
 

@@ -1,0 +1,123 @@
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
+import { moderationApi, type ModerationQueueItem, type Verification } from '../../../api';
+import { createDiscreteApi, darkTheme } from 'naive-ui';
+
+const { message } = createDiscreteApi(['message'], {
+  configProviderProps: { theme: darkTheme }
+});
+
+export interface ReviewItemDetails {
+  id: number;
+  type: string;
+  sayadId: string;
+  amount: number;
+  dueDate: string;
+  bank: string;
+  city: string;
+  riskScore: number;
+  riskLevel: 'low' | 'medium' | 'high';
+  userName: string;
+  userPhone: string;
+  userTrustScore: number;
+  userTradeCount: number;
+  userKycStatus: string;
+  waitingTime: string;
+  documents: { title: string; url: string }[];
+  historyEvents: { title: string; date: string }[];
+}
+
+export const useModerationStore = defineStore('moderation', () => {
+  const loading = ref(false);
+  const moderationQueue = ref<ModerationQueueItem[]>([]);
+  const kycQueue = ref<Verification[]>([]);
+  const currentReviewItem = ref<ReviewItemDetails | null>(null);
+
+  async function fetchModerationQueue() {
+    loading.value = true;
+    try {
+      moderationQueue.value = await moderationApi.getQueue();
+    } catch (err: any) {
+      message.error(err?.message || 'خطا در دریافت صف نظارت');
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  async function fetchKycQueue() {
+    loading.value = true;
+    try {
+      kycQueue.value = await moderationApi.getKycQueue();
+    } catch (err: any) {
+      message.error(err?.message || 'خطا در دریافت صف احراز هویت');
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  async function fetchReviewDetails(id: number) {
+    loading.value = true;
+    try {
+      // Mock or real backend details
+      currentReviewItem.value = {
+        id,
+        type: 'چک صیادی',
+        sayadId: '9876543210123456',
+        amount: 250000000,
+        dueDate: '1403/08/15',
+        bank: 'بانک پاسارگاد',
+        city: 'تهران',
+        riskScore: 82,
+        riskLevel: 'low',
+        userName: 'محمدرضا کاظمی',
+        userPhone: '09121112233',
+        userTrustScore: 94,
+        userTradeCount: 18,
+        userKycStatus: 'approved',
+        waitingTime: '۴۵ دقیقه',
+        documents: [
+          { title: 'تصویر روی چک صیادی', url: 'https://placehold.co/600x400/1e293b/fff?text=Cheque+Front' },
+          { title: 'تصویر کارت ملی صاحب حساب', url: 'https://placehold.co/600x400/1e293b/fff?text=ID+Card' }
+        ],
+        historyEvents: [
+          { title: 'ثبت‌نام کاربر در سامانه', date: '۱۴۰۲/۱۱/۱۰' },
+          { title: 'تأیید احراز هویت سطح ۲', date: '۱۴۰۲/۱۱/۱۲' },
+          { title: 'تکمیل ۵ معامله موفق بدون گزارش خلاف', date: '۱۴۰۳/۰۲/۰۵' }
+        ]
+      };
+    } catch (err: any) {
+      message.error(err?.message || 'خطا در بارگذاری جزییات');
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  async function submitDecision(id: number, decision: 'approve' | 'reject', reasonCode?: any, note?: string) {
+    loading.value = true;
+    try {
+      await moderationApi.submitDecision(id, {
+        decision,
+        rejection_code: reasonCode || undefined,
+        rejection_note: note
+      });
+      message.success(decision === 'approve' ? 'آگهی با موفقیت تأیید شد.' : 'آگهی رد شد.');
+      return true;
+    } catch (err: any) {
+      message.error(err?.message || 'خطا در ثبت تصمیم نظارتی');
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  return {
+    loading,
+    moderationQueue,
+    kycQueue,
+    currentReviewItem,
+    fetchModerationQueue,
+    fetchKycQueue,
+    fetchReviewDetails,
+    submitDecision
+  };
+});
