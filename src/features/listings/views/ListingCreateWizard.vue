@@ -107,39 +107,47 @@
       </NCard>
 
       <!-- Step 2: Deal Conditions -->
-      <NCard v-if="currentStep === 2" title="مرحله ۲: شرایط پیشنهاد و تسویه" class="bg-slate-900/50 border-slate-800">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <NFormItem label="نرخ تنزیل پیشنهادی (درصد)">
-            <NInputNumber
-              v-model:value="form.formData.discountRate"
-              :min="0"
-              :max="50"
-              placeholder="مثال: 5"
-              class="w-full"
-            />
-          </NFormItem>
+      <NCard v-if="currentStep === 2" title="مرحله ۲: شرایط پیشنهاد، نرخ تنزیل و تسویه" class="bg-slate-900/50 border-slate-800">
+        <div class="space-y-6">
+          <!-- Smart Pricing Engine Component -->
+          <SmartPricingCalculator
+            :amount="form.formData.amount"
+            :bank-id="form.formData.bank"
+            :due-date="form.formData.dueDate"
+            :initial-discount-rate="form.formData.discountRate || undefined"
+            @update:discount-rate="(rate) => { form.formData.discountRate = rate; form.formData.finalRate = rate; }"
+            @update:net-price="(price) => { form.formData.netPrice = price; form.formData.finalPrice = price; }"
+            @update:pricing-meta-data="(data) => {
+              form.formData.suggestedRate = data.suggestedRate;
+              form.formData.suggestedPrice = data.suggestedPrice;
+              form.formData.finalRate = data.finalRate;
+              form.formData.finalPrice = data.finalPrice;
+            }"
+          />
 
-          <NFormItem label="روش تسویه مورد نظر">
-            <NSelect
-              v-model:value="form.formData.settlementMethod"
-              :options="settlementOptions"
-            />
-          </NFormItem>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <NFormItem label="روش تسویه مورد نظر">
+              <NSelect
+                v-model:value="form.formData.settlementMethod"
+                :options="settlementOptions"
+              />
+            </NFormItem>
 
-          <NFormItem label="محدودیت طرف معامله (اختیاری)" class="col-span-full">
-            <NInput
-              v-model:value="form.formData.counterpartyRestrictions"
-              placeholder="مثال: فقط خریداران با رتبه اعتباری الف یا دارای وثیقه معتبر"
-            />
-          </NFormItem>
+            <NFormItem label="محدودیت طرف معامله (اختیاری)">
+              <NInput
+                v-model:value="form.formData.counterpartyRestrictions"
+                placeholder="مثال: فقط خریداران با رتبه اعتباری الف یا دارای وثیقه معتبر"
+              />
+            </NFormItem>
 
-          <NFormItem label="توضیحات تکمیلی" class="col-span-full">
-            <NInput
-              v-model:value="form.formData.description"
-              type="textarea"
-              placeholder="توضیحات بیشتر در مورد علت واگذاری یا شرایط تحویل چک..."
-            />
-          </NFormItem>
+            <NFormItem label="توضیحات تکمیلی" class="col-span-full">
+              <NInput
+                v-model:value="form.formData.description"
+                type="textarea"
+                placeholder="توضیحات بیشتر در مورد علت واگذاری یا شرایط تحویل چک..."
+              />
+            </NFormItem>
+          </div>
         </div>
 
         <div class="flex justify-between mt-6">
@@ -170,8 +178,16 @@
             <span class="text-white">{{ form.formData.bank }} - {{ form.formData.city }}</span>
           </div>
           <div class="flex justify-between border-b border-slate-700/60 pb-2">
-            <span class="text-slate-400">نرخ تنزیل پیشنهادی:</span>
-            <span class="text-amber-400">{{ form.formData.discountRate }}٪</span>
+            <span class="text-slate-400">نرخ تنزیل پیشنهادی هوش‌مصنوعی:</span>
+            <span class="text-amber-400 font-mono font-bold">{{ form.formData.suggestedRate ?? '-' }}٪ سالانه</span>
+          </div>
+          <div class="flex justify-between border-b border-slate-700/60 pb-2">
+            <span class="text-slate-400">نرخ تنزیل انتخابی نهایی:</span>
+            <span class="text-indigo-400 font-mono font-bold">{{ form.formData.discountRate ?? '-' }}٪ سالانه</span>
+          </div>
+          <div v-if="form.formData.netPrice" class="flex justify-between border-b border-slate-700/60 pb-2">
+            <span class="text-slate-400">برآورد دریافتی خالص شما:</span>
+            <span class="text-emerald-400 font-mono font-bold">{{ form.formData.netPrice.toLocaleString('fa-IR') }} تومان</span>
           </div>
           <div class="flex justify-between border-b border-slate-700/60 pb-2">
             <span class="text-slate-400">روش تسویه:</span>
@@ -241,39 +257,47 @@
         </div>
       </NCard>
 
-      <!-- Section 2: Deal Conditions -->
-      <NCard title="۲. شرایط واگذاری و تسویه" class="bg-slate-900/50 border-slate-800">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <NFormItem label="نرخ تنزیل پیشنهادی (درصد)">
-            <NInputNumber
-              v-model:value="form.formData.discountRate"
-              :min="0"
-              :max="50"
-              class="w-full"
-            />
-          </NFormItem>
+      <!-- Section 2: Deal Conditions & Smart Pricing -->
+      <NCard title="۲. شرایط واگذاری، نرخ تنزیل و تسویه" class="bg-slate-900/50 border-slate-800">
+        <div class="space-y-6">
+          <SmartPricingCalculator
+            :amount="form.formData.amount"
+            :bank-id="form.formData.bank"
+            :due-date="form.formData.dueDate"
+            :initial-discount-rate="form.formData.discountRate || undefined"
+            @update:discount-rate="(rate) => { form.formData.discountRate = rate; form.formData.finalRate = rate; }"
+            @update:net-price="(price) => { form.formData.netPrice = price; form.formData.finalPrice = price; }"
+            @update:pricing-meta-data="(data) => {
+              form.formData.suggestedRate = data.suggestedRate;
+              form.formData.suggestedPrice = data.suggestedPrice;
+              form.formData.finalRate = data.finalRate;
+              form.formData.finalPrice = data.finalPrice;
+            }"
+          />
 
-          <NFormItem label="روش تسویه">
-            <NSelect
-              v-model:value="form.formData.settlementMethod"
-              :options="settlementOptions"
-            />
-          </NFormItem>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <NFormItem label="روش تسویه">
+              <NSelect
+                v-model:value="form.formData.settlementMethod"
+                :options="settlementOptions"
+              />
+            </NFormItem>
 
-          <NFormItem label="محدودیت‌های طرف معامله" class="col-span-full">
-            <NInput
-              v-model:value="form.formData.counterpartyRestrictions"
-              placeholder="شرایط پذیرش خریدار..."
-            />
-          </NFormItem>
+            <NFormItem label="محدودیت‌های طرف معامله">
+              <NInput
+                v-model:value="form.formData.counterpartyRestrictions"
+                placeholder="شرایط پذیرش خریدار..."
+              />
+            </NFormItem>
 
-          <NFormItem label="توضیحات تکمیلی" class="col-span-full">
-            <NInput
-              v-model:value="form.formData.description"
-              type="textarea"
-              placeholder="توضیحات کامل آگهی..."
-            />
-          </NFormItem>
+            <NFormItem label="توضیحات تکمیلی" class="col-span-full">
+              <NInput
+                v-model:value="form.formData.description"
+                type="textarea"
+                placeholder="توضیحات کامل آگهی..."
+              />
+            </NFormItem>
+          </div>
         </div>
       </NCard>
 
@@ -311,6 +335,7 @@ import {
   NDatePicker, NSelect, NButton, NAlert, NTag
 } from 'naive-ui';
 import { useListingForm } from '../composables/useListingForm';
+import SmartPricingCalculator from '../components/SmartPricingCalculator.vue';
 
 const router = useRouter();
 const currentStep = ref(1);

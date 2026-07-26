@@ -15,6 +15,11 @@ export interface ListingFormData {
   bank: string;
   city: string;
   discountRate: number | null;
+  netPrice: number | null;
+  suggestedRate: number | null;
+  suggestedPrice: number | null;
+  finalRate: number | null;
+  finalPrice: number | null;
   settlementMethod: 'cash' | 'escrow' | 'bank_transfer' | 'flexible';
   counterpartyRestrictions: string;
   description: string;
@@ -31,7 +36,12 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
     dueDate: initialData?.dueDate ?? null,
     bank: initialData?.bank || '',
     city: initialData?.city || 'تهران',
-    discountRate: initialData?.discountRate ?? 5,
+    discountRate: initialData?.discountRate ?? 25,
+    netPrice: initialData?.netPrice ?? null,
+    suggestedRate: initialData?.suggestedRate ?? null,
+    suggestedPrice: initialData?.suggestedPrice ?? null,
+    finalRate: initialData?.finalRate ?? null,
+    finalPrice: initialData?.finalPrice ?? null,
     settlementMethod: initialData?.settlementMethod || 'escrow',
     counterpartyRestrictions: initialData?.counterpartyRestrictions || '',
     description: initialData?.description || '',
@@ -102,7 +112,7 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
     loading.value = true;
     try {
       formData.status = 'pending_approval';
-      // Call standard API layer
+      // Call standard API layer with both suggested and final pricing metrics
       await listingsApi.createListing({
         face_amount: formData.amount || 0,
         due_date: formData.dueDate ? new Date(formData.dueDate).toISOString() : new Date().toISOString(),
@@ -111,8 +121,8 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
         issuer_type: 'natural',
         issuer_name: 'صادرکننده چک',
         issuer_national_id: '0012345678',
-        suggested_discount_rate: formData.discountRate ? String(formData.discountRate) : null,
-        description: `${formData.description} | روش تسویه: ${formData.settlementMethod} | محدودیت: ${formData.counterpartyRestrictions}`
+        suggested_discount_rate: formData.finalRate ? String(formData.finalRate) : (formData.discountRate ? String(formData.discountRate) : null),
+        description: `${formData.description} | خالص دریافتی: ${(formData.finalPrice || formData.netPrice || 0).toLocaleString('fa-IR')} تومان | نرخ پیشنهادی موتور: ${formData.suggestedRate || '-'}٪ | نرخ نهایی پذیرفته‌شده: ${formData.finalRate || formData.discountRate || '-'}٪ | روش تسویه: ${formData.settlementMethod}`
       });
       message.success('آگهی شما ثبت شد و پس از بررسی ناظر منتشر خواهد شد.');
       return true;
@@ -130,7 +140,12 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
     formData.dueDate = null;
     formData.bank = '';
     formData.city = 'تهران';
-    formData.discountRate = 5;
+    formData.discountRate = 25;
+    formData.netPrice = null;
+    formData.suggestedRate = null;
+    formData.suggestedPrice = null;
+    formData.finalRate = null;
+    formData.finalPrice = null;
     formData.settlementMethod = 'escrow';
     formData.counterpartyRestrictions = '';
     formData.description = '';
