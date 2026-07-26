@@ -12,6 +12,8 @@ import {
   WalletOutline,
   ShieldCheckmarkOutline,
   StatsChartOutline,
+  BarChartOutline,
+  PieChartOutline,
   KeyOutline,
   JournalOutline
 } from '@vicons/ionicons5';
@@ -76,6 +78,11 @@ const menuOptions = computed(() => {
           icon: renderIcon(WalletOutline)
         },
         {
+          label: 'گزارش‌ها و تحلیل‌ها',
+          key: '/reports',
+          icon: renderIcon(BarChartOutline)
+        },
+        {
           label: () => h('div', { class: 'flex items-center justify-between w-full' }, [
             h('span', 'اعلامیه‌ها و پیام‌ها'),
             unreadCount.value > 0 ? h(NBadge, { value: unreadCount.value, type: 'error' }) : null
@@ -111,6 +118,11 @@ const menuOptions = computed(() => {
       type: 'group',
       label: 'مدیریت کل سیستم',
       children: [
+        {
+          label: 'گزارش‌های جامع مدیریتی',
+          key: '/admin/reports',
+          icon: renderIcon(PieChartOutline)
+        },
         {
           label: 'آمار و گزارشات ارشد',
           key: '/admin/stats',

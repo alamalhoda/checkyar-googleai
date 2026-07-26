@@ -1,7 +1,6 @@
 import { createApp } from 'vue';
-import { createPinia } from 'pinia';
+import { createPinia, setActivePinia } from 'pinia';
 import { createDiscreteApi, darkTheme } from 'naive-ui';
-import router from './router';
 import App from './App.vue';
 import './index.css';
 
@@ -11,6 +10,12 @@ const { message } = createDiscreteApi(['message'], {
 
 const app = createApp(App);
 const pinia = createPinia();
+setActivePinia(pinia);
+app.use(pinia);
+
+// Import router after Pinia is active
+import router from './router';
+app.use(router);
 
 // Global Vue error handler
 app.config.errorHandler = (err, instance, info) => {
@@ -27,8 +32,5 @@ window.addEventListener('unhandledrejection', (event) => {
     'خطای شبکه یا ارتباط با سرور رخ داد.';
   message.error(errMsg);
 });
-
-app.use(pinia);
-app.use(router);
 
 app.mount('#app');
