@@ -2,18 +2,45 @@ import { ref, reactive, computed } from 'vue';
 import { useUiStore } from '../../../stores/useUiStore';
 import { createDiscreteApi, darkTheme } from 'naive-ui';
 import { listingsApi } from '../../../api';
+import {
+  validateSayadId,
+  validateNationalId,
+  toEnglishDigits
+} from '../../../utils/persianUtils';
 
 const { message } = createDiscreteApi(['message'], {
   configProviderProps: { theme: darkTheme }
 });
 
+export interface UploadedDoc {
+  id: string;
+  name: string;
+  url: string;
+  type: 'cheque_front' | 'cheque_back' | 'contract' | 'other';
+  size?: string;
+  uploadedAt: string;
+}
+
 export interface ListingFormData {
   id?: number;
+  // Step 1: Cheque Specs
   serialNumber: string;
   amount: number | null;
   dueDate: number | null;
+  issuerName: string;
+  issuerNationalId: string;
+  issuerType: 'natural' | 'legal';
   bank: string;
   city: string;
+  
+  // Step 2: Documents
+  chequeFrontImage: string | null;
+  chequeBackImage: string | null;
+  contractDoc: string | null;
+  contractText: string;
+  additionalDocs: UploadedDoc[];
+
+  // Step 3: Pricing & Conditions
   discountRate: number | null;
   netPrice: number | null;
   suggestedRate: number | null;
@@ -34,8 +61,18 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
     serialNumber: initialData?.serialNumber || '',
     amount: initialData?.amount ?? null,
     dueDate: initialData?.dueDate ?? null,
+    issuerName: initialData?.issuerName || '',
+    issuerNationalId: initialData?.issuerNationalId || '',
+    issuerType: initialData?.issuerType || 'natural',
     bank: initialData?.bank || '',
     city: initialData?.city || 'تهران',
+
+    chequeFrontImage: initialData?.chequeFrontImage || null,
+    chequeBackImage: initialData?.chequeBackImage || null,
+    contractDoc: initialData?.contractDoc || null,
+    contractText: initialData?.contractText || '',
+    additionalDocs: initialData?.additionalDocs || [],
+
     discountRate: initialData?.discountRate ?? 25,
     netPrice: initialData?.netPrice ?? null,
     suggestedRate: initialData?.suggestedRate ?? null,
@@ -48,7 +85,14 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
     status: initialData?.status || 'draft'
   });
 
-  // Domain Validation Warnings
+  // Validation Checks
+  const sayadValidation = computed(() => validateSayadId(formData.serialNumber));
+
+  const nationalIdValidation = computed(() =>
+    validateNationalId(formData.issuerNationalId, formData.issuerType)
+  );
+
+  // Domain Warnings
   const warnings = computed(() => {
     const list: string[] = [];
     if (formData.dueDate) {
@@ -56,43 +100,60 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
       if (daysUntilDue < 3 && daysUntilDue >= 0) {
         list.push('سررسید چک بسیار نزدیک است (کمتر از ۳ روز). پیشنهاد می‌شود روش پرداخت امن را انتخاب کنید.');
       } else if (daysUntilDue < 0) {
-        list.push('تاریخ سررسید گذشته است.');
+        list.push('تاریخ سررسید گذشته است. لطفاً تاریخ معتبر وارد نمایید.');
       }
     }
     if (formData.discountRate && formData.discountRate > 25) {
-      list.push('نرخ تنزیل پیشنهادی بیش از ۲۵٪ است. این موضوع ممکن است سطح ریسک آگهی را افزایش دهد.');
+      list.push('نرخ تنزیل پیشنهادی بیش از ۲۵٪ است. این موضوع ممکن است ریسک آگهی را برای خریدار تغییر دهد.');
     }
-    if (formData.serialNumber && formData.serialNumber.length !== 16) {
-      list.push('شماره ۱۶ رقمی صیادی به صورت کامل وارد نشده است.');
+    if (formData.serialNumber && !sayadValidation.value.isValid) {
+      list.push(`شماره صیادی: ${sayadValidation.value.message}`);
+    }
+    if (formData.issuerNationalId && !nationalIdValidation.value.isValid) {
+      list.push(`شناسه/کد ملی صادرکننده: ${nationalIdValidation.value.message}`);
+    }
+    if (!formData.chequeFrontImage) {
+      list.push('تصویر روی چک هنوز بارگذاری نشده است. بارگذاری تصویر چک جهت تأیید کارشناس الزامی است.');
     }
     return list;
   });
 
-  // Validation Check
+  // Step 1 Validation (Cheque Specs & Issuer)
   const isValidStep1 = computed(() => {
+    const cleanSayad = toEnglishDigits(formData.serialNumber).trim();
+    const cleanNationalId = toEnglishDigits(formData.issuerNationalId).trim();
     return (
-      formData.serialNumber.trim().length === 16 &&
-      formData.amount !== null && formData.amount > 0 &&
+      cleanSayad.length === 16 &&
+      formData.amount !== null && formData.amount >= 1_000_000 &&
       formData.dueDate !== null &&
+      formData.dueDate > Date.now() - 86400000 && // not in the deep past
+      formData.issuerName.trim().length >= 2 &&
+      cleanNationalId.length >= 10 &&
       formData.bank.trim().length > 0
     );
   });
 
+  // Step 2 Validation (Documents)
   const isValidStep2 = computed(() => {
+    return formData.chequeFrontImage !== null;
+  });
+
+  // Step 3 Validation (Deal Conditions & Pricing)
+  const isValidStep3 = computed(() => {
     return (
-      formData.discountRate !== null && formData.discountRate >= 0 &&
+      formData.discountRate !== null &&
+      formData.discountRate >= 0 &&
       formData.settlementMethod.length > 0
     );
   });
 
-  const isFormValid = computed(() => isValidStep1.value && isValidStep2.value);
+  const isFormValid = computed(() => isValidStep1.value && isValidStep2.value && isValidStep3.value);
 
-  // Actions (compatible with Mock Simulator & Future REST API)
+  // Actions
   async function saveDraft() {
     loading.value = true;
     try {
       formData.status = 'draft';
-      // Call standard API layer
       message.success('آگهی با موفقیت به صورت پیش‌نویس ذخیره شد.');
       return true;
     } catch (err: any) {
@@ -105,26 +166,30 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
 
   async function publishListing() {
     if (!isFormValid.value) {
-      message.error('لطفاً تمامی فیلدهای اجباری را به درستی تکمیل کنید.');
+      message.error('لطفاً تمامی مشخصات الزامی چک و تصویر روی چک را کامل و معتبر وارد کنید.');
       return false;
     }
 
     loading.value = true;
     try {
       formData.status = 'pending_approval';
-      // Call standard API layer with both suggested and final pricing metrics
+      
+      const cleanSayad = toEnglishDigits(formData.serialNumber).trim();
+      const cleanNationalId = toEnglishDigits(formData.issuerNationalId).trim();
+
       await listingsApi.createListing({
         face_amount: formData.amount || 0,
         due_date: formData.dueDate ? new Date(formData.dueDate).toISOString() : new Date().toISOString(),
         bank_name: formData.bank,
-        cheque_serial_number: formData.serialNumber,
-        issuer_type: 'natural',
-        issuer_name: 'صادرکننده چک',
-        issuer_national_id: '0012345678',
+        cheque_serial_number: cleanSayad,
+        issuer_type: formData.issuerType,
+        issuer_name: formData.issuerName,
+        issuer_national_id: cleanNationalId,
         suggested_discount_rate: formData.finalRate ? String(formData.finalRate) : (formData.discountRate ? String(formData.discountRate) : null),
-        description: `${formData.description} | خالص دریافتی: ${(formData.finalPrice || formData.netPrice || 0).toLocaleString('fa-IR')} تومان | نرخ پیشنهادی موتور: ${formData.suggestedRate || '-'}٪ | نرخ نهایی پذیرفته‌شده: ${formData.finalRate || formData.discountRate || '-'}٪ | روش تسویه: ${formData.settlementMethod}`
+        description: `${formData.description} | صادرکننده: ${formData.issuerName} (${formData.issuerType === 'natural' ? 'حقیقی' : 'حقوقی'}) | کدملی: ${cleanNationalId} | خالص دریافتی: ${(formData.finalPrice || formData.netPrice || 0).toLocaleString('fa-IR')} تومان | نرخ پیشنهادی موتور: ${formData.suggestedRate || '-'}٪ | نرخ نهایی: ${formData.finalRate || formData.discountRate || '-'}٪ | روش تسویه: ${formData.settlementMethod}`
       });
-      message.success('آگهی شما ثبت شد و پس از بررسی ناظر منتشر خواهد شد.');
+
+      message.success('آگهی ثبت شد و مدارک همراه جهت احراز به صف نظارت ارسال گردید.');
       return true;
     } catch (err: any) {
       message.error(err?.message || 'خطا در انتشار آگهی');
@@ -138,8 +203,18 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
     formData.serialNumber = '';
     formData.amount = null;
     formData.dueDate = null;
+    formData.issuerName = '';
+    formData.issuerNationalId = '';
+    formData.issuerType = 'natural';
     formData.bank = '';
     formData.city = 'تهران';
+
+    formData.chequeFrontImage = null;
+    formData.chequeBackImage = null;
+    formData.contractDoc = null;
+    formData.contractText = '';
+    formData.additionalDocs = [];
+
     formData.discountRate = 25;
     formData.netPrice = null;
     formData.suggestedRate = null;
@@ -156,8 +231,11 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
     formData,
     loading,
     warnings,
+    sayadValidation,
+    nationalIdValidation,
     isValidStep1,
     isValidStep2,
+    isValidStep3,
     isFormValid,
     wizardMode: computed(() => uiStore.wizardMode),
     toggleWizardMode: (val: boolean) => uiStore.setWizardMode(val),

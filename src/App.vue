@@ -62,9 +62,15 @@ const currentNaiveTheme = computed(() => {
 
 // Custom theme overrides for active theme
 const themeOverrides = computed(() => {
+  const baseCommon = {
+    fontFamily: "'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    fontFamilyMono: "'Vazirmatn', monospace"
+  };
+
   if (uiStore.currentTheme === 'light') {
     return {
       common: {
+        ...baseCommon,
         primaryColor: '#059669',
         primaryColorHover: '#047857',
         primaryColorPressed: '#065f46',
@@ -88,6 +94,7 @@ const themeOverrides = computed(() => {
   } else if (uiStore.currentTheme === 'warm') {
     return {
       common: {
+        ...baseCommon,
         primaryColor: '#d97706',
         primaryColorHover: '#b45309',
         primaryColorPressed: '#92400e',
@@ -111,6 +118,7 @@ const themeOverrides = computed(() => {
   } else if (uiStore.currentTheme === 'navy') {
     return {
       common: {
+        ...baseCommon,
         primaryColor: '#f59e0b',
         primaryColorHover: '#d97706',
         primaryColorPressed: '#b45309',
@@ -134,6 +142,7 @@ const themeOverrides = computed(() => {
   } else if (uiStore.currentTheme === 'violet') {
     return {
       common: {
+        ...baseCommon,
         primaryColor: '#a855f7',
         primaryColorHover: '#9333ea',
         primaryColorPressed: '#7e22ce',
@@ -157,6 +166,7 @@ const themeOverrides = computed(() => {
   } else if (uiStore.currentTheme === 'emerald') {
     return {
       common: {
+        ...baseCommon,
         primaryColor: '#14b8a6',
         primaryColorHover: '#0d9488',
         primaryColorPressed: '#0f766e',
@@ -181,6 +191,7 @@ const themeOverrides = computed(() => {
     // dark theme (default)
     return {
       common: {
+        ...baseCommon,
         primaryColor: '#10b981',
         primaryColorHover: '#059669',
         primaryColorPressed: '#047857',

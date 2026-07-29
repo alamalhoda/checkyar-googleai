@@ -1,6 +1,14 @@
 @import "tailwindcss";
 
 @layer base {
+  *, ::before, ::after {
+    font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  body, input, button, select, textarea {
+    font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  }
+
   svg {
     display: inline-block;
     vertical-align: middle;
