@@ -21,6 +21,7 @@ import type {
   Notification,
   NotificationPreferences,
   Verification,
+  Document,
   CreateVerificationRequest,
   FeatureFlag,
   AuditEvent,
@@ -970,6 +971,33 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     return v;
   }
 
+  function createVerification(req: CreateVerificationRequest): Verification {
+    const docs: Document[] = [];
+    if (req.national_id_front) {
+      docs.push({ id: Date.now() + 1, document_type: 'national_id_front', file: typeof req.national_id_front === 'string' ? req.national_id_front : '/mock/id_front.jpg', file_size: 102400 });
+    }
+    if (req.national_id_back) {
+      docs.push({ id: Date.now() + 2, document_type: 'national_id_back', file: typeof req.national_id_back === 'string' ? req.national_id_back : '/mock/id_back.jpg', file_size: 102400 });
+    }
+    if (req.selfie) {
+      docs.push({ id: Date.now() + 3, document_type: 'selfie', file: typeof req.selfie === 'string' ? req.selfie : '/mock/selfie.jpg', file_size: 102400 });
+    }
+
+    const newVer: Verification = {
+      id: Date.now(),
+      full_name: req.full_name || 'کاربر جدید',
+      national_id: req.national_id || '0011223344',
+      company_name: req.company_name || '',
+      status: 'pending',
+      rejection_reason: '',
+      rejection_code: '',
+      documents: docs
+    };
+    verifications.value.unshift(newVer);
+    persist();
+    return newVer;
+  }
+
   // --- Admin Stats ---
   function getAdminStats(): AdminDashboardStats {
     const list = listings.value || [];
@@ -1088,6 +1116,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     getKycQueue,
     handleModerationDecision,
     handleKycDecision,
+    createVerification,
     getAdminStats,
     toggleFeatureFlag,
     getAuditEvents

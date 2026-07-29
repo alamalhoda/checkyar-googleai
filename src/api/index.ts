@@ -69,7 +69,7 @@ export const authApi = {
   },
   register: async (data: RegisterRequest): Promise<RegisterResponse> => {
     if (isMock()) return useBackendSimulatorStore().handleRegister(data);
-    const res = await api.post('/auth/register/', data);
+    const res = await api.post('/identity/register/', data);
     return res.data;
   },
   refreshToken: async (data: RefreshTokenRequest): Promise<RefreshTokenResponse> => {
@@ -88,7 +88,7 @@ export const authApi = {
 export const identityApi = {
   getProfile: async (): Promise<Profile> => {
     if (isMock()) return useBackendSimulatorStore().profiles[1];
-    const res = await api.get('/identity/me/');
+    const res = await api.get('/identity/profile/');
     return res.data;
   },
   updateProfile: async (data: Partial<Profile>): Promise<Profile> => {
@@ -97,26 +97,14 @@ export const identityApi = {
       Object.assign(p, data);
       return p;
     }
-    const res = await api.patch('/identity/me/', data);
+    const res = await api.patch('/identity/profile/', data);
     return res.data;
   },
   createVerification: async (data: CreateVerificationRequest): Promise<Verification> => {
     if (isMock()) {
-      const store = useBackendSimulatorStore();
-      const newV: Verification = {
-        id: Date.now(),
-        full_name: data.full_name,
-        national_id: data.national_id || '0011223344',
-        company_name: data.company_name || '',
-        status: 'pending',
-        rejection_reason: '',
-        rejection_code: '',
-        documents: []
-      };
-      store.verifications.unshift(newV);
-      return newV;
+      return useBackendSimulatorStore().createVerification(data);
     }
-    const res = await api.post('/identity/verifications/', data);
+    const res = await api.post('/verifications/', data);
     return res.data;
   }
 };
@@ -215,7 +203,7 @@ export const listingsApi = {
   },
   resubmitListing: async (id: number): Promise<ChequeListing> => {
     if (isMock()) return useBackendSimulatorStore().resubmitListing(id);
-    const res = await api.post(`/moderation/listings/${id}/resubmit/`);
+    const res = await api.post(`/moderation/${id}/resubmit/`);
     return res.data;
   }
 };
@@ -340,7 +328,7 @@ export const adminApi = {
       useBackendSimulatorStore().toggleFeatureFlag(key);
       return;
     }
-    await api.post(`/admin/feature-flags/${key}/toggle/`);
+    await api.post(`/compliance/feature-flags/${key}/toggle/`);
   },
   getAuditEvents: async (filters?: { page?: number; page_size?: number }): Promise<PaginatedResponse<AuditEvent> | AuditEvent[]> => {
     if (isMock()) return useBackendSimulatorStore().getAuditEvents(filters);

@@ -1,7 +1,10 @@
 import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from 'axios';
 import { useBackendSimulatorStore } from '../stores/useBackendSimulatorStore';
 
-let useMock = localStorage.getItem('chequeyar_use_mock') !== 'false';
+const envMock = import.meta.env.VITE_USE_MOCK;
+let useMock = envMock !== undefined && envMock !== null && envMock !== ''
+  ? String(envMock) === 'true'
+  : localStorage.getItem('chequeyar_use_mock') !== 'false';
 
 export const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api/v1',
@@ -34,31 +37,32 @@ api.interceptors.response.use(
     return response;
   },
   async (error) => {
-    if (!useMock) {
-      return Promise.reject(error);
-    }
-
-    // Process Mock Requests intercepted before network call or on error
     const config = error.config as InternalAxiosRequestConfig;
-    if (!config) return Promise.reject(error);
-
-    try {
-      const mockResult = await handleMockRequest(config);
-      return {
-        data: mockResult,
-        status: 200,
-        statusText: 'OK',
-        headers: {},
-        config
-      };
-    } catch (err: any) {
-      return Promise.reject({
-        response: {
-          status: err?.error?.code === 'AUTHENTICATION_ERROR' ? 401 : 400,
-          data: err
-        }
-      });
+    
+    // If mock mode is explicitly on OR if network error occurs (backend unreachable at localhost:8000)
+    const isNetworkError = error.code === 'ERR_NETWORK' || error.message === 'Network Error' || !error.response;
+    if (useMock || isNetworkError) {
+      if (!config) return Promise.reject(error);
+      try {
+        const mockResult = await handleMockRequest(config);
+        return {
+          data: mockResult,
+          status: 200,
+          statusText: 'OK',
+          headers: {},
+          config
+        };
+      } catch (err: any) {
+        return Promise.reject({
+          response: {
+            status: err?.error?.code === 'AUTHENTICATION_ERROR' ? 401 : 400,
+            data: err
+          }
+        });
+      }
     }
+
+    return Promise.reject(error);
   }
 );
 
@@ -74,15 +78,33 @@ async function handleMockRequest(config: InternalAxiosRequestConfig): Promise<an
   const userJson = localStorage.getItem('chequeyar_auth_user');
   const currentUser = userJson ? JSON.parse(userJson) : { id: 1 };
 
-  // Auth Endpoints
+  // Auth & Identity Endpoints
   if (url.includes('/auth/login') && method === 'post') {
     return simulator.handleLogin(body);
   }
-  if (url.includes('/auth/register') && method === 'post') {
+  if ((url.includes('/auth/register') || url.includes('/identity/register')) && method === 'post') {
     return simulator.handleRegister(body);
+  }
+  if (url.includes('/identity/profile')) {
+    const userId = currentUser.id || 1;
+    if (method === 'get') {
+      return simulator.profiles[userId] || simulator.profiles[1];
+    }
+    if (method === 'patch' || method === 'put') {
+      if (simulator.profiles[userId]) {
+        Object.assign(simulator.profiles[userId], body, { updated_at: new Date().toISOString() });
+      }
+      return simulator.profiles[userId] || simulator.profiles[1];
+    }
+  }
+  if ((url.includes('/verifications') || url.includes('/identity/verifications')) && method === 'post') {
+    return simulator.createVerification(body);
   }
 
   // Marketplace
+  if (url.includes('/marketplace/listings/latest') && method === 'get') {
+    return simulator.getMarketplaceListings({ page_size: 4 }).results;
+  }
   if (url.includes('/marketplace/listings') && method === 'get') {
     return simulator.getMarketplaceListings(params);
   }
@@ -125,6 +147,11 @@ async function handleMockRequest(config: InternalAxiosRequestConfig): Promise<an
     const listingId = Number(parts[parts.length - 2]);
     return simulator.handleModerationDecision(listingId, currentUser.id, body);
   }
+  if (url.match(/\/moderation\/(\d+|listings\/\d+)\/resubmit$/) && method === 'post') {
+    const parts = url.split('/');
+    const listingId = Number(parts[parts.length - 2]);
+    return simulator.resubmitListing(listingId);
+  }
   if (url.includes('/moderation/kyc') && method === 'get') {
     return simulator.getKycQueue();
   }
@@ -135,6 +162,12 @@ async function handleMockRequest(config: InternalAxiosRequestConfig): Promise<an
   }
   if ((url.includes('/admin/feature-flags') || url.includes('/compliance/feature-flags')) && method === 'get') {
     return simulator.featureFlags;
+  }
+  if (url.match(/\/(admin|compliance)\/feature-flags\/[^\/]+\/toggle$/) && method === 'post') {
+    const parts = url.split('/');
+    const flagKey = parts[parts.length - 2];
+    simulator.toggleFeatureFlag(flagKey);
+    return { status: 'success' };
   }
   if ((url.includes('/admin/audit') || url.includes('/compliance/audit')) && method === 'get') {
     return simulator.getAuditEvents(params);
