@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import tailwindcss from '@tailwindcss/vite';
@@ -15,5 +16,9 @@ export default defineConfig({
     host: '0.0.0.0',
     hmr: process.env.DISABLE_HMR !== 'true',
     watch: process.env.DISABLE_HMR === 'true' ? null : {},
+  },
+  test: {
+    globals: true,
+    environment: 'node',
   },
 });
