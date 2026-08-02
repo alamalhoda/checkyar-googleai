@@ -49,9 +49,11 @@ const formatTomans = (amountStr: string) => {
 const loadQueue = async () => {
   loading.value = true;
   try {
-    queueItems.value = await moderationApi.getQueue();
+    const res = await moderationApi.getQueue();
+    queueItems.value = Array.isArray(res) ? res : [];
   } catch (err: any) {
     message.error('خطا در دریافت صف آگهی‌های در انتظار بررسی.');
+    queueItems.value = [];
   } finally {
     loading.value = false;
   }

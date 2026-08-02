@@ -61,6 +61,14 @@ export type {
 export { api, setMockMode, getMockMode };
 export const isMock = () => getMockMode();
 
+export function unwrapList<T>(data: unknown): T[] {
+  if (Array.isArray(data)) return data;
+  if (data && typeof data === 'object' && data !== null && Array.isArray((data as any).results)) {
+    return (data as any).results as T[];
+  }
+  return [];
+}
+
 export const authApi = {
   login: async (data: LoginRequest): Promise<LoginResponse> => {
     if (isMock()) return useBackendSimulatorStore().handleLogin(data);
@@ -121,7 +129,7 @@ export const marketplaceApi = {
       return res.results;
     }
     const res = await api.get('/marketplace/listings/latest/');
-    return res.data;
+    return unwrapList<MarketplaceListing>(res.data);
   },
   getListingDetail: async (id: number): Promise<MarketplaceListing> => {
     if (isMock()) {
@@ -175,7 +183,7 @@ export const listingsApi = {
   getMyListings: async (): Promise<ChequeListing[]> => {
     if (isMock()) return useBackendSimulatorStore().getMyListings(1);
     const res = await api.get('/listings/my/');
-    return res.data;
+    return unwrapList<ChequeListing>(res.data);
   },
   getListing: async (id: number): Promise<ChequeListing> => {
     if (isMock()) return useBackendSimulatorStore().getListingById(id);
@@ -216,7 +224,7 @@ export const matchesApi = {
       return store.getMyMatches(currentUserId);
     }
     const res = await api.get('/matches/my/');
-    return Array.isArray(res.data) ? res.data : (res.data?.results ?? []);
+    return unwrapList<Match>(res.data);
   },
   createMatch: async (data: CreateMatchRequest): Promise<Match> => {
     if (isMock()) {
@@ -284,7 +292,7 @@ export const moderationApi = {
   getQueue: async (): Promise<ModerationQueueItem[]> => {
     if (isMock()) return useBackendSimulatorStore().getModerationQueue();
     const res = await api.get('/moderation/queue/');
-    return res.data;
+    return unwrapList<ModerationQueueItem>(res.data);
   },
   submitDecision: async (listingId: number, data: ModerationDecisionRequest): Promise<ModerationDecisionResponse> => {
     if (isMock()) return useBackendSimulatorStore().handleModerationDecision(listingId, 3, data);
@@ -294,7 +302,7 @@ export const moderationApi = {
   getKycQueue: async (): Promise<Verification[]> => {
     if (isMock()) return useBackendSimulatorStore().getKycQueue();
     const res = await api.get('/moderation/kyc/');
-    return res.data;
+    return unwrapList<Verification>(res.data);
   },
   submitKycDecision: async (kycId: number, data: { decision: 'approve' | 'reject'; rejection_code?: string; rejection_note?: string }): Promise<Verification> => {
     if (isMock()) return useBackendSimulatorStore().handleKycDecision(kycId, data.decision === 'approve' ? 'approved' : 'rejected', data.rejection_note, data.rejection_code);
@@ -312,7 +320,7 @@ export const adminApi = {
   getFeatureFlags: async (): Promise<FeatureFlag[]> => {
     if (isMock()) return useBackendSimulatorStore().featureFlags;
     const res = await api.get('/compliance/feature-flags/');
-    return res.data;
+    return unwrapList<FeatureFlag>(res.data);
   },
   updateFeatureFlag: async (key: string, is_enabled: boolean): Promise<FeatureFlag> => {
     if (isMock()) {

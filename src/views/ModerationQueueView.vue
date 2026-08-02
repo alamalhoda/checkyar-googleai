@@ -31,9 +31,11 @@ const rejectionOptions = Object.entries(REJECTION_CODE_LABELS).map(([code, label
 const loadQueue = async () => {
   loading.value = true;
   try {
-    queueItems.value = await moderationApi.getQueue();
+    const res = await moderationApi.getQueue();
+    queueItems.value = Array.isArray(res) ? res : [];
   } catch (err) {
     console.error('Failed to load moderation queue', err);
+    queueItems.value = [];
   } finally {
     loading.value = false;
   }
@@ -45,7 +47,8 @@ const handleApprove = async (item: ModerationQueueItem) => {
   submitting.value = true;
   try {
     await moderationApi.submitDecision(item.id, { decision: 'approve' });
-    queueItems.value = queueItems.value.filter(q => q.id !== item.id);
+    const list = Array.isArray(queueItems.value) ? queueItems.value : [];
+    queueItems.value = list.filter(q => q.id !== item.id);
   } catch (err) {
     console.error('Failed to approve listing', err);
   } finally {

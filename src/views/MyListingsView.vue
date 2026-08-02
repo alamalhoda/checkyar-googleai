@@ -16,9 +16,11 @@ const activeTab = ref('all');
 const loadMyListings = async () => {
   loading.value = true;
   try {
-    myListings.value = await listingsApi.getMyListings();
+    const res = await listingsApi.getMyListings();
+    myListings.value = Array.isArray(res) ? res : [];
   } catch (err) {
     console.error('Error loading my listings', err);
+    myListings.value = [];
   } finally {
     loading.value = false;
   }
@@ -27,8 +29,9 @@ const loadMyListings = async () => {
 onMounted(loadMyListings);
 
 const filteredListings = computed(() => {
-  if (activeTab.value === 'all') return myListings.value;
-  return myListings.value.filter(l => l.status === activeTab.value);
+  const list = Array.isArray(myListings.value) ? myListings.value : [];
+  if (activeTab.value === 'all') return list;
+  return list.filter(l => l.status === activeTab.value);
 });
 
 const goToCreate = () => {

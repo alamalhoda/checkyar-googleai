@@ -36,9 +36,11 @@ export const useModerationStore = defineStore('moderation', () => {
   async function fetchModerationQueue() {
     loading.value = true;
     try {
-      moderationQueue.value = await moderationApi.getQueue();
+      const res = await moderationApi.getQueue();
+      moderationQueue.value = Array.isArray(res) ? res : [];
     } catch (err: any) {
       message.error(err?.message || 'خطا در دریافت صف نظارت');
+      moderationQueue.value = [];
     } finally {
       loading.value = false;
     }
@@ -47,9 +49,11 @@ export const useModerationStore = defineStore('moderation', () => {
   async function fetchKycQueue() {
     loading.value = true;
     try {
-      kycQueue.value = await moderationApi.getKycQueue();
+      const res = await moderationApi.getKycQueue();
+      kycQueue.value = Array.isArray(res) ? res : [];
     } catch (err: any) {
       message.error(err?.message || 'خطا در دریافت صف احراز هویت');
+      kycQueue.value = [];
     } finally {
       loading.value = false;
     }

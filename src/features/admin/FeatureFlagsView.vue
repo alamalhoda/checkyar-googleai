@@ -13,9 +13,11 @@ const updatingKey = ref<string | null>(null);
 const loadFlags = async () => {
   loading.value = true;
   try {
-    flags.value = await adminApi.getFeatureFlags();
+    const res = await adminApi.getFeatureFlags();
+    flags.value = Array.isArray(res) ? res : [];
   } catch (err: any) {
     message.error('خطا در دریافت لیست کلیدهای ویژگی.');
+    flags.value = [];
   } finally {
     loading.value = false;
   }

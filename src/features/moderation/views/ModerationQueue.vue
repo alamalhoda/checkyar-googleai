@@ -4,7 +4,7 @@
       <div>
         <h1 class="text-xl font-bold text-white flex items-center gap-2">
           <span>صف بررسی و نظارت آگهی‌ها</span>
-          <NBadge :value="store.moderationQueue.length" type="warning" />
+          <NBadge :value="queueList.length" type="warning" />
         </h1>
         <p class="text-xs text-slate-400 mt-1">
           لیست آگهی‌های منتظر تأیید ناظر به همراه شاخص ریسک و زمان انتظار
@@ -89,11 +89,14 @@ const riskOptions = [
   { label: 'ریسک پایین (<۴۰)', value: 'low' }
 ];
 
+const queueList = computed(() => Array.isArray(store.moderationQueue) ? store.moderationQueue : []);
+
 const filteredQueue = computed(() => {
-  if (riskFilter.value === 'high') return store.moderationQueue.filter(i => i.risk_tier === 'high');
-  if (riskFilter.value === 'medium') return store.moderationQueue.filter(i => i.risk_tier === 'medium');
-  if (riskFilter.value === 'low') return store.moderationQueue.filter(i => i.risk_tier === 'low');
-  return store.moderationQueue;
+  const list = queueList.value;
+  if (riskFilter.value === 'high') return list.filter(i => i?.risk_tier === 'high');
+  if (riskFilter.value === 'medium') return list.filter(i => i?.risk_tier === 'medium');
+  if (riskFilter.value === 'low') return list.filter(i => i?.risk_tier === 'low');
+  return list;
 });
 
 onMounted(() => {

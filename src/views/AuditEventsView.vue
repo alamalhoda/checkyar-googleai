@@ -10,9 +10,15 @@ const loading = ref(false);
 const loadEvents = async () => {
   loading.value = true;
   try {
-    events.value = await adminApi.getAuditEvents();
+    const res = await adminApi.getAuditEvents();
+    if (Array.isArray(res)) {
+      events.value = res;
+    } else {
+      events.value = (res as any)?.results || [];
+    }
   } catch (err) {
     console.error('Failed to load audit events', err);
+    events.value = [];
   } finally {
     loading.value = false;
   }

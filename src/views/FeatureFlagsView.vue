@@ -10,9 +10,11 @@ const loading = ref(false);
 const loadFlags = async () => {
   loading.value = true;
   try {
-    flags.value = await adminApi.getFeatureFlags();
+    const res = await adminApi.getFeatureFlags();
+    flags.value = Array.isArray(res) ? res : [];
   } catch (err) {
     console.error('Failed to load feature flags', err);
+    flags.value = [];
   } finally {
     loading.value = false;
   }
@@ -23,7 +25,8 @@ onMounted(loadFlags);
 const toggleFlag = async (key: string) => {
   try {
     await adminApi.toggleFeatureFlag(key);
-    const flag = flags.value.find(f => f.key === key);
+    const list = Array.isArray(flags.value) ? flags.value : [];
+    const flag = list.find(f => f.key === key);
     if (flag) flag.is_enabled = !flag.is_enabled;
   } catch (err) {
     console.error('Failed to toggle flag', err);

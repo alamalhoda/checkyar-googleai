@@ -14,9 +14,15 @@ const loading = ref(false);
 const loadNotifications = async () => {
   loading.value = true;
   try {
-    notificationsList.value = await notificationsApi.getNotifications();
+    const res = await notificationsApi.getNotifications();
+    if (Array.isArray(res)) {
+      notificationsList.value = res;
+    } else {
+      notificationsList.value = (res as any)?.results || [];
+    }
   } catch (err) {
     console.error('Failed to load notifications', err);
+    notificationsList.value = [];
   } finally {
     loading.value = false;
   }
