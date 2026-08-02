@@ -214,7 +214,7 @@ const goToExpressInterest = (id: number) => {
 </script>
 
 <template>
-  <div class="space-y-6 dir-rtl">
+  <div class="space-y-6 dir-rtl" data-testid="marketplace-page">
     <!-- Latest Listings Widget -->
     <LatestListingsWidget />
 

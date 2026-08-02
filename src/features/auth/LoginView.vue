@@ -47,7 +47,7 @@ const personas = computed(() => [
   },
   {
     id: 3,
-    username: 'mod1',
+    username: 'moderator1',
     name: 'علی حسینی',
     role: 'moderator',
     roleLabel: 'ناظر و کارشناس اعتبار',
@@ -149,7 +149,7 @@ const loginAsPersona = async (persona: typeof personas.value[0]) => {
 
       <div class="flex items-center gap-2 bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
         <span class="text-xs text-slate-400">حالت شبیه‌سازی:</span>
-        <NSwitch :value="isMockActive" @update:value="toggleMockMode" size="small" />
+        <NSwitch :value="isMockActive" @update:value="toggleMockMode" size="small" data-testid="mock-mode-switch" />
       </div>
     </div>
 
@@ -238,6 +238,7 @@ const loginAsPersona = async (persona: typeof personas.value[0]) => {
             <NFormItem label="نام کاربری یا ایمیل">
               <NInput
                 v-model:value="identifier"
+                data-testid="login-identifier"
                 placeholder="مثلاً: holder1 یا reza@chequeyar.ir"
                 size="large"
               />
@@ -246,6 +247,7 @@ const loginAsPersona = async (persona: typeof personas.value[0]) => {
             <NFormItem label="رمز عبور">
               <NInput
                 v-model:value="password"
+                data-testid="login-password"
                 type="password"
                 show-password-on="click"
                 placeholder="••••••••"
@@ -259,6 +261,7 @@ const loginAsPersona = async (persona: typeof personas.value[0]) => {
               size="large"
               attr-type="submit"
               :loading="loading"
+              data-testid="login-submit"
               class="font-bold shadow-lg shadow-emerald-950/50"
             >
               ورود به حساب کاربری
@@ -272,10 +275,16 @@ const loginAsPersona = async (persona: typeof personas.value[0]) => {
             </NDivider>
             <div class="grid grid-cols-2 gap-2 text-xs">
               <NButton size="small" secondary @click="identifier = 'holder1'; password = 'password123'">
-                دارنده چک (Holder)
+                دارنده چک (holder1)
               </NButton>
               <NButton size="small" secondary @click="identifier = 'investor1'; password = 'password123'">
-                سرمایه‌گذار (Investor)
+                سرمایه‌گذار (investor1)
+              </NButton>
+              <NButton size="small" secondary @click="identifier = 'moderator1'; password = 'password123'">
+                ناظر (moderator1)
+              </NButton>
+              <NButton size="small" secondary @click="identifier = 'admin1'; password = 'password123'">
+                مدیر کل (admin1)
               </NButton>
             </div>
           </template>

@@ -68,6 +68,7 @@ const maskedIssuerId = computed(() => {
 <template>
   <NCard
     hoverable
+    data-testid="marketplace-listing-card"
     class="bg-slate-900 border border-slate-800 rounded-xl transition-all duration-300 hover:border-slate-700 hover:shadow-xl"
   >
     <!-- Header: Bank & Status / Risk -->

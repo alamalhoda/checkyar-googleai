@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import type { User, LoginRequest, RegisterRequest } from '../types/api';
-import { api, authApi, setMockMode } from '../api';
+import { api, authApi, setMockMode, getMockMode } from '../api';
 
 const TOKEN_KEY = 'chequeyar_access_token';
 const REFRESH_KEY = 'chequeyar_refresh_token';
@@ -11,7 +11,7 @@ export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null);
   const access = ref<string | null>(localStorage.getItem(TOKEN_KEY));
   const refresh = ref<string | null>(localStorage.getItem(REFRESH_KEY));
-  const isMock = ref<boolean>(import.meta.env.VITE_USE_MOCK !== 'false');
+  const isMock = ref<boolean>(getMockMode());
 
   const isAuthenticated = computed(() => !!access.value && !!user.value);
   const userRole = computed(() => user.value?.role || 'check_holder');
@@ -39,10 +39,15 @@ export const useAuthStore = defineStore('auth', () => {
   function loadSavedUser() {
     try {
       const savedUser = localStorage.getItem(USER_KEY);
-      if (savedUser) {
+      const savedToken = localStorage.getItem(TOKEN_KEY);
+      const mockActive = getMockMode();
+      isMock.value = mockActive;
+
+      if (savedUser && savedToken) {
         user.value = JSON.parse(savedUser);
-      } else {
-        // Default seed user fallback for instant demo
+        access.value = savedToken;
+      } else if (mockActive) {
+        // Default seed user fallback for instant demo in mock mode ONLY
         user.value = {
           id: 1,
           username: 'holder1',
@@ -55,9 +60,15 @@ export const useAuthStore = defineStore('auth', () => {
         access.value = 'mock-access-token-1';
         localStorage.setItem(TOKEN_KEY, 'mock-access-token-1');
         localStorage.setItem(USER_KEY, JSON.stringify(user.value));
+      } else {
+        user.value = null;
+        access.value = null;
+        refresh.value = null;
       }
     } catch (e) {
       user.value = null;
+      access.value = null;
+      refresh.value = null;
     }
   }
 
@@ -107,7 +118,16 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function switchRole(role: User['role']) {
-    if (!user.value) return;
+    if (!user.value) {
+      user.value = {
+        id: 1,
+        username: 'user1',
+        email: 'user@chequeyar.ir',
+        name: 'کاربر سیستم',
+        role,
+        is_verified: true
+      };
+    }
     user.value.role = role;
     if (role === 'check_holder') user.value.name = 'رضا صبوری (دارنده چک)';
     else if (role === 'investor') user.value.name = 'سرمایه‌گذاری نوین (سرمایه‌گذار)';

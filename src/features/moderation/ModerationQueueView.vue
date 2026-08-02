@@ -206,7 +206,7 @@ const columns: DataTableColumns<ModerationQueueItem> = [
 </script>
 
 <template>
-  <div class="space-y-6 dir-rtl">
+  <div class="space-y-6 dir-rtl" data-testid="moderation-queue-page">
     <!-- Page Title Header -->
     <div class="flex items-center justify-between border-b border-slate-800 pb-4">
           <div class="flex items-center gap-3">

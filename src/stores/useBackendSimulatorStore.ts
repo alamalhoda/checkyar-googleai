@@ -37,14 +37,14 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
   const seedUsers: User[] = [
     { id: 1, username: 'holder1', email: 'holder@chequeyar.ir', name: 'رضا صبوری (دارنده چک)', phone: '09121111111', role: 'check_holder', is_verified: true },
     { id: 2, username: 'investor1', email: 'investor@chequeyar.ir', name: 'سرمایه‌گذاری نوین (سرمایه‌گذار)', phone: '09122222222', role: 'investor', is_verified: true },
-    { id: 3, username: 'mod1', email: 'mod@chequeyar.ir', name: 'علی حسینی (ناظر)', phone: '09123333333', role: 'moderator', is_verified: true },
+    { id: 3, username: 'moderator1', email: 'mod@chequeyar.ir', name: 'علی حسینی (ناظر)', phone: '09123333333', role: 'moderator', is_verified: true },
     { id: 4, username: 'admin1', email: 'admin@chequeyar.ir', name: 'مدیر سامانه چک‌یار', phone: '09124444444', role: 'admin', is_verified: true }
   ];
 
   const seedProfiles: Record<number, Profile> = {
     1: { id: 1, username: 'holder1', email: 'holder@chequeyar.ir', name: 'رضا صبوری (دارنده چک)', phone: '09121111111', role: 'check_holder', bio: 'فعال صنعت تولید و بازرگانی چوب', is_verified: true, created_at: '2025-01-10T08:00:00Z', updated_at: '2025-01-10T08:00:00Z' },
     2: { id: 2, username: 'investor1', email: 'investor@chequeyar.ir', name: 'سرمایه‌گذاری نوین (سرمایه‌گذار)', phone: '09122222222', role: 'investor', bio: 'صندوق تخصصی خرید مطالبات کوتاه مدت', is_verified: true, created_at: '2025-01-12T09:30:00Z', updated_at: '2025-01-12T09:30:00Z' },
-    3: { id: 3, username: 'mod1', email: 'mod@chequeyar.ir', name: 'علی حسینی (ناظر)', phone: '09123333333', role: 'moderator', bio: 'کارشناس اعتبارسنجی و تطابق صیاد', is_verified: true, created_at: '2025-01-01T00:00:00Z', updated_at: '2025-01-01T00:00:00Z' },
+    3: { id: 3, username: 'moderator1', email: 'mod@chequeyar.ir', name: 'علی حسینی (ناظر)', phone: '09123333333', role: 'moderator', bio: 'کارشناس اعتبارسنجی و تطابق صیاد', is_verified: true, created_at: '2025-01-01T00:00:00Z', updated_at: '2025-01-01T00:00:00Z' },
     4: { id: 4, username: 'admin1', email: 'admin@chequeyar.ir', name: 'مدیر سامانه چک‌یار', phone: '09124444444', role: 'admin', bio: 'مدیریت کل سیستم چک‌یار', is_verified: true, created_at: '2025-01-01T00:00:00Z', updated_at: '2025-01-01T00:00:00Z' }
   };
 
