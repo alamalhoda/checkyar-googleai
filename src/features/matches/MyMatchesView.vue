@@ -57,7 +57,7 @@ const loadMatches = async () => {
   loading.value = true;
   try {
     const res = await matchesApi.getMyMatches();
-    matches.value = res;
+    matches.value = Array.isArray(res) ? res : [];
   } catch (err: any) {
     message.error('خطا در دریافت لیست پیشنهادها و تطابق‌ها.');
   } finally {
@@ -167,7 +167,7 @@ const handleDeclineSubmit = async () => {
 </script>
 
 <template>
-  <div class="space-y-6 dir-rtl">
+  <div class="space-y-6 dir-rtl" data-testid="matches-page">
         <div class="flex items-center justify-between border-b border-slate-800 pb-4">
           <div>
             <h1 class="text-2xl font-black text-slate-100">مدیریت پیشنهادها و تطابق‌ها</h1>
@@ -177,8 +177,8 @@ const handleDeclineSubmit = async () => {
 
         <!-- Navigation Tabs -->
         <NTabs v-model:value="activeTab" type="line" animated class="custom-tabs">
-          <NTabPane name="received" :tab="`پیشنهادهای دریافتی (دارنده چک) [${(receivedMatches || []).length}]`" />
-          <NTabPane name="sent" :tab="`پیشنهادهای ارسالی (سرمایه‌گذار) [${(sentMatches || []).length}]`" />
+          <NTabPane name="received" :tab="`پیشنهادهای دریافتی (دارنده چک) [${(receivedMatches || []).length}]`" data-testid="matches-tab-received" />
+          <NTabPane name="sent" :tab="`پیشنهادهای ارسالی (سرمایه‌گذار) [${(sentMatches || []).length}]`" data-testid="matches-tab-sent" />
         </NTabs>
 
         <!-- Loading State -->
@@ -189,12 +189,14 @@ const handleDeclineSubmit = async () => {
         <div v-else class="space-y-4">
           <!-- Received Matches Tab -->
           <template v-if="activeTab === 'received'">
-            <div v-if="receivedMatches && receivedMatches.length > 0" class="space-y-4">
-              <NCard
-                v-for="item in receivedMatches"
-                :key="item.id"
-                class="bg-slate-900 border border-slate-800 rounded-2xl shadow-lg hover:border-slate-700 transition-all"
-              >
+            <div data-testid="matches-panel-received" class="space-y-4">
+              <div v-if="receivedMatches && receivedMatches.length > 0" class="space-y-4">
+                <NCard
+                  v-for="item in receivedMatches"
+                  :key="item.id"
+                  data-testid="match-card"
+                  class="bg-slate-900 border border-slate-800 rounded-2xl shadow-lg hover:border-slate-700 transition-all"
+                >
                 <!-- Card Header -->
                 <div class="flex flex-wrap items-center justify-between border-b border-slate-800 pb-3 mb-4 gap-2">
                   <div class="flex items-center gap-3">
@@ -306,16 +308,19 @@ const handleDeclineSubmit = async () => {
             </div>
 
             <NEmpty v-else description="هیچ پیشنهاد دریافتی در این بخش وجود ندارد." class="py-20 bg-slate-900 border border-slate-800 rounded-2xl" />
+            </div>
           </template>
 
           <!-- Sent Matches Tab -->
           <template v-if="activeTab === 'sent'">
-            <div v-if="sentMatches && sentMatches.length > 0" class="space-y-4">
-              <NCard
-                v-for="item in sentMatches"
-                :key="item.id"
-                class="bg-slate-900 border border-slate-800 rounded-2xl shadow-lg hover:border-slate-700 transition-all"
-              >
+            <div data-testid="matches-panel-sent" class="space-y-4">
+              <div v-if="sentMatches && sentMatches.length > 0" class="space-y-4">
+                <NCard
+                  v-for="item in sentMatches"
+                  :key="item.id"
+                  data-testid="match-card"
+                  class="bg-slate-900 border border-slate-800 rounded-2xl shadow-lg hover:border-slate-700 transition-all"
+                >
                 <!-- Card Header -->
                 <div class="flex flex-wrap items-center justify-between border-b border-slate-800 pb-3 mb-4 gap-2">
                   <div class="flex items-center gap-3">
@@ -407,6 +412,7 @@ const handleDeclineSubmit = async () => {
             </div>
 
             <NEmpty v-else description="شما هنوز هیچ پیشنهاد خریدی ارسال نکرده‌اید." class="py-20 bg-slate-900 border border-slate-800 rounded-2xl" />
+            </div>
           </template>
         </div>
 

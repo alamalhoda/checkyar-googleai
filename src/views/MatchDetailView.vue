@@ -17,7 +17,8 @@ const updating = ref(false);
 const loadMatch = async () => {
   loading.value = true;
   try {
-    const list = await matchesApi.getMyMatches();
+    const rawList = await matchesApi.getMyMatches();
+    const list = Array.isArray(rawList) ? rawList : [];
     match.value = list.find(m => m.id === matchId) || list[0] || null;
   } catch (err) {
     console.error('Error loading match detail', err);

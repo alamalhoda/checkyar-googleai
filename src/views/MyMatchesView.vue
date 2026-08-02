@@ -14,7 +14,8 @@ const loading = ref(false);
 const loadMatches = async () => {
   loading.value = true;
   try {
-    matchesList.value = await matchesApi.getMyMatches();
+    const res = await matchesApi.getMyMatches();
+    matchesList.value = Array.isArray(res) ? res : [];
   } catch (err) {
     console.error('Error loading my matches', err);
   } finally {

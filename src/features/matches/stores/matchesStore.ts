@@ -46,7 +46,8 @@ export const useMatchesStore = defineStore('matches', () => {
     loading.value = true;
     try {
       // Calls standard API layer (Mock Simulator or REST API)
-      const matches: Match[] = await matchesApi.getMyMatches();
+      const resMatches = await matchesApi.getMyMatches();
+      const matches: Match[] = Array.isArray(resMatches) ? resMatches : [];
       const res: Match = matches.find(m => m.id === matchId) || matches[0];
       const counterparty = res ? (res.investor?.name ? res.investor : res.check_holder) : { name: 'علی رضایی', phone: '09123456789' };
 

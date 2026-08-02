@@ -216,7 +216,7 @@ export const matchesApi = {
       return store.getMyMatches(currentUserId);
     }
     const res = await api.get('/matches/my/');
-    return res.data;
+    return Array.isArray(res.data) ? res.data : (res.data?.results ?? []);
   },
   createMatch: async (data: CreateMatchRequest): Promise<Match> => {
     if (isMock()) {
