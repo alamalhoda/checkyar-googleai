@@ -56,10 +56,10 @@
               </NFormItem>
 
               <div class="flex justify-end gap-3 pt-2">
-                <NButton type="error" secondary :loading="store.loading" @click="handleDecision('reject')">
+                <NButton type="error" secondary data-testid="moderation-reject-btn" :loading="store.loading" @click="handleDecision('reject')">
                   رد آگهی
                 </NButton>
-                <NButton type="success" :loading="store.loading" @click="handleDecision('approve')">
+                <NButton type="success" data-testid="moderation-approve-btn" :loading="store.loading" @click="handleDecision('approve')">
                   تأیید و انتشار آگهی
                 </NButton>
               </div>
@@ -166,10 +166,10 @@
               </NFormItem>
 
               <div class="space-y-2 pt-4">
-                <NButton type="success" block :loading="store.loading" @click="handleDecision('approve')">
+                <NButton type="success" block data-testid="moderation-approve-btn" :loading="store.loading" @click="handleDecision('approve')">
                   تأیید نهایی آگهی
                 </NButton>
-                <NButton type="error" secondary block :loading="store.loading" @click="handleDecision('reject')">
+                <NButton type="error" secondary block data-testid="moderation-reject-btn" :loading="store.loading" @click="handleDecision('reject')">
                   رد آگهی و اطلاع به کاربر
                 </NButton>
               </div>

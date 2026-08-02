@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-4xl mx-auto p-4 md:p-6 space-y-6 dir-rtl font-sans text-slate-100">
+  <div class="max-w-4xl mx-auto p-4 md:p-6 space-y-6 dir-rtl font-sans text-slate-100" data-testid="listing-create-page">
     <!-- Header with Hybrid UX Mode Toggle -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/80 p-5 rounded-2xl border border-slate-800 shadow-xl">
       <div>
@@ -14,7 +14,7 @@
 
       <!-- Mode Switcher & Quick Sample Fill -->
       <div class="flex items-center gap-3">
-        <NButton size="small" secondary type="warning" @click="fillSampleData">
+        <NButton size="small" secondary type="warning" data-testid="listing-fill-sample" @click="fillSampleData">
           ⚡ پر کردن سریع داده‌های نمونه
         </NButton>
 
@@ -485,6 +485,7 @@
               size="large"
               :loading="form.loading.value"
               :disabled="!form.isFormValid.value"
+              data-testid="listing-create-submit"
               @click="handlePublish"
               class="font-bold shadow-lg shadow-emerald-950/50"
             >
@@ -654,6 +655,7 @@
               size="large"
               :loading="form.loading.value"
               :disabled="!form.isFormValid.value"
+              data-testid="listing-create-submit"
               @click="handlePublish"
               class="font-bold shadow-lg shadow-emerald-950/50"
             >

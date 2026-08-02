@@ -159,7 +159,7 @@ const goToExpressInterest = (id: number) => {
     </NSpin>
 
     <!-- Pagination -->
-    <div v-if="totalCount > filters.page_size!" class="flex justify-center pt-4">
+    <div v-if="totalCount > filters.page_size!" class="flex justify-center pt-4" data-testid="marketplace-pagination">
       <NPagination
         v-model:page="filters.page"
         :page-size="filters.page_size"

@@ -84,7 +84,7 @@ onMounted(loadListing);
 </script>
 
 <template>
-  <div class="space-y-6 dir-rtl">
+  <div class="space-y-6 dir-rtl" data-testid="express-interest-page">
         <div class="flex items-center justify-between border-b border-slate-800 pb-4">
           <div class="flex items-center gap-3">
             <NButton secondary size="small" @click="router.back()">← انصراف</NButton>
@@ -152,6 +152,7 @@ onMounted(loadListing);
                     type="textarea"
                     placeholder="توضیحات مربوط به نحوه پرداخت، هماهنگی حضور یا انتقال صیادی..."
                     :rows="5"
+                    :input-props="{ 'data-testid': 'express-interest-message' }"
                   />
                 </NFormItem>
 
@@ -167,6 +168,7 @@ onMounted(loadListing);
                     :loading="submitting"
                     :disabled="!isInvestor"
                     attr-type="submit"
+                    data-testid="express-interest-submit"
                     class="font-bold px-8 bg-emerald-600 hover:bg-emerald-500"
                   >
                     ارسال پیشنهاد خرید به دارنده چک
@@ -182,6 +184,7 @@ onMounted(loadListing);
       title="تأیید ارسال ابراز تمایل"
       message="آیا از ارسال درخواست ابراز تمایل برای خرید این چک اطمینان دارید؟ اطلاعات تماس شما پس از پذیرش توسط دارنده چک به ایشان نمایش داده خواهد شد."
       confirm-text="ارسال قطعی درخواست"
+      confirm-test-id="express-interest-confirm"
       :loading="submitting"
       @confirm="handleConfirmExpress"
       @cancel="showConfirmModal = false"

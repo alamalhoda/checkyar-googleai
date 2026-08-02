@@ -102,6 +102,7 @@ const handleNavigateRelated = () => {
 
 <template>
   <NCard
+    data-testid="notification-item"
     class="bg-slate-900 border transition-all duration-200 rounded-2xl shadow-md hover:border-slate-700"
     :class="[
       !notification.read_at
@@ -170,6 +171,7 @@ const handleNavigateRelated = () => {
           size="small"
           secondary
           type="primary"
+          data-testid="notification-mark-read"
           class="text-xs font-bold"
           @click="emit('mark-read', notification.id)"
         >

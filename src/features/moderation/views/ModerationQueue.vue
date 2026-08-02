@@ -40,7 +40,13 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-800/60 text-slate-200">
-              <tr v-for="item in filteredQueue" :key="item.id" class="hover:bg-slate-800/30 transition-colors">
+              <tr
+                v-for="item in filteredQueue"
+                :key="item.id"
+                data-testid="moderation-item"
+                :data-serial="item.cheque_serial_number"
+                class="hover:bg-slate-800/30 transition-colors"
+              >
                 <td class="p-3 font-mono font-bold text-slate-300">#{{ item.id }}</td>
                 <td class="p-3">
                   <div class="font-mono text-white">{{ item.cheque_serial_number || '1234567890123456' }}</div>
@@ -54,7 +60,7 @@
                   </NTag>
                 </td>
                 <td class="p-3 text-center">
-                  <NButton type="primary" size="small" @click="goReview(item.id)">
+                  <NButton type="primary" size="small" data-testid="moderation-review-open" @click="goReview(item.id)">
                     بررسی و تصمیم‌گیری
                   </NButton>
                 </td>

@@ -111,7 +111,7 @@ const goToPreferences = () => {
 </script>
 
 <template>
-  <div class="space-y-6 dir-rtl">
+  <div class="space-y-6 dir-rtl" data-testid="notifications-page">
         <!-- Header bar -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-4 gap-4">
           <div class="flex items-center gap-3">
@@ -191,7 +191,7 @@ const goToPreferences = () => {
             />
 
             <!-- Pagination -->
-            <div v-if="totalCount > pageSize" class="flex justify-center pt-6">
+            <div v-if="totalCount > pageSize" class="flex justify-center pt-6" data-testid="notifications-pagination">
               <NPagination
                 v-model:page="currentPage"
                 :page-size="pageSize"

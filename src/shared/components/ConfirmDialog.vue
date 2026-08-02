@@ -8,6 +8,8 @@ interface Props {
   confirmText?: string;
   cancelText?: string;
   loading?: boolean;
+  confirmTestId?: string;
+  cancelTestId?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -15,7 +17,9 @@ const props = withDefaults(defineProps<Props>(), {
   message: 'آیا از انجام این عملیات اطمینان دارید؟',
   confirmText: 'تایید و ادامه',
   cancelText: 'انصراف',
-  loading: false
+  loading: false,
+  confirmTestId: undefined,
+  cancelTestId: undefined
 });
 
 const emit = defineEmits<{
@@ -38,11 +42,11 @@ const emit = defineEmits<{
 
     <template #footer>
       <div class="flex items-center justify-end gap-3 pt-2">
-        <NButton quaternary @click="emit('cancel')" :disabled="props.loading">
+        <NButton quaternary :data-testid="props.cancelTestId" @click="emit('cancel')" :disabled="props.loading">
           {{ props.cancelText }}
         </NButton>
 
-        <NButton type="primary" :loading="props.loading" @click="emit('confirm')">
+        <NButton type="primary" :data-testid="props.confirmTestId" :loading="props.loading" @click="emit('confirm')">
           {{ props.confirmText }}
         </NButton>
       </div>

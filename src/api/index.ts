@@ -192,7 +192,28 @@ export const listingsApi = {
   },
   createListing: async (data: CreateListingRequest): Promise<ChequeListing> => {
     if (isMock()) return useBackendSimulatorStore().createListing(1, data);
-    const res = await api.post('/listings/', data);
+    const payload = { ...data };
+    if (!payload.issuer && payload.issuer_national_id) {
+      try {
+        const searchRes = await api.get('/issuer-profiles/', { params: { national_or_company_id: payload.issuer_national_id } });
+        const list = unwrapList<any>(searchRes.data);
+        if (list.length > 0 && list[0]?.id) {
+          payload.issuer = list[0].id;
+        } else {
+          const createProfileRes = await api.post('/issuer-profiles/', {
+            name: payload.issuer_name,
+            national_or_company_id: payload.issuer_national_id,
+            issuer_type: payload.issuer_type
+          });
+          if (createProfileRes.data?.id) {
+            payload.issuer = createProfileRes.data.id;
+          }
+        }
+      } catch (err) {
+        console.warn('Failed to get-or-create issuer profile', err);
+      }
+    }
+    const res = await api.post('/listings/', payload);
     return res.data;
   },
   updateListing: async (id: number, data: UpdateListingRequest): Promise<ChequeListing> => {

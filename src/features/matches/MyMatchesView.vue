@@ -101,6 +101,11 @@ const triggerAccept = (matchId: number) => {
   showConfirmModal.value = true;
 };
 
+const confirmTestId = computed(() => {
+  if (confirmActionType.value === 'accept') return 'match-accept-confirm';
+  return undefined;
+});
+
 const triggerCancel = (matchId: number) => {
   selectedMatchForConfirm.value = matchId;
   confirmActionType.value = 'cancel';
@@ -210,7 +215,7 @@ const handleDeclineSubmit = async () => {
                   </div>
 
                   <div class="flex items-center gap-2">
-                    <NTag :type="getStatusTagType(item.status)" size="medium" round class="font-bold">
+                    <NTag :type="getStatusTagType(item.status)" size="medium" round class="font-bold" :data-testid="item.status === 'accepted' ? 'match-status-accepted' : undefined">
                       {{ MATCH_STATUS_LABELS[item.status] || item.status }}
                     </NTag>
                   </div>
@@ -288,7 +293,7 @@ const handleDeclineSubmit = async () => {
                         <template #icon><CloseCircleOutline class="w-4 h-4" /></template>
                         رد پیشنهاد
                       </NButton>
-                      <NButton size="small" type="primary" class="font-bold bg-emerald-600 hover:bg-emerald-500" @click="triggerAccept(item.id)">
+                      <NButton data-testid="match-accept-btn" size="small" type="primary" class="font-bold bg-emerald-600 hover:bg-emerald-500" @click="triggerAccept(item.id)">
                         <template #icon><CheckmarkCircleOutline class="w-4 h-4" /></template>
                         پذیرش پیشنهاد خرید
                       </NButton>
@@ -442,6 +447,7 @@ const handleDeclineSubmit = async () => {
       :title="confirmTitle"
       :message="confirmMessageText"
       confirm-text="تأیید و ادامه"
+      :confirm-test-id="confirmTestId"
       :loading="actionLoading"
       @confirm="handleConfirmAction"
       @cancel="showConfirmModal = false"
