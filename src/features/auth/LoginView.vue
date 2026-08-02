@@ -238,7 +238,7 @@ const loginAsPersona = async (persona: typeof personas.value[0]) => {
             <NFormItem label="نام کاربری یا ایمیل">
               <NInput
                 v-model:value="identifier"
-                data-testid="login-identifier"
+                :input-props="{ 'data-testid': 'login-identifier' }"
                 placeholder="مثلاً: holder1 یا reza@chequeyar.ir"
                 size="large"
               />
@@ -247,7 +247,7 @@ const loginAsPersona = async (persona: typeof personas.value[0]) => {
             <NFormItem label="رمز عبور">
               <NInput
                 v-model:value="password"
-                data-testid="login-password"
+                :input-props="{ 'data-testid': 'login-password' }"
                 type="password"
                 show-password-on="click"
                 placeholder="••••••••"

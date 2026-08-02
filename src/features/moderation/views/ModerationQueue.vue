@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-6xl mx-auto p-4 md:p-6 space-y-6">
+  <div class="max-w-6xl mx-auto p-4 md:p-6 space-y-6" data-testid="moderation-queue-page">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/80 p-5 rounded-2xl border border-slate-800">
       <div>
         <h1 class="text-xl font-bold text-white flex items-center gap-2">
