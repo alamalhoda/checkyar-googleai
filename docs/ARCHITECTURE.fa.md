@@ -82,8 +82,9 @@ src/
 
 ## ۵. مرزهای معماری
 
-- **بک‌اند و قرارداد API:** معماری بک‌اند و انpointهای Django DRF در مخزن [alamalhoda/doion](https://github.com/alamalhoda/doion) نگه داری می‌شوند.
-- **مستند قرارداد API:** سند رسمی در مسیر `docs/development/MASTER_API_CONTRACT.md` در پروژه doion قرار دارد.
+- **بک‌اند و قرارداد API:** معماری بک‌اند و انpointهای Django DRF در مخزن [alamalhoda/doion](https://github.com/alamalhoda/doion) نگهداری می‌شوند.
+- **مستند قرارداد API:** سند رسمی در [MASTER_API_CONTRACT.md](https://github.com/alamalhoda/doion/blob/develop/docs/development/MASTER_API_CONTRACT.md) در مسیر `docs/development/MASTER_API_CONTRACT.md` در پروژه doion قرار دارد.
+- **وضعیت توسعه فرانت‌اند:** مستند [FRONTEND_DEVELOPMENT_STATUS.md](https://github.com/alamalhoda/doion/blob/develop/docs/development/FRONTEND_DEVELOPMENT_STATUS.md) در پروژه doion.
 
 ---
 

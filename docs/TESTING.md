@@ -66,7 +66,8 @@ To test the frontend against a running backend (`doion` Django server):
 End-to-End testing (Playwright smoke & critical path suites) is owned and maintained in the **`doion` monorepo** under the `e2e/` directory.
 
 - **E2E Test Suites:** Live in `alamalhoda/doion` (`e2e/` directory).
-- **Runbook:** Refer to `docs/testing/E2E_LOCAL_RUNBOOK.md` in the `doion` repo for instructions on launching E2E tests against local stack containers.
+- **Runbook:** Refer to [E2E_LOCAL_RUNBOOK.md](https://github.com/alamalhoda/doion/blob/develop/docs/development/E2E_LOCAL_RUNBOOK.md) in the `doion` repo (`docs/development/E2E_LOCAL_RUNBOOK.md`) for instructions on launching E2E tests against local stack containers.
+- **Frontend Status & E2E Overview:** See [FRONTEND_DEVELOPMENT_STATUS.md](https://github.com/alamalhoda/doion/blob/develop/docs/development/FRONTEND_DEVELOPMENT_STATUS.md) in `doion` for overall status and testing overview.
 - **Do NOT** copy or duplicate Playwright test suites or configs into this frontend repo.
 
 ---

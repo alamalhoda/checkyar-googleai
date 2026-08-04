@@ -83,7 +83,8 @@ The header UI includes a **Test Role** ("نقش تست") switcher. Note that thi
 ## 5. Architectural Boundaries
 
 - **Backend & API Contract:** The backend architecture, database schema, and Django REST Framework endpoints are maintained in the [alamalhoda/doion](https://github.com/alamalhoda/doion) monorepo.
-- **Contract Reference:** The official API specification is defined in `docs/development/MASTER_API_CONTRACT.md` within the `doion` repository.
+- **Contract Reference:** The official API specification is defined in [MASTER_API_CONTRACT.md](https://github.com/alamalhoda/doion/blob/develop/docs/development/MASTER_API_CONTRACT.md) within the `doion` repository (`docs/development/MASTER_API_CONTRACT.md`).
+- **Frontend Development Status:** See [FRONTEND_DEVELOPMENT_STATUS.md](https://github.com/alamalhoda/doion/blob/develop/docs/development/FRONTEND_DEVELOPMENT_STATUS.md) for current integration progress.
 - Do NOT replicate or modify backend contracts within this UI repository.
 
 ---

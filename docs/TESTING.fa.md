@@ -65,7 +65,8 @@ bun run lint
 تست‌های سرتاسری مرورگر (Playwright) در **مخزن `doion`** و تحت پوشه `e2e/` نگهداری می‌شوند.
 
 - **مکان تست‌های E2E:** مخزن `alamalhoda/doion` (پوشه `e2e/`).
-- **راهنما:** سند `docs/testing/E2E_LOCAL_RUNBOOK.md` در پروژه `doion`.
+- **راهنما:** سند [E2E_LOCAL_RUNBOOK.md](https://github.com/alamalhoda/doion/blob/develop/docs/development/E2E_LOCAL_RUNBOOK.md) در مسیر `docs/development/E2E_LOCAL_RUNBOOK.md` در پروژه `doion`.
+- **وضعیت توسعه فرانت‌اند و تست‌ها:** مستند [FRONTEND_DEVELOPMENT_STATUS.md](https://github.com/alamalhoda/doion/blob/develop/docs/development/FRONTEND_DEVELOPMENT_STATUS.md) در پروژه `doion`.
 - از کپی کردن یا اضافه کردن فایل‌های Playwright به این repo خودداری کنید.
 
 ---

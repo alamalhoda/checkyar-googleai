@@ -111,6 +111,11 @@ VITE_API_BASE_URL=http://localhost:8000/api/v1
 
 ```text
 cheque-yar/
+├── docs/                        # مستندات معماری و راهنمای تست
+│   ├── ARCHITECTURE.md          # معماری فرانت‌اند (انگلیسی)
+│   ├── ARCHITECTURE.fa.md       # معماری فرانت‌اند (فارسی)
+│   ├── TESTING.md               # راهنمای تست (انگلیسی)
+│   └── TESTING.fa.md            # راهنمای تست (فارسی)
 ├── src/
 │   ├── api/                     # لایه ارتباط با API و Axios client
 │   │   ├── client.ts            # تنظیمات Axios و Interceptorها
