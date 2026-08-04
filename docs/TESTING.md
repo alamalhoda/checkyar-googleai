@@ -108,7 +108,7 @@ When introducing feature modifications or UI logic changes:
 
 Continuous Integration is configured via [.github/workflows/ci.yml](../.github/workflows/ci.yml). On every push and pull request to the `main` branch, GitHub Actions executes:
 - `bun run lint` (TypeScript compilation & type checking)
-- `bun run test` (Vitest unit tests)
+- `bun run test` (Vitest unit tests running in `happy-dom` environment; `localStorage` access in `src/api/client.ts` is safely guarded)
 - `bun run build` (Production build validation)
 
 > Note: End-to-End Playwright tests remain owned and executed within the `doion` monorepo (`e2e/` directory).

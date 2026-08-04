@@ -1,10 +1,24 @@
 import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from 'axios';
 import { useBackendSimulatorStore } from '../stores/useBackendSimulatorStore';
 
+function safeGetStorage(key: string): string | null {
+  if (typeof localStorage !== 'undefined') {
+    return localStorage.getItem(key);
+  }
+  return null;
+}
+
+function safeSetStorage(key: string, value: string): void {
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem(key, value);
+  }
+}
+
 const envMock = import.meta.env.VITE_USE_MOCK;
+// Default to mock mode when VITE_USE_MOCK is unset and localStorage is unavailable or not explicitly 'false'
 let useMock = envMock !== undefined && envMock !== null && envMock !== ''
   ? String(envMock) === 'true'
-  : localStorage.getItem('chequeyar_use_mock') !== 'false';
+  : safeGetStorage('chequeyar_use_mock') !== 'false';
 
 export const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api/v1',
@@ -19,12 +33,12 @@ export function getMockMode(): boolean {
 
 export function setMockMode(enabled: boolean) {
   useMock = enabled;
-  localStorage.setItem('chequeyar_use_mock', enabled ? 'true' : 'false');
+  safeSetStorage('chequeyar_use_mock', enabled ? 'true' : 'false');
 }
 
 // Request Interceptor: Attach Token
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const token = localStorage.getItem('chequeyar_access_token');
+  const token = safeGetStorage('chequeyar_access_token');
   if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -75,7 +89,7 @@ async function handleMockRequest(config: InternalAxiosRequestConfig): Promise<an
   const params = config.params || {};
 
   // Extract current user ID from token or default
-  const userJson = localStorage.getItem('chequeyar_auth_user');
+  const userJson = safeGetStorage('chequeyar_auth_user');
   const currentUser = userJson ? JSON.parse(userJson) : { id: 1 };
 
   // Auth & Identity Endpoints

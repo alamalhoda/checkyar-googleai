@@ -107,7 +107,7 @@ bun run lint
 
 فرآیند تست و ساخت اتوماتیک در فایل [.github/workflows/ci.yml](../.github/workflows/ci.yml) پیکربندی شده است. با هر push یا pull_request روی شاخه `main`، اکشن‌های زیر در GitHub اجرا می‌شوند:
 - `bun run lint` (بررسی تایپ‌ها و اعتبار کد)
-- `bun run test` (اجرای آزمون‌های واحد Vitest)
+- `bun run test` (اجرای آزمون‌های واحد Vitest در محیط `happy-dom` با دسترسی ایمن به `localStorage` در کلاینت API)
 - `bun run build` (بررسی کامپایل و ساخت نسخه نهایی)
 
 > نکته: تست‌های سرتاسری Playwright همچنان در مخزن `doion` (پوشه `e2e/`) اجرا می‌شوند.
