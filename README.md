@@ -49,6 +49,17 @@ VITE_API_BASE_URL=http://localhost:8000/api/v1
 
 پس از پذیرش نسخه پایدار UI، کد به `doion/frontend` مهاجرت می‌شود و این repo آرشیو خواهد شد.
 
+### فایل‌های مستندات اصلی (Documentation)
+
+جهت جزییات معماری و نحوه تست، مستندات رسمی زیر در دسترس است:
+
+- **معماری سیستم (Architecture):**
+  - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (انگلیسی)
+  - [docs/ARCHITECTURE.fa.md](docs/ARCHITECTURE.fa.md) (فارسی)
+- **راهنمای آزمون و تست (Testing):**
+  - [docs/TESTING.md](docs/TESTING.md) (انگلیسی)
+  - [docs/TESTING.fa.md](docs/TESTING.fa.md) (فارسی)
+
 ---
 
 ## 🌟 ویژگی‌های کلیدی سامانه
