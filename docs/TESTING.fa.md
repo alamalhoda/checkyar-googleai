@@ -100,3 +100,15 @@ bun run lint
 ۱. تست‌های واحد مربوطه (`*.test.ts`) را بروزرسانی کنید.
 ۲. دستورات `bun run lint` و `bun run test` را اجرا کنید.
 ۳. در صورت تغییر در جریان‌های اصلی UI، سناریوهای Playwright را در مخزن `doion` بروزرسانی نمایید.
+
+---
+
+## ۷. یکپارچه‌سازی مداوم - CI (GitHub Actions)
+
+فرآیند تست و ساخت اتوماتیک در فایل [.github/workflows/ci.yml](../.github/workflows/ci.yml) پیکربندی شده است. با هر push یا pull_request روی شاخه `main`، اکشن‌های زیر در GitHub اجرا می‌شوند:
+- `bun run lint` (بررسی تایپ‌ها و اعتبار کد)
+- `bun run test` (اجرای آزمون‌های واحد Vitest)
+- `bun run build` (بررسی کامپایل و ساخت نسخه نهایی)
+
+> نکته: تست‌های سرتاسری Playwright همچنان در مخزن `doion` (پوشه `e2e/`) اجرا می‌شوند.
+

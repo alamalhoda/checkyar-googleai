@@ -59,6 +59,8 @@ VITE_API_BASE_URL=http://localhost:8000/api/v1
 - **راهنمای آزمون و تست (Testing):**
   - [docs/TESTING.md](docs/TESTING.md) (انگلیسی)
   - [docs/TESTING.fa.md](docs/TESTING.fa.md) (فارسی)
+- **یکپارچه‌سازی مداوم (CI):**
+  - [.github/workflows/ci.yml](.github/workflows/ci.yml) (اجرای اتوماتیک typecheck، unit tests و build با هر push/PR روی `main`)
 
 ---
 

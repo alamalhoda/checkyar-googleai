@@ -101,3 +101,15 @@ When introducing feature modifications or UI logic changes:
 1. Update or add corresponding unit tests (`*.test.ts`) in this repository.
 2. Run `bun run lint` and `bun run test` to ensure clean compilation and passing unit tests.
 3. If new E2E selectors or user flow changes are required, notify/update the Playwright test suites in the `doion` monorepo.
+
+---
+
+## 7. CI (GitHub Actions)
+
+Continuous Integration is configured via [.github/workflows/ci.yml](../.github/workflows/ci.yml). On every push and pull request to the `main` branch, GitHub Actions executes:
+- `bun run lint` (TypeScript compilation & type checking)
+- `bun run test` (Vitest unit tests)
+- `bun run build` (Production build validation)
+
+> Note: End-to-End Playwright tests remain owned and executed within the `doion` monorepo (`e2e/` directory).
+
