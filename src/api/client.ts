@@ -14,11 +14,12 @@ function safeSetStorage(key: string, value: string): void {
   }
 }
 
-const envMock = import.meta.env.VITE_USE_MOCK;
-// Default to mock mode when VITE_USE_MOCK is unset and localStorage is unavailable or not explicitly 'false'
-let useMock = envMock !== undefined && envMock !== null && envMock !== ''
-  ? String(envMock) === 'true'
-  : safeGetStorage('chequeyar_use_mock') !== 'false';
+export function isMockEnvEnabled(): boolean {
+  return String(import.meta.env.VITE_USE_MOCK) === 'true';
+}
+
+// Default to mock mode ONLY when VITE_USE_MOCK is exactly 'true' and localStorage is not explicitly 'false'
+let useMock = isMockEnvEnabled() && safeGetStorage('chequeyar_use_mock') !== 'false';
 
 export const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api/v1',
@@ -28,10 +29,17 @@ export const api: AxiosInstance = axios.create({
 });
 
 export function getMockMode(): boolean {
+  if (!isMockEnvEnabled()) {
+    return false;
+  }
   return useMock;
 }
 
 export function setMockMode(enabled: boolean) {
+  if (!isMockEnvEnabled()) {
+    useMock = false;
+    return;
+  }
   useMock = enabled;
   safeSetStorage('chequeyar_use_mock', enabled ? 'true' : 'false');
 }
@@ -53,9 +61,9 @@ api.interceptors.response.use(
   async (error) => {
     const config = error.config as InternalAxiosRequestConfig;
     
-    // If mock mode is explicitly on OR if network error occurs (backend unreachable at localhost:8000)
+    // If mock mode is explicitly on OR if network error occurs when mock env is enabled
     const isNetworkError = error.code === 'ERR_NETWORK' || error.message === 'Network Error' || !error.response;
-    if (useMock || isNetworkError) {
+    if (getMockMode() || (isMockEnvEnabled() && isNetworkError)) {
       if (!config) return Promise.reject(error);
       try {
         const mockResult = await handleMockRequest(config);

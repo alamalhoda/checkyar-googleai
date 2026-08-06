@@ -25,7 +25,7 @@ import {
 import { useAuthStore } from '../../stores/auth';
 import { useBackendSimulatorStore } from '../../stores/useBackendSimulatorStore';
 import { useUiStore, type AppTheme } from '../../stores/useUiStore';
-import { getMockMode, setMockMode } from '../../api';
+import { getMockMode, setMockMode, isMockEnvEnabled } from '../../api';
 import type { UserRole } from '../../types/api';
 
 const router = useRouter();
@@ -34,6 +34,8 @@ const message = useMessage();
 const authStore = useAuthStore();
 const simulatorStore = useBackendSimulatorStore();
 const uiStore = useUiStore();
+
+const isMockEnv = computed(() => isMockEnvEnabled());
 
 const isSimulatorMode = computed({
   get: () => getMockMode(),
@@ -172,7 +174,7 @@ const pageTitle = computed(() => {
     <!-- Actions Right -->
     <div class="flex items-center gap-2 sm:gap-4">
       <!-- Dev Role Switcher & Simulator Toggle -->
-      <div class="hidden lg:flex items-center gap-2.5 bg-slate-950/60 border border-slate-800/80 rounded-lg px-2.5 py-1 text-[11px] text-slate-300">
+      <div v-if="isMockEnv" class="hidden lg:flex items-center gap-2.5 bg-slate-950/60 border border-slate-800/80 rounded-lg px-2.5 py-1 text-[11px] text-slate-300">
         <div class="flex items-center gap-1.5">
           <SwapHorizontalOutline class="w-3.5 h-3.5 text-emerald-400 shrink-0" />
           <span class="text-slate-400">نقش تست:</span>

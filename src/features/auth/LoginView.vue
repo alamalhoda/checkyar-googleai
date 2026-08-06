@@ -4,16 +4,17 @@ import { useRouter } from 'vue-router';
 import { NCard, NForm, NFormItem, NInput, NButton, NAlert, NDivider, NSwitch, NTag, useMessage } from 'naive-ui';
 import { useAuthStore } from '../../stores/auth';
 import { useBackendSimulatorStore } from '../../stores/useBackendSimulatorStore';
-import { getMockMode, setMockMode } from '../../api';
+import { getMockMode, setMockMode, isMockEnvEnabled } from '../../api';
 
 const router = useRouter();
 const authStore = useAuthStore();
 const simulatorStore = useBackendSimulatorStore();
 const toast = useMessage();
 
+const isMockEnv = computed(() => isMockEnvEnabled());
 const isMockActive = ref(getMockMode());
-const identifier = ref('holder1');
-const password = ref('password123');
+const identifier = ref(isMockEnv.value ? 'holder1' : '');
+const password = ref(isMockEnv.value ? 'password123' : '');
 const loading = ref(false);
 const activePersonaId = ref<number | null>(null);
 const errorMsg = ref('');
@@ -131,7 +132,7 @@ const loginAsPersona = async (persona: typeof personas.value[0]) => {
 <template>
   <div class="min-h-screen bg-slate-950 flex flex-col justify-center items-center p-4 sm:p-6 dir-rtl font-sans text-slate-100">
     <!-- Top Simulation Mode Switcher Header -->
-    <div class="w-full max-w-4xl mb-4 bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
+    <div v-if="isMockEnv" class="w-full max-w-4xl mb-4 bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
       <div class="flex items-center gap-3">
         <div class="w-3 h-3 rounded-full animate-ping" :class="isMockActive ? 'bg-emerald-400' : 'bg-amber-400'"></div>
         <div>
@@ -156,8 +157,8 @@ const loginAsPersona = async (persona: typeof personas.value[0]) => {
     <!-- Main Container Layout -->
     <div class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
       
-      <!-- Left Column: Simulation Personas Quick Login Panel (Shows when Mock Active) -->
-      <div v-if="isMockActive" class="lg:col-span-7 space-y-4">
+      <!-- Left Column: Simulation Personas Quick Login Panel (Shows when Mock Active & Mock Env) -->
+      <div v-if="isMockEnv && isMockActive" class="lg:col-span-7 space-y-4">
         <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-2xl space-y-4">
           <div class="flex items-center justify-between border-b border-slate-800 pb-3">
             <div class="flex items-center gap-2">
@@ -212,7 +213,7 @@ const loginAsPersona = async (persona: typeof personas.value[0]) => {
       </div>
 
       <!-- Right Column: Standard Login Form -->
-      <div :class="isMockActive ? 'lg:col-span-5' : 'lg:col-span-8 lg:col-start-3'">
+      <div :class="(isMockEnv && isMockActive) ? 'lg:col-span-5' : (isMockEnv ? 'lg:col-span-8 lg:col-start-3' : 'lg:col-span-6 lg:col-start-4')">
         <NCard class="bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl">
           <!-- Header Branding -->
           <div class="text-center space-y-2 mb-6">
@@ -268,8 +269,8 @@ const loginAsPersona = async (persona: typeof personas.value[0]) => {
             </NButton>
           </NForm>
 
-          <!-- Quick Fill Switcher if not mock -->
-          <template v-if="!isMockActive">
+          <!-- Quick Fill Switcher if mock env enabled and mock mode inactive -->
+          <template v-if="isMockEnv && !isMockActive">
             <NDivider class="my-5">
               <span class="text-[11px] text-slate-500">حساب‌های آزمایشی سرور</span>
             </NDivider>

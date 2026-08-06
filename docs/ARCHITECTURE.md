@@ -67,16 +67,18 @@ src/
 
 ## 4. Live vs. Mock Mode Configuration
 
-The application can run in either **Live API** mode or **Mock (Simulator)** mode:
+The application runtime behavior is governed by the `VITE_USE_MOCK` environment variable:
 
 | Mode | Environment Variables | Description |
 |------|------------------------|-------------|
-| **Live API** | `VITE_USE_MOCK=false`<br>`VITE_API_BASE_URL=http://localhost:8000/api/v1` | Connects directly to the Django backend (`doion`). |
-| **Mock Mode** | `VITE_USE_MOCK=true` | Uses the in-memory Pinia simulator store (`useBackendSimulatorStore`) for client-side demoing. |
+| **Live API** | `VITE_USE_MOCK=false`<br>`VITE_API_BASE_URL=http://localhost:8000/api/v1` | Pure Live mode. All simulator/mock UI chrome (header test role/simulator switcher, login mock banner & switch, quick-login persona cards & demo buttons) are completely hidden and unreachable. API client stays strictly on Live routes. |
+| **Mock Mode** | `VITE_USE_MOCK=true` | Enables the in-memory Pinia simulator store (`useBackendSimulatorStore`), header test role/simulator controls, login mock persona cards, and runtime mock toggling. |
 
-### Client-Side Test Role Selector
+### Enforced Mock Environment Policy
 
-The header UI includes a **Test Role** ("نقش تست") switcher. Note that this switcher only modifies client-side view state and simulation role context; in Live API mode, actual access control remains governed strictly by the JWT auth tokens issued by the backend.
+- **Compile-Time Gate:** Mock/simulator features and runtime toggle capabilities exist **ONLY** when `VITE_USE_MOCK=true`.
+- **Live Mode Guarantee:** When `VITE_USE_MOCK=false` (or not set to `'true'`), `getMockMode()` strictly returns `false` and `setMockMode(true)` is a no-op (ignoring leftover `localStorage` keys). The UI renders clean Live-only forms and headers.
+- **Client-Side Test Role Selector:** When `VITE_USE_MOCK=true`, the header UI includes a **Test Role** ("نقش تست") switcher. Note that this switcher only modifies client-side simulation role context; in Live API mode, actual permissions are governed strictly by backend-issued JWT tokens.
 
 ---
 

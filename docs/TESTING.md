@@ -104,12 +104,17 @@ When introducing feature modifications or UI logic changes:
 
 ---
 
-## 7. CI (GitHub Actions)
+## 7. CI (GitHub Actions) & Mock Environment Policy
 
 Continuous Integration is configured via [.github/workflows/ci.yml](../.github/workflows/ci.yml). On every push and pull request to the `main` branch, GitHub Actions executes:
 - `bun run lint` (TypeScript compilation & type checking)
 - `bun run test` (Vitest unit tests running in `happy-dom` environment; `localStorage` access in `src/api/client.ts` is safely guarded)
 - `bun run build` (Production build validation)
+
+### Mock Mode Environment Policy in Testing
+- **Env Gated:** Mock/simulator UI chrome and runtime toggles are active ONLY when `VITE_USE_MOCK=true`.
+- **Live-Only UI:** When `VITE_USE_MOCK=false`, simulator header controls, login mock banners, switches (`data-testid="mock-mode-switch"`), persona quick login panels, and quick-fill helper buttons are hidden.
+- Unit tests in `src/api/client.test.ts` verify that `getMockMode()` strictly returns `false` and `setMockMode(true)` is a no-op when `VITE_USE_MOCK=false`.
 
 > Note: End-to-End Playwright tests remain owned and executed within the `doion` monorepo (`e2e/` directory).
 

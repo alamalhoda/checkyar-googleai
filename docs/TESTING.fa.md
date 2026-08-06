@@ -103,12 +103,17 @@ bun run lint
 
 ---
 
-## ۷. یکپارچه‌سازی مداوم - CI (GitHub Actions)
+## ۷. یکپارچه‌سازی مداوم - CI (GitHub Actions) و سیاست محیط شبیه‌ساز
 
 فرآیند تست و ساخت اتوماتیک در فایل [.github/workflows/ci.yml](../.github/workflows/ci.yml) پیکربندی شده است. با هر push یا pull_request روی شاخه `main`، اکشن‌های زیر در GitHub اجرا می‌شوند:
 - `bun run lint` (بررسی تایپ‌ها و اعتبار کد)
 - `bun run test` (اجرای آزمون‌های واحد Vitest در محیط `happy-dom` با دسترسی ایمن به `localStorage` در کلاینت API)
 - `bun run build` (بررسی کامپایل و ساخت نسخه نهایی)
+
+### سیاست محیطی حالت شبیه‌سازی در تست‌ها
+- **وابسته به محیط (Env Gated):** تمام المان‌ها و کلیدهای شبیه‌ساز تنها زمانی فعال هستند که `VITE_USE_MOCK=true` باشد.
+- **رابط کاربری خالص Live:** در صورت `VITE_USE_MOCK=false` کنترل‌های هدر، بنرهای دمو، کلید `data-testid="mock-mode-switch"`، کارت‌های کاراکتر دمو و دکمه‌های پرکردن سریع کاملاً پنهان می‌شوند.
+- آزمون‌های واحد در `src/api/client.test.ts` تایید می‌کنند که با `VITE_USE_MOCK=false` تابع `getMockMode()` دائماً `false` داده و `setMockMode(true)` هیچ عملی انجام نمی‌دهد.
 
 > نکته: تست‌های سرتاسری Playwright همچنان در مخزن `doion` (پوشه `e2e/`) اجرا می‌شوند.
 

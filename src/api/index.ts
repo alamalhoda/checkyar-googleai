@@ -1,4 +1,4 @@
-import { api, setMockMode, getMockMode } from './client';
+import { api, setMockMode, getMockMode, isMockEnvEnabled } from './client';
 import { useBackendSimulatorStore } from '../stores/useBackendSimulatorStore';
 import type {
   LoginRequest,
@@ -58,7 +58,7 @@ export type {
   AdminDashboardStats
 };
 
-export { api, setMockMode, getMockMode };
+export { api, setMockMode, getMockMode, isMockEnvEnabled };
 export const isMock = () => getMockMode();
 
 export function unwrapList<T>(data: unknown): T[] {
