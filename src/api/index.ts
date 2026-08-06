@@ -116,7 +116,7 @@ export const identityApi = {
     return res.data;
   },
   getVerificationMe: async (): Promise<Verification | null> => {
-    if (isMock()) return useBackendSimulatorStore().kycQueue[0] || null;
+    if (isMock()) return useBackendSimulatorStore().getKycQueue()[0] || null;
     try {
       const res = await api.get('/verifications/me/');
       return res.data;
@@ -235,7 +235,10 @@ export const listingsApi = {
     return res.data;
   },
   uploadDocument: async (id: number, documentType: string, file: File | Blob | string): Promise<any> => {
-    if (isMock()) return useBackendSimulatorStore().uploadDocument(id, documentType, typeof file === 'string' ? file : file.name);
+    if (isMock()) {
+      const fileName = typeof file === 'string' ? file : (file instanceof File ? file.name : 'document.bin');
+      return useBackendSimulatorStore().uploadDocument(id, documentType, fileName);
+    }
     const formData = new FormData();
     formData.append('document_type', documentType);
     if (file instanceof File || file instanceof Blob) {
@@ -345,7 +348,7 @@ export const moderationApi = {
     return unwrapList<Verification>(res.data);
   },
   getKycDetail: async (kycId: number): Promise<Verification> => {
-    if (isMock()) return useBackendSimulatorStore().kycQueue.find(k => k.id === kycId) || ({} as Verification);
+    if (isMock()) return useBackendSimulatorStore().getKycQueue().find((k: Verification) => k.id === kycId) || ({} as Verification);
     try {
       const res = await api.get(`/moderation/kyc/${kycId}/`);
       return res.data;

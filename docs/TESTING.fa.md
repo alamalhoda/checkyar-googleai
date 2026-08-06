@@ -24,6 +24,8 @@ bun run test:watch
 - `src/utils/persianUtils.test.ts`: تبدیل اعداد فارسی، اعتبارسنجی کد ملی، فرمت پول و تاریخ.
 - `src/stores/auth.permissions.test.ts`: بررسی سطح دسترسی‌ها و نقش‌ها در استور احراز هویت.
 - `src/features/listings/composables/useSmartPricing.test.ts`: محاسبات نرخ تنزیل و قیمت‌گذاری هوشمند.
+- `src/api/client.test.ts`: بررسی گارد محیط شبیه‌ساز (Mock mode).
+- `src/api/liveFixes.test.ts`: بررسی عملکرد Live API برای وضعیت احراز هویت و آپلود مدارک.
 
 ---
 
@@ -39,7 +41,7 @@ bun run lint
 
 ---
 
-## ۳. تست دستی با بک‌اند واقعی (Live API)
+## ۳. تست یکپارچه‌سازی و مساحات کاری Live API
 
 جهت تست دستی فرانت‌اند در کنار بک‌اند واقعی (`doion`):
 
@@ -53,6 +55,13 @@ bun run lint
    bun run dev
    ```
 ۳. ورود با حساب‌های تست نمونه (مانند `holder1`، `investor1`، `moderator1`).
+
+### قابلیت‌ها و مسیرهای Live API فاز A
+
+- **احراز هویت واقعی در پروفایل (`/me`):** ثبت درخواست‌های احراز هویت از طریق `POST /verifications/` و دریافت وضعیت جاری از طریق `GET /verifications/me/`.
+- **بررسی صف نظارت و احراز هویت (KYC Review):** بررسی درخواست‌های احراز هویت در مسیر `/moderation/kyc/:id` و ثبت تصمیمات ناظر از طریق `POST /moderation/kyc/:id/decision/`.
+- **ارسال واقعی مدارک با `FormData`:** متد `listingsApi.uploadDocument` داده‌های باینری `File` و `Blob` را در قالب `FormData` ارسال می‌کند (`POST /listings/:id/documents/`).
+- **بخش‌های مدیریتی پشتیبانی‌شده (Admin Surfaces):** قابلیت‌های مدیریتی شامل `/admin/stats` (آمار تطبیق)، `/admin/feature-flags` (کلیدهای فیچر) و `/admin/audit` (لاگ رویدادها) می‌باشد. مسیر `/admin/reports` به `/admin/stats` هدایت می‌شود.
 
 ### تفکیک حالت شبیه‌ساز (Mock) و Live
 

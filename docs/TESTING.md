@@ -24,6 +24,8 @@ Current unit test suites in `src/` include:
 - `src/utils/persianUtils.test.ts`: Persian digit parsing, national ID validation, currency/number formatting, and date utilities.
 - `src/stores/auth.permissions.test.ts`: Role and permission checks within the authentication store.
 - `src/features/listings/composables/useSmartPricing.test.ts`: Discount rate and smart pricing calculation logic.
+- `src/api/client.test.ts`: Mock environment gating checks.
+- `src/api/liveFixes.test.ts`: Live API handling checks for verification state & document uploads.
 
 ---
 
@@ -40,7 +42,7 @@ This executes `tsc --noEmit` as defined in `package.json`.
 
 ---
 
-## 3. Manual Live Testing
+## 3. Live API Integration & Feature Testing
 
 To test the frontend against a running backend (`doion` Django server):
 
@@ -54,6 +56,13 @@ To test the frontend against a running backend (`doion` Django server):
    bun run dev
    ```
 3. Test using seed demo accounts on your local backend (e.g., `holder1`, `investor1`, `moderator1`).
+
+### Phase A Live Surfaces & API Endpoints
+
+- **Live KYC on Profile (`/me`):** Submits KYC verifications via `POST /verifications/` and fetches current verification status via `GET /verifications/me/`.
+- **KYC & Moderation Review:** Moderation queue items and KYC verification reviews (`/moderation/kyc/:id`) evaluate submissions and submit decisions via `POST /moderation/kyc/:id/decision/`.
+- **Real `FormData` Uploads:** Document uploads (`listingsApi.uploadDocument`) convert binary `File` / `Blob` payloads into `FormData` (`POST /listings/:id/documents/`).
+- **Supported Admin Surfaces:** Admin functionality is focused on `/admin/stats` (compliance metrics), `/admin/feature-flags` (feature flags), and `/admin/audit` (audit logs). Route `/admin/reports` redirects to `/admin/stats`.
 
 ### Mock/Simulator vs. Live Testing
 
