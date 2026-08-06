@@ -119,11 +119,6 @@ const menuOptions = computed(() => {
       label: 'مدیریت کل سیستم',
       children: [
         {
-          label: 'گزارش‌های جامع مدیریتی',
-          key: '/admin/reports',
-          icon: renderIcon(PieChartOutline)
-        },
-        {
           label: 'آمار و گزارشات ارشد',
           key: '/admin/stats',
           icon: renderIcon(StatsChartOutline)

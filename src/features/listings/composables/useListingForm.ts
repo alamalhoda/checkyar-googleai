@@ -12,6 +12,22 @@ const { message } = createDiscreteApi(['message'], {
   configProviderProps: { theme: darkTheme }
 });
 
+function toBlobOrFile(data: string, defaultName: string): Blob {
+  if (data.startsWith('data:')) {
+    const arr = data.split(',');
+    const mimeMatch = arr[0].match(/:(.*?);/);
+    const mime = mimeMatch ? mimeMatch[1] : 'image/png';
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], defaultName, { type: mime });
+  }
+  return new Blob([data], { type: 'text/plain' });
+}
+
 export interface UploadedDoc {
   id: string;
   name: string;
@@ -177,7 +193,7 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
       const cleanSayad = toEnglishDigits(formData.serialNumber).trim();
       const cleanNationalId = toEnglishDigits(formData.issuerNationalId).trim();
 
-      await listingsApi.createListing({
+      const newListing = await listingsApi.createListing({
         face_amount: formData.amount || 0,
         due_date: formData.dueDate ? new Date(formData.dueDate).toISOString() : new Date().toISOString(),
         bank_name: formData.bank,
@@ -188,6 +204,34 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
         suggested_discount_rate: formData.finalRate ? String(formData.finalRate) : (formData.discountRate ? String(formData.discountRate) : null),
         description: `${formData.description} | صادرکننده: ${formData.issuerName} (${formData.issuerType === 'natural' ? 'حقیقی' : 'حقوقی'}) | کدملی: ${cleanNationalId} | خالص دریافتی: ${(formData.finalPrice || formData.netPrice || 0).toLocaleString('fa-IR')} تومان | نرخ پیشنهادی موتور: ${formData.suggestedRate || '-'}٪ | نرخ نهایی: ${formData.finalRate || formData.discountRate || '-'}٪ | روش تسویه: ${formData.settlementMethod}`
       });
+
+      if (newListing?.id) {
+        if (formData.chequeFrontImage) {
+          try {
+            const frontFile = toBlobOrFile(formData.chequeFrontImage, 'cheque_front.png');
+            await listingsApi.uploadDocument(newListing.id, 'cheque_image', frontFile);
+          } catch (e) {
+            console.warn('Document upload warning (cheque_front):', e);
+          }
+        }
+        if (formData.chequeBackImage) {
+          try {
+            const backFile = toBlobOrFile(formData.chequeBackImage, 'cheque_back.png');
+            await listingsApi.uploadDocument(newListing.id, 'cheque_back', backFile);
+          } catch (e) {
+            console.warn('Document upload warning (cheque_back):', e);
+          }
+        }
+        const contractContent = formData.contractText || formData.contractDoc;
+        if (contractContent) {
+          try {
+            const contractFile = toBlobOrFile(contractContent, 'contract.txt');
+            await listingsApi.uploadDocument(newListing.id, 'supplementary', contractFile);
+          } catch (e) {
+            console.warn('Document upload warning (contract):', e);
+          }
+        }
+      }
 
       message.success('آگهی ثبت شد و مدارک همراه جهت احراز به صف نظارت ارسال گردید.');
       return true;

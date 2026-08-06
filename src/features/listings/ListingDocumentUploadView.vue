@@ -51,7 +51,8 @@ const handleUploadSubmit = async () => {
   uploading.value = true;
   try {
     for (const f of fileList.value) {
-      await listingsApi.uploadDocument(listingId.value, selectedDocType.value, f.name || 'document.pdf');
+      const fileToUpload = f.file || f.raw || f.name || f;
+      await listingsApi.uploadDocument(listingId.value, selectedDocType.value, fileToUpload);
     }
     message.success('مدارک با موفقیت بارگذاری شد.');
     router.push(`/listings/${listingId.value}`);
@@ -118,6 +119,7 @@ onMounted(loadListing);
               <NButton
                 type="primary"
                 size="large"
+                data-testid="listing-doc-upload-btn"
                 :loading="uploading"
                 @click="handleUploadSubmit"
                 class="font-bold px-8 bg-emerald-600 hover:bg-emerald-500"

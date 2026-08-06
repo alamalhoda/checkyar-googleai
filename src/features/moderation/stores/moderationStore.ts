@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { moderationApi, type ModerationQueueItem, type Verification } from '../../../api';
+import { moderationApi, listingsApi, isMock, type ModerationQueueItem, type Verification } from '../../../api';
 import { createDiscreteApi, darkTheme } from 'naive-ui';
 
 const { message } = createDiscreteApi(['message'], {
@@ -62,7 +62,41 @@ export const useModerationStore = defineStore('moderation', () => {
   async function fetchReviewDetails(id: number) {
     loading.value = true;
     try {
-      // Mock or real backend details
+      if (!isMock()) {
+        const listing = await listingsApi.getListing(id);
+        const docs = (listing.documents || []).map((d: any) => ({
+          title: d.document_type === 'cheque_image' ? 'تصویر روی چک' :
+                 d.document_type === 'cheque_back' ? 'تصویر پشت چک' :
+                 d.document_type === 'contract' ? 'قرارداد پشتیبان' : 'مدرک پیوست',
+          url: d.file_url || d.file || 'https://placehold.co/600x400/1e293b/fff?text=Doc'
+        }));
+        if (docs.length === 0) {
+          docs.push({ title: 'تصویر روی چک صیادی', url: 'https://placehold.co/600x400/1e293b/fff?text=Cheque+Front' });
+        }
+        currentReviewItem.value = {
+          id: listing.id,
+          type: 'چک صیادی',
+          sayadId: listing.cheque_serial_number || '۹۸۷۶۵۴۳۲۱۰۱۲۳۴۵۶',
+          amount: Number(listing.face_amount) || 0,
+          dueDate: listing.due_date ? new Date(listing.due_date).toLocaleDateString('fa-IR') : '۱۴۰۳/۰۸/۱۵',
+          bank: listing.bank_name || 'بانک مبدا',
+          city: listing.city || 'تهران',
+          riskScore: listing.risk_score || 85,
+          riskLevel: listing.risk_level || 'low',
+          userName: listing.issuer_name || listing.user?.name || 'صادرکننده',
+          userPhone: listing.user?.phone || '۰۹۱۲۰۰۰۰۰۰۰',
+          userTrustScore: 90,
+          userTradeCount: 5,
+          userKycStatus: 'approved',
+          waitingTime: 'در انتظار بررسی',
+          documents: docs,
+          historyEvents: [
+            { title: 'ثبت آگهی در سامانه', date: new Date(listing.created_at || Date.now()).toLocaleDateString('fa-IR') }
+          ]
+        };
+        return;
+      }
+      // Mock mode details
       currentReviewItem.value = {
         id,
         type: 'چک صیادی',

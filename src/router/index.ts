@@ -35,7 +35,7 @@ const routes: RouteRecordRaw[] = [
   { path: '/moderation/kyc', name: 'moderation-kyc', component: () => import('../features/moderation/views/KYCQueue.vue'), meta: { requiresAuth: true, requiresModeration: true } },
   { path: '/moderation/kyc/:id', name: 'kyc-review', component: () => import('../features/moderation/views/KYCReview.vue'), meta: { requiresAuth: true, requiresModeration: true } },
 
-  { path: '/admin/reports', name: 'admin-reports', component: () => import('../features/reports/admin/AdminReportsDashboard.vue'), meta: { requiresAuth: true, requiresAdmin: true } },
+  { path: '/admin/reports', redirect: '/admin/stats' },
   { path: '/admin/stats', name: 'admin-stats', component: () => import('../features/admin/AdminStatsView.vue'), meta: { requiresAuth: true, requiresAdmin: true } },
   { path: '/admin/feature-flags', name: 'admin-flags', component: () => import('../features/admin/FeatureFlagsView.vue'), meta: { requiresAuth: true, requiresAdmin: true } },
   { path: '/admin/audit', name: 'admin-audit', component: () => import('../features/admin/AuditEventsView.vue'), meta: { requiresAuth: true, requiresAdmin: true } },

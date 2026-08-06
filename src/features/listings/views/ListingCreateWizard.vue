@@ -74,7 +74,7 @@
                     {{ form.sayadValidation.value.message }}
                   </span>
                   <span v-if="form.formData.serialNumber.length === 16" class="text-emerald-400 font-bold">
-                    ✓ استعلام وضعیت صیادی: سفید (فاقد چک برگشتی)
+                    ✓ استعلام وضعیت صیادی (مشورتی/آزمایشی): سفید (فاقد چک برگشتی)
                   </span>
                 </div>
               </template>

@@ -114,6 +114,16 @@ export const identityApi = {
     }
     const res = await api.post('/verifications/', data);
     return res.data;
+  },
+  getVerificationMe: async (): Promise<Verification | null> => {
+    if (isMock()) return useBackendSimulatorStore().kycQueue[0] || null;
+    try {
+      const res = await api.get('/verifications/me/');
+      return res.data;
+    } catch (err: any) {
+      if (err?.response?.status === 404) return null;
+      throw err;
+    }
   }
 };
 
@@ -201,9 +211,9 @@ export const listingsApi = {
           payload.issuer = list[0].id;
         } else {
           const createProfileRes = await api.post('/issuer-profiles/', {
-            name: payload.issuer_name,
+            name: payload.issuer_name || 'صادرکننده',
             national_or_company_id: payload.issuer_national_id,
-            issuer_type: payload.issuer_type
+            issuer_type: payload.issuer_type || 'natural'
           });
           if (createProfileRes.data?.id) {
             payload.issuer = createProfileRes.data.id;
@@ -213,6 +223,9 @@ export const listingsApi = {
         console.warn('Failed to get-or-create issuer profile', err);
       }
     }
+    if (!payload.issuer) {
+      throw new Error('ایجاد یا دریافت شناسه صادرکننده با خطا مواجه شد. لطفاً کد/شناسه ملی صادرکننده را مجدداً بررسی کنید.');
+    }
     const res = await api.post('/listings/', payload);
     return res.data;
   },
@@ -221,10 +234,16 @@ export const listingsApi = {
     const res = await api.patch(`/listings/${id}/`, data);
     return res.data;
   },
-  uploadDocument: async (id: number, documentType: string, fileName: string): Promise<any> => {
-    if (isMock()) return useBackendSimulatorStore().uploadDocument(id, documentType, fileName);
+  uploadDocument: async (id: number, documentType: string, file: File | Blob | string): Promise<any> => {
+    if (isMock()) return useBackendSimulatorStore().uploadDocument(id, documentType, typeof file === 'string' ? file : file.name);
     const formData = new FormData();
     formData.append('document_type', documentType);
+    if (file instanceof File || file instanceof Blob) {
+      formData.append('file', file);
+    } else {
+      const blob = new Blob([String(file)], { type: 'text/plain' });
+      formData.append('file', blob, 'document.txt');
+    }
     const res = await api.post(`/listings/${id}/documents/`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
@@ -325,6 +344,18 @@ export const moderationApi = {
     const res = await api.get('/moderation/kyc/');
     return unwrapList<Verification>(res.data);
   },
+  getKycDetail: async (kycId: number): Promise<Verification> => {
+    if (isMock()) return useBackendSimulatorStore().kycQueue.find(k => k.id === kycId) || ({} as Verification);
+    try {
+      const res = await api.get(`/moderation/kyc/${kycId}/`);
+      return res.data;
+    } catch (err) {
+      const list = await moderationApi.getKycQueue();
+      const found = list.find((k: any) => k.id === kycId);
+      if (found) return found;
+      throw err;
+    }
+  },
   submitKycDecision: async (kycId: number, data: { decision: 'approve' | 'reject'; rejection_code?: string; rejection_note?: string }): Promise<Verification> => {
     if (isMock()) return useBackendSimulatorStore().handleKycDecision(kycId, data.decision === 'approve' ? 'approved' : 'rejected', data.rejection_note, data.rejection_code);
     const res = await api.post(`/moderation/kyc/${kycId}/decision/`, data);
@@ -371,7 +402,7 @@ export const complianceApi = {
     return {
       cheque_serial: chequeSerial,
       status: 'white',
-      status_display: 'وضعیت سفید (فاقد سابقه چک برگشتی)',
+      status_display: 'وضعیت سفید (استعلام مشورتی/آزمایشی صیاد)',
       inquiry_time: new Date().toISOString()
     };
   }
