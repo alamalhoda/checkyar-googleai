@@ -1,0 +1,20 @@
+{
+  "name": "checkyar-googleai-mock",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Vite UI (mock)",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "postStartCommand": "bash .devcontainer/post-start.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Vue.volar"
+      ]
+    }
+  }
+}

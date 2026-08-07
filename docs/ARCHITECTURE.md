@@ -84,6 +84,13 @@ The application runtime behavior is governed by the `VITE_USE_MOCK` environment 
 - **Sayad Inquiry Status:** Sayad inquiries in the UI are clearly labeled as advisory/stub inquiries (not direct bank inquiries).
 - **Client-Side Test Role Selector:** When `VITE_USE_MOCK=true`, the header UI includes a **Test Role** ("نقش تست") switcher. Note that this switcher only modifies client-side simulation role context; in Live API mode, actual permissions are governed strictly by backend-issued JWT tokens.
 
+### GitHub Codespaces (Mock-Only Preview)
+
+- **One-Click Mock Preview:** Opening a GitHub Codespace from this repository automatically installs Bun, writes a local `.env` with `VITE_USE_MOCK=true`, and launches the Vite dev server on port 3000.
+- **Non-Production Environment:** Codespace previews run purely in client-side mock mode without connecting to a live backend or database.
+- **Lifecycle & URLs:** When a Codespace stops due to inactivity, the forwarded preview URL stops serving. Creating a new Codespace generates a new URL.
+- **For Live API Testing:** To test against a real backend, clone locally alongside the `doion` server with `VITE_USE_MOCK=false`.
+
 ---
 
 ## 5. Architectural Boundaries

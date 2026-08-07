@@ -66,7 +66,7 @@ To test the frontend against a running backend (`doion` Django server):
 
 ### Mock/Simulator vs. Live Testing
 
-> **Important:** The in-app Mock/Simulator mode (`VITE_USE_MOCK=true`) is designed strictly for UI demonstrations and isolated frontend development in Google AI Studio. It is **not** a substitute for integration testing against the live backend API contract.
+> **Important:** The in-app Mock/Simulator mode (`VITE_USE_MOCK=true`) and GitHub Codespaces mock preview are designed strictly for UI demonstrations, visual inspection, and isolated frontend development. They are **not** a substitute for automated unit tests (`bun run test`) or integration testing against the live backend API contract and Playwright test suites in `doion`.
 
 ---
 
