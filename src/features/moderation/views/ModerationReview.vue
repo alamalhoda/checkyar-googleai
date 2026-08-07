@@ -184,31 +184,35 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { NCard, NSwitch, NFormItem, NSelect, NInput, NButton, NSpin, NTag } from 'naive-ui';
+import { NCard, NSwitch, NFormItem, NSelect, NInput, NButton, NSpin, NTag, useMessage } from 'naive-ui';
 import { useModerationStore } from '../stores/moderationStore';
 import { useUiStore } from '../../../stores/useUiStore';
+import { REJECTION_CODE_LABELS, type RejectionCode } from '../../../types/api';
 
 const route = useRoute();
 const router = useRouter();
 const store = useModerationStore();
 const uiStore = useUiStore();
+const message = useMessage();
 
 const itemId = computed(() => Number(route.params.id) || 1);
-const reasonCode = ref<string | null>(null);
+const reasonCode = ref<string | null>('MOD_101');
 const internalNote = ref('');
 
-const reasonOptions = [
-  { label: 'تصویر چک ناواضح یا ناقص است', value: 'UNCLEAR_IMAGE' },
-  { label: 'مبلغ اسمی با تصویر چک مطابقت ندارد', value: 'AMOUNT_MISMATCH' },
-  { label: 'شماره صیادی نامعتبر در استعلام اولیه', value: 'INVALID_SAYAD' },
-  { label: 'محدودیت یا خطای گزارش اعتباری', value: 'CREDIT_RISK' }
-];
+const reasonOptions = Object.entries(REJECTION_CODE_LABELS).map(([code, label]) => ({
+  label: `${code} - ${label}`,
+  value: code as RejectionCode
+}));
 
 onMounted(() => {
   store.fetchReviewDetails(itemId.value);
 });
 
 async function handleDecision(decision: 'approve' | 'reject') {
+  if (decision === 'reject' && !reasonCode.value) {
+    message.warning('لطفاً کد علت رد آگهی را انتخاب کنید.');
+    return;
+  }
   const ok = await store.submitDecision(itemId.value, decision, reasonCode.value || undefined, internalNote.value);
   if (ok) {
     router.push('/moderation');
