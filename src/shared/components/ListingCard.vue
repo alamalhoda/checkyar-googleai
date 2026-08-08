@@ -11,11 +11,14 @@ import {
 } from '@vicons/ionicons5';
 import type { MarketplaceListing, ChequeListing, ListingStatus } from '../../types/api';
 import { LISTING_STATUS_LABELS } from '../../types/api';
+import { useFeatureFlags } from '../composables/useFeatureFlags';
 
 const props = defineProps<{
   listing: MarketplaceListing | ChequeListing;
   showActions?: boolean;
 }>();
+
+const { showRiskTier } = useFeatureFlags();
 
 const emit = defineEmits<{
   (e: 'viewDetail', id: number): void;
@@ -84,7 +87,7 @@ const maskedIssuerId = computed(() => {
       </div>
 
       <div class="flex flex-col items-end gap-1">
-        <NTag :type="riskTagType" size="small" round>
+        <NTag v-if="showRiskTier" :type="riskTagType" size="small" round>
           {{ riskText }}
         </NTag>
         <span class="text-[10px] text-slate-400">

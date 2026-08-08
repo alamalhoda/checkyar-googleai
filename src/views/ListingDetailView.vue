@@ -13,9 +13,11 @@ import {
 import { listingsApi } from '../api';
 import type { ChequeListing } from '../types/api';
 import { LISTING_STATUS_LABELS } from '../types/api';
+import { useFeatureFlags } from '../shared/composables/useFeatureFlags';
 
 const route = useRoute();
 const router = useRouter();
+const { showRiskTier } = useFeatureFlags();
 
 const listing = ref<ChequeListing | null>(null);
 const loading = ref(false);
@@ -86,7 +88,7 @@ const formattedAmount = computed(() => {
             </div>
 
             <div class="flex items-center gap-2">
-              <NTag :type="listing.risk_tier === 'low' ? 'success' : listing.risk_tier === 'medium' ? 'warning' : 'error'" round>
+              <NTag v-if="showRiskTier" :type="listing.risk_tier === 'low' ? 'success' : listing.risk_tier === 'medium' ? 'warning' : 'error'" round>
                 اعتبارسنجی: {{ listing.risk_tier === 'low' ? 'ریسک پایین' : listing.risk_tier === 'medium' ? 'ریسک متوسط' : 'ریسک بالا' }}
               </NTag>
               <NTag type="info" round>

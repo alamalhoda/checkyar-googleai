@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { moderationApi, listingsApi, isMock, type ModerationQueueItem, type Verification } from '../../../api';
+import { moderationApi, listingsApi, isMock, type ModerationQueueItem, type Verification, type ModerationDecisionRequest } from '../../../api';
 import { createDiscreteApi, darkTheme } from 'naive-ui';
 
 const { message } = createDiscreteApi(['message'], {
@@ -130,14 +130,16 @@ export const useModerationStore = defineStore('moderation', () => {
     }
   }
 
-  async function submitDecision(id: number, decision: 'approve' | 'reject', reasonCode?: any, note?: string) {
+  async function submitDecision(id: number, decision: 'approve' | 'reject', reasonCode?: any, note?: string, riskTier?: 'low' | 'medium' | 'high' | null) {
     loading.value = true;
     try {
-      await moderationApi.submitDecision(id, {
+      const payload: ModerationDecisionRequest = {
         decision,
-        rejection_code: reasonCode || undefined,
-        rejection_note: note
-      });
+        rejection_code: decision === 'reject' ? (reasonCode || undefined) : undefined,
+        rejection_note: note,
+        ...(decision === 'approve' && riskTier ? { risk_tier: riskTier } : {})
+      };
+      await moderationApi.submitDecision(id, payload);
       message.success(decision === 'approve' ? 'آگهی با موفقیت تأیید شد.' : 'آگهی رد شد.');
       return true;
     } catch (err: any) {

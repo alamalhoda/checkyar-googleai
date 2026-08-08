@@ -5,8 +5,10 @@ import { NCard, NTag, NButton, NSpin, NEmpty } from 'naive-ui';
 import { BusinessOutline, CalendarOutline, FlashOutline, ArrowBackOutline } from '@vicons/ionicons5';
 import { marketplaceApi } from '../../api';
 import type { MarketplaceListing } from '../../types/api';
+import { useFeatureFlags } from '../../shared/composables/useFeatureFlags';
 
 const router = useRouter();
+const { showRiskTier } = useFeatureFlags();
 const latestListings = ref<MarketplaceListing[]>([]);
 const loading = ref(true);
 
@@ -67,7 +69,7 @@ const goToDetail = (id: number) => {
               <BusinessOutline class="w-3.5 h-3.5 text-indigo-400" />
               {{ item.bank_name }}
             </span>
-            <NTag size="small" :type="item.risk_tier === 'low' ? 'success' : item.risk_tier === 'medium' ? 'warning' : 'error'" round class="text-[10px]">
+            <NTag v-if="showRiskTier" size="small" :type="item.risk_tier === 'low' ? 'success' : item.risk_tier === 'medium' ? 'warning' : 'error'" round class="text-[10px]">
               {{ item.risk_tier === 'low' ? 'کم‌ریسک' : item.risk_tier === 'medium' ? 'متوسط' : 'پرریسک' }}
             </NTag>
           </div>

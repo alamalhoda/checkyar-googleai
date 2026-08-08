@@ -15,8 +15,10 @@ import { FilterOutline, RefreshOutline } from '@vicons/ionicons5';
 import ListingCard from '../shared/components/ListingCard.vue';
 import { marketplaceApi } from '../api';
 import type { MarketplaceListing, ListingFilters } from '../types/api';
+import { useFeatureFlags } from '../shared/composables/useFeatureFlags';
 
 const router = useRouter();
+const { showRiskTier } = useFeatureFlags();
 
 const listings = ref<MarketplaceListing[]>([]);
 const totalCount = ref(0);
@@ -121,7 +123,7 @@ const goToExpressInterest = (id: number) => {
           <NSelect v-model:value="filters.bank_name" :options="bankOptions" placeholder="انتخاب بانک" clearable />
         </div>
 
-        <div>
+        <div v-if="showRiskTier">
           <label class="block text-slate-400 mb-1">سطح اعتبارسنجی:</label>
           <NSelect v-model:value="filters.risk_tier" :options="riskOptions" placeholder="ریسک" clearable />
         </div>
@@ -159,10 +161,10 @@ const goToExpressInterest = (id: number) => {
     </NSpin>
 
     <!-- Pagination -->
-    <div v-if="totalCount > filters.page_size!" class="flex justify-center pt-4" data-testid="marketplace-pagination">
+    <div v-if="filters?.page_size && totalCount > filters.page_size" class="flex justify-center pt-4" data-testid="marketplace-pagination">
       <NPagination
         v-model:page="filters.page"
-        :page-size="filters.page_size"
+        :page-size="filters.page_size || 6"
         :item-count="totalCount"
       />
     </div>

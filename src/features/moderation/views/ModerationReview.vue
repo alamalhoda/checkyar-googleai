@@ -50,6 +50,10 @@
 
             <!-- Decision Form -->
             <div class="space-y-3 pt-2">
+              <NFormItem label="تعیین سطح ریسک (در صورت تأیید)">
+                <NSelect v-model:value="riskTier" :options="riskTierOptions" placeholder="انتخاب سطح ریسک" />
+              </NFormItem>
+
               <NFormItem label="علت رد / یادداشت ناظر">
                 <NSelect v-model:value="reasonCode" :options="reasonOptions" placeholder="انتخاب دلیل استاندارد" class="mb-2" />
                 <NInput v-model:value="internalNote" type="textarea" placeholder="توضیحات تکمیلی ناظر..." rows="2" />
@@ -152,6 +156,10 @@
         <div class="lg:col-span-4 space-y-4">
           <NCard title="۳. پانل صدور رای و ثبت نظرات" class="bg-slate-900/50 border-slate-800 h-full">
             <div class="space-y-4">
+              <NFormItem label="تعیین سطح ریسک (در صورت تأیید)">
+                <NSelect v-model:value="riskTier" :options="riskTierOptions" placeholder="انتخاب سطح ریسک" />
+              </NFormItem>
+
               <NFormItem label="کد علت رد آگهی (در صورت رد)">
                 <NSelect v-model:value="reasonCode" :options="reasonOptions" placeholder="انتخاب کد استاندار" />
               </NFormItem>
@@ -182,7 +190,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { NCard, NSwitch, NFormItem, NSelect, NInput, NButton, NSpin, NTag, useMessage } from 'naive-ui';
 import { useModerationStore } from '../stores/moderationStore';
@@ -198,11 +206,24 @@ const message = useMessage();
 const itemId = computed(() => Number(route.params.id) || 1);
 const reasonCode = ref<string | null>('MOD_101');
 const internalNote = ref('');
+const riskTier = ref<'low' | 'medium' | 'high'>('low');
+
+const riskTierOptions = [
+  { label: 'کم‌ریسک (low)', value: 'low' },
+  { label: 'ریسک متوسط (medium)', value: 'medium' },
+  { label: 'پرریسک (high)', value: 'high' }
+];
 
 const reasonOptions = Object.entries(REJECTION_CODE_LABELS).map(([code, label]) => ({
   label: `${code} - ${label}`,
   value: code as RejectionCode
 }));
+
+watch(() => store.currentReviewItem, (item) => {
+  if (item?.riskLevel) {
+    riskTier.value = item.riskLevel;
+  }
+}, { immediate: true });
 
 onMounted(() => {
   store.fetchReviewDetails(itemId.value);
@@ -213,7 +234,13 @@ async function handleDecision(decision: 'approve' | 'reject') {
     message.warning('لطفاً کد علت رد آگهی را انتخاب کنید.');
     return;
   }
-  const ok = await store.submitDecision(itemId.value, decision, reasonCode.value || undefined, internalNote.value);
+  const ok = await store.submitDecision(
+    itemId.value,
+    decision,
+    reasonCode.value || undefined,
+    internalNote.value,
+    decision === 'approve' ? riskTier.value : undefined
+  );
   if (ok) {
     router.push('/moderation');
   }

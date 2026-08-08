@@ -28,6 +28,13 @@ const showDetailModal = ref(false);
 // Approve Confirm Modal
 const showApproveConfirm = ref(false);
 const itemToApprove = ref<ModerationQueueItem | null>(null);
+const approveRiskTier = ref<'low' | 'medium' | 'high'>('low');
+
+const riskTierOptions = [
+  { label: 'کم‌ریسک (low)', value: 'low' },
+  { label: 'ریسک متوسط (medium)', value: 'medium' },
+  { label: 'پرریسک (high)', value: 'high' }
+];
 
 // Reject Modal
 const showRejectModal = ref(false);
@@ -69,6 +76,7 @@ const openDetail = (item: ModerationQueueItem) => {
 
 const openApprove = (item: ModerationQueueItem) => {
   itemToApprove.value = item;
+  approveRiskTier.value = item.risk_tier || 'low';
   showApproveConfirm.value = true;
 };
 
@@ -76,7 +84,10 @@ const confirmApprove = async () => {
   if (!itemToApprove.value) return;
   submitting.value = true;
   try {
-    await moderationApi.submitDecision(itemToApprove.value.id, { decision: 'approve' });
+    await moderationApi.submitDecision(itemToApprove.value.id, {
+      decision: 'approve',
+      risk_tier: approveRiskTier.value
+    });
     message.success(`آگهی #${itemToApprove.value.id} با موفقیت تایید و منتشر گردید.`);
     showApproveConfirm.value = false;
     await loadQueue();
@@ -280,16 +291,33 @@ const columns: DataTableColumns<ModerationQueueItem> = [
       </template>
     </NModal>
 
-    <!-- Approve Confirm Dialog -->
-    <ConfirmDialog
-      :show="showApproveConfirm"
-      title="تأیید و انتشار آگهی چک"
-      :message="`آیا از صحت مدارک و انتشار آگهی چک #${itemToApprove?.id} (${itemToApprove?.bank_name}) در بازار عمومی اطمینان دارید؟`"
-      confirm-text="تأیید و انتشار"
-      :loading="submitting"
-      @confirm="confirmApprove"
-      @cancel="showApproveConfirm = false"
-    />
+    <!-- Approve Modal -->
+    <NModal
+      v-model:show="showApproveConfirm"
+      preset="card"
+      title="تأیید و تعیین سطح ریسک آگهی"
+      class="max-w-md bg-slate-900 border border-slate-800 text-slate-100"
+    >
+      <div class="space-y-4 text-xs">
+        <p class="text-slate-300">
+          آیا از صحت مدارک و انتشار آگهی چک #{{ itemToApprove?.id }} ({{ itemToApprove?.bank_name }}) در بازار عمومی اطمینان دارید؟
+        </p>
+
+        <div>
+          <label class="block text-slate-400 mb-1">تعیین سطح ریسک جهت انتشار:</label>
+          <NSelect v-model:value="approveRiskTier" :options="riskTierOptions" />
+        </div>
+      </div>
+
+      <template #footer>
+        <div class="flex justify-end gap-2">
+          <NButton secondary @click="showApproveConfirm = false">انصراف</NButton>
+          <NButton type="primary" :loading="submitting" class="bg-emerald-600 hover:bg-emerald-500 font-bold" @click="confirmApprove">
+            تأیید و انتشار
+          </NButton>
+        </div>
+      </template>
+    </NModal>
 
     <!-- Reject Modal -->
     <NModal

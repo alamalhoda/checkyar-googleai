@@ -50,7 +50,7 @@ export interface CreateMatchRequest { listing_id: number; message?: string; sett
 export interface UpdateMatchStatusRequest { status: MatchStatus; final_discount_rate?: string | null; terms?: string; }
 
 export interface ModerationQueueItem { id: number; owner_id: number; issuer_profile: IssuerProfile; bank_name: string; cheque_serial_number: string; face_amount: string; due_date: string; issuer_type: IssuerType; issuer_name: string; issuer_national_id: string; description: string; suggested_discount_rate: string | null; risk_tier: 'low' | 'medium' | 'high' | null; status: ListingStatus; rejection_reason: string; rejection_code: string | null; resubmit_count: number; created_at: string; updated_at: string; }
-export interface ModerationDecisionRequest { decision: 'approve' | 'reject'; rejection_code?: RejectionCode; rejection_note?: string; }
+export interface ModerationDecisionRequest { decision: 'approve' | 'reject'; rejection_code?: RejectionCode; rejection_note?: string; risk_tier?: 'low' | 'medium' | 'high' | null; }
 export interface ModerationDecisionResponse { id: number; listing: number; moderator: number | null; decision: ModerationDecision; rejection_code: RejectionCode | null; rejection_code_display: string | null; rejection_note: string; created_at: string; }
 
 export interface Notification { id: number; type: NotificationType; channel: NotificationChannel; status: NotificationStatus; title: string; message: string; related_object_type?: string; related_object_id?: string; read_at: string | null; sent_at: string | null; created_at: string; }

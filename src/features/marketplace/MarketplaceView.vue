@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, h } from 'vue';
+import { ref, computed, onMounted, watch, h } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   NCard, NInput, NSelect, NInputNumber, NButton, NPagination, NSpin, NEmpty,
@@ -13,8 +13,10 @@ import ListingCard from '../../shared/components/ListingCard.vue';
 import LatestListingsWidget from './LatestListingsWidget.vue';
 import { marketplaceApi } from '../../api';
 import type { MarketplaceListing, ListingFilters } from '../../types/api';
+import { useFeatureFlags } from '../../shared/composables/useFeatureFlags';
 
 const router = useRouter();
+const { showRiskTier } = useFeatureFlags();
 
 const listings = ref<MarketplaceListing[]>([]);
 const totalCount = ref(0);
@@ -69,69 +71,75 @@ const maskIdentity = (idStr?: string | null) => {
   return idStr.substring(0, 3) + '****' + idStr.substring(idStr.length - 2);
 };
 
-const columns: DataTableColumns<MarketplaceListing> = [
-  {
-    title: 'بانک و شناسه',
-    key: 'bank_name',
-    render(row) {
-      return h('div', { class: 'space-y-0.5' }, [
-        h('div', { class: 'font-bold text-slate-100 flex items-center gap-1' }, row.bank_name),
-        h('div', { class: 'text-[11px] text-slate-400 font-mono' }, `صیاد: ${row.cheque_serial_number}`)
-      ]);
+const columns = computed<DataTableColumns<MarketplaceListing>>(() => {
+  const cols: DataTableColumns<MarketplaceListing> = [
+    {
+      title: 'بانک و شناسه',
+      key: 'bank_name',
+      render(row) {
+        return h('div', { class: 'space-y-0.5' }, [
+          h('div', { class: 'font-bold text-slate-100 flex items-center gap-1' }, row.bank_name),
+          h('div', { class: 'text-[11px] text-slate-400 font-mono' }, `صیاد: ${row.cheque_serial_number}`)
+        ]);
+      }
+    },
+    {
+      title: 'مبلغ اسمی (تومان)',
+      key: 'face_amount',
+      sorter: true,
+      render(row) {
+        return h('span', { class: 'font-black text-emerald-400' }, `${formatTomans(row.face_amount)} تومان`);
+      }
+    },
+    {
+      title: 'تاریخ سررسید',
+      key: 'due_date',
+      sorter: true,
+      render(row) {
+        return h('span', { class: 'text-slate-300' }, row.due_date);
+      }
+    },
+    {
+      title: 'روز تا سررسید',
+      key: 'days_to_due',
+      sorter: true,
+      render(row) {
+        return h('span', { class: 'font-mono text-amber-400' }, `${row.days_to_due} روز`);
+      }
+    },
+    {
+      title: 'نرخ تنزیل',
+      key: 'suggested_discount_rate',
+      sorter: true,
+      render(row) {
+        return h('span', { class: 'text-indigo-400 font-bold' }, `${row.suggested_discount_rate || '2.5'}٪/ماه`);
+      }
+    },
+    {
+      title: 'صادرکننده',
+      key: 'issuer_name',
+      render(row) {
+        return h('div', { class: 'text-xs' }, [
+          h('div', { class: 'font-medium text-slate-200' }, row.issuer_name),
+          h('div', { class: 'text-[10px] text-slate-400' }, `${row.issuer_type === 'legal' ? 'حقوقی' : 'حقیقی'} (${maskIdentity(row.issuer_national_id)})`)
+        ]);
+      }
     }
-  },
-  {
-    title: 'مبلغ اسمی (تومان)',
-    key: 'face_amount',
-    sorter: true,
-    render(row) {
-      return h('span', { class: 'font-black text-emerald-400' }, `${formatTomans(row.face_amount)} تومان`);
-    }
-  },
-  {
-    title: 'تاریخ سررسید',
-    key: 'due_date',
-    sorter: true,
-    render(row) {
-      return h('span', { class: 'text-slate-300' }, row.due_date);
-    }
-  },
-  {
-    title: 'روز تا سررسید',
-    key: 'days_to_due',
-    sorter: true,
-    render(row) {
-      return h('span', { class: 'font-mono text-amber-400' }, `${row.days_to_due} روز`);
-    }
-  },
-  {
-    title: 'نرخ تنزیل',
-    key: 'suggested_discount_rate',
-    sorter: true,
-    render(row) {
-      return h('span', { class: 'text-indigo-400 font-bold' }, `${row.suggested_discount_rate || '2.5'}٪/ماه`);
-    }
-  },
-  {
-    title: 'صادرکننده',
-    key: 'issuer_name',
-    render(row) {
-      return h('div', { class: 'text-xs' }, [
-        h('div', { class: 'font-medium text-slate-200' }, row.issuer_name),
-        h('div', { class: 'text-[10px] text-slate-400' }, `${row.issuer_type === 'legal' ? 'حقوقی' : 'حقیقی'} (${maskIdentity(row.issuer_national_id)})`)
-      ]);
-    }
-  },
-  {
-    title: 'سطح ریسک',
-    key: 'risk_tier',
-    render(row) {
-      const type = row.risk_tier === 'low' ? 'success' : row.risk_tier === 'medium' ? 'warning' : 'error';
-      const label = row.risk_tier === 'low' ? 'کم‌ریسک' : row.risk_tier === 'medium' ? 'متوسط' : 'پرریسک';
-      return h(NTag, { type, size: 'small', round: true }, () => label);
-    }
-  },
-  {
+  ];
+
+  if (showRiskTier.value) {
+    cols.push({
+      title: 'سطح ریسک',
+      key: 'risk_tier',
+      render(row) {
+        const type = row.risk_tier === 'low' ? 'success' : row.risk_tier === 'medium' ? 'warning' : 'error';
+        const label = row.risk_tier === 'low' ? 'کم‌ریسک' : row.risk_tier === 'medium' ? 'متوسط' : 'پرریسک';
+        return h(NTag, { type, size: 'small', round: true }, () => label);
+      }
+    });
+  }
+
+  cols.push({
     title: 'عملیات',
     key: 'actions',
     render(row) {
@@ -148,8 +156,10 @@ const columns: DataTableColumns<MarketplaceListing> = [
         }, () => 'پیشنهاد خرید')
       ]);
     }
-  }
-];
+  });
+
+  return cols;
+});
 
 const loadListings = async () => {
   loading.value = true;
@@ -239,7 +249,7 @@ const goToExpressInterest = (id: number) => {
                 <NSelect v-model:value="filters.bank_name" :options="bankOptions" placeholder="همه بانک‌ها" clearable />
               </div>
 
-              <div>
+              <div v-if="showRiskTier">
                 <label class="block text-slate-400 mb-1">سطح اعتبارسنجی:</label>
                 <NSelect v-model:value="filters.risk_tier" :options="riskOptions" placeholder="همه سطوح" clearable />
               </div>
@@ -330,10 +340,10 @@ const goToExpressInterest = (id: number) => {
             </NSpin>
 
             <!-- Pagination -->
-            <div v-if="totalCount > filters.page_size!" class="flex justify-center pt-4" data-testid="marketplace-pagination">
+            <div v-if="filters?.page_size && totalCount > filters.page_size" class="flex justify-center pt-4" data-testid="marketplace-pagination">
               <NPagination
                 v-model:page="filters.page"
-                :page-size="filters.page_size"
+                :page-size="filters.page_size || 20"
                 :item-count="totalCount"
               />
             </div>

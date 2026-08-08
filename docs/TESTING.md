@@ -24,6 +24,8 @@ Current unit test suites in `src/` include:
 - `src/utils/persianUtils.test.ts`: Persian digit parsing, national ID validation, currency/number formatting, and date utilities.
 - `src/stores/auth.permissions.test.ts`: Role and permission checks within the authentication store.
 - `src/features/listings/composables/useSmartPricing.test.ts`: Discount rate and smart pricing calculation logic.
+- `src/shared/composables/useFeatureFlags.test.ts`: Feature flag loading and `show_risk_tier` flag evaluation.
+- `src/features/moderation/moderationRiskTier.test.ts`: Moderation approval logic with `risk_tier` assignment.
 - `src/api/client.test.ts`: Mock environment gating checks.
 - `src/api/liveFixes.test.ts`: Live API handling checks for verification state & document uploads.
 - `src/utils/offlineAssets.test.ts`: Offline asset guard asserting index.html has no Google Fonts CDN links and src/ has no external placeholder image URLs.

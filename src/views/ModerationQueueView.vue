@@ -19,9 +19,21 @@ const loading = ref(false);
 const submitting = ref(false);
 
 const selectedItem = ref<ModerationQueueItem | null>(null);
+
+// Reject Modal State
 const showRejectModal = ref(false);
 const rejectionCode = ref<RejectionCode>('MOD_101');
 const rejectionNote = ref('');
+
+// Approve Modal State
+const showApproveModal = ref(false);
+const selectedApproveRiskTier = ref<'low' | 'medium' | 'high'>('low');
+
+const riskTierOptions = [
+  { label: 'کم‌ریسک (low)', value: 'low' },
+  { label: 'ریسک متوسط (medium)', value: 'medium' },
+  { label: 'پرریسک (high)', value: 'high' }
+];
 
 const rejectionOptions = Object.entries(REJECTION_CODE_LABELS).map(([code, label]) => ({
   label: `${code} - ${label}`,
@@ -43,12 +55,23 @@ const loadQueue = async () => {
 
 onMounted(loadQueue);
 
-const handleApprove = async (item: ModerationQueueItem) => {
+const openApproveModal = (item: ModerationQueueItem) => {
+  selectedItem.value = item;
+  selectedApproveRiskTier.value = item.risk_tier || 'low';
+  showApproveModal.value = true;
+};
+
+const submitApprove = async () => {
+  if (!selectedItem.value) return;
   submitting.value = true;
   try {
-    await moderationApi.submitDecision(item.id, { decision: 'approve' });
+    await moderationApi.submitDecision(selectedItem.value.id, {
+      decision: 'approve',
+      risk_tier: selectedApproveRiskTier.value
+    });
     const list = Array.isArray(queueItems.value) ? queueItems.value : [];
-    queueItems.value = list.filter(q => q.id !== item.id);
+    queueItems.value = list.filter(q => q.id !== selectedItem.value?.id);
+    showApproveModal.value = false;
   } catch (err) {
     console.error('Failed to approve listing', err);
   } finally {
@@ -103,6 +126,7 @@ const submitReject = async () => {
               <div class="text-xs text-slate-300 space-y-1">
                 <div>مبلغ: <strong class="text-emerald-400">{{ Math.floor(Number(item.face_amount) / 10).toLocaleString('fa-IR') }} تومان</strong></div>
                 <div>صادرکننده: <strong>{{ item.issuer_name }}</strong> (شناسه ملی: {{ item.issuer_national_id }})</div>
+                <div>سطح ریسک کنونی: <strong>{{ item.risk_tier || 'نامشخص' }}</strong></div>
                 <div>توضیحات: {{ item.description || 'بدون توضیح' }}</div>
               </div>
             </div>
@@ -112,7 +136,7 @@ const submitReject = async () => {
                 رد آگهی
               </NButton>
 
-              <NButton type="primary" size="small" :loading="submitting" @click="handleApprove(item)">
+              <NButton type="primary" size="small" :loading="submitting" @click="openApproveModal(item)">
                 تایید و انتشار آگهی
               </NButton>
             </div>
@@ -122,6 +146,32 @@ const submitReject = async () => {
 
       <NEmpty v-else description="صف بررسی آگهی‌ها در حال حاضر خالی است." class="py-16" />
     </NSpin>
+
+    <!-- Approve Modal with Risk Tier selection -->
+    <NModal
+      v-model:show="showApproveModal"
+      preset="card"
+      title="تأیید و تعیین سطح ریسک آگهی"
+      class="max-w-md w-full bg-slate-900 border border-slate-800 text-slate-100"
+    >
+      <div class="space-y-4 text-xs">
+        <p class="text-slate-300">
+          لطفاً سطح ریسک نهایی آگهی را جهت انتشار انتخاب کنید:
+        </p>
+
+        <div>
+          <label class="block text-slate-400 mb-1">سطح ریسک (Risk Tier):</label>
+          <NSelect v-model:value="selectedApproveRiskTier" :options="riskTierOptions" />
+        </div>
+      </div>
+
+      <template #footer>
+        <div class="flex justify-end gap-2">
+          <NButton quaternary @click="showApproveModal = false">انصراف</NButton>
+          <NButton type="primary" :loading="submitting" @click="submitApprove">تأیید و انتشار</NButton>
+        </div>
+      </template>
+    </NModal>
 
     <!-- Reject Modal -->
     <NModal

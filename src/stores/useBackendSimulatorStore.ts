@@ -482,7 +482,8 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     { key: 'ENABLE_ESCROW_SETTLEMENT', description: 'فعال‌سازی تسویه امن امانی چک‌ورزی در پلتفرم', is_enabled: true, is_system: true },
     { key: 'ENABLE_SMS_NOTIFICATIONS', description: 'ارسال پیامک اطلاع‌رسانی تطابق و تغییر وضعیت', is_enabled: fontSmsEnabled(), is_system: false },
     { key: 'ENABLE_SAYAD_DIRECT_INQUIRY', description: 'استعلام مستقیم صیادی از بانک مرکزی', is_enabled: true, is_system: true },
-    { key: 'ENABLE_STRICT_RATE_LIMITING', description: 'محدودیت تعداد ابراز تمایل همزمان', is_enabled: false, is_system: false }
+    { key: 'ENABLE_STRICT_RATE_LIMITING', description: 'محدودیت تعداد ابراز تمایل همزمان', is_enabled: false, is_system: false },
+    { key: 'show_risk_tier', description: 'نمایش سطح ریسک آگهی در مارکتپلیس و کارتها (ناظر همیشه میبیند)', is_enabled: false, is_system: false }
   ];
 
   function fontSmsEnabled() { return true; }
@@ -522,6 +523,13 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
         featureFlags.value = parsed.featureFlags || seedFeatureFlags;
         auditEvents.value = parsed.auditEvents || seedAuditEvents;
         if (parsed.notificationPrefs) notificationPrefs.value = parsed.notificationPrefs;
+
+        // Merge any missing seed flag keys (so existing users get new flags)
+        seedFeatureFlags.forEach(sf => {
+          if (!featureFlags.value.some(ff => ff.key === sf.key)) {
+            featureFlags.value.push({ ...sf });
+          }
+        });
       } else {
         resetToSeed();
       }
@@ -873,6 +881,9 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       listing.status = 'published';
       listing.rejection_reason = '';
       listing.rejection_code = null;
+      if (req.risk_tier) {
+        listing.risk_tier = req.risk_tier;
+      }
     } else {
       listing.status = 'rejected';
       listing.rejection_reason = req.rejection_note || 'آگهی مطابق قوانین و ضوابط نمی‌باشد.';
@@ -1095,6 +1106,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     featureFlags,
     auditEvents,
     notificationPrefs,
+    init,
     resetToSeed,
     handleLogin,
     handleRegister,
