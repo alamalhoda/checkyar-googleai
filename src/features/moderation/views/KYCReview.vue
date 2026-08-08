@@ -38,11 +38,11 @@
           <div class="grid grid-cols-2 gap-3">
             <div class="p-3 bg-slate-800/40 rounded-xl border border-slate-700/60 text-center text-xs">
               <span class="text-slate-300 font-medium block mb-2">کارت ملی رو</span>
-              <img :src="getDocUrl('national_card') || 'https://placehold.co/400x250/1e293b/fff?text=ID+Front'" class="rounded-lg border border-slate-700 max-h-48 mx-auto object-cover" />
+              <img :src="getDocUrl('national_card') || '/images/placeholders/id_card.svg'" class="rounded-lg border border-slate-700 max-h-48 mx-auto object-cover" />
             </div>
             <div class="p-3 bg-slate-800/40 rounded-xl border border-slate-700/60 text-center text-xs">
               <span class="text-slate-300 font-medium block mb-2">تصویر سلفی + تعهدنامه</span>
-              <img :src="getDocUrl('selfie') || 'https://placehold.co/400x250/1e293b/fff?text=Selfie+Doc'" class="rounded-lg border border-slate-700 max-h-48 mx-auto object-cover" />
+              <img :src="getDocUrl('selfie') || '/images/placeholders/selfie.svg'" class="rounded-lg border border-slate-700 max-h-48 mx-auto object-cover" />
             </div>
           </div>
 
@@ -65,11 +65,11 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="space-y-2">
               <span class="text-xs font-semibold text-slate-300">۱. تصوير اصلی کارت ملی ({{ verification?.full_name }}):</span>
-              <img :src="getDocUrl('national_card') || 'https://placehold.co/600x400/1e293b/fff?text=ID+Card+Front'" class="rounded-xl border border-slate-700 w-full object-cover max-h-64" />
+              <img :src="getDocUrl('national_card') || '/images/placeholders/id_card.svg'" class="rounded-xl border border-slate-700 w-full object-cover max-h-64" />
             </div>
             <div class="space-y-2">
               <span class="text-xs font-semibold text-slate-300">۲. تصوير سلفی با دست‌نوشته تعهد:</span>
-              <img :src="getDocUrl('selfie') || 'https://placehold.co/600x400/1e293b/fff?text=Selfie+Note'" class="rounded-xl border border-slate-700 w-full object-cover max-h-64" />
+              <img :src="getDocUrl('selfie') || '/images/placeholders/selfie.svg'" class="rounded-xl border border-slate-700 w-full object-cover max-h-64" />
             </div>
           </div>
         </NCard>

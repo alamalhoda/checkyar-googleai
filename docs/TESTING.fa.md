@@ -26,6 +26,7 @@ bun run test:watch
 - `src/features/listings/composables/useSmartPricing.test.ts`: محاسبات نرخ تنزیل و قیمت‌گذاری هوشمند.
 - `src/api/client.test.ts`: بررسی گارد محیط شبیه‌ساز (Mock mode).
 - `src/api/liveFixes.test.ts`: بررسی عملکرد Live API برای وضعیت احراز هویت و آپلود مدارک.
+- `src/utils/offlineAssets.test.ts`: گارد تست عدم استفاده از CDNهای خارجی و لینک‌های فونت یا تصاویر غیرلوکال.
 
 ---
 

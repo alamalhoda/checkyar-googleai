@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" fill="none">
+  <rect width="600" height="400" rx="12" fill="#1e293b"/>
+  <rect x="80" y="80" width="440" height="240" rx="12" stroke="#6366f1" stroke-width="2" fill="#0f172a"/>
+  <circle cx="160" cy="180" r="40" fill="#334155"/>
+  <path d="M120 250C120 220 140 210 160 210C180 210 200 220 200 250" stroke="#64748b" stroke-width="3" fill="none"/>
+  <line x1="230" y1="140" x2="480" y2="140" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+  <line x1="230" y1="170" x2="440" y2="170" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+  <line x1="230" y1="200" x2="420" y2="200" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+  <line x1="230" y1="230" x2="380" y2="230" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+  <text x="300" y="295" font-family="sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">کارت ملی / ID Card</text>
+</svg>

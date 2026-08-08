@@ -68,10 +68,10 @@ export const useModerationStore = defineStore('moderation', () => {
           title: d.document_type === 'cheque_image' ? 'تصویر روی چک' :
                  d.document_type === 'cheque_back' ? 'تصویر پشت چک' :
                  d.document_type === 'contract' ? 'قرارداد پشتیبان' : 'مدرک پیوست',
-          url: d.file_url || d.file || 'https://placehold.co/600x400/1e293b/fff?text=Doc'
+          url: d.file_url || d.file || '/images/placeholders/doc.svg'
         }));
         if (docs.length === 0) {
-          docs.push({ title: 'تصویر روی چک صیادی', url: 'https://placehold.co/600x400/1e293b/fff?text=Cheque+Front' });
+          docs.push({ title: 'تصویر روی چک صیادی', url: '/images/placeholders/cheque_front.svg' });
         }
         currentReviewItem.value = {
           id: listing.id,
@@ -114,8 +114,8 @@ export const useModerationStore = defineStore('moderation', () => {
         userKycStatus: 'approved',
         waitingTime: '۴۵ دقیقه',
         documents: [
-          { title: 'تصویر روی چک صیادی', url: 'https://placehold.co/600x400/1e293b/fff?text=Cheque+Front' },
-          { title: 'تصویر کارت ملی صاحب حساب', url: 'https://placehold.co/600x400/1e293b/fff?text=ID+Card' }
+          { title: 'تصویر روی چک صیادی', url: '/images/placeholders/cheque_front.svg' },
+          { title: 'تصویر کارت ملی صاحب حساب', url: '/images/placeholders/id_card.svg' }
         ],
         historyEvents: [
           { title: 'ثبت‌نام کاربر در سامانه', date: '۱۴۰۲/۱۱/۱۰' },

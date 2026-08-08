@@ -800,12 +800,12 @@ function handleFileDrop(event: DragEvent, type: 'front' | 'back') {
 }
 
 function attachSampleFrontImage() {
-  form.formData.chequeFrontImage = 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80';
+  form.formData.chequeFrontImage = '/images/placeholders/cheque_front.svg';
   message.info('تصویر نمونه روی چک متصل گردید.');
 }
 
 function attachSampleBackImage() {
-  form.formData.chequeBackImage = 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
+  form.formData.chequeBackImage = '/images/placeholders/cheque_back.svg';
   message.info('تصویر نمونه ظهرنویسی متصل شد.');
 }
 

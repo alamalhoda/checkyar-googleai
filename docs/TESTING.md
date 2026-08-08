@@ -26,6 +26,7 @@ Current unit test suites in `src/` include:
 - `src/features/listings/composables/useSmartPricing.test.ts`: Discount rate and smart pricing calculation logic.
 - `src/api/client.test.ts`: Mock environment gating checks.
 - `src/api/liveFixes.test.ts`: Live API handling checks for verification state & document uploads.
+- `src/utils/offlineAssets.test.ts`: Offline asset guard asserting index.html has no Google Fonts CDN links and src/ has no external placeholder image URLs.
 
 ---
 

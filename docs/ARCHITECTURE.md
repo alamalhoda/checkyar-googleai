@@ -107,3 +107,14 @@ The application runtime behavior is governed by the `VITE_USE_MOCK` environment 
 - **Bun** is the designated package manager.
 - Always use `bun install` for installing dependencies.
 - `bun.lock` is tracked in Git. `package-lock.json` is explicitly ignored in `.gitignore` and must never be committed.
+
+---
+
+## 7. Offline / No CDN Runtime Assets
+
+To ensure full compatibility with Iranian hosting under national internet restrictions (intranet):
+- **Font Assets:** Vazirmatn font files (weights 300, 400, 500, 600, 700, 800) are vendored directly under `public/fonts/vazirmatn/` and tracked in Git. `@font-face` rules with `font-display: swap` are loaded locally via CSS. All external Google Fonts (`fonts.googleapis.com` / `fonts.gstatic.com`) links have been removed.
+- **Icon Assets:** Icons are provided by `@vicons/ionicons5` and `@vicons/utils` as Vue SVG components bundled directly by Vite into same-origin JavaScript chunks. No external icon webfont CDNs are used.
+- **Local Fallback Images:** Demo cheque previews and document placehold/fallback images are served locally from `public/images/placeholders/` (`/images/placeholders/*.svg`). External placeholder services (`placehold.co`, `via.placeholder.com`, `unsplash.com`) are strictly avoided at runtime.
+- **API Reference:** All backend APIs are served by the `doion` Django server (`http://localhost:8000/api/v1`).
+

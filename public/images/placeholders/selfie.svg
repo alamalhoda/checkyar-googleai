@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" fill="none">
+  <rect width="600" height="400" rx="12" fill="#1e293b"/>
+  <circle cx="300" cy="150" r="50" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <path d="M220 260C220 210 250 200 300 200C350 200 380 210 380 260" stroke="#6366f1" stroke-width="3" fill="none"/>
+  <rect x="360" y="210" width="120" height="80" rx="6" stroke="#f59e0b" stroke-width="2" fill="#0f172a"/>
+  <line x1="380" y1="235" x2="460" y2="235" stroke="#64748b" stroke-width="2"/>
+  <line x1="380" y1="255" x2="440" y2="255" stroke="#64748b" stroke-width="2"/>
+  <text x="300" y="325" font-family="sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">تصویر احراز هویت / Selfie Document</text>
+</svg>

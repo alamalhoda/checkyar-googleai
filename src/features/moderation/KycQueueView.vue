@@ -105,7 +105,7 @@ const handleConfirmReject = async () => {
 
 const openDocPreview = (docType: string, fileUrl: string) => {
   selectedDocTitle.value = getDocumentTypeLabel(docType);
-  selectedDocUrl.value = fileUrl || 'https://via.placeholder.com/600x400?text=Scan+Document';
+  selectedDocUrl.value = fileUrl || '/images/placeholders/scan_doc.svg';
   showDocPreviewModal.value = true;
 };
 
@@ -244,7 +244,7 @@ const getDocumentTypeLabel = (type: string) => {
           :src="selectedDocUrl"
           alt="اسکن مدرک"
           class="max-h-[70vh] object-contain rounded-lg shadow-lg"
-          @error="(e: any) => { e.target.src = 'https://via.placeholder.com/600x400?text=%D8%AA%D8%B5%D romantic%D8%B1+%D9%85%D8%AF%D8%B1%DA%A9'; }"
+          @error="(e: any) => { e.target.src = '/images/placeholders/scan_doc.svg'; }"
         />
       </div>
       <template #footer>

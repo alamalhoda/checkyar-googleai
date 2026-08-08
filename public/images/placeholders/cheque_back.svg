@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" fill="none">
+  <rect width="600" height="400" rx="12" fill="#1e293b"/>
+  <rect x="50" y="80" width="500" height="240" rx="8" stroke="#f59e0b" stroke-width="2" fill="#0f172a"/>
+  <rect x="80" y="110" width="440" height="80" rx="6" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4" fill="#1e293b"/>
+  <text x="300" y="155" font-family="sans-serif" font-size="13" fill="#64748b" text-anchor="middle">محل ظهرنویسی و انتقال چک</text>
+  <rect x="80" y="210" width="200" height="70" rx="6" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4" fill="#1e293b"/>
+  <text x="180" y="250" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">امضای صادرکننده / ضامن</text>
+  <text x="300" y="305" font-family="sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">تصویر پشت چک صیادی</text>
+</svg>

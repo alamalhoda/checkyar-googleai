@@ -61,6 +61,7 @@ VITE_API_BASE_URL=http://localhost:8000/api/v1
   - [docs/TESTING.fa.md](docs/TESTING.fa.md) (فارسی)
 - **یکپارچه‌سازی مداوم (CI):**
   - [.github/workflows/ci.yml](.github/workflows/ci.yml) (اجرای اتوماتیک typecheck، unit tests و build با هر push/PR روی `main`)
+- **عدم وابستگی به CDN خارجی (Offline/National Network):** تمامی فونت‌ها (وزیرمتن) و تصاویر دمو/جایگزین به صورت ذخیره لوکال (`public/fonts/` و `public/images/placeholders/`) پیاده‌سازی شده و بدون نیاز به اینترنت بین‌الملل اجرا می‌شوند.
 
 ---
 
