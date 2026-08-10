@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { NCard, NForm, NFormItem, NInput, NButton, NAlert, NTag, NDivider, useMessage } from 'naive-ui';
+import { NCard, NForm, NFormItem, NInput, NButton, NAlert, NTag, NDivider, NRadioGroup, NRadioButton, useMessage } from 'naive-ui';
 import { useAuthStore } from '../../stores/auth';
 import { getMockMode } from '../../api';
+import type { UserType } from '../../types/api';
 
 const router = useRouter();
 const authStore = useAuthStore();
 const toast = useMessage();
 
 const isMockActive = ref(getMockMode());
+const userType = ref<UserType>('natural');
 const username = ref('');
 const email = ref('');
 const name = ref('');
@@ -31,8 +33,8 @@ const handleRegister = async () => {
   errorMsg.value = '';
   errorDetails.value = null;
 
-  if (!name.value.trim()) {
-    errorMsg.value = 'لطفاً نام و نام خانوادگی خود را وارد کنید.';
+  if (userType.value === 'legal' && !name.value.trim()) {
+    errorMsg.value = 'لطفاً نام رسمی شرکت را وارد کنید.';
     return;
   }
 
@@ -56,14 +58,15 @@ const handleRegister = async () => {
     await authStore.register({
       username: username.value,
       email: email.value || `${username.value}@chequeyar.ir`,
-      name: name.value,
+      user_type: userType.value,
+      name: name.value || username.value,
       phone: phone.value || '09120000000',
       password: password.value,
       password_confirm: passwordConfirm.value,
       role: role.value
     });
 
-    toast.success(`حساب کاربری جدید برای «${name.value}» با موفقیت ایجاد گردید.`);
+    toast.success(`حساب کاربری جدید برای «${name.value || username.value}» با موفقیت ایجاد گردید.`);
     router.push('/marketplace');
   } catch (err: any) {
     const apiError = err?.response?.data?.error || err?.error;
@@ -114,6 +117,24 @@ const handleRegister = async () => {
       <!-- Registration Form -->
       <NForm @submit.prevent="handleRegister" class="space-y-4">
         
+        <!-- User Type Selection -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-slate-300 block">نوع شخص (متقاضی):</label>
+          <NRadioGroup
+            v-model:value="userType"
+            name="user_type"
+            data-testid="register-user-type"
+            class="w-full grid grid-cols-2 gap-2"
+          >
+            <NRadioButton value="natural" class="text-center text-xs">
+              👤 شخص حقیقی
+            </NRadioButton>
+            <NRadioButton value="legal" class="text-center text-xs">
+              🏢 شخص حقوقی (شرکت)
+            </NRadioButton>
+          </NRadioGroup>
+        </div>
+
         <!-- Role Selection Cards -->
         <div class="space-y-1.5">
           <label class="text-xs font-bold text-slate-300">نقش اصلی شما در چک‌یار:</label>
@@ -168,8 +189,13 @@ const handleRegister = async () => {
 
         <!-- User Information Fields -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <NFormItem label="نام و نام خانوادگی">
-            <NInput v-model:value="name" placeholder="مثلاً: رضا صبوری" />
+          <NFormItem :label="userType === 'legal' ? 'نام رسمی شرکت' : 'نام و نام خانوادگی'">
+            <NInput
+              v-model:value="name"
+              :placeholder="userType === 'legal' ? 'مثلاً: شرکت توسعه تجارت نوین' : 'مثلاً: رضا صبوری'"
+              data-testid="register-name"
+              :input-props="{ 'data-testid': 'register-name' }"
+            />
           </NFormItem>
 
           <NFormItem label="نام کاربری">

@@ -21,6 +21,7 @@ bun run test:watch
 ### Covered Areas
 
 Current unit test suites in `src/` include:
+- `src/features/auth/userTypeKyc.test.ts`: Tests `user_type` ("natural" | "legal") registration rules and conditional KYC validation logic (10-digit national ID for natural vs 11-digit national ID + company name for legal).
 - `src/utils/persianUtils.test.ts`: Persian digit parsing, national ID validation, currency/number formatting, and date utilities.
 - `src/stores/auth.permissions.test.ts`: Role and permission checks within the authentication store.
 - `src/features/listings/composables/useSmartPricing.test.ts`: Discount rate and smart pricing calculation logic.

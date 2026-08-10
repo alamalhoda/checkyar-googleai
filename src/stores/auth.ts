@@ -53,6 +53,7 @@ export const useAuthStore = defineStore('auth', () => {
           username: 'holder1',
           email: 'holder@chequeyar.ir',
           name: 'رضا صبوری (دارنده چک)',
+          user_type: 'natural',
           phone: '09121111111',
           role: 'check_holder',
           is_verified: true
@@ -80,6 +81,7 @@ export const useAuthStore = defineStore('auth', () => {
       username: res.user.username,
       email: res.user.email,
       name: res.user.name,
+      user_type: res.user.user_type || 'natural',
       role: res.user.role || 'check_holder',
       is_verified: true
     };
@@ -95,6 +97,7 @@ export const useAuthStore = defineStore('auth', () => {
       username: res.user.username,
       email: res.user.email,
       name: res.user.name,
+      user_type: res.user.user_type,
       role: res.user.role,
       is_verified: false
     };
@@ -124,15 +127,25 @@ export const useAuthStore = defineStore('auth', () => {
         username: 'user1',
         email: 'user@chequeyar.ir',
         name: 'کاربر سیستم',
+        user_type: 'natural',
         role,
         is_verified: true
       };
     }
     user.value.role = role;
-    if (role === 'check_holder') user.value.name = 'رضا صبوری (دارنده چک)';
-    else if (role === 'investor') user.value.name = 'سرمایه‌گذاری نوین (سرمایه‌گذار)';
-    else if (role === 'moderator') user.value.name = 'علی حسینی (ناظر)';
-    else if (role === 'admin') user.value.name = 'مدیر سامانه چک‌یار';
+    if (role === 'check_holder') {
+      user.value.name = 'رضا صبوری (دارنده چک)';
+      user.value.user_type = 'natural';
+    } else if (role === 'investor') {
+      user.value.name = 'سرمایه‌گذاری نوین (سرمایه‌گذار)';
+      user.value.user_type = 'legal';
+    } else if (role === 'moderator') {
+      user.value.name = 'علی حسینی (ناظر)';
+      user.value.user_type = 'natural';
+    } else if (role === 'admin') {
+      user.value.name = 'مدیر سامانه چک‌یار';
+      user.value.user_type = 'natural';
+    }
 
     localStorage.setItem(USER_KEY, JSON.stringify(user.value));
   }

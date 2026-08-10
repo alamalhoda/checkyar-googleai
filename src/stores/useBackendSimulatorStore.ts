@@ -35,17 +35,17 @@ const STORAGE_KEY = 'chequeyar_simulator_v1';
 export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
   // Initial seed data generators
   const seedUsers: User[] = [
-    { id: 1, username: 'holder1', email: 'holder@chequeyar.ir', name: 'رضا صبوری (دارنده چک)', phone: '09121111111', role: 'check_holder', is_verified: true },
-    { id: 2, username: 'investor1', email: 'investor@chequeyar.ir', name: 'سرمایه‌گذاری نوین (سرمایه‌گذار)', phone: '09122222222', role: 'investor', is_verified: true },
-    { id: 3, username: 'moderator1', email: 'mod@chequeyar.ir', name: 'علی حسینی (ناظر)', phone: '09123333333', role: 'moderator', is_verified: true },
-    { id: 4, username: 'admin1', email: 'admin@chequeyar.ir', name: 'مدیر سامانه چک‌یار', phone: '09124444444', role: 'admin', is_verified: true }
+    { id: 1, username: 'holder1', email: 'holder@chequeyar.ir', name: 'رضا صبوری (دارنده چک)', user_type: 'natural', phone: '09121111111', role: 'check_holder', is_verified: true },
+    { id: 2, username: 'investor1', email: 'investor@chequeyar.ir', name: 'سرمایه‌گذاری نوین (سرمایه‌گذار)', user_type: 'legal', phone: '09122222222', role: 'investor', is_verified: true },
+    { id: 3, username: 'moderator1', email: 'mod@chequeyar.ir', name: 'علی حسینی (ناظر)', user_type: 'natural', phone: '09123333333', role: 'moderator', is_verified: true },
+    { id: 4, username: 'admin1', email: 'admin@chequeyar.ir', name: 'مدیر سامانه چک‌یار', user_type: 'natural', phone: '09124444444', role: 'admin', is_verified: true }
   ];
 
   const seedProfiles: Record<number, Profile> = {
-    1: { id: 1, username: 'holder1', email: 'holder@chequeyar.ir', name: 'رضا صبوری (دارنده چک)', phone: '09121111111', role: 'check_holder', bio: 'فعال صنعت تولید و بازرگانی چوب', is_verified: true, created_at: '2025-01-10T08:00:00Z', updated_at: '2025-01-10T08:00:00Z' },
-    2: { id: 2, username: 'investor1', email: 'investor@chequeyar.ir', name: 'سرمایه‌گذاری نوین (سرمایه‌گذار)', phone: '09122222222', role: 'investor', bio: 'صندوق تخصصی خرید مطالبات کوتاه مدت', is_verified: true, created_at: '2025-01-12T09:30:00Z', updated_at: '2025-01-12T09:30:00Z' },
-    3: { id: 3, username: 'moderator1', email: 'mod@chequeyar.ir', name: 'علی حسینی (ناظر)', phone: '09123333333', role: 'moderator', bio: 'کارشناس اعتبارسنجی و تطابق صیاد', is_verified: true, created_at: '2025-01-01T00:00:00Z', updated_at: '2025-01-01T00:00:00Z' },
-    4: { id: 4, username: 'admin1', email: 'admin@chequeyar.ir', name: 'مدیر سامانه چک‌یار', phone: '09124444444', role: 'admin', bio: 'مدیریت کل سیستم چک‌یار', is_verified: true, created_at: '2025-01-01T00:00:00Z', updated_at: '2025-01-01T00:00:00Z' }
+    1: { id: 1, username: 'holder1', email: 'holder@chequeyar.ir', name: 'رضا صبوری (دارنده چک)', user_type: 'natural', phone: '09121111111', role: 'check_holder', bio: 'فعال صنعت تولید و بازرگانی چوب', is_verified: true, created_at: '2025-01-10T08:00:00Z', updated_at: '2025-01-10T08:00:00Z' },
+    2: { id: 2, username: 'investor1', email: 'investor@chequeyar.ir', name: 'سرمایه‌گذاری نوین (سرمایه‌گذار)', user_type: 'legal', phone: '09122222222', role: 'investor', bio: 'صندوق تخصصی خرید مطالبات کوتاه مدت', is_verified: true, created_at: '2025-01-12T09:30:00Z', updated_at: '2025-01-12T09:30:00Z' },
+    3: { id: 3, username: 'moderator1', email: 'mod@chequeyar.ir', name: 'علی حسینی (ناظر)', user_type: 'natural', phone: '09123333333', role: 'moderator', bio: 'کارشناس اعتبارسنجی و تطابق صیاد', is_verified: true, created_at: '2025-01-01T00:00:00Z', updated_at: '2025-01-01T00:00:00Z' },
+    4: { id: 4, username: 'admin1', email: 'admin@chequeyar.ir', name: 'مدیر سامانه چک‌یار', user_type: 'natural', phone: '09124444444', role: 'admin', bio: 'مدیریت کل سیستم چک‌یار', is_verified: true, created_at: '2025-01-01T00:00:00Z', updated_at: '2025-01-01T00:00:00Z' }
   };
 
   const seedListings: ChequeListing[] = [
@@ -595,12 +595,20 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
         username: user.username,
         email: user.email,
         name: user.name,
-        role: user.role
+        role: user.role,
+        user_type: user.user_type
       }
     };
   }
 
   async function handleRegister(req: RegisterRequest): Promise<RegisterResponse> {
+    const userType = req.user_type || 'natural';
+    if (userType === 'legal' && !req.name?.trim()) {
+      throw createErrorEnvelope('VALIDATION_ERROR', 'نام رسمی شرکت برای شخص حقوقی الزامی است.', {
+        name: ['نام رسمی شرکت برای شخص حقوقی الزامی است.']
+      });
+    }
+
     if (req.password !== req.password_confirm) {
       throw createErrorEnvelope('VALIDATION_ERROR', 'رمز عبور و تایید آن یکسان نیستند.', {
         password_confirm: ['رمز عبور و تایید آن باید مطابقت داشته باشند.']
@@ -618,6 +626,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       username: req.username,
       email: req.email || `${req.username}@chequeyar.ir`,
       name: req.name || req.username,
+      user_type: userType,
       phone: req.phone || '09120000000',
       role: req.role,
       is_verified: false
@@ -629,6 +638,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       username: newUser.username,
       email: newUser.email,
       name: newUser.name,
+      user_type: newUser.user_type,
       phone: newUser.phone || '',
       role: newUser.role,
       bio: '',
@@ -646,7 +656,8 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
         username: newUser.username,
         email: newUser.email,
         name: newUser.name,
-        role: newUser.role as 'check_holder' | 'investor'
+        role: newUser.role as 'check_holder' | 'investor',
+        user_type: newUser.user_type
       }
     };
   }
@@ -983,6 +994,55 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
   }
 
   function createVerification(req: CreateVerificationRequest): Verification {
+    // Determine active user type (from storage or profiles)
+    let userType: 'natural' | 'legal' = 'natural';
+    try {
+      const stored = localStorage.getItem('chequeyar_auth_user');
+      if (stored) {
+        const u = JSON.parse(stored);
+        if (u.user_type) userType = u.user_type;
+      }
+    } catch (e) {}
+
+    const nationalIdStr = String(req.national_id || '').trim();
+    const fullNameStr = String(req.full_name || '').trim();
+    const companyNameStr = String(req.company_name || '').trim();
+
+    if (userType === 'natural') {
+      if (!fullNameStr) {
+        throw createErrorEnvelope('VALIDATION_ERROR', 'نام و نام خانوادگی الزامی است.', {
+          full_name: ['نام و نام خانوادگی الزامی است.']
+        });
+      }
+      if (!/^\d{10}$/.test(nationalIdStr)) {
+        throw createErrorEnvelope('VALIDATION_ERROR', 'کد ملی شخص حقیقی باید دقیقاً ۱۰ رقم عددی باشد.', {
+          national_id: ['کد ملی باید دقیقاً ۱۰ رقم عددی باشد.']
+        });
+      }
+      if (companyNameStr !== '') {
+        throw createErrorEnvelope('VALIDATION_ERROR', 'برای شخص حقیقی نباید نام شرکت وارد شود.', {
+          company_name: ['برای شخص حقیقی نباید نام شرکت وارد شود.']
+        });
+      }
+    } else {
+      // legal
+      if (!companyNameStr) {
+        throw createErrorEnvelope('VALIDATION_ERROR', 'نام رسمی شرکت برای شخص حقوقی الزامی است.', {
+          company_name: ['نام رسمی شرکت الزامی است.']
+        });
+      }
+      if (!/^\d{11}$/.test(nationalIdStr)) {
+        throw createErrorEnvelope('VALIDATION_ERROR', 'شناسه ملی شخص حقوقی باید دقیقاً ۱۱ رقم عددی باشد.', {
+          national_id: ['شناسه ملی شرکت باید دقیقاً ۱۱ رقم عددی باشد.']
+        });
+      }
+      if (!fullNameStr) {
+        throw createErrorEnvelope('VALIDATION_ERROR', 'نام نماینده قانونی / صاحب امضای مجاز الزامی است.', {
+          full_name: ['نام نماینده قانونی / صاحب امضای مجاز الزامی است.']
+        });
+      }
+    }
+
     const docs: Document[] = [];
     if (req.national_id_front) {
       docs.push({ id: Date.now() + 1, document_type: 'national_id_front', file: typeof req.national_id_front === 'string' ? req.national_id_front : '/mock/id_front.jpg', file_size: 102400 });
@@ -996,9 +1056,9 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
 
     const newVer: Verification = {
       id: Date.now(),
-      full_name: req.full_name || 'کاربر جدید',
-      national_id: req.national_id || '0011223344',
-      company_name: req.company_name || '',
+      full_name: fullNameStr,
+      national_id: nationalIdStr,
+      company_name: companyNameStr,
       status: 'pending',
       rejection_reason: '',
       rejection_code: '',

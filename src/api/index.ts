@@ -8,6 +8,7 @@ import type {
   RefreshTokenRequest,
   RefreshTokenResponse,
   Profile,
+  UserType,
   ChequeListing,
   CreateListingRequest,
   UpdateListingRequest,
@@ -37,6 +38,7 @@ export type {
   RefreshTokenRequest,
   RefreshTokenResponse,
   Profile,
+  UserType,
   ChequeListing,
   CreateListingRequest,
   UpdateListingRequest,
@@ -100,12 +102,13 @@ export const identityApi = {
     return res.data;
   },
   updateProfile: async (data: Partial<Profile>): Promise<Profile> => {
+    const { user_type, ...payload } = data as any;
     if (isMock()) {
       const p = useBackendSimulatorStore().profiles[1];
-      Object.assign(p, data);
+      Object.assign(p, payload);
       return p;
     }
-    const res = await api.patch('/identity/profile/', data);
+    const res = await api.patch('/identity/profile/', payload);
     return res.data;
   },
   createVerification: async (data: CreateVerificationRequest): Promise<Verification> => {
@@ -165,6 +168,7 @@ export const usersApi = {
         username: u.username,
         email: u.email,
         name: u.name,
+        user_type: u.user_type,
         phone: u.phone,
         role: u.role,
         is_verified: u.is_verified,

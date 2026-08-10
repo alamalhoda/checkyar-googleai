@@ -66,7 +66,13 @@ const handleKycSubmit = async () => {
             </NTag>
           </div>
 
-          <div class="grid grid-cols-2 gap-4 text-xs">
+          <div class="grid grid-cols-3 gap-4 text-xs mb-4">
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <span class="text-slate-400 block mb-1">نوع کاربر:</span>
+              <NTag :type="profile.user_type === 'legal' ? 'warning' : 'info'" size="small" data-testid="kyc-user-type">
+                {{ profile.user_type === 'legal' ? '🏢 شخص حقوقی' : '👤 شخص حقیقی' }}
+              </NTag>
+            </div>
             <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
               <span class="text-slate-400 block mb-1">ایمیل:</span>
               <span class="font-mono text-slate-200">{{ profile.email }}</span>
@@ -92,27 +98,33 @@ const handleKycSubmit = async () => {
           </NAlert>
 
           <NForm @submit.prevent="handleKycSubmit" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <NFormItem label="نام و نام خانوادگی اصلی">
-                <NInput v-model:value="fullName" placeholder="مطابق کارت ملی" />
+            <div v-if="profile.user_type === 'legal'" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <NFormItem label="نام رسمی شرکت">
+                <NInput v-model:value="companyName" data-testid="kyc-company-name" :input-props="{ 'data-testid': 'kyc-company-name' }" placeholder="مثال: شرکت بازرگانی صبوری" />
               </NFormItem>
-
-              <NFormItem label="کد ملی / شناسه ملی">
-                <NInput v-model:value="nationalId" placeholder="۱۰ یا ۱۱ رقم" />
+              <NFormItem label="شناسه ملی شرکت (۱۱ رقم)">
+                <NInput v-model:value="nationalId" data-testid="kyc-national-id" :input-props="{ 'data-testid': 'kyc-national-id' }" maxlength="11" placeholder="۱۱ رقم" />
               </NFormItem>
             </div>
 
-            <NFormItem label="نام شرکت / مجموعه تجاری (اختیاری)">
-              <NInput v-model:value="companyName" placeholder="در صورت داشتن شخصیت حقوقی" />
-            </NFormItem>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <NFormItem :label="profile.user_type === 'legal' ? 'نام و نام خانوادگی نماینده قانونی' : 'نام و نام خانوادگی اصلی'">
+                <NInput v-model:value="fullName" data-testid="kyc-full-name" :input-props="{ 'data-testid': 'kyc-full-name' }" placeholder="مطابق کارت ملی" />
+              </NFormItem>
+
+              <NFormItem v-if="profile.user_type !== 'legal'" label="کد ملی (۱۰ رقم)">
+                <NInput v-model:value="nationalId" data-testid="kyc-national-id" :input-props="{ 'data-testid': 'kyc-national-id' }" maxlength="10" placeholder="۱۰ رقم" />
+              </NFormItem>
+            </div>
 
             <div class="p-4 bg-slate-950/60 rounded-xl border border-slate-800/80 text-xs text-slate-400 space-y-2">
-              <div class="font-bold text-slate-200">بارگذاری مدارک (شبیه‌سازی شده):</div>
-              <p>• تصویر روی کارت ملی جدید</p>
-              <p>• تصویر پشت کارت ملی یا شناسنامه</p>
+              <div class="font-bold text-slate-200">بارگذاری مدارک:</div>
+              <input type="file" accept="image/*" data-testid="kyc-national-id-front" class="block w-full text-xs text-slate-400 my-1" />
+              <input type="file" accept="image/*" data-testid="kyc-national-id-back" class="block w-full text-xs text-slate-400 my-1" />
+              <input type="file" accept="image/*" data-testid="kyc-selfie" class="block w-full text-xs text-slate-400 my-1" />
             </div>
 
-            <NButton type="primary" size="large" attr-type="submit" :loading="submittingKyc" class="font-bold">
+            <NButton type="primary" size="large" data-testid="kyc-submit" attr-type="submit" :loading="submittingKyc" class="font-bold">
               ارسال جهت احراز هویت
             </NButton>
           </NForm>

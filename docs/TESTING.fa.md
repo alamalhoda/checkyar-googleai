@@ -21,6 +21,7 @@ bun run test:watch
 ### بخش‌های تحت پوشش
 
 مجموعه تست‌های موجود در `src/`:
+- `src/features/auth/userTypeKyc.test.ts`: سنجش قوانین ثبت‌نام بر اساس `user_type` ("natural" | "legal") و منطق شرطی اعتبارسنجی احراز هویت (کد ملی ۱۰ رقمی برای حقیقی در برابر شناسه ملی ۱۱ رقمی + نام شرکت برای حقوقی).
 - `src/utils/persianUtils.test.ts`: تبدیل اعداد فارسی، اعتبارسنجی کد ملی، فرمت پول و تاریخ.
 - `src/stores/auth.permissions.test.ts`: بررسی سطح دسترسی‌ها و نقش‌ها در استور احراز هویت.
 - `src/features/listings/composables/useSmartPricing.test.ts`: محاسبات نرخ تنزیل و قیمت‌گذاری هوشمند.

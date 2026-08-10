@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import {
   NCard, NForm, NFormItem, NInput, NSelect, NButton, NSpin, NAlert, NTag,
-  NDescriptions, NDescriptionsItem, NSpace, useMessage
+  NDescriptions, NDescriptionsItem, useMessage
 } from 'naive-ui';
 import ConfirmDialog from '../../shared/components/ConfirmDialog.vue';
 import { identityApi } from '../../api';
@@ -18,6 +18,7 @@ const submittingKyc = ref(false);
 const kycSuccess = ref(false);
 const errorMsg = ref('');
 const kycErrorMsg = ref('');
+const kycErrorDetails = ref<Record<string, string[]> | null>(null);
 
 // Form state for editable fields (bio, role)
 const editableBio = ref('');
@@ -27,6 +28,9 @@ const editableRole = ref<UserRole>('check_holder');
 const fullName = ref('');
 const nationalId = ref('');
 const companyName = ref('');
+const frontFile = ref<File | string | undefined>(undefined);
+const backFile = ref<File | string | undefined>(undefined);
+const selfieFile = ref<File | string | undefined>(undefined);
 
 const showConfirmModal = ref(false);
 
@@ -56,25 +60,81 @@ const loadProfile = async () => {
   }
 };
 
-const handleKycSubmit = async () => {
-  if (!fullName.value.trim() || !nationalId.value.trim()) {
-    kycErrorMsg.value = 'لطفاً نام کامل و کد ملی را وارد نمایید.';
-    return;
+const handleFrontChange = (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  if (target.files && target.files[0]) {
+    frontFile.value = target.files[0];
   }
-  submittingKyc.value = true;
+};
+
+const handleBackChange = (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  if (target.files && target.files[0]) {
+    backFile.value = target.files[0];
+  }
+};
+
+const handleSelfieChange = (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  if (target.files && target.files[0]) {
+    selfieFile.value = target.files[0];
+  }
+};
+
+const handleKycSubmit = async () => {
   kycErrorMsg.value = '';
+  kycErrorDetails.value = null;
+
+  const isLegal = profile.value?.user_type === 'legal';
+
+  if (isLegal) {
+    if (!companyName.value.trim()) {
+      kycErrorMsg.value = 'لطفاً نام رسمی شرکت را وارد کنید.';
+      return;
+    }
+    if (!/^\d{11}$/.test(nationalId.value.trim())) {
+      kycErrorMsg.value = 'شناسه ملی شخص حقوقی باید دقیقاً ۱۱ رقم عددی باشد.';
+      return;
+    }
+    if (!fullName.value.trim()) {
+      kycErrorMsg.value = 'لطفاً نام نماینده قانونی / صاحب امضای مجاز را وارد کنید.';
+      return;
+    }
+  } else {
+    // Natural
+    if (!fullName.value.trim()) {
+      kycErrorMsg.value = 'لطفاً نام و نام خانوادگی مطابق کارت ملی را وارد کنید.';
+      return;
+    }
+    if (!/^\d{10}$/.test(nationalId.value.trim())) {
+      kycErrorMsg.value = 'کد ملی شخص حقیقی باید دقیقاً ۱۰ رقم عددی باشد.';
+      return;
+    }
+  }
+
+  submittingKyc.value = true;
   try {
     const created = await identityApi.createVerification({
-      full_name: fullName.value,
-      national_id: nationalId.value,
-      company_name: companyName.value || undefined
+      full_name: fullName.value.trim(),
+      national_id: nationalId.value.trim(),
+      company_name: isLegal ? companyName.value.trim() : undefined,
+      national_id_front: frontFile.value,
+      national_id_back: backFile.value,
+      selfie: selfieFile.value
     });
     currentVerification.value = created;
     kycSuccess.value = true;
     message.success('مدارک احراز هویت جهت بررسی ارسال گردید.');
   } catch (err: any) {
     const apiErr = err?.response?.data?.error || err?.error;
-    kycErrorMsg.value = apiErr?.message || err?.message || 'خطا در ارسال اطلاعات احراز هویت.';
+    if (apiErr) {
+      kycErrorMsg.value = apiErr.message || 'خطا در ارسال اطلاعات احراز هویت.';
+      if (apiErr.details && typeof apiErr.details === 'object' && !Array.isArray(apiErr.details)) {
+        kycErrorDetails.value = apiErr.details;
+      }
+    } else {
+      kycErrorMsg.value = err?.message || 'خطا در ارتباط با سرور.';
+    }
   } finally {
     submittingKyc.value = false;
   }
@@ -166,6 +226,16 @@ onMounted(loadProfile);
                   <span class="font-mono text-slate-300">#{{ profile.id }}</span>
                 </NDescriptionsItem>
 
+                <NDescriptionsItem label="نوع کاربر">
+                  <NTag
+                    :type="profile.user_type === 'legal' ? 'warning' : 'info'"
+                    size="small"
+                    data-testid="kyc-user-type"
+                  >
+                    {{ profile.user_type === 'legal' ? '🏢 شخص حقوقی' : '👤 شخص حقیقی' }}
+                  </NTag>
+                </NDescriptionsItem>
+
                 <NDescriptionsItem label="ایمیل">
                   <span class="text-slate-300">{{ profile.email }}</span>
                 </NDescriptionsItem>
@@ -221,14 +291,19 @@ onMounted(loadProfile);
             </NCard>
           </div>
 
-          <!-- KYC Submit Section (Task A1) -->
+          <!-- KYC Submit Section -->
           <NCard data-testid="kyc-submit-page" class="bg-slate-900 border border-slate-800 rounded-2xl shadow-lg" title="تکمیل مدارک و احراز هویت (KYC Live)">
             <NAlert v-if="kycSuccess" type="success" class="mb-4 text-xs" closable @close="kycSuccess = false">
               اطلاعات احراز هویت با موفقیت ارسال شد و در صف بررسی ناظر سیستم قرار گرفت.
             </NAlert>
 
             <NAlert v-if="kycErrorMsg" type="error" class="mb-4 text-xs" closable @close="kycErrorMsg = ''">
-              {{ kycErrorMsg }}
+              <div>{{ kycErrorMsg }}</div>
+              <ul v-if="kycErrorDetails" class="mt-2 list-disc pr-4 space-y-1">
+                <li v-for="(msgs, field) in kycErrorDetails" :key="field">
+                  <span class="font-bold">{{ field }}:</span> {{ msgs.join(', ') }}
+                </li>
+              </ul>
             </NAlert>
 
             <div v-if="currentVerification && !kycSuccess" class="mb-6 p-4 bg-slate-950/70 rounded-xl border border-slate-800 text-xs space-y-2">
@@ -238,43 +313,100 @@ onMounted(loadProfile);
                   {{ currentVerification.status === 'approved' ? 'تایید شده' : currentVerification.status === 'rejected' ? 'رد شده' : 'در انتظار بررسی' }}
                 </NTag>
               </div>
-              <div v-if="currentVerification.rejection_note" class="text-rose-400">
-                علت رد: {{ currentVerification.rejection_note }}
+              <div v-if="currentVerification.rejection_reason" class="text-rose-400">
+                علت رد: {{ currentVerification.rejection_reason }}
               </div>
             </div>
 
             <NForm class="space-y-4" @submit.prevent="handleKycSubmit">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <NFormItem label="نام و نام خانوادگی (طابق کارت ملی)">
+              <!-- Legal User Specific Fields -->
+              <div v-if="profile.user_type === 'legal'" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <NFormItem label="نام رسمی شرکت (مطابق روزنامه رسمی)">
                   <NInput
-                    v-model:value="fullName"
-                    placeholder="مطابق کارت ملی"
-                    :input-props="{ 'data-testid': 'kyc-full-name' }"
+                    v-model:value="companyName"
+                    placeholder="مثلاً: شرکت توسعه تجارت نوین"
+                    data-testid="kyc-company-name"
+                    :input-props="{ 'data-testid': 'kyc-company-name' }"
                   />
                 </NFormItem>
 
-                <NFormItem label="کد ملی / شناسه ملی">
+                <NFormItem label="شناسه ملی شرکت (۱۱ رقم)">
                   <NInput
                     v-model:value="nationalId"
-                    placeholder="۱۰ یا ۱۱ رقم"
+                    placeholder="مثلاً: 10100012345"
                     maxlength="11"
+                    data-testid="kyc-national-id"
                     :input-props="{ 'data-testid': 'kyc-national-id' }"
                   />
                 </NFormItem>
               </div>
 
-              <NFormItem label="نام شرکت / مجموعه تجاری (اختیاری)">
-                <NInput
-                  v-model:value="companyName"
-                  placeholder="در صورت داشتن شخصیت حقوقی"
-                />
-              </NFormItem>
+              <!-- Natural User Fields / Legal Representative Field -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <NFormItem :label="profile.user_type === 'legal' ? 'نام و نام خانوادگی نماینده قانونی / صاحب امضا' : 'نام و نام خانوادگی (مطابق کارت ملی)'">
+                  <NInput
+                    v-model:value="fullName"
+                    :placeholder="profile.user_type === 'legal' ? 'نام نماینده قانونی' : 'مطابق کارت ملی'"
+                    data-testid="kyc-full-name"
+                    :input-props="{ 'data-testid': 'kyc-full-name' }"
+                  />
+                </NFormItem>
+
+                <NFormItem v-if="profile.user_type !== 'legal'" label="کد ملی (۱۰ رقم)">
+                  <NInput
+                    v-model:value="nationalId"
+                    placeholder="مثلاً: 0012345678"
+                    maxlength="10"
+                    data-testid="kyc-national-id"
+                    :input-props="{ 'data-testid': 'kyc-national-id' }"
+                  />
+                </NFormItem>
+              </div>
+
+              <!-- Upload Documents -->
+              <div class="border-t border-slate-800 pt-4 space-y-3">
+                <h3 class="text-xs font-bold text-slate-200">بارگذاری تصاویر مدارک:</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                  <div class="space-y-1">
+                    <label class="block text-slate-400">تصویر روی کارت ملی {{ profile.user_type === 'legal' ? 'نماینده' : '' }} *</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      data-testid="kyc-national-id-front"
+                      @change="handleFrontChange"
+                      class="block w-full text-xs text-slate-400 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-slate-200 hover:file:bg-slate-700"
+                    />
+                  </div>
+
+                  <div class="space-y-1">
+                    <label class="block text-slate-400">تصویر پشت کارت ملی {{ profile.user_type === 'legal' ? 'نماینده' : '' }} *</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      data-testid="kyc-national-id-back"
+                      @change="handleBackChange"
+                      class="block w-full text-xs text-slate-400 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-slate-200 hover:file:bg-slate-700"
+                    />
+                  </div>
+
+                  <div class="space-y-1">
+                    <label class="block text-slate-400">تصویر سلفی با تعهدنامه (اختیاری)</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      data-testid="kyc-selfie"
+                      @change="handleSelfieChange"
+                      class="block w-full text-xs text-slate-400 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-slate-200 hover:file:bg-slate-700"
+                    />
+                  </div>
+                </div>
+              </div>
 
               <div class="flex justify-end pt-2">
                 <NButton
                   type="primary"
                   size="large"
-                  data-testid="kyc-submit-btn"
+                  data-testid="kyc-submit"
                   :loading="submittingKyc"
                   attr-type="submit"
                   class="font-bold px-8 bg-emerald-600 hover:bg-emerald-500"

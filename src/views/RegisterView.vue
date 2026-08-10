@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { NCard, NForm, NFormItem, NInput, NRadioGroup, NRadio, NButton, NAlert } from 'naive-ui';
+import { NCard, NForm, NFormItem, NInput, NRadioGroup, NRadio, NRadioButton, NButton, NAlert } from 'naive-ui';
 import { useAuthStore } from '../stores/auth';
+import type { UserType } from '../types/api';
 
 const router = useRouter();
 const authStore = useAuthStore();
 
+const userType = ref<UserType>('natural');
 const username = ref('');
 const email = ref('');
 const password = ref('');
@@ -20,6 +22,10 @@ const errorMsg = ref('');
 
 const handleRegister = async () => {
   errorMsg.value = '';
+  if (userType.value === 'legal' && !name.value.trim()) {
+    errorMsg.value = 'نام رسمی شرکت برای شخص حقوقی الزامی است.';
+    return;
+  }
   if (!username.value || !password.value) {
     errorMsg.value = 'لطفا نام کاربری و رمز عبور را وارد کنید.';
     return;
@@ -34,9 +40,10 @@ const handleRegister = async () => {
     await authStore.register({
       username: username.value,
       email: email.value,
+      user_type: userType.value,
       password: password.value,
       password_confirm: passwordConfirm.value,
-      name: name.value,
+      name: name.value || username.value,
       phone: phone.value,
       role: role.value
     });
@@ -62,6 +69,13 @@ const handleRegister = async () => {
       </NAlert>
 
       <NForm @submit.prevent="handleRegister" class="space-y-3">
+        <NFormItem label="نوع شخص">
+          <NRadioGroup v-model:value="userType" name="user_type" data-testid="register-user-type" class="w-full grid grid-cols-2 gap-2">
+            <NRadioButton value="natural" class="text-center text-xs">شخص حقیقی</NRadioButton>
+            <NRadioButton value="legal" class="text-center text-xs">شخص حقوقی</NRadioButton>
+          </NRadioGroup>
+        </NFormItem>
+
         <NFormItem label="نوع فعالیت">
           <NRadioGroup v-model:value="role" class="w-full grid grid-cols-2 gap-2">
             <NRadio value="check_holder" class="bg-slate-950 p-2 rounded-lg border border-slate-800">
@@ -73,8 +87,13 @@ const handleRegister = async () => {
           </NRadioGroup>
         </NFormItem>
 
-        <NFormItem label="نام و نام خانوادگی / نام شرکت">
-          <NInput v-model:value="name" placeholder="مثال: شرکت بازرگانی صبوری" />
+        <NFormItem :label="userType === 'legal' ? 'نام رسمی شرکت' : 'نام و نام خانوادگی'">
+          <NInput
+            v-model:value="name"
+            :placeholder="userType === 'legal' ? 'مثال: شرکت بازرگانی صبوری' : 'مثال: رضا صبوری'"
+            data-testid="register-name"
+            :input-props="{ 'data-testid': 'register-name' }"
+          />
         </NFormItem>
 
         <NFormItem label="نام کاربری">

@@ -1,4 +1,5 @@
 export type UserRole = 'check_holder' | 'investor' | 'moderator' | 'admin';
+export type UserType = 'natural' | 'legal';
 export type VerificationStatus = 'pending' | 'approved' | 'rejected';
 export type ListingStatus = 'pending_moderation' | 'published' | 'rejected' | 'matched' | 'expired' | 'withdrawn' | 'settled_off_platform';
 export type MatchStatus = 'pending' | 'accepted' | 'declined' | 'cancelled' | 'off_platform_confirmed' | 'settled';
@@ -20,15 +21,15 @@ export interface ApiErrorDetail { field?: string; code: ErrorCode | string; mess
 export interface ApiErrorEnvelope { error: { code: string; message: string; details?: Record<string, string[]> | ApiErrorDetail[]; }; }
 
 export interface LoginRequest { identifier: string; password: string; }
-export interface LoginResponse { access: string; refresh: string; user: { id: number; username: string; email: string; name: string; role: UserRole; }; }
-export interface RegisterRequest { username: string; email?: string; password: string; password_confirm: string; name?: string; phone?: string; role: 'check_holder' | 'investor'; }
-export interface RegisterResponse { access: string; refresh: string; user: { id: number; username: string; email: string; name: string; role: 'check_holder' | 'investor'; }; }
+export interface LoginResponse { access: string; refresh: string; user: { id: number; username: string; email: string; name: string; role: UserRole; user_type?: UserType; }; }
+export interface RegisterRequest { username: string; email?: string; password: string; password_confirm: string; user_type: UserType; name?: string; phone?: string; role: 'check_holder' | 'investor'; }
+export interface RegisterResponse { access: string; refresh: string; user: { id: number; username: string; email: string; name: string; role: 'check_holder' | 'investor'; user_type: UserType; }; }
 export interface RefreshTokenRequest { refresh: string; }
-export interface RefreshTokenResponse { access: string; refresh: string; user: { id: number; username: string; email: string; name: string; role: UserRole; }; }
+export interface RefreshTokenResponse { access: string; refresh: string; user: { id: number; username: string; email: string; name: string; role: UserRole; user_type?: UserType; }; }
 
 export interface ListingDocumentItem { id: number; document_type: string; file_name?: string; created_at?: string; }
-export interface User { id: number; username: string; email: string; name: string; phone?: string | null; role: UserRole; is_verified: boolean; created_at?: string; updated_at?: string; }
-export interface Profile { id: number; username: string; email: string; name: string; phone: string; role: UserRole; bio: string; is_verified: boolean; created_at: string; updated_at: string; }
+export interface User { id: number; username: string; email: string; name: string; user_type: UserType; phone?: string | null; role: UserRole; is_verified: boolean; created_at?: string; updated_at?: string; }
+export interface Profile { id: number; username: string; email: string; name: string; user_type: UserType; phone: string; role: UserRole; bio: string; is_verified: boolean; created_at: string; updated_at: string; }
 
 export interface Document { id: number; document_type: DocumentType; file: string; file_size: number; }
 export interface Verification { id: number; full_name: string; national_id: string; company_name: string; status: VerificationStatus; rejection_reason: string; rejection_code: string; documents: Document[]; }
