@@ -79,11 +79,16 @@ The application runtime behavior is governed by the `VITE_USE_MOCK` environment 
 - **Compile-Time Gate:** Mock/simulator features and runtime toggle capabilities exist **ONLY** when `VITE_USE_MOCK=true`.
 - **Live Mode Guarantee:** When `VITE_USE_MOCK=false` (or not set to `'true'`), `getMockMode()` strictly returns `false` and `setMockMode(true)` is a no-op (ignoring leftover `localStorage` keys). The UI renders clean Live-only forms and headers.
 - **Natural vs Legal User Contract (`user_type`):**
-  - Registration require `user_type` (`"natural" | "legal"`). For legal users, `name` (company name) is mandatory.
+  - Registration requires `user_type` (`"natural" | "legal"`). For legal users, `name` (company name) is mandatory.
   - User type is read-only after registration and cannot be modified.
+  - Verification objects (`Verification`) contain read-only `user_type: "natural" | "legal"` provided by the API and mock simulator.
   - KYC validation rules:
     - **Natural (`natural`):** `full_name` required, `national_id` exactly 10 digits required, `company_name` must be omitted/empty.
     - **Legal (`legal`):** `company_name` required, `national_id` exactly 11 digits required (company national ID), `full_name` required (legal representative / authorized signatory).
+- **Mock Simulator Seed Users & KYC Queue:**
+  - Seed users and profiles explicitly include both Natural and Legal entities: `holderkyc1` (natural pending KYC), `holderkyclegal1` (legal pending KYC), `holderlegal1` (approved legal issuer), alongside existing `holder1`, `investor1`, `moderator1`, `admin1`.
+  - `seedVerifications` in `useBackendSimulatorStore` contains a pending pair: one pending natural (10-digit ID, empty company name) and one pending legal (11-digit ID, company name set, representative name).
+  - KYC Queue UI (`/moderation/kyc`) displays explicit `user_type` badges (شخص حقیقی / شخصیت حقوقی) and formats details accordingly.
 - **Live KYC & Verification Flow:** Integrated directly into routed profile `/me` (`POST /verifications/` and `GET /verifications/me/`). Moderation evaluation (`/moderation/kyc/:id`) submits decisions via `POST /moderation/kyc/:id/decision/`.
 - **Live Document Uploads:** `listingsApi.uploadDocument` accepts binary `File`/`Blob` inputs and appends file bytes to `FormData` (`POST /listings/:id/documents/`).
 - **Supported Admin Surfaces:** Admin capabilities focus on `/admin/stats` (compliance stats), `/admin/feature-flags` (feature flag controls), and `/admin/audit` (audit event logs). Unbacked `/admin/reports` redirects to `/admin/stats`.

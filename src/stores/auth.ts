@@ -135,16 +135,12 @@ export const useAuthStore = defineStore('auth', () => {
     user.value.role = role;
     if (role === 'check_holder') {
       user.value.name = 'رضا صبوری (دارنده چک)';
-      user.value.user_type = 'natural';
     } else if (role === 'investor') {
       user.value.name = 'سرمایه‌گذاری نوین (سرمایه‌گذار)';
-      user.value.user_type = 'legal';
     } else if (role === 'moderator') {
       user.value.name = 'علی حسینی (ناظر)';
-      user.value.user_type = 'natural';
     } else if (role === 'admin') {
       user.value.name = 'مدیر سامانه چک‌یار';
-      user.value.user_type = 'natural';
     }
 
     localStorage.setItem(USER_KEY, JSON.stringify(user.value));

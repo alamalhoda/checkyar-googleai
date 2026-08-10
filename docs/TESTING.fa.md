@@ -21,7 +21,7 @@ bun run test:watch
 ### بخش‌های تحت پوشش
 
 مجموعه تست‌های موجود در `src/`:
-- `src/features/auth/userTypeKyc.test.ts`: سنجش قوانین ثبت‌نام بر اساس `user_type` ("natural" | "legal") و منطق شرطی اعتبارسنجی احراز هویت (کد ملی ۱۰ رقمی برای حقیقی در برابر شناسه ملی ۱۱ رقمی + نام شرکت برای حقوقی).
+- `src/features/auth/userTypeKyc.test.ts`: سنجش قوانین ثبت‌نام بر اساس `user_type` ("natural" | "legal")، منطق شرطی اعتبارسنجی احراز هویت (کد ملی ۱۰ رقمی برای حقیقی در برابر شناسه ملی ۱۱ رقمی + نام شرکت برای حقوقی)، و تست `getKycQueue()` برای بازگرداندن درخواست‌های حقیقی و حقوقی در انتظار همراه با `user_type`.
 - `src/utils/persianUtils.test.ts`: تبدیل اعداد فارسی، اعتبارسنجی کد ملی، فرمت پول و تاریخ.
 - `src/stores/auth.permissions.test.ts`: بررسی سطح دسترسی‌ها و نقش‌ها در استور احراز هویت.
 - `src/features/listings/composables/useSmartPricing.test.ts`: محاسبات نرخ تنزیل و قیمت‌گذاری هوشمند.
@@ -66,6 +66,16 @@ bun run lint
 - **بررسی صف نظارت و احراز هویت (KYC Review):** بررسی درخواست‌های احراز هویت در مسیر `/moderation/kyc/:id` و ثبت تصمیمات ناظر از طریق `POST /moderation/kyc/:id/decision/`.
 - **ارسال واقعی مدارک با `FormData`:** متد `listingsApi.uploadDocument` داده‌های باینری `File` و `Blob` را در قالب `FormData` ارسال می‌کند (`POST /listings/:id/documents/`).
 - **بخش‌های مدیریتی پشتیبانی‌شده (Admin Surfaces):** قابلیت‌های مدیریتی شامل `/admin/stats` (آمار تطبیق)، `/admin/feature-flags` (کلیدهای فیچر) و `/admin/audit` (لاگ رویدادها) می‌باشد. مسیر `/admin/reports` به `/admin/stats` هدایت می‌شود.
+
+### نحوه تست صف احراز هویت حقیقی و حقوقی
+
+- **تست در حالت شبیه‌ساز (`VITE_USE_MOCK=true`):**
+  ۱. با حساب `moderator1` وارد شوید یا نقش تست را به ناظر (Moderator) تغییر دهید.
+  ۲. به مسیر `/moderation/kyc` بروید.
+  ۳. اطمینان حاصل کنید صف حداقل شامل یک **شخص حقیقی** (کد ملی ۱۰ رقمی) و یک **شخصیت حقوقی** (نام شرکت + شناسه ملی ۱۱ رقمی + نام نماینده) همراه با نشان برچسبی نوع شخص (`data-testid="kyc-queue-user-type"`) می‌باشد.
+- **تست در حالت واقعی (`VITE_USE_MOCK=false`):**
+  - در بک‌اند واقعی (`doion`)، کاربران سید اولیه شامل `holderkyc1` (حقیقی در انتظار احراز) و `holderkyclegal1` (حقوقی در انتظار احراز) می‌باشند. جهت اطلاعات بیشتر به مستندات سید و [MASTER_API_CONTRACT.md](https://github.com/alamalhoda/doion/blob/develop/docs/development/MASTER_API_CONTRACT.md) مراجعه کنید.
+  - پاسخ‌های API احراز هویت فیلد فقط-خواندنی `user_type: "natural" | "legal"` را برمی‌گردانند.
 
 ### تفکیک حالت شبیه‌ساز (Mock) و Live
 

@@ -21,7 +21,7 @@ bun run test:watch
 ### Covered Areas
 
 Current unit test suites in `src/` include:
-- `src/features/auth/userTypeKyc.test.ts`: Tests `user_type` ("natural" | "legal") registration rules and conditional KYC validation logic (10-digit national ID for natural vs 11-digit national ID + company name for legal).
+- `src/features/auth/userTypeKyc.test.ts`: Tests `user_type` ("natural" | "legal") registration rules, conditional KYC validation logic (10-digit national ID for natural vs 11-digit national ID + company name for legal), and `getKycQueue()` returning both natural and legal pending verifications with `user_type`.
 - `src/utils/persianUtils.test.ts`: Persian digit parsing, national ID validation, currency/number formatting, and date utilities.
 - `src/stores/auth.permissions.test.ts`: Role and permission checks within the authentication store.
 - `src/features/listings/composables/useSmartPricing.test.ts`: Discount rate and smart pricing calculation logic.
@@ -67,6 +67,16 @@ To test the frontend against a running backend (`doion` Django server):
 - **KYC & Moderation Review:** Moderation queue items and KYC verification reviews (`/moderation/kyc/:id`) evaluate submissions and submit decisions via `POST /moderation/kyc/:id/decision/`.
 - **Real `FormData` Uploads:** Document uploads (`listingsApi.uploadDocument`) convert binary `File` / `Blob` payloads into `FormData` (`POST /listings/:id/documents/`).
 - **Supported Admin Surfaces:** Admin functionality is focused on `/admin/stats` (compliance metrics), `/admin/feature-flags` (feature flags), and `/admin/audit` (audit logs). Route `/admin/reports` redirects to `/admin/stats`.
+
+### Testing Natural vs Legal KYC Queue
+
+- **Mock Mode Testing (`VITE_USE_MOCK=true`):**
+  1. Log in as `moderator1` or switch role to Moderator via the Test Role switcher.
+  2. Navigate to `/moderation/kyc`.
+  3. Verify that the queue displays at least one **Natural Person** (شخص حقیقی, 10-digit national ID) item and at least one **Legal Entity** (شخصیت حقوقی, company name + 11-digit national ID + legal representative name) item with explicit type badges (`data-testid="kyc-queue-user-type"`).
+- **Live API Testing (`VITE_USE_MOCK=false`):**
+  - When testing against a migrated and seeded backend (`doion`), live backend seed users include `holderkyc1` (natural pending KYC) and `holderkyclegal1` (legal pending KYC). See the `doion` seed documentation and [MASTER_API_CONTRACT.md](https://github.com/alamalhoda/doion/blob/develop/docs/development/MASTER_API_CONTRACT.md) for details.
+  - Verification API responses return `user_type: "natural" | "legal"` read-only.
 
 ### Mock/Simulator vs. Live Testing
 

@@ -38,14 +38,20 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     { id: 1, username: 'holder1', email: 'holder@chequeyar.ir', name: 'رضا صبوری (دارنده چک)', user_type: 'natural', phone: '09121111111', role: 'check_holder', is_verified: true },
     { id: 2, username: 'investor1', email: 'investor@chequeyar.ir', name: 'سرمایه‌گذاری نوین (سرمایه‌گذار)', user_type: 'legal', phone: '09122222222', role: 'investor', is_verified: true },
     { id: 3, username: 'moderator1', email: 'mod@chequeyar.ir', name: 'علی حسینی (ناظر)', user_type: 'natural', phone: '09123333333', role: 'moderator', is_verified: true },
-    { id: 4, username: 'admin1', email: 'admin@chequeyar.ir', name: 'مدیر سامانه چک‌یار', user_type: 'natural', phone: '09124444444', role: 'admin', is_verified: true }
+    { id: 4, username: 'admin1', email: 'admin@chequeyar.ir', name: 'مدیر سامانه چک‌یار', user_type: 'natural', phone: '09124444444', role: 'admin', is_verified: true },
+    { id: 5, username: 'holderkyc1', email: 'holderkyc1@chequeyar.ir', name: 'سعید مرادی (منتظر احراز)', user_type: 'natural', phone: '09125555555', role: 'check_holder', is_verified: false },
+    { id: 6, username: 'holderkyclegal1', email: 'holderkyclegal1@chequeyar.ir', name: 'شرکت پترو عمران آریا (منتظر احراز)', user_type: 'legal', phone: '09126666666', role: 'check_holder', is_verified: false },
+    { id: 7, username: 'holderlegal1', email: 'holderlegal1@chequeyar.ir', name: 'شرکت بازرگانی آذرین (حقوقی)', user_type: 'legal', phone: '09127777777', role: 'check_holder', is_verified: true }
   ];
 
   const seedProfiles: Record<number, Profile> = {
     1: { id: 1, username: 'holder1', email: 'holder@chequeyar.ir', name: 'رضا صبوری (دارنده چک)', user_type: 'natural', phone: '09121111111', role: 'check_holder', bio: 'فعال صنعت تولید و بازرگانی چوب', is_verified: true, created_at: '2025-01-10T08:00:00Z', updated_at: '2025-01-10T08:00:00Z' },
     2: { id: 2, username: 'investor1', email: 'investor@chequeyar.ir', name: 'سرمایه‌گذاری نوین (سرمایه‌گذار)', user_type: 'legal', phone: '09122222222', role: 'investor', bio: 'صندوق تخصصی خرید مطالبات کوتاه مدت', is_verified: true, created_at: '2025-01-12T09:30:00Z', updated_at: '2025-01-12T09:30:00Z' },
     3: { id: 3, username: 'moderator1', email: 'mod@chequeyar.ir', name: 'علی حسینی (ناظر)', user_type: 'natural', phone: '09123333333', role: 'moderator', bio: 'کارشناس اعتبارسنجی و تطابق صیاد', is_verified: true, created_at: '2025-01-01T00:00:00Z', updated_at: '2025-01-01T00:00:00Z' },
-    4: { id: 4, username: 'admin1', email: 'admin@chequeyar.ir', name: 'مدیر سامانه چک‌یار', user_type: 'natural', phone: '09124444444', role: 'admin', bio: 'مدیریت کل سیستم چک‌یار', is_verified: true, created_at: '2025-01-01T00:00:00Z', updated_at: '2025-01-01T00:00:00Z' }
+    4: { id: 4, username: 'admin1', email: 'admin@chequeyar.ir', name: 'مدیر سامانه چک‌یار', user_type: 'natural', phone: '09124444444', role: 'admin', bio: 'مدیریت کل سیستم چک‌یار', is_verified: true, created_at: '2025-01-01T00:00:00Z', updated_at: '2025-01-01T00:00:00Z' },
+    5: { id: 5, username: 'holderkyc1', email: 'holderkyc1@chequeyar.ir', name: 'سعید مرادی (منتظر احراز)', user_type: 'natural', phone: '09125555555', role: 'check_holder', bio: 'متقاضی حقیقی احراز هویت', is_verified: false, created_at: '2025-02-01T09:00:00Z', updated_at: '2025-02-01T09:00:00Z' },
+    6: { id: 6, username: 'holderkyclegal1', email: 'holderkyclegal1@chequeyar.ir', name: 'شرکت پترو عمران آریا', user_type: 'legal', phone: '09126666666', role: 'check_holder', bio: 'متقاضی حقوقی احراز هویت', is_verified: false, created_at: '2025-02-02T10:00:00Z', updated_at: '2025-02-02T10:00:00Z' },
+    7: { id: 7, username: 'holderlegal1', email: 'holderlegal1@chequeyar.ir', name: 'شرکت بازرگانی آذرین', user_type: 'legal', phone: '09127777777', role: 'check_holder', bio: 'شرکت تجاری صادرکننده چک', is_verified: true, created_at: '2025-01-15T11:00:00Z', updated_at: '2025-01-15T11:00:00Z' }
   };
 
   const seedListings: ChequeListing[] = [
@@ -440,9 +446,10 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
   const seedVerifications: Verification[] = [
     {
       id: 1,
+      user_type: 'natural',
       full_name: 'رضا صبوری',
       national_id: '0071234567',
-      company_name: 'بازرگانی صبوری',
+      company_name: '',
       status: 'approved',
       rejection_reason: '',
       rejection_code: '',
@@ -453,6 +460,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     },
     {
       id: 2,
+      user_type: 'legal',
       full_name: 'سرمایه‌گذاری نوین',
       national_id: '10103334445',
       company_name: 'صندوق توسعه مالی نوین',
@@ -465,15 +473,30 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     },
     {
       id: 3,
+      user_type: 'natural',
       full_name: 'سعید مرادی',
       national_id: '0089911223',
-      company_name: 'فروشگاه مرادی',
+      company_name: '',
       status: 'pending',
       rejection_reason: '',
       rejection_code: '',
       documents: [
         { id: 13, document_type: 'national_id_front', file: '/mock/id_front_3.jpg', file_size: 150000 },
-        { id: 14, document_type: 'selfie', file: '/mock/selfie_3.jpg', file_size: 180000 }
+        { id: 14, document_type: 'national_id_back', file: '/mock/id_back_3.jpg', file_size: 180000 }
+      ]
+    },
+    {
+      id: 4,
+      user_type: 'legal',
+      full_name: 'کامران امیری',
+      national_id: '10320055667',
+      company_name: 'شرکت پترو عمران آریا',
+      status: 'pending',
+      rejection_reason: '',
+      rejection_code: '',
+      documents: [
+        { id: 15, document_type: 'national_id_front', file: '/mock/legal_id_front.jpg', file_size: 160000 },
+        { id: 16, document_type: 'national_id_back', file: '/mock/legal_id_back.jpg', file_size: 170000 }
       ]
     }
   ];
@@ -524,10 +547,17 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
         auditEvents.value = parsed.auditEvents || seedAuditEvents;
         if (parsed.notificationPrefs) notificationPrefs.value = parsed.notificationPrefs;
 
-        // Merge any missing seed flag keys (so existing users get new flags)
-        seedFeatureFlags.forEach(sf => {
-          if (!featureFlags.value.some(ff => ff.key === sf.key)) {
-            featureFlags.value.push({ ...sf });
+        // Ensure verifications have user_type and missing seed pending items exist
+        verifications.value.forEach(v => {
+          if (!v.user_type) {
+            v.user_type = (v.company_name || (v.national_id && v.national_id.length === 11)) ? 'legal' : 'natural';
+          }
+        });
+
+        // Ensure seed pending KYC items are present if queue is empty or missing
+        seedVerifications.forEach(sv => {
+          if (!verifications.value.some(v => v.id === sv.id)) {
+            verifications.value.push({ ...sv });
           }
         });
       } else {
@@ -1056,6 +1086,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
 
     const newVer: Verification = {
       id: Date.now(),
+      user_type: userType,
       full_name: fullNameStr,
       national_id: nationalIdStr,
       company_name: companyNameStr,

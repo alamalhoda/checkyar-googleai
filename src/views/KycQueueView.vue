@@ -21,6 +21,12 @@ const loadKycQueue = async () => {
   }
 };
 
+const getUserType = (item: Verification): 'natural' | 'legal' => {
+  if (item.user_type) return item.user_type;
+  if (item.company_name || (item.national_id && item.national_id.length === 11)) return 'legal';
+  return 'natural';
+};
+
 onMounted(loadKycQueue);
 
 const handleDecision = (id: number, status: 'approved' | 'rejected') => {
@@ -38,15 +44,28 @@ const handleDecision = (id: number, status: 'approved' | 'rejected') => {
 
     <NSpin :show="loading">
       <div v-if="kycItems && kycItems.length > 0" class="space-y-4">
-        <NCard v-for="item in kycItems" :key="item.id" class="bg-slate-900 border border-slate-800 rounded-xl">
+        <NCard v-for="item in kycItems" :key="item.id" data-testid="kyc-queue-item" class="bg-slate-900 border border-slate-800 rounded-xl">
           <div class="flex flex-wrap items-center justify-between gap-4">
             <div class="space-y-1">
               <div class="flex items-center gap-3">
-                <span class="text-sm font-bold text-slate-100">{{ item.full_name }}</span>
-                <span class="text-xs font-mono text-slate-400">کد ملی: {{ item.national_id }}</span>
+                <span class="text-sm font-bold text-slate-100">
+                  {{ getUserType(item) === 'legal' ? (item.company_name || item.full_name) : item.full_name }}
+                </span>
+                <NTag
+                  :type="getUserType(item) === 'legal' ? 'warning' : 'info'"
+                  size="small"
+                  data-testid="kyc-queue-user-type"
+                >
+                  {{ getUserType(item) === 'legal' ? '🏢 شخص حقوقی' : '👤 شخص حقیقی' }}
+                </NTag>
                 <NTag size="small" type="warning">در انتظار تایید</NTag>
               </div>
-              <div v-if="item.company_name" class="text-xs text-slate-400">شرکت: {{ item.company_name }}</div>
+              <div v-if="getUserType(item) === 'legal'" class="text-xs text-slate-400">
+                <span>شرکت: {{ item.company_name }}</span> | <span>نماینده: {{ item.full_name }}</span> | <span class="font-mono">شناسه ملی: {{ item.national_id }}</span>
+              </div>
+              <div v-else class="text-xs text-slate-400 font-mono">
+                کد ملی: {{ item.national_id }}
+              </div>
             </div>
 
             <div class="flex items-center gap-2">

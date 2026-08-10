@@ -29,11 +29,18 @@
     <div v-else-if="!uiStore.isAdvancedModerator" class="max-w-2xl mx-auto space-y-6">
       <NCard title="مدارک ارسال‌شده کاربر" class="bg-slate-900/50 border-slate-800">
         <div class="space-y-4">
-          <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-2">
-            <div class="flex justify-between"><span>نام کامل:</span> <strong class="text-white">{{ verification?.full_name || 'امیرحسین رضایی' }}</strong></div>
-            <div class="flex justify-between"><span>کد ملی:</span> <strong class="font-mono text-white">{{ verification?.national_id || '0012345678' }}</strong></div>
-            <div v-if="verification?.company_name" class="flex justify-between"><span>شرکت / مجموعه:</span> <strong class="text-slate-200">{{ verification.company_name }}</strong></div>
-          </div>
+            <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-2">
+              <div class="flex justify-between items-center">
+                <span>نوع شخص:</span>
+                <NTag :type="getUserType(verification) === 'legal' ? 'warning' : 'info'" size="small" data-testid="kyc-queue-user-type">
+                  {{ getUserType(verification) === 'legal' ? '🏢 شخصیت حقوقی' : '👤 شخص حقیقی' }}
+                </NTag>
+              </div>
+              <div v-if="getUserType(verification) === 'legal'" class="flex justify-between"><span>نام رسمی شرکت:</span> <strong class="text-white">{{ verification?.company_name }}</strong></div>
+              <div v-if="getUserType(verification) === 'legal'" class="flex justify-between"><span>نماینده قانونی:</span> <strong class="text-white">{{ verification?.full_name }}</strong></div>
+              <div v-if="getUserType(verification) === 'natural'" class="flex justify-between"><span>نام کامل:</span> <strong class="text-white">{{ verification?.full_name || 'امیرحسین رضایی' }}</strong></div>
+              <div class="flex justify-between"><span>{{ getUserType(verification) === 'legal' ? 'شناسه ملی شرکت (۱۱ رقم):' : 'کد ملی (۱۰ رقم):' }}</span> <strong class="font-mono text-white">{{ verification?.national_id || '0012345678' }}</strong></div>
+            </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div class="p-3 bg-slate-800/40 rounded-xl border border-slate-700/60 text-center text-xs">
@@ -144,6 +151,13 @@ const loadKyc = async () => {
   } finally {
     loading.value = false;
   }
+};
+
+const getUserType = (v: Verification | null): 'natural' | 'legal' => {
+  if (!v) return 'natural';
+  if (v.user_type) return v.user_type;
+  if (v.company_name || (v.national_id && v.national_id.length === 11)) return 'legal';
+  return 'natural';
 };
 
 const getDocUrl = (type: string) => {

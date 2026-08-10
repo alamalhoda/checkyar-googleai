@@ -109,6 +109,12 @@ const openDocPreview = (docType: string, fileUrl: string) => {
   showDocPreviewModal.value = true;
 };
 
+const getUserType = (item: Verification): 'natural' | 'legal' => {
+  if (item.user_type) return item.user_type;
+  if (item.company_name || (item.national_id && item.national_id.length === 11)) return 'legal';
+  return 'natural';
+};
+
 const getDocumentTypeLabel = (type: string) => {
   switch (type) {
     case 'national_id_front':
@@ -149,26 +155,46 @@ const getDocumentTypeLabel = (type: string) => {
             <NCard
               v-for="item in kycItems"
               :key="item.id"
+              data-testid="kyc-queue-item"
               class="bg-slate-900 border border-slate-800 rounded-2xl shadow-lg hover:border-slate-700 transition-all"
             >
               <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
                 <!-- User Details -->
                 <div class="space-y-3 flex-1 min-w-0">
                   <div class="flex items-center gap-3">
-                    <h3 class="text-base font-bold text-slate-100">{{ item.full_name }}</h3>
+                    <h3 class="text-base font-bold text-slate-100">
+                      {{ getUserType(item) === 'legal' ? (item.company_name || item.full_name) : item.full_name }}
+                    </h3>
+                    <NTag
+                      :type="getUserType(item) === 'legal' ? 'warning' : 'info'"
+                      size="small"
+                      round
+                      class="font-bold"
+                      data-testid="kyc-queue-user-type"
+                    >
+                      {{ getUserType(item) === 'legal' ? '🏢 شخصیت حقوقی' : '👤 شخص حقیقی' }}
+                    </NTag>
                     <NTag size="small" type="warning" round class="font-bold">
                       در انتظار بررسی
                     </NTag>
                   </div>
 
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs bg-slate-950/60 p-3 rounded-xl border border-slate-800">
-                    <div>
-                      <span class="text-slate-400">کد ملی / شناسه:</span>
-                      <strong class="font-mono text-slate-200 mr-1">{{ item.national_id }}</strong>
-                    </div>
-                    <div v-if="item.company_name">
-                      <span class="text-slate-400">نام مجموعه/شرکت:</span>
+                    <div v-if="getUserType(item) === 'legal'">
+                      <span class="text-slate-400">نام رسمی شرکت:</span>
                       <strong class="text-slate-200 mr-1">{{ item.company_name }}</strong>
+                    </div>
+                    <div v-if="getUserType(item) === 'legal'">
+                      <span class="text-slate-400">نماینده قانونی:</span>
+                      <strong class="text-slate-200 mr-1">{{ item.full_name }}</strong>
+                    </div>
+                    <div v-if="getUserType(item) === 'natural'">
+                      <span class="text-slate-400">نام و نام خانوادگی:</span>
+                      <strong class="text-slate-200 mr-1">{{ item.full_name }}</strong>
+                    </div>
+                    <div>
+                      <span class="text-slate-400">{{ getUserType(item) === 'legal' ? 'شناسه ملی شرکت (۱۱ رقم):' : 'کد ملی (۱۰ رقم):' }}</span>
+                      <strong class="font-mono text-slate-200 mr-1">{{ item.national_id }}</strong>
                     </div>
                   </div>
 

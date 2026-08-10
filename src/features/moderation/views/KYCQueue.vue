@@ -24,18 +24,30 @@
             <thead class="bg-slate-950/60 text-slate-400 border-b border-slate-800">
               <tr>
                 <th class="p-3">شناسه کاربری</th>
-                <th class="p-3">نام و نام خانوادگی</th>
-                <th class="p-3">کد ملی</th>
+                <th class="p-3">نوع شخص</th>
+                <th class="p-3">نام / شرکت</th>
+                <th class="p-3">کد ملی / شناسه</th>
                 <th class="p-3">تاریخ ارسال</th>
                 <th class="p-3 text-center">عملیات</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-800/60 text-slate-200">
-              <tr v-for="item in store.kycQueue" :key="item.id" class="hover:bg-slate-800/30 transition-colors">
-                <td class="p-3 font-mono font-bold text-slate-300">#{{ item.user_id }}</td>
-                <td class="p-3 font-semibold text-white">{{ item.full_name }}</td>
+              <tr v-for="item in store.kycQueue" :key="item.id" data-testid="kyc-queue-item" class="hover:bg-slate-800/30 transition-colors">
+                <td class="p-3 font-mono font-bold text-slate-300">#{{ item.id }}</td>
+                <td class="p-3">
+                  <NTag
+                    :type="getUserType(item) === 'legal' ? 'warning' : 'info'"
+                    size="small"
+                    data-testid="kyc-queue-user-type"
+                  >
+                    {{ getUserType(item) === 'legal' ? '🏢 شخص حقوقی' : '👤 شخص حقیقی' }}
+                  </NTag>
+                </td>
+                <td class="p-3 font-semibold text-white">
+                  {{ getUserType(item) === 'legal' ? (item.company_name ? `${item.company_name} (${item.full_name})` : item.full_name) : item.full_name }}
+                </td>
                 <td class="p-3 font-mono text-slate-300">{{ item.national_id }}</td>
-                <td class="p-3 text-slate-400 font-mono">{{ formatDate(item.submitted_at) }}</td>
+                <td class="p-3 text-slate-400 font-mono">{{ formatDate(item.submitted_at || item.created_at || new Date().toISOString()) }}</td>
                 <td class="p-3 text-center">
                   <NButton type="primary" size="small" @click="goReview(item.id)">
                     بررسی مدارک KYC
@@ -58,8 +70,9 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { NCard, NBadge, NButton, NSpin } from 'naive-ui';
+import { NCard, NBadge, NButton, NSpin, NTag } from 'naive-ui';
 import { useModerationStore } from '../stores/moderationStore';
+import type { Verification } from '../../../types/api';
 
 const router = useRouter();
 const store = useModerationStore();
@@ -67,6 +80,12 @@ const store = useModerationStore();
 onMounted(() => {
   store.fetchKycQueue();
 });
+
+function getUserType(item: Verification): 'natural' | 'legal' {
+  if (item.user_type) return item.user_type;
+  if (item.company_name || (item.national_id && item.national_id.length === 11)) return 'legal';
+  return 'natural';
+}
 
 function formatDate(iso: string) {
   try {

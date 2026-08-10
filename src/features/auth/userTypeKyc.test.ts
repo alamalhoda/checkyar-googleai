@@ -77,6 +77,7 @@ describe('UserType and KYC Validation Rules', () => {
         national_id: '0012345678'
       });
       expect(validVer.national_id).toBe('0012345678');
+      expect(validVer.user_type).toBe('natural');
       expect(validVer.status).toBe('pending');
 
       // Invalid national_id length
@@ -105,6 +106,7 @@ describe('UserType and KYC Validation Rules', () => {
       });
       expect(validVer.national_id).toBe('10100012345');
       expect(validVer.company_name).toBe('شرکت توسعه تجارت نوین');
+      expect(validVer.user_type).toBe('legal');
 
       // Missing company name
       expect(() => store.createVerification({
@@ -119,6 +121,29 @@ describe('UserType and KYC Validation Rules', () => {
         company_name: 'شرکت توسعه تجارت نوین',
         national_id: '0012345678'
       })).toThrowError();
+    });
+  });
+
+  describe('KYC Moderation Queue user_type tests', () => {
+    it('returns at least 1 natural pending and at least 1 legal pending verification in getKycQueue', () => {
+      const store = useBackendSimulatorStore();
+      const queue = store.getKycQueue();
+
+      const naturalPending = queue.filter(v => (v.user_type === 'natural' || (!v.company_name && v.national_id.length === 10)));
+      const legalPending = queue.filter(v => (v.user_type === 'legal' || (v.company_name !== '' && v.national_id.length === 11)));
+
+      expect(naturalPending.length).toBeGreaterThanOrEqual(1);
+      expect(legalPending.length).toBeGreaterThanOrEqual(1);
+
+      const nItem = naturalPending[0];
+      expect(nItem.national_id).toMatch(/^\d{10}$/);
+      expect(nItem.company_name).toBe('');
+      expect(nItem.status).toBe('pending');
+
+      const lItem = legalPending[0];
+      expect(lItem.national_id).toMatch(/^\d{11}$/);
+      expect(lItem.company_name).not.toBe('');
+      expect(lItem.status).toBe('pending');
     });
   });
 });

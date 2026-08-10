@@ -32,7 +32,7 @@ export interface User { id: number; username: string; email: string; name: strin
 export interface Profile { id: number; username: string; email: string; name: string; user_type: UserType; phone: string; role: UserRole; bio: string; is_verified: boolean; created_at: string; updated_at: string; }
 
 export interface Document { id: number; document_type: DocumentType; file: string; file_size: number; }
-export interface Verification { id: number; full_name: string; national_id: string; company_name: string; status: VerificationStatus; rejection_reason: string; rejection_code: string; documents: Document[]; }
+export interface Verification { id: number; user_type?: UserType; full_name: string; national_id: string; company_name: string; status: VerificationStatus; rejection_reason: string; rejection_code: string; documents: Document[]; }
 export interface CreateVerificationRequest { full_name: string; national_id?: string; company_name?: string; national_id_front?: File | string; national_id_back?: File | string; selfie?: File | string; }
 
 export interface IssuerProfile { id: number; national_or_company_id: string; name: string; credit_score: number | null; created_at: string; updated_at: string; }
