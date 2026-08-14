@@ -383,9 +383,16 @@ export const adminApi = {
   },
   updateFeatureFlag: async (key: string, is_enabled: boolean): Promise<FeatureFlag> => {
     if (isMock()) {
-      const flag = useBackendSimulatorStore().featureFlags.find(f => f.key === key);
-      if (flag) flag.is_enabled = is_enabled;
-      return flag!;
+      const store = useBackendSimulatorStore();
+      const updated = store.updateFeatureFlag(key, is_enabled);
+      if (updated) return updated;
+      const flag = store.featureFlags.find(f => f.key === key);
+      if (flag) {
+        flag.is_enabled = is_enabled;
+        store.persist();
+        return flag;
+      }
+      throw new Error(`Feature flag ${key} not found`);
     }
     const res = await api.patch(`/compliance/feature-flags/${key}/`, { is_enabled });
     return res.data;

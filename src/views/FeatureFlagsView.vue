@@ -3,7 +3,9 @@ import { ref, onMounted } from 'vue';
 import { NCard, NSwitch, NSpin, NTag } from 'naive-ui';
 import { adminApi } from '../api';
 import type { FeatureFlag } from '../types/api';
+import { useFeatureFlags } from '../shared/composables/useFeatureFlags';
 
+const { fetchFlags } = useFeatureFlags();
 const flags = ref<FeatureFlag[]>([]);
 const loading = ref(false);
 
@@ -28,6 +30,7 @@ const toggleFlag = async (key: string) => {
     const list = Array.isArray(flags.value) ? flags.value : [];
     const flag = list.find(f => f.key === key);
     if (flag) flag.is_enabled = !flag.is_enabled;
+    await fetchFlags(true);
   } catch (err) {
     console.error('Failed to toggle flag', err);
   }

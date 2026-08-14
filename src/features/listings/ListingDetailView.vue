@@ -8,11 +8,13 @@ import ConfirmDialog from '../../shared/components/ConfirmDialog.vue';
 import { listingsApi, complianceApi } from '../../api';
 import { useAuthStore } from '../../stores/auth';
 import { LISTING_STATUS_LABELS, type ChequeListing, type ListingStatus } from '../../types/api';
+import { useFeatureFlags } from '../../shared/composables/useFeatureFlags';
 
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 const message = useMessage();
+const { showRiskTier } = useFeatureFlags();
 
 const listingId = computed(() => Number(route.params.id));
 const listing = ref<ChequeListing | null>(null);
@@ -109,9 +111,14 @@ onMounted(loadListingDetail);
             </div>
           </div>
 
-          <NTag v-if="listing" :type="statusTagType(listing.status)" size="large">
-            {{ LISTING_STATUS_LABELS[listing.status] || listing.status }}
-          </NTag>
+          <div class="flex items-center gap-2" v-if="listing">
+            <NTag v-if="showRiskTier && listing.risk_tier" :type="listing.risk_tier === 'low' ? 'success' : listing.risk_tier === 'medium' ? 'warning' : 'error'" round size="large">
+              اعتبارسنجی: {{ listing.risk_tier === 'low' ? 'ریسک پایین' : listing.risk_tier === 'medium' ? 'ریسک متوسط' : 'ریسک بالا' }}
+            </NTag>
+            <NTag :type="statusTagType(listing.status)" size="large">
+              {{ LISTING_STATUS_LABELS[listing.status] || listing.status }}
+            </NTag>
+          </div>
         </div>
 
         <!-- Loading State -->
@@ -174,6 +181,12 @@ onMounted(loadListingDetail);
 
                 <NDescriptionsItem label="نرخ تنزیل پیشنهادی">
                   <span class="text-emerald-400 font-bold">{{ listing.suggested_discount_rate || '-' }}٪ ماهانه</span>
+                </NDescriptionsItem>
+
+                <NDescriptionsItem v-if="showRiskTier && listing.risk_tier" label="سطح ریسک اعتباری">
+                  <NTag :type="listing.risk_tier === 'low' ? 'success' : listing.risk_tier === 'medium' ? 'warning' : 'error'" size="small" round>
+                    {{ listing.risk_tier === 'low' ? 'ریسک پایین (A+)' : listing.risk_tier === 'medium' ? 'ریسک متوسط (B)' : 'ریسک بالا (C)' }}
+                  </NTag>
                 </NDescriptionsItem>
               </NDescriptions>
 

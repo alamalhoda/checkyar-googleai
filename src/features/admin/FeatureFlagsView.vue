@@ -4,8 +4,10 @@ import { NCard, NSwitch, NSpin, NTag, NButton, useMessage } from 'naive-ui';
 import { ToggleOutline, RefreshOutline, LockClosedOutline } from '@vicons/ionicons5';
 import { adminApi } from '../../api';
 import type { FeatureFlag } from '../../types/api';
+import { useFeatureFlags } from '../../shared/composables/useFeatureFlags';
 
 const message = useMessage();
+const { fetchFlags } = useFeatureFlags();
 const flags = ref<FeatureFlag[]>([]);
 const loading = ref(false);
 const updatingKey = ref<string | null>(null);
@@ -35,6 +37,7 @@ const handleToggle = async (flag: FeatureFlag, newValue: boolean) => {
   try {
     await adminApi.updateFeatureFlag(flag.key, newValue);
     flag.is_enabled = newValue;
+    await fetchFlags(true);
     message.success(`ویژگی «${flag.key}» با موفقیت ${newValue ? 'فعال' : 'غیرفعال'} گردید.`);
   } catch (err: any) {
     message.error('خطا در تغییر وضعیت کلید ویژگی.');

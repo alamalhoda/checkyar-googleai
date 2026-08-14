@@ -25,7 +25,7 @@ bun run test:watch
 - `src/utils/persianUtils.test.ts`: تبدیل اعداد فارسی، اعتبارسنجی کد ملی، فرمت پول و تاریخ.
 - `src/stores/auth.permissions.test.ts`: بررسی سطح دسترسی‌ها و نقش‌ها در استور احراز هویت.
 - `src/features/listings/composables/useSmartPricing.test.ts`: محاسبات نرخ تنزیل و قیمت‌گذاری هوشمند.
-- `src/shared/composables/useFeatureFlags.test.ts`: بارگذاری کلیدهای فیچر و ارزیابی کلید `show_risk_tier`.
+- `src/shared/composables/useFeatureFlags.test.ts`: بارگذاری کلیدهای فیچر، ادغام مقادیر اولیه در `localStorage` قدیمی فاقد `show_risk_tier` (با پیش‌فرض غیرفعال)، و ارزیابی پویای کلید `show_risk_tier` و پاکسازی کش پس از تغییر وضعیت.
 - `src/features/moderation/moderationRiskTier.test.ts`: بررسی منطق تصمیم‌گیری ناظر همراه با تخصیص `risk_tier`.
 - `src/api/client.test.ts`: بررسی گارد محیط شبیه‌ساز (Mock mode).
 - `src/api/liveFixes.test.ts`: بررسی عملکرد Live API برای وضعیت احراز هویت و آپلود مدارک.

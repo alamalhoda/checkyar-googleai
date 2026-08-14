@@ -547,10 +547,38 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
         auditEvents.value = parsed.auditEvents || seedAuditEvents;
         if (parsed.notificationPrefs) notificationPrefs.value = parsed.notificationPrefs;
 
+        let needsPersist = false;
+
+        // Merge any missing seed feature flags (e.g. show_risk_tier) into stored flags
+        seedFeatureFlags.forEach(sf => {
+          if (!featureFlags.value.some(f => f.key === sf.key)) {
+            featureFlags.value.push({ ...sf });
+            needsPersist = true;
+          }
+        });
+
+        // Merge any missing seed users
+        seedUsers.forEach(su => {
+          if (!users.value.some(u => u.id === su.id)) {
+            users.value.push({ ...su });
+            needsPersist = true;
+          }
+        });
+
+        // Merge any missing seed profiles
+        Object.entries(seedProfiles).forEach(([idStr, sp]) => {
+          const id = Number(idStr);
+          if (!profiles.value[id]) {
+            profiles.value[id] = { ...sp };
+            needsPersist = true;
+          }
+        });
+
         // Ensure verifications have user_type and missing seed pending items exist
         verifications.value.forEach(v => {
           if (!v.user_type) {
             v.user_type = (v.company_name || (v.national_id && v.national_id.length === 11)) ? 'legal' : 'natural';
+            needsPersist = true;
           }
         });
 
@@ -558,8 +586,13 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
         seedVerifications.forEach(sv => {
           if (!verifications.value.some(v => v.id === sv.id)) {
             verifications.value.push({ ...sv });
+            needsPersist = true;
           }
         });
+
+        if (needsPersist) {
+          persist();
+        }
       } else {
         resetToSeed();
       }
@@ -1165,6 +1198,16 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     return newDoc;
   }
 
+  function updateFeatureFlag(key: string, is_enabled: boolean): FeatureFlag | undefined {
+    const flag = featureFlags.value.find(f => f.key === key);
+    if (flag) {
+      flag.is_enabled = is_enabled;
+      persist();
+      return flag;
+    }
+    return undefined;
+  }
+
   function toggleFeatureFlag(key: string) {
     const flag = featureFlags.value.find(f => f.key === key);
     if (flag) {
@@ -1222,6 +1265,8 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     createVerification,
     getAdminStats,
     toggleFeatureFlag,
+    updateFeatureFlag,
+    persist,
     getAuditEvents
   };
 });
