@@ -137,7 +137,7 @@ const loginAsPersona = async (persona: typeof personas.value[0]) => {
         <div class="w-3 h-3 rounded-full animate-ping" :class="isMockActive ? 'bg-emerald-400' : 'bg-amber-400'"></div>
         <div>
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-white">حالت تست و شبیه‌سازی سیستم (Mock Simulator)</span>
+            <span class="text-xs font-bold text-slate-100">حالت تست و شبیه‌سازی سیستم (Mock Simulator)</span>
             <NTag size="small" :type="isMockActive ? 'success' : 'warning'" round>
               {{ isMockActive ? 'فعال (دمو)' : 'غیرفعال (سرور واقعی)' }}
             </NTag>
@@ -164,7 +164,7 @@ const loginAsPersona = async (persona: typeof personas.value[0]) => {
             <div class="flex items-center gap-2">
               <span class="text-xl">👥</span>
               <div>
-                <h2 class="text-sm font-bold text-white">انتخاب سریع نقش کاربری (شبیه‌ساز)</h2>
+                <h2 class="text-sm font-bold text-slate-100">انتخاب سریع نقش کاربری (شبیه‌ساز)</h2>
                 <p class="text-[11px] text-slate-400">روی یکی از کاراکترهای زیر کلیک کنید تا بلافاصله وارد سیستم شوید</p>
               </div>
             </div>
@@ -186,7 +186,7 @@ const loginAsPersona = async (persona: typeof personas.value[0]) => {
                 <div class="flex items-center gap-2.5">
                   <span class="text-2xl">{{ p.icon }}</span>
                   <div>
-                    <div class="font-bold text-xs text-white group-hover:text-amber-300 transition-colors">
+                    <div class="font-bold text-xs text-slate-100 group-hover:text-amber-300 transition-colors">
                       {{ p.name }}
                     </div>
                     <div class="text-[10px] text-slate-400 font-mono">@{{ p.username }}</div>

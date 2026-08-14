@@ -2,7 +2,7 @@
   <div class="max-w-6xl mx-auto p-4 md:p-6 space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/80 p-5 rounded-2xl border border-slate-800">
       <div>
-        <h1 class="text-xl font-bold text-white flex items-center gap-2">
+        <h1 class="text-xl font-bold text-slate-100 flex items-center gap-2">
           <span>صف بررسی احراز هویت (KYC)</span>
           <NBadge :value="store.kycQueue.length" type="info" />
         </h1>
@@ -43,7 +43,7 @@
                     {{ getUserType(item) === 'legal' ? '🏢 شخص حقوقی' : '👤 شخص حقیقی' }}
                   </NTag>
                 </td>
-                <td class="p-3 font-semibold text-white">
+                <td class="p-3 font-semibold text-slate-100">
                   {{ getUserType(item) === 'legal' ? (item.company_name ? `${item.company_name} (${item.full_name})` : item.full_name) : item.full_name }}
                 </td>
                 <td class="p-3 font-mono text-slate-300">{{ item.national_id }}</td>

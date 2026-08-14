@@ -7,7 +7,6 @@ import {
   NDialogProvider,
   faIR,
   dateFaIR,
-  darkTheme,
   unstableSelectRtl,
   unstablePopoverRtl,
   unstableButtonRtl,
@@ -97,21 +96,3 @@ const themeOverrides = computed(() => {
     </NMessageProvider>
   </NConfigProvider>
 </template>
-
-<style>
-/* Global scrollbar styling */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #090d16;
-}
-::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #334155;
-}
-</style>

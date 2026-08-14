@@ -30,6 +30,8 @@ bun run test:watch
 - `src/api/client.test.ts`: بررسی گارد محیط شبیه‌ساز (Mock mode).
 - `src/api/liveFixes.test.ts`: بررسی عملکرد Live API برای وضعیت احراز هویت و آپلود مدارک.
 - `src/utils/offlineAssets.test.ts`: گارد تست عدم استفاده از CDNهای خارجی و لینک‌های فونت یا تصاویر غیرلوکال.
+- `src/utils/themeOverrides.test.ts`: ارزیابی تعیین تم و توکن‌های اختصاصی Naive UI برای تمامی پوسته‌ها.
+- `src/features/reports/utils/chartTheming.test.ts`: اعتبارسنجی تنظیمات پویا، پالت رنگ و تولتیپ نمودارهای ApexCharts.
 
 ---
 

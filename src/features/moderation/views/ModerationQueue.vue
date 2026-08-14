@@ -2,7 +2,7 @@
   <div class="max-w-6xl mx-auto p-4 md:p-6 space-y-6" data-testid="moderation-queue-page">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/80 p-5 rounded-2xl border border-slate-800">
       <div>
-        <h1 class="text-xl font-bold text-white flex items-center gap-2">
+        <h1 class="text-xl font-bold text-slate-100 flex items-center gap-2">
           <span>صف بررسی و نظارت آگهی‌ها</span>
           <NBadge :value="queueList.length" type="warning" />
         </h1>
@@ -49,7 +49,7 @@
               >
                 <td class="p-3 font-mono font-bold text-slate-300">#{{ item.id }}</td>
                 <td class="p-3">
-                  <div class="font-mono text-white">{{ item.cheque_serial_number || '1234567890123456' }}</div>
+                  <div class="font-mono text-slate-100">{{ item.cheque_serial_number || '1234567890123456' }}</div>
                   <div class="text-slate-400 text-[11px]">{{ item.bank_name || 'بانک ملت' }}</div>
                 </td>
                 <td class="p-3 font-bold text-emerald-400">{{ Number(item.face_amount || 0).toLocaleString('fa-IR') }}</td>

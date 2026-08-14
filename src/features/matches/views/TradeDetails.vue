@@ -4,13 +4,13 @@
     <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-slate-900/80 p-5 rounded-2xl border border-slate-800 shadow-xl">
       <div class="space-y-1">
         <div class="flex items-center gap-2">
-          <h1 class="text-xl font-bold text-white">گفتگو و تنظیم شرایط معامله</h1>
+          <h1 class="text-xl font-bold text-slate-100">گفتگو و تنظیم شرایط معامله</h1>
           <NTag type="info" round size="small">کد معامله #{{ matchId }}</NTag>
         </div>
         <p v-if="matchStore.currentMatch" class="text-xs text-slate-400 flex items-center gap-3">
-          <span>طرف معامله: <strong class="text-white">{{ matchStore.currentMatch.counterpartyName }}</strong></span>
+          <span>طرف معامله: <strong class="text-slate-100">{{ matchStore.currentMatch.counterpartyName }}</strong></span>
           <span>•</span>
-          <span>بانک: <strong class="text-white">{{ matchStore.currentMatch.listingBank }}</strong></span>
+          <span>بانک: <strong class="text-slate-100">{{ matchStore.currentMatch.listingBank }}</strong></span>
           <span>•</span>
           <span>مبلغ اسمی چک: <strong class="text-emerald-400">{{ matchStore.currentMatch.listingOriginalAmount.toLocaleString('fa-IR') }} تومان</strong></span>
         </p>

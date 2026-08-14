@@ -155,7 +155,7 @@ const handleRegister = async () => {
                   فروشنده
                 </NTag>
               </div>
-              <div class="font-bold text-xs text-white">دارنده چک</div>
+              <div class="font-bold text-xs text-slate-100">دارنده چک</div>
               <p class="text-[10px] text-slate-400 leading-tight">
                 ثبت آگهی واگذاری چک‌های صیادی، دریافت پیشنهاد تنزیل و نقدکنندگی
               </p>
@@ -177,7 +177,7 @@ const handleRegister = async () => {
                   خریدار
                 </NTag>
               </div>
-              <div class="font-bold text-xs text-white">سرمایه‌گذار</div>
+              <div class="font-bold text-xs text-slate-100">سرمایه‌گذار</div>
               <p class="text-[10px] text-slate-400 leading-tight">
                 خرید چک‌های معتبر با سود تنزیل شفاف و تسویه امن امانی
               </p>

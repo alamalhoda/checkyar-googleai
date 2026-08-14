@@ -16,7 +16,7 @@
     >
       <div class="flex items-center justify-between gap-2 mb-2">
         <div class="flex items-center gap-2">
-          <span class="text-sm font-semibold text-white">{{ prop.senderName }}</span>
+          <span class="text-sm font-semibold text-slate-100">{{ prop.senderName }}</span>
           <NTag size="small" :type="prop.senderRole === 'seller' ? 'info' : 'warning'">
             {{ prop.senderRole === 'seller' ? 'فروشنده' : 'خریدار' }}
           </NTag>

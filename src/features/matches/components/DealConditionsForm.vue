@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-4">
     <div class="flex items-center justify-between pb-2 border-b border-slate-800">
-      <h3 class="text-sm font-semibold text-white flex items-center gap-2">
+      <h3 class="text-sm font-semibold text-slate-100 flex items-center gap-2">
         <span>فرم تنظیم شرایط معامله</span>
         <NTag size="small" type="primary">پیشرفته</NTag>
       </h3>
