@@ -1,11 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { moderationApi, listingsApi, isMock, type ModerationQueueItem, type Verification, type ModerationDecisionRequest } from '../../../api';
-import { createDiscreteApi, darkTheme } from 'naive-ui';
-
-const { message } = createDiscreteApi(['message'], {
-  configProviderProps: { theme: darkTheme }
-});
+import { message } from '../../../utils/discreteApi';
 
 export interface ReviewItemDetails {
   id: number;

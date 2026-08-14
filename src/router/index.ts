@@ -1,10 +1,6 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
-import { createDiscreteApi, darkTheme } from 'naive-ui';
-
-const { message } = createDiscreteApi(['message'], {
-  configProviderProps: { theme: darkTheme }
-});
+import { message } from '../utils/discreteApi';
 
 const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/marketplace' },

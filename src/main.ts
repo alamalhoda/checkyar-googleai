@@ -1,12 +1,8 @@
 import { createApp } from 'vue';
 import { createPinia, setActivePinia } from 'pinia';
-import { createDiscreteApi, darkTheme } from 'naive-ui';
 import App from './App.vue';
 import './index.css';
-
-const { message } = createDiscreteApi(['message'], {
-  configProviderProps: { theme: darkTheme }
-});
+import { message } from './utils/discreteApi';
 
 const app = createApp(App);
 const pinia = createPinia();

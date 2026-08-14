@@ -2,7 +2,7 @@
   <div class="max-w-4xl mx-auto p-4 md:p-6 space-y-6">
     <div class="flex items-center justify-between bg-slate-900/60 p-4 rounded-xl border border-slate-800">
       <div>
-        <h1 class="text-xl font-bold text-white">ویرایش آگهی چک صیادی</h1>
+        <h1 class="text-xl font-bold text-slate-100">ویرایش آگهی چک صیادی</h1>
         <p class="text-xs text-slate-400 mt-1">شناسه آگهی: #{{ listingId }}</p>
       </div>
 

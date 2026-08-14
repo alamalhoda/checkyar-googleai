@@ -1,11 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, reactive } from 'vue';
 import { matchesApi, type Match } from '../../../api';
-import { createDiscreteApi, darkTheme } from 'naive-ui';
-
-const { message } = createDiscreteApi(['message'], {
-  configProviderProps: { theme: darkTheme }
-});
+import { message } from '../../../utils/discreteApi';
 
 export interface ProposalItem {
   id: number;

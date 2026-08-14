@@ -3,7 +3,7 @@
     <!-- Header with Hybrid UX Mode Toggle -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/80 p-5 rounded-2xl border border-slate-800 shadow-xl">
       <div>
-        <h1 class="text-xl font-black text-white flex items-center gap-2">
+        <h1 class="text-xl font-black text-slate-100 flex items-center gap-2">
           <span>ثبت آگهی جدید چک صیادی</span>
           <NTag type="success" size="small" round>احراز هویت هوشمند</NTag>
         </h1>
@@ -212,7 +212,7 @@
             <!-- Cheque Front Image Upload (Required) -->
             <div class="bg-slate-950/70 p-4 rounded-xl border border-slate-800 space-y-3">
               <div class="flex items-center justify-between">
-                <label class="text-xs font-bold text-white flex items-center gap-1.5">
+                <label class="text-xs font-bold text-slate-100 flex items-center gap-1.5">
                   <span>📷 تصویر روی چک صیادی</span>
                   <NTag size="small" type="error" round>الزامی</NTag>
                 </label>
@@ -249,7 +249,7 @@
             <!-- Cheque Back Image Upload (Optional) -->
             <div class="bg-slate-950/70 p-4 rounded-xl border border-slate-800 space-y-3">
               <div class="flex items-center justify-between">
-                <label class="text-xs font-bold text-white flex items-center gap-1.5">
+                <label class="text-xs font-bold text-slate-100 flex items-center gap-1.5">
                   <span>🔄 تصویر پشت چک (ظهرنویسی)</span>
                   <NTag size="small" type="default" round>اختیاری</NTag>
                 </label>
@@ -288,7 +288,7 @@
           <!-- Contract / Invoice Supporting Documents -->
           <div class="bg-slate-950/70 p-4 rounded-xl border border-slate-800 space-y-3">
             <div class="flex items-center justify-between">
-              <label class="text-xs font-bold text-white flex items-center gap-1.5">
+              <label class="text-xs font-bold text-slate-100 flex items-center gap-1.5">
                 <span>📑 متن قرارداد یا تصویر فاکتور معامله پایه</span>
                 <NTag size="small" type="warning" round>توصیه‌شده جهت بالا بردن رتبه اعتباری</NTag>
               </label>
@@ -401,13 +401,13 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Cheque Specs Summary -->
             <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800 space-y-3 text-sm">
-              <h3 class="font-bold text-white border-b border-slate-800 pb-2 flex items-center justify-between">
+              <h3 class="font-bold text-slate-100 border-b border-slate-800 pb-2 flex items-center justify-between">
                 <span>📋 خلاصه اطلاعات چک</span>
                 <NTag size="small" type="success" round>استعلام معتبر</NTag>
               </h3>
               <div class="flex justify-between border-b border-slate-800/60 pb-1.5">
                 <span class="text-slate-400">شناسه ۱۶ رقمی صیادی:</span>
-                <span class="font-mono text-white font-bold">{{ form.formData.serialNumber }}</span>
+                <span class="font-mono text-slate-100 font-bold">{{ form.formData.serialNumber }}</span>
               </div>
               <div class="flex justify-between border-b border-slate-800/60 pb-1.5">
                 <span class="text-slate-400">مبلغ اسمی:</span>
@@ -423,13 +423,13 @@
               </div>
               <div class="flex justify-between border-b border-slate-800/60 pb-1.5">
                 <span class="text-slate-400">بانک صادرکننده:</span>
-                <span class="text-white">{{ form.formData.bank }} - {{ form.formData.city }}</span>
+                <span class="text-slate-100">{{ form.formData.bank }} - {{ form.formData.city }}</span>
               </div>
             </div>
 
             <!-- Pricing Summary -->
             <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800 space-y-3 text-sm">
-              <h3 class="font-bold text-white border-b border-slate-800 pb-2 flex items-center justify-between">
+              <h3 class="font-bold text-slate-100 border-b border-slate-800 pb-2 flex items-center justify-between">
                 <span>💡 محاسبات تنزیل و تسویه</span>
                 <NTag size="small" type="info" round>{{ settlementLabel(form.formData.settlementMethod) }}</NTag>
               </h3>
@@ -560,7 +560,7 @@
           
           <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
             <div class="flex justify-between items-center">
-              <span class="text-xs font-bold text-white flex items-center gap-1">
+              <span class="text-xs font-bold text-slate-100 flex items-center gap-1">
                 <span>📷 تصویر روی چک</span>
                 <NTag size="small" type="error" round>الزامی</NTag>
               </span>
@@ -585,7 +585,7 @@
 
           <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
             <div class="flex justify-between items-center">
-              <span class="text-xs font-bold text-white flex items-center gap-1">
+              <span class="text-xs font-bold text-slate-100 flex items-center gap-1">
                 <span>🔄 تصویر پشت چک</span>
                 <NTag size="small" type="default" round>اختیاری</NTag>
               </span>

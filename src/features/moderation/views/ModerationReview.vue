@@ -4,7 +4,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/80 p-5 rounded-2xl border border-slate-800 shadow-xl">
       <div>
         <div class="flex items-center gap-2">
-          <h1 class="text-xl font-bold text-white">بررسی و ارزیابی آگهی چک صیادی</h1>
+          <h1 class="text-xl font-bold text-slate-100">بررسی و ارزیابی آگهی چک صیادی</h1>
           <NTag type="warning" round size="small">در انتظار تصمیم ناظر</NTag>
         </div>
         <p class="text-xs text-slate-400 mt-1">کد بررسی: #{{ itemId }}</p>
@@ -32,7 +32,7 @@
             <div class="grid grid-cols-2 gap-4 bg-slate-950/50 p-4 rounded-xl border border-slate-800">
               <div>
                 <span class="text-slate-500">شناسه صیادی:</span>
-                <div class="font-mono text-white text-sm font-bold">{{ store.currentReviewItem.sayadId }}</div>
+                <div class="font-mono text-slate-100 text-sm font-bold">{{ store.currentReviewItem.sayadId }}</div>
               </div>
               <div>
                 <span class="text-slate-500">مبلغ اسمی:</span>
@@ -40,11 +40,11 @@
               </div>
               <div>
                 <span class="text-slate-500">بانک صادرکننده:</span>
-                <div class="text-white">{{ store.currentReviewItem.bank }} ({{ store.currentReviewItem.city }})</div>
+                <div class="text-slate-100">{{ store.currentReviewItem.bank }} ({{ store.currentReviewItem.city }})</div>
               </div>
               <div>
                 <span class="text-slate-500">تاریخ سررسید:</span>
-                <div class="text-white">{{ store.currentReviewItem.dueDate }}</div>
+                <div class="text-slate-100">{{ store.currentReviewItem.dueDate }}</div>
               </div>
             </div>
 
@@ -83,7 +83,7 @@
               <div class="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800 space-y-2">
                 <div class="flex justify-between">
                   <span class="text-slate-500">صیادی:</span>
-                  <span class="font-mono text-white font-bold">{{ store.currentReviewItem.sayadId }}</span>
+                  <span class="font-mono text-slate-100 font-bold">{{ store.currentReviewItem.sayadId }}</span>
                 </div>
                 <div class="flex justify-between">
                   <span class="text-slate-500">مبلغ:</span>
@@ -91,7 +91,7 @@
                 </div>
                 <div class="flex justify-between">
                   <span class="text-slate-500">بانک:</span>
-                  <span class="text-white">{{ store.currentReviewItem.bank }}</span>
+                  <span class="text-slate-100">{{ store.currentReviewItem.bank }}</span>
                 </div>
               </div>
 
@@ -119,7 +119,7 @@
               <div class="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800 space-y-2">
                 <div class="flex justify-between">
                   <span class="text-slate-500">نام کاربر:</span>
-                  <span class="text-white font-bold">{{ store.currentReviewItem.userName }}</span>
+                  <span class="text-slate-100 font-bold">{{ store.currentReviewItem.userName }}</span>
                 </div>
                 <div class="flex justify-between">
                   <span class="text-slate-500">امتیاز اعتباری:</span>
@@ -127,7 +127,7 @@
                 </div>
                 <div class="flex justify-between">
                   <span class="text-slate-500">تعداد معاملات موفق:</span>
-                  <span class="text-white font-mono">{{ store.currentReviewItem.userTradeCount }} معامله</span>
+                  <span class="text-slate-100 font-mono">{{ store.currentReviewItem.userTradeCount }} معامله</span>
                 </div>
                 <div class="flex justify-between">
                   <span class="text-slate-500">وضعیت KYC:</span>

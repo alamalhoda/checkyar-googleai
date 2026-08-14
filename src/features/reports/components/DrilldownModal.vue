@@ -17,9 +17,12 @@ import {
 import { CloseOutline, DownloadOutline, SearchOutline, LayersOutline } from '@vicons/ionicons5';
 import VueApexCharts from 'vue3-apexcharts';
 import { useReportsStore } from '../stores/reportsStore';
+import { useUiStore } from '../../../stores/useUiStore';
+import { getApexChartThemeConfig } from '../utils/chartTheming';
 import type { DrilldownTableRow } from '../types/reports.types';
 
 const store = useReportsStore();
+const uiStore = useUiStore();
 
 const searchKeyword = ref('');
 
@@ -38,13 +41,23 @@ const filteredRows = computed(() => {
 
 // Mini chart options for drilldown modal top section
 const miniChartOptions = computed(() => {
+  const themeConfig = getApexChartThemeConfig(uiStore.currentTheme);
   return {
     chart: { type: 'bar', toolbar: { show: false }, background: 'transparent' },
-    colors: ['#10b981'],
+    colors: [themeConfig.palette[0] || '#10b981'],
     plotOptions: { bar: { borderRadius: 4, horizontal: false } },
-    xaxis: { categories: store.drilldownData?.miniChartData?.map((d) => d.x) || [] },
-    grid: { borderColor: '#334155' },
-    theme: { mode: 'dark' }
+    xaxis: {
+      categories: store.drilldownData?.miniChartData?.map((d) => d.x) || [],
+      labels: { style: { colors: themeConfig.labelsColor } },
+      axisBorder: { color: themeConfig.axisBorder },
+      axisTicks: { color: themeConfig.axisTicks }
+    },
+    yaxis: {
+      labels: { style: { colors: themeConfig.labelsColor } }
+    },
+    grid: { borderColor: themeConfig.gridBorder },
+    theme: { mode: themeConfig.mode },
+    tooltip: { theme: themeConfig.tooltipTheme }
   };
 });
 

@@ -2,7 +2,7 @@
   <div class="max-w-6xl mx-auto p-4 md:p-6 space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/80 p-5 rounded-2xl border border-slate-800 shadow-xl">
       <div>
-        <h1 class="text-xl font-bold text-white flex items-center gap-2">
+        <h1 class="text-xl font-bold text-slate-100 flex items-center gap-2">
           <span>بررسی مدارک احراز هویت (KYC)</span>
           <NTag type="info" round size="small">شناسه درخواست #{{ id }}</NTag>
         </h1>
@@ -36,10 +36,10 @@
                   {{ getUserType(verification) === 'legal' ? '🏢 شخصیت حقوقی' : '👤 شخص حقیقی' }}
                 </NTag>
               </div>
-              <div v-if="getUserType(verification) === 'legal'" class="flex justify-between"><span>نام رسمی شرکت:</span> <strong class="text-white">{{ verification?.company_name }}</strong></div>
-              <div v-if="getUserType(verification) === 'legal'" class="flex justify-between"><span>نماینده قانونی:</span> <strong class="text-white">{{ verification?.full_name }}</strong></div>
-              <div v-if="getUserType(verification) === 'natural'" class="flex justify-between"><span>نام کامل:</span> <strong class="text-white">{{ verification?.full_name || 'امیرحسین رضایی' }}</strong></div>
-              <div class="flex justify-between"><span>{{ getUserType(verification) === 'legal' ? 'شناسه ملی شرکت (۱۱ رقم):' : 'کد ملی (۱۰ رقم):' }}</span> <strong class="font-mono text-white">{{ verification?.national_id || '0012345678' }}</strong></div>
+              <div v-if="getUserType(verification) === 'legal'" class="flex justify-between"><span>نام رسمی شرکت:</span> <strong class="text-slate-100">{{ verification?.company_name }}</strong></div>
+              <div v-if="getUserType(verification) === 'legal'" class="flex justify-between"><span>نماینده قانونی:</span> <strong class="text-slate-100">{{ verification?.full_name }}</strong></div>
+              <div v-if="getUserType(verification) === 'natural'" class="flex justify-between"><span>نام کامل:</span> <strong class="text-slate-100">{{ verification?.full_name || 'امیرحسین رضایی' }}</strong></div>
+              <div class="flex justify-between"><span>{{ getUserType(verification) === 'legal' ? 'شناسه ملی شرکت (۱۱ رقم):' : 'کد ملی (۱۰ رقم):' }}</span> <strong class="font-mono text-slate-100">{{ verification?.national_id || '0012345678' }}</strong></div>
             </div>
 
           <div class="grid grid-cols-2 gap-3">
@@ -126,11 +126,7 @@ import { NCard, NSwitch, NTag, NButton, NFormItem, NInput, NSpin } from 'naive-u
 import { useUiStore } from '../../../stores/useUiStore';
 import { moderationApi } from '../../../api';
 import type { Verification } from '../../../types/api';
-import { createDiscreteApi, darkTheme } from 'naive-ui';
-
-const { message } = createDiscreteApi(['message'], {
-  configProviderProps: { theme: darkTheme }
-});
+import { message } from '../../../utils/discreteApi';
 
 const route = useRoute();
 const router = useRouter();

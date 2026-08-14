@@ -131,3 +131,16 @@ To ensure full compatibility with Iranian hosting under national internet restri
 - **Local Fallback Images:** Demo cheque previews and document placehold/fallback images are served locally from `public/images/placeholders/` (`/images/placeholders/*.svg`). External placeholder services (`placehold.co`, `via.placeholder.com`, `unsplash.com`) are strictly avoided at runtime.
 - **API Reference:** All backend APIs are served by the `doion` Django server (`http://localhost:8000/api/v1`).
 
+---
+
+## 8. Dynamic Theming Architecture
+
+The application supports six distinct themes: `dark` (default), `light`, `warm`, `navy`, `violet`, and `emerald`.
+
+### Single Source of Truth (SSOT)
+- **CSS Theme Tokens:** Defined in `src/index.css` under `:root` and `[data-theme="..."]` attributes. CSS variables (e.g., `--theme-bg`, `--theme-surface`, `--theme-card`, `--theme-text-primary`, `--theme-border`) provide cohesive styling across light, dark, and specialized palettes.
+- **Tailwind v4 Integration:** Tailwind utility classes seamlessly map semantic colors to CSS variables (`--color-slate-900: var(--theme-bg)`, `--color-slate-800: var(--theme-surface)`, etc.).
+- **Naive UI Dynamic Overrides:** Managed via `src/utils/themeOverrides.ts` and injected dynamically into `<NConfigProvider :theme="naiveTheme" :theme-overrides="naiveThemeOverrides">` in `src/App.vue`.
+- **Discrete API Adaptation:** For notifications, dialogs, and messages initialized outside Vue render trees, `src/utils/discreteApi.ts` provides a reactive wrapper that resolves current theme overrides on demand.
+- **ApexCharts Theming:** Managed via `src/features/reports/utils/chartTheming.ts` (`getApexChartThemeConfig`), ensuring chart palettes, grid borders, tooltips, and labels adjust responsively according to the active theme.
+

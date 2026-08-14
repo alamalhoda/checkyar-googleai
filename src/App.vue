@@ -25,6 +25,7 @@ import AppSidebar from './shared/components/AppSidebar.vue';
 import AppHeader from './shared/components/AppHeader.vue';
 import { useAuthStore } from './stores/auth';
 import { useUiStore } from './stores/useUiStore';
+import { getNaiveTheme, getThemeOverrides } from './utils/themeOverrides';
 
 const route = useRoute();
 const authStore = useAuthStore();
@@ -54,158 +55,12 @@ const isAuthPage = computed(() => {
 });
 
 const currentNaiveTheme = computed(() => {
-  if (uiStore.currentTheme === 'light' || uiStore.currentTheme === 'warm') {
-    return null;
-  }
-  return darkTheme;
+  return getNaiveTheme(uiStore.currentTheme);
 });
 
-// Custom theme overrides for active theme
+// Custom theme overrides for active theme (SSOT from themeOverrides utility)
 const themeOverrides = computed(() => {
-  const baseCommon = {
-    fontFamily: "'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-    fontFamilyMono: "'Vazirmatn', monospace"
-  };
-
-  if (uiStore.currentTheme === 'light') {
-    return {
-      common: {
-        ...baseCommon,
-        primaryColor: '#059669',
-        primaryColorHover: '#047857',
-        primaryColorPressed: '#065f46',
-        primaryColorSuppl: '#10b981',
-        borderRadius: '8px',
-        cardColor: '#ffffff',
-        modalColor: '#ffffff',
-        popoverColor: '#ffffff',
-        tableColor: '#ffffff',
-        bodyColor: '#f8fafc',
-        textColorBase: '#0f172a',
-        textColor1: '#0f172a',
-        textColor2: '#334155',
-        textColor3: '#64748b'
-      },
-      Card: {
-        color: '#ffffff',
-        borderColor: '#e2e8f0'
-      }
-    };
-  } else if (uiStore.currentTheme === 'warm') {
-    return {
-      common: {
-        ...baseCommon,
-        primaryColor: '#d97706',
-        primaryColorHover: '#b45309',
-        primaryColorPressed: '#92400e',
-        primaryColorSuppl: '#f59e0b',
-        borderRadius: '8px',
-        cardColor: '#fffdfa',
-        modalColor: '#fffdfa',
-        popoverColor: '#fffdfa',
-        tableColor: '#fffdfa',
-        bodyColor: '#fcf8f2',
-        textColorBase: '#292524',
-        textColor1: '#292524',
-        textColor2: '#57534e',
-        textColor3: '#78716c'
-      },
-      Card: {
-        color: '#fffdfa',
-        borderColor: '#e7e5e4'
-      }
-    };
-  } else if (uiStore.currentTheme === 'navy') {
-    return {
-      common: {
-        ...baseCommon,
-        primaryColor: '#f59e0b',
-        primaryColorHover: '#d97706',
-        primaryColorPressed: '#b45309',
-        primaryColorSuppl: '#fbbf24',
-        borderRadius: '8px',
-        cardColor: '#111e3f',
-        modalColor: '#111e3f',
-        popoverColor: '#111e3f',
-        tableColor: '#111e3f',
-        bodyColor: '#060c1d',
-        textColorBase: '#f8fafc',
-        textColor1: '#f8fafc',
-        textColor2: '#93c5fd',
-        textColor3: '#60a5fa'
-      },
-      Card: {
-        color: '#111e3f',
-        borderColor: '#1f3463'
-      }
-    };
-  } else if (uiStore.currentTheme === 'violet') {
-    return {
-      common: {
-        ...baseCommon,
-        primaryColor: '#a855f7',
-        primaryColorHover: '#9333ea',
-        primaryColorPressed: '#7e22ce',
-        primaryColorSuppl: '#c084fc',
-        borderRadius: '8px',
-        cardColor: '#1e1333',
-        modalColor: '#1e1333',
-        popoverColor: '#1e1333',
-        tableColor: '#1e1333',
-        bodyColor: '#0d0818',
-        textColorBase: '#f8fafc',
-        textColor1: '#f8fafc',
-        textColor2: '#e9d5ff',
-        textColor3: '#c084fc'
-      },
-      Card: {
-        color: '#1e1333',
-        borderColor: '#322050'
-      }
-    };
-  } else if (uiStore.currentTheme === 'emerald') {
-    return {
-      common: {
-        ...baseCommon,
-        primaryColor: '#14b8a6',
-        primaryColorHover: '#0d9488',
-        primaryColorPressed: '#0f766e',
-        primaryColorSuppl: '#2dd4bf',
-        borderRadius: '8px',
-        cardColor: '#062e24',
-        modalColor: '#062e24',
-        popoverColor: '#062e24',
-        tableColor: '#062e24',
-        bodyColor: '#021a14',
-        textColorBase: '#f8fafc',
-        textColor1: '#f8fafc',
-        textColor2: '#99f6e4',
-        textColor3: '#5eead4'
-      },
-      Card: {
-        color: '#062e24',
-        borderColor: '#0c4a3b'
-      }
-    };
-  } else {
-    // dark theme (default)
-    return {
-      common: {
-        ...baseCommon,
-        primaryColor: '#10b981',
-        primaryColorHover: '#059669',
-        primaryColorPressed: '#047857',
-        primaryColorSuppl: '#10b981',
-        borderRadius: '8px',
-        cardColor: '#0f172a',
-        borderColor: '#1e293b'
-      },
-      Card: {
-        color: '#0f172a',
-        borderColor: '#1e293b'
-      }
-    };
-  }
+  return getThemeOverrides(uiStore.currentTheme);
 });
 </script>
 

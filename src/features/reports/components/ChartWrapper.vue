@@ -4,6 +4,10 @@ import VueApexCharts from 'vue3-apexcharts';
 import { NCard, NSpin, NButton, NIcon, NTooltip } from 'naive-ui';
 import { AnalyticsOutline, InformationCircleOutline } from '@vicons/ionicons5';
 import type { ChartType } from '../types/charts.types';
+import { useUiStore } from '../../../stores/useUiStore';
+import { getApexChartThemeConfig } from '../utils/chartTheming';
+
+const uiStore = useUiStore();
 
 const props = withDefaults(
   defineProps<{
@@ -40,14 +44,16 @@ const hasData = computed(() => {
   return true;
 });
 
-// Base ApexCharts options optimized for Persian dark/light custom UI themes
+// Base ApexCharts options dynamically adapted to current theme
 const chartOptions = computed(() => {
+  const themeConfig = getApexChartThemeConfig(uiStore.currentTheme);
+
   return {
     chart: {
       type: props.type,
       fontFamily: 'Vazirmatn, IRANSans, Tahoma, sans-serif',
       background: 'transparent',
-      foreColor: '#94a3b8',
+      foreColor: themeConfig.foreColor,
       toolbar: {
         show: true,
         tools: {
@@ -78,32 +84,32 @@ const chartOptions = computed(() => {
       }
     },
     theme: {
-      mode: 'dark'
+      mode: themeConfig.mode
     },
-    colors: ['#10b981', '#f59e0b', '#a855f7', '#3b82f6', '#f43f5e', '#14b8a6', '#eab308'],
+    colors: themeConfig.palette,
     stroke: {
       curve: 'smooth',
       width: props.type === 'line' || props.type === 'area' ? 3 : 1
     },
     grid: {
-      borderColor: '#1e293b',
+      borderColor: themeConfig.gridBorder,
       strokeDashArray: 4
     },
     xaxis: {
       categories: props.categories || [],
       labels: {
         style: {
-          colors: '#94a3b8',
+          colors: themeConfig.labelsColor,
           fontSize: '11px'
         }
       },
-      axisBorder: { color: '#334155' },
-      axisTicks: { color: '#334155' }
+      axisBorder: { color: themeConfig.axisBorder },
+      axisTicks: { color: themeConfig.axisTicks }
     },
     yaxis: {
       labels: {
         style: {
-          colors: '#94a3b8',
+          colors: themeConfig.labelsColor,
           fontSize: '11px'
         },
         formatter: (val: number) => {
@@ -118,7 +124,7 @@ const chartOptions = computed(() => {
       enabled: props.type === 'donut' || props.type === 'pie'
     },
     tooltip: {
-      theme: 'dark',
+      theme: themeConfig.tooltipTheme,
       y: {
         formatter: (val: number) => (val !== null && val !== undefined ? val.toLocaleString('fa-IR') : '')
       }
@@ -126,7 +132,7 @@ const chartOptions = computed(() => {
     legend: {
       position: 'bottom',
       labels: {
-        colors: '#cbd5e1'
+        colors: themeConfig.legendColor
       }
     }
   };

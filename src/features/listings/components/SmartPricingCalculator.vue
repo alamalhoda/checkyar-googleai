@@ -7,7 +7,7 @@
           💡
         </div>
         <div>
-          <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
             موتور قیمت‌گذاری هوشمند چک
             <NTag size="small" type="warning" round class="font-sans">پیشنـهاد بازار</NTag>
           </h3>
@@ -37,7 +37,7 @@
         <!-- Face Amount -->
         <div class="bg-slate-800/40 p-3.5 rounded-xl border border-slate-800 space-y-1">
           <span class="text-xs text-slate-400">مبلغ اسمی چک</span>
-          <div class="text-lg font-bold text-white font-mono">
+          <div class="text-lg font-bold text-slate-100 font-mono">
             {{ (amount || 0).toLocaleString('fa-IR') }}
             <span class="text-xs text-slate-400 font-sans font-normal">تومان</span>
           </div>
@@ -73,7 +73,7 @@
         <div class="flex items-start gap-2">
           <span class="text-amber-400 mt-0.5">💬</span>
           <div>
-            بر اساس شرایط فعلی بازار و بانک <strong class="text-white">{{ bankId || 'نامشخص' }}</strong>، نرخ پیشنهادی الگوریتم <strong class="text-amber-300 font-mono">{{ suggestedDiscountRate }}٪ سالانه</strong> (معادل مبلغ خالص <strong class="text-emerald-400 font-mono">{{ suggestedNetPrice.toLocaleString('fa-IR') }} تومان</strong>) می‌باشد.
+            بر اساس شرایط فعلی بازار و بانک <strong class="text-slate-100">{{ bankId || 'نامشخص' }}</strong>، نرخ پیشنهادی الگوریتم <strong class="text-amber-300 font-mono">{{ suggestedDiscountRate }}٪ سالانه</strong> (معادل مبلغ خالص <strong class="text-emerald-400 font-mono">{{ suggestedNetPrice.toLocaleString('fa-IR') }} تومان</strong>) می‌باشد.
           </div>
         </div>
         <div class="flex items-center gap-2 pt-1.5 border-t border-slate-700/40 text-slate-400">
@@ -88,7 +88,7 @@
       <!-- Slider Control -->
       <div class="space-y-3 bg-slate-950/40 p-4 rounded-xl border border-slate-800">
         <div class="flex justify-between items-center">
-          <label class="text-xs font-bold text-white flex items-center gap-2">
+          <label class="text-xs font-bold text-slate-100 flex items-center gap-2">
             <span>تنظیم نرخ تنزیل انتخابی (سالانه)</span>
             <NTooltip trigger="hover">
               <template #trigger>

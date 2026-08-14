@@ -130,3 +130,17 @@ src/
 - **تصاویر جایگزین و دمو:** تصاویر نمونه چک، کارت ملی و مدارک از مسیر لوکال `public/images/placeholders/` (`/images/placeholders/*.svg`) بارگذاری می‌شوند و سرویس‌های خارجی مانند `placehold.co`، `via.placeholder.com` و `unsplash.com` کاملاً حذف شده‌اند.
 - **ارتباط با ای‌پای:** تمام فراخوانی‌ها به سرور بک‌اند `doion` متصل می‌باشند.
 
+---
+
+## ۸. معماری پوسته‌ها و تم‌های پویای واسط کاربری
+
+واسط کاربری سامانه چک‌یار از ۶ پوسته مجزا پشتیبانی می‌کند: `dark` (تاریک - پیش‌فرض)، `light` (روشن)، `warm` (گرم)، `navy` (سرمه‌ای)، `violet` (بنفش) و `emerald` (زمردی).
+
+### مرجع واحد حقیقت (Single Source of Truth)
+- **توکن‌های متغیر CSS:** در `src/index.css` ذیل `:root` و اتریبیوت‌های `[data-theme="..."]` تعریف شده‌اند (`--theme-bg`, `--theme-surface`, `--theme-card`, `--theme-text-primary`, `--theme-border`).
+- **یکپارچه‌سازی با Tailwind v4:** کلاس‌های کمکی Tailwind مستقیماً به متغیرهای CSS نگاشت شده‌اند (`--color-slate-900: var(--theme-bg)`, `--color-slate-800: var(--theme-surface)`).
+- **تنظیمات پویا در Naive UI:** از طریق `src/utils/themeOverrides.ts` مدیریت شده و در `<NConfigProvider :theme="naiveTheme" :theme-overrides="naiveThemeOverrides">` در `src/App.vue` تزریق می‌گردند.
+- **سازگاری با Discrete API:** برای اعلان‌ها، پیام‌ها و دیالوگ‌هایی که خارج از درخت رندر Vue فراخوانی می‌شوند، ماژول `src/utils/discreteApi.ts` پوسته فعال را در زمان فراخوانی اعمال می‌کند.
+- **پوسته‌بندی نمودارهای ApexCharts:** ماژول `src/features/reports/utils/chartTheming.ts` پالت رنگ، مرزها، برچسب‌ها و تولتیپ‌های نمودارها را با پوسته فعال هماهنگ می‌سازد.
+
+

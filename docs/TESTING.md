@@ -141,3 +141,15 @@ Continuous Integration is configured via [.github/workflows/ci.yml](../.github/w
 
 > Note: End-to-End Playwright tests remain owned and executed within the `doion` monorepo (`e2e/` directory).
 
+---
+
+## 8. Theming & Dynamic Styling Verification
+
+### Verifying Multi-Theme UI Consistency
+When modifying UI components or surfaces:
+1. Ensure components use semantic Tailwind tokens (`bg-slate-900`, `bg-slate-800`, `text-slate-100`, `text-slate-400`, `border-slate-800`) mapped to CSS variables, rather than hardcoded colors.
+2. Verify all six themes (`dark`, `light`, `warm`, `navy`, `violet`, `emerald`) via the theme selector in the application header or `/profile/settings`.
+3. Check charts in `/reports` to verify dynamic palette and tooltip switching across themes.
+4. Run `bun run lint` and `bun run test` to ensure zero regressions across theme utilities.
+
+

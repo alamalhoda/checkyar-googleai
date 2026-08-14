@@ -1,16 +1,8 @@
 import { ref, reactive, computed } from 'vue';
 import { useUiStore } from '../../../stores/useUiStore';
-import { createDiscreteApi, darkTheme } from 'naive-ui';
+import { message } from '../../../utils/discreteApi';
 import { listingsApi } from '../../../api';
-import {
-  validateSayadId,
-  validateNationalId,
-  toEnglishDigits
-} from '../../../utils/persianUtils';
-
-const { message } = createDiscreteApi(['message'], {
-  configProviderProps: { theme: darkTheme }
-});
+import { validateSayadId, validateNationalId, toEnglishDigits } from '../../../utils/persianUtils';
 
 function toBlobOrFile(data: string, defaultName: string): Blob {
   if (data.startsWith('data:')) {
