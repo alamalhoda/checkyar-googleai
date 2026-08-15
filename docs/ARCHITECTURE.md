@@ -104,6 +104,13 @@ The application runtime behavior is governed by the `VITE_USE_MOCK` environment 
 - **Lifecycle & URLs:** When a Codespace stops due to inactivity, the forwarded preview URL stops serving. Creating a new Codespace generates a new URL.
 - **For Live API Testing:** To test against a real backend, clone locally alongside the `doion` server with `VITE_USE_MOCK=false`.
 
+### Hosted Mock Demo (Chabokan Static)
+
+- **Hosted Mock Demo:** Deployed as a Chabokan Static PaaS service (`chequeyar-front-demo`) at [https://chequeyar-front-demo.chbkn.dev/](https://chequeyar-front-demo.chbkn.dev/).
+- **Automated Workflow:** Built in GitHub Actions via `.github/workflows/cd-demo.yml` with `VITE_USE_MOCK=true` (compile-time gate).
+- **Environment & State:** No live backend or database connection is used. Simulator state is persisted per-browser in `localStorage`, not in a shared server database.
+- **Scope:** This demo environment is strictly for UI inspection and stakeholder demonstrations. It is **NOT** production and **NOT** Live staging. Codespaces mock preview remains available as a secondary local/cloud preview.
+
 ---
 
 ## 5. Architectural Boundaries

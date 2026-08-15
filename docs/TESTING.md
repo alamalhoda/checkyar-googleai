@@ -143,6 +143,10 @@ Continuous Integration is configured via [.github/workflows/ci.yml](../.github/w
 
 > Note: End-to-End Playwright tests remain owned and executed within the `doion` monorepo (`e2e/` directory).
 
+### Continuous Deployment for Mock Demo (CD)
+
+The hosted mock demo deployment is handled separately from CI testing. Upon push to `main`, [.github/workflows/cd-demo.yml](../.github/workflows/cd-demo.yml) executes lint and unit tests, compiles a mock SPA with `VITE_USE_MOCK=true`, and deploys it to Chabokan Static (`chequeyar-front-demo`). The standard CI workflow (`ci.yml`) continues to run default live-shape compilation checks on push and PR. E2E tests remain in the `doion` monorepo (`e2e/`).
+
 ---
 
 ## 8. Theming & Dynamic Styling Verification
