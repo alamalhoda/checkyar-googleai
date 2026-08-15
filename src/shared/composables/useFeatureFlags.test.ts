@@ -1,13 +1,28 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
 import { useFeatureFlags } from './useFeatureFlags';
 import { useBackendSimulatorStore } from '../../stores/useBackendSimulatorStore';
-import { adminApi } from '../../api';
+import { adminApi, setMockMode } from '../../api';
 
 describe('useFeatureFlags', () => {
+  let storage: Record<string, string> = {};
+
   beforeEach(() => {
+    storage = {};
+    const mockLocalStorage = {
+      getItem: (key: string) => storage[key] || null,
+      setItem: (key: string, value: string) => { storage[key] = value; },
+      removeItem: (key: string) => { delete storage[key]; },
+      clear: () => { storage = {}; },
+    };
+    globalThis.localStorage = mockLocalStorage as any;
+    vi.stubEnv('VITE_USE_MOCK', 'true');
+    setMockMode(true);
     setActivePinia(createPinia());
-    localStorage.clear();
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
   });
 
   it('provides showRiskTier computed defaulting to false initially when flag is disabled', async () => {
@@ -78,4 +93,5 @@ describe('useFeatureFlags', () => {
     expect(showRiskTier.value).toBe(false);
   });
 });
+
 
