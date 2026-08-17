@@ -195,8 +195,8 @@ const handleMenuSelect = (key: string) => {
   >
     <NDrawerContent
       closable
-      body-content-style="padding: 0; display: flex; flex-direction: column; height: 100%; background-color: #0f172a;"
-      header-style="background-color: #0f172a; border-bottom: 1px solid #1e293b; padding: 1rem;"
+      body-content-style="padding: 0; display: flex; flex-direction: column; height: 100%; background-color: var(--theme-surface);"
+      header-style="background-color: var(--theme-surface); border-bottom: 1px solid var(--theme-border); padding: 1rem;"
     >
       <template #header>
         <div class="flex items-center gap-3">

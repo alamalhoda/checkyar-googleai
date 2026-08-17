@@ -146,9 +146,18 @@ To ensure full compatibility with Iranian hosting under national internet restri
 The application supports six distinct themes: `dark` (default), `light`, `warm`, `navy`, `violet`, and `emerald`.
 
 ### Single Source of Truth (SSOT)
-- **CSS Theme Tokens:** Defined in `src/index.css` under `:root` and `[data-theme="..."]` attributes. CSS variables (e.g., `--theme-bg`, `--theme-surface`, `--theme-card`, `--theme-text-primary`, `--theme-border`) provide cohesive styling across light, dark, and specialized palettes.
-- **Tailwind v4 Integration:** Tailwind utility classes seamlessly map semantic colors to CSS variables (`--color-slate-900: var(--theme-bg)`, `--color-slate-800: var(--theme-surface)`, etc.).
-- **Naive UI Dynamic Overrides:** Managed via `src/utils/themeOverrides.ts` and injected dynamically into `<NConfigProvider :theme="naiveTheme" :theme-overrides="naiveThemeOverrides">` in `src/App.vue`.
+- **CSS Theme Tokens:** Defined in `src/index.css` under `:root` and `[data-theme="..."]` attributes. Semantic CSS variables provide cohesive styling across light, dark, and specialized palettes:
+  - Background & Surface: `--theme-bg`, `--theme-surface`, `--theme-surface-muted`, `--theme-input`
+  - Borders: `--theme-border`, `--theme-border-subtle`
+  - Typography: `--theme-text-primary`, `--theme-text-on-surface`, `--theme-text-secondary`, `--theme-text-muted`
+  - Brand & Accents: `--theme-primary`, `--theme-primary-hover`, `--theme-primary-pressed`, `--theme-primary-soft`, `--theme-selection-bg`, `--theme-selection-text`
+  - Radii & Controls: `--radius-control` (8px), `--radius-card` (16px)
+  - Scrollbars: `--theme-scrollbar-track`, `--theme-scrollbar-thumb`, `--theme-scrollbar-thumb-hover`
+- **Naive UI vs CSS Variables Relationship:**
+  - Naive UI components rely directly on hex values provided by `src/utils/themeOverrides.ts` (injected via `<NConfigProvider :theme="naiveTheme" :theme-overrides="naiveThemeOverrides">` in `src/App.vue`).
+  - Custom Vue templates, inline styles (such as `NDrawerContent`), and Tailwind utilities consume the CSS custom properties defined in `src/index.css`.
+  - Both sources must remain synchronized across all 6 palettes.
+- **Tailwind v4 Integration:** Tailwind utility classes map semantic colors to CSS variables (`--color-slate-900: var(--theme-bg)`, `--color-slate-800: var(--theme-surface)`, etc.).
 - **Discrete API Adaptation:** For notifications, dialogs, and messages initialized outside Vue render trees, `src/utils/discreteApi.ts` provides a reactive wrapper that resolves current theme overrides on demand.
 - **ApexCharts Theming:** Managed via `src/features/reports/utils/chartTheming.ts` (`getApexChartThemeConfig`), ensuring chart palettes, grid borders, tooltips, and labels adjust responsively according to the active theme.
 
