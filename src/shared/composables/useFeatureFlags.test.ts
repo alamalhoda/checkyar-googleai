@@ -92,6 +92,82 @@ describe('useFeatureFlags', () => {
     await fetchFlags(true);
     expect(showRiskTier.value).toBe(false);
   });
+
+  it('provides showLandingPage computed defaulting to true in simulator mock mode', async () => {
+    const store = useBackendSimulatorStore();
+    store.init();
+
+    const flag = store.featureFlags.find(f => f.key === 'show_landing_page');
+    expect(flag).toBeDefined();
+    expect(flag?.is_enabled).toBe(true);
+
+    const { showLandingPage, fetchFlags } = useFeatureFlags();
+    await fetchFlags(true);
+    expect(showLandingPage.value).toBe(true);
+  });
+
+  it('updates showLandingPage to false when toggled off in simulator and refreshed', async () => {
+    const store = useBackendSimulatorStore();
+    store.init();
+
+    await adminApi.updateFeatureFlag('show_landing_page', false);
+
+    const { showLandingPage, fetchFlags } = useFeatureFlags();
+    await fetchFlags(true);
+    expect(showLandingPage.value).toBe(false);
+
+    // Verify persistence
+    const persisted = JSON.parse(localStorage.getItem('chequeyar_simulator_v1') || '{}');
+    const persistedFlag = persisted.featureFlags.find((f: any) => f.key === 'show_landing_page');
+    expect(persistedFlag?.is_enabled).toBe(false);
+  });
+
+  it('merges missing show_landing_page seed flag into stored simulator state without reset', async () => {
+    const staleStorage = {
+      users: [{ id: 1, username: 'holder1', name: 'رضا صبوری' }],
+      listings: [{ id: 101, bank_name: 'بانک ملت' }],
+      featureFlags: [
+        { key: 'ENABLE_ESCROW_SETTLEMENT', description: 'تسویه امن امانی', is_enabled: true, is_system: true },
+        { key: 'show_risk_tier', description: 'سطح ریسک', is_enabled: false, is_system: false }
+      ]
+    };
+    localStorage.setItem('chequeyar_simulator_v1', JSON.stringify(staleStorage));
+
+    const store = useBackendSimulatorStore();
+    store.init();
+
+    const landingFlag = store.featureFlags.find(f => f.key === 'show_landing_page');
+    expect(landingFlag).toBeDefined();
+    expect(landingFlag?.is_enabled).toBe(true);
+
+    // User data intact
+    expect(store.users.length).toBeGreaterThanOrEqual(1);
+    expect(store.users[0].username).toBe('holder1');
+
+    const stored = JSON.parse(localStorage.getItem('chequeyar_simulator_v1') || '{}');
+    expect(stored.featureFlags.some((f: any) => f.key === 'show_landing_page')).toBe(true);
+
+    const { showLandingPage, fetchFlags } = useFeatureFlags();
+    await fetchFlags(true);
+    expect(showLandingPage.value).toBe(true);
+  });
+
+  it('fails closed (showLandingPage=false) when flag is absent or request fails', async () => {
+    const { showLandingPage, fetchFlags, flags } = useFeatureFlags();
+
+    // 1. Flag absent from API response
+    vi.spyOn(adminApi, 'getFeatureFlags').mockResolvedValueOnce([
+      { key: 'show_risk_tier', description: 'risk tier', is_enabled: true, is_system: false }
+    ] as any);
+    await fetchFlags(true);
+    expect(showLandingPage.value).toBe(false);
+
+    // 2. Request failure (swallowed error, empty fallback)
+    vi.spyOn(adminApi, 'getFeatureFlags').mockRejectedValueOnce(new Error('Network error'));
+    flags.value = [];
+    await fetchFlags(true);
+    expect(showLandingPage.value).toBe(false);
+  });
 });
 
 

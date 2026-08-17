@@ -48,6 +48,7 @@ src/
 ├── features/                # Domain-specific feature modules
 │   ├── admin/               # Admin panel (Stats, Feature Flags, Audit Events)
 │   ├── auth/                # Authentication views & components
+│   ├── landing/             # Public introduction page (LandingView, LandingHeader, LandingFooter, guard helper)
 │   ├── listings/            # Cheque listing creation wizard, edit, detail, and my-listings
 │   ├── marketplace/         # Public marketplace and search filters
 │   ├── matches/             # Express interest, match proposals, and settlement tracking
@@ -94,6 +95,18 @@ The application runtime behavior is governed by the `VITE_USE_MOCK` environment 
 - **Supported Admin Surfaces:** Admin capabilities focus on `/admin/stats` (compliance stats), `/admin/feature-flags` (feature flag controls), and `/admin/audit` (audit event logs). Unbacked `/admin/reports` redirects to `/admin/stats`.
 - **Feature Flag Gating (`show_risk_tier`):** Public display of listing `risk_tier` badges and search filters across marketplace cards, listing detail pages, and widgets is conditionally gated behind the `show_risk_tier` feature flag via `useFeatureFlags` composable. In the mock simulator (`useBackendSimulatorStore`), missing seed flags (including `show_risk_tier`) are merged from seed definitions into stale `localStorage` and persisted without resetting user data. Toggling or updating a flag triggers `useFeatureFlags().fetchFlags(true)` so the cache refreshes immediately across all views without requiring a page reload. Moderators always have access to `risk_tier` controls regardless of the flag state.
 - **Moderation Decision Contract:** Approving a listing (`POST /api/v1/moderation/{id}/decision/`) allows moderators to set an optional `risk_tier` (`'low' | 'medium' | 'high'`). Rejections omit `risk_tier`.
+- **Public Chrome & Landing Module (`src/features/landing/`):**
+  - Routes tagged with `meta: { publicChrome: true }` (such as `/landing`) render in a standalone public layout without the internal `AppSidebar` or `AppHeader`.
+  - The landing page forces the `dark` brand theme styling (`data-theme="dark"` and `darkTheme` + `getThemeOverrides('dark')` for Naive UI) without altering the user's saved theme preference in `localStorage`.
+  - The page presents 12 structured placeholder sections, anchor links (`#how-it-works`, `#live-listings`, `#faq`, `#contact-us`), and responsive action bars for guests and authenticated users.
+- **Fail-Closed Landing Gate (`show_landing_page`):**
+  - Gated by the `show_landing_page` feature flag via an asynchronous per-route navigation guard (`beforeEnter`) on `/` and `/landing` that invokes the pure helper `getLandingRedirect(flagEnabled, targetPath)`.
+  - When enabled (`true`), `/` redirects to `/landing`, while authenticated and guest users can freely access `/landing`.
+  - When disabled (`false`), absent from flags, or when the flags request fails (fail-closed), `/` and `/landing` both redirect cleanly to `/marketplace` (which subsequently routes guests to `/login`), with zero redirect loops.
+- **Mock Sign-Out Marker (`chequeyar_mock_signed_out`):**
+  - In mock mode (`VITE_USE_MOCK=true`), an explicit `logout()` records `chequeyar_mock_signed_out = 'true'` in `localStorage`.
+  - Subsequent page reloads respect this marker and skip the automatic demo seed user (`holder1`), enabling realistic testing of guest interactions and landing navigation in mock mode.
+  - A successful `login()` or `register()` clears the marker. Live mode (`VITE_USE_MOCK=false`) ignores the marker and never auto-seeds users.
 - **Sayad Inquiry Status:** Sayad inquiries in the UI are clearly labeled as advisory/stub inquiries (not direct bank inquiries).
 - **Client-Side Test Role Selector:** When `VITE_USE_MOCK=true`, the header UI includes a **Test Role** ("نقش تست") switcher. Note that this switcher only modifies client-side simulation role context; in Live API mode, actual permissions are governed strictly by backend-issued JWT tokens.
 

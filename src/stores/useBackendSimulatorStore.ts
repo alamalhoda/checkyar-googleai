@@ -506,7 +506,8 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     { key: 'ENABLE_SMS_NOTIFICATIONS', description: 'ارسال پیامک اطلاع‌رسانی تطابق و تغییر وضعیت', is_enabled: fontSmsEnabled(), is_system: false },
     { key: 'ENABLE_SAYAD_DIRECT_INQUIRY', description: 'استعلام مستقیم صیادی از بانک مرکزی', is_enabled: true, is_system: true },
     { key: 'ENABLE_STRICT_RATE_LIMITING', description: 'محدودیت تعداد ابراز تمایل همزمان', is_enabled: false, is_system: false },
-    { key: 'show_risk_tier', description: 'نمایش سطح ریسک آگهی در مارکتپلیس و کارتها (ناظر همیشه میبیند)', is_enabled: false, is_system: false }
+    { key: 'show_risk_tier', description: 'نمایش سطح ریسک آگهی در مارکتپلیس و کارتها (ناظر همیشه میبیند)', is_enabled: false, is_system: false },
+    { key: 'show_landing_page', description: 'نمایش صفحه معرفی عمومی در مسیر /landing', is_enabled: true, is_system: false }
   ];
 
   function fontSmsEnabled() { return true; }

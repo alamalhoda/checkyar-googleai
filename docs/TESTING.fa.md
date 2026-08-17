@@ -24,8 +24,10 @@ bun run test:watch
 - `src/features/auth/userTypeKyc.test.ts`: سنجش قوانین ثبت‌نام بر اساس `user_type` ("natural" | "legal")، منطق شرطی اعتبارسنجی احراز هویت (کد ملی ۱۰ رقمی برای حقیقی در برابر شناسه ملی ۱۱ رقمی + نام شرکت برای حقوقی)، و تست `getKycQueue()` برای بازگرداندن درخواست‌های حقیقی و حقوقی در انتظار همراه با `user_type`.
 - `src/utils/persianUtils.test.ts`: تبدیل اعداد فارسی، اعتبارسنجی کد ملی، فرمت پول و تاریخ.
 - `src/stores/auth.permissions.test.ts`: بررسی سطح دسترسی‌ها و نقش‌ها در استور احراز هویت.
+- `src/stores/auth.mockSignout.test.ts`: بررسی حالات نشانگر خروج در شبیه‌ساز (ایجاد کاربر اولیه، حفظ حالت خروج پس از بارگذاری مجدد بدون لاگین خودکار، پاکسازی با ورود مجدد، و عدم تاثیر در حالت واقعی).
+- `src/features/landing/guard.test.ts`: بررسی منطق هدایت مسیر فرود (`getLandingRedirect`) در تمام حالات فعال، غیرفعال، ناموجود و خطای سرور برای مسیرهای `/` و `/landing`.
 - `src/features/listings/composables/useSmartPricing.test.ts`: محاسبات نرخ تنزیل و قیمت‌گذاری هوشمند.
-- `src/shared/composables/useFeatureFlags.test.ts`: بارگذاری کلیدهای فیچر، ادغام مقادیر اولیه در `localStorage` قدیمی فاقد `show_risk_tier` (با پیش‌فرض غیرفعال)، و ارزیابی پویای کلید `show_risk_tier` و پاکسازی کش پس از تغییر وضعیت.
+- `src/shared/composables/useFeatureFlags.test.ts`: بارگذاری کلیدهای فیچر، ادغام مقادیر اولیه در `localStorage` قدیمی برای `show_risk_tier` و `show_landing_page` بدون حذف داده‌های کاربر، و ارزیابی پویای کلیدها و مدیریت امن خطا (Fail-Closed).
 - `src/features/moderation/moderationRiskTier.test.ts`: بررسی منطق تصمیم‌گیری ناظر همراه با تخصیص `risk_tier`.
 - `src/api/client.test.ts`: بررسی گارد محیط شبیه‌ساز (Mock mode).
 - `src/api/liveFixes.test.ts`: بررسی عملکرد Live API برای وضعیت احراز هویت و آپلود مدارک.
@@ -78,6 +80,18 @@ bun run lint
 - **تست در حالت واقعی (`VITE_USE_MOCK=false`):**
   - در بک‌اند واقعی (`doion`)، کاربران سید اولیه شامل `holderkyc1` (حقیقی در انتظار احراز) و `holderkyclegal1` (حقوقی در انتظار احراز) می‌باشند. جهت اطلاعات بیشتر به مستندات سید و [MASTER_API_CONTRACT.md](https://github.com/alamalhoda/doion/blob/develop/docs/development/MASTER_API_CONTRACT.md) مراجعه کنید.
   - پاسخ‌های API احراز هویت فیلد فقط-خواندنی `user_type: "natural" | "legal"` را برمی‌گردانند.
+
+### بررسی و تست صفحه فرود به عنوان کاربر مهمان در شبیه‌ساز
+
+جهت بررسی ظاهر و عملکرد صفحه فرود از دید کاربر مهمان (وارد نشده):
+۱. در حالت شبیه‌ساز (`VITE_USE_MOCK=true`)، از طریق منوی کاربر در هدر روی دکمه **خروج** کلیک کنید. این کار نشانگر `chequeyar_mock_signed_out = 'true'` را در `localStorage` ثبت می‌کند.
+۲. صفحه را رفرش کنید یا به آدرس `/` یا `/landing` بروید. کاربر دمو به صورت خودکار لاگین نخواهد شد و در حالت مهمان باقی می‌مانید.
+۳. موارد زیر را بررسی کنید:
+   - هدر دکمه‌های **ورود** (`landing-nav-login`) و **ثبت‌نام** (`landing-nav-register-btn`) را نمایش می‌دهد.
+   - دکمه‌های فراخوان (CTA) در بنر اصلی و نوار چسبان به صفحات ثبت‌نام و ورود متصل هستند.
+   - لینک‌های لنگری هدر (`#how-it-works`، `#live-listings`، `#faq`، `#contact-us`) به آرامی به بخش‌های مربوطه اسکرول می‌کنند.
+   - پیوندهای فوتر پیام «به‌زودی» را نمایش داده و هدایت شکسته به ۴۰۴ ندارند.
+۴. جهت بازگشت به حالت کاربر وارد شده، روی دکمه ورود کلیک کرده و با یکی از کاربران نمایشی وارد شوید یا `localStorage` را پاک نمایید.
 
 ### تفکیک حالت شبیه‌ساز (Mock) و Live
 

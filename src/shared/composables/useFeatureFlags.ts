@@ -36,12 +36,18 @@ export function useFeatureFlags() {
     return flag ? flag.is_enabled : false;
   });
 
+  const showLandingPage = computed(() => {
+    const flag = flags.value.find(f => f.key === 'show_landing_page');
+    return flag ? flag.is_enabled : false;
+  });
+
   return {
     flags,
     isLoading,
     isLoaded,
     error,
     fetchFlags,
-    showRiskTier
+    showRiskTier,
+    showLandingPage
   };
 }

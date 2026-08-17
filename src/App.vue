@@ -49,16 +49,26 @@ const rtlPlugins = [
   unstableListRtl
 ];
 
+const isPublicChrome = computed(() => {
+  return Boolean(route.meta.publicChrome);
+});
+
 const isAuthPage = computed(() => {
   return route.path === '/login' || route.path === '/register';
 });
 
 const currentNaiveTheme = computed(() => {
+  if (isPublicChrome.value) {
+    return getNaiveTheme('dark');
+  }
   return getNaiveTheme(uiStore.currentTheme);
 });
 
 // Custom theme overrides for active theme (SSOT from themeOverrides utility)
 const themeOverrides = computed(() => {
+  if (isPublicChrome.value) {
+    return getThemeOverrides('dark');
+  }
   return getThemeOverrides(uiStore.currentTheme);
 });
 </script>
@@ -73,9 +83,16 @@ const themeOverrides = computed(() => {
   >
     <NMessageProvider>
       <NDialogProvider>
-        <div class="min-h-screen bg-slate-950 text-slate-100 flex font-['Vazirmatn',sans-serif] selection:bg-emerald-500/30 selection:text-emerald-300">
-          <!-- Main App Shell -->
-          <template v-if="!isAuthPage && authStore.isAuthenticated">
+        <!-- Public Chrome (Landing Page) -->
+        <template v-if="isPublicChrome">
+          <div data-theme="dark" class="min-h-screen bg-[var(--theme-bg,#020617)] text-[var(--theme-text-primary,#f8fafc)] flex flex-col font-['Vazirmatn',sans-serif] selection:bg-emerald-500/30 selection:text-emerald-300">
+            <router-view />
+          </div>
+        </template>
+
+        <!-- Main App Shell -->
+        <template v-else-if="!isAuthPage && authStore.isAuthenticated">
+          <div class="min-h-screen bg-slate-950 text-slate-100 flex font-['Vazirmatn',sans-serif] selection:bg-emerald-500/30 selection:text-emerald-300">
             <AppSidebar />
             <div class="flex-1 flex flex-col min-w-0 min-h-screen">
               <AppHeader />
@@ -83,15 +100,17 @@ const themeOverrides = computed(() => {
                 <router-view />
               </main>
             </div>
-          </template>
+          </div>
+        </template>
 
-          <!-- Full Screen Auth Pages -->
-          <template v-else>
+        <!-- Full Screen Auth Pages & Guest Views -->
+        <template v-else>
+          <div class="min-h-screen bg-slate-950 text-slate-100 flex font-['Vazirmatn',sans-serif] selection:bg-emerald-500/30 selection:text-emerald-300">
             <div class="flex-1">
               <router-view />
             </div>
-          </template>
-        </div>
+          </div>
+        </template>
       </NDialogProvider>
     </NMessageProvider>
   </NConfigProvider>

@@ -6,6 +6,7 @@ import { api, authApi, setMockMode, getMockMode } from '../api';
 const TOKEN_KEY = 'chequeyar_access_token';
 const REFRESH_KEY = 'chequeyar_refresh_token';
 const USER_KEY = 'chequeyar_auth_user';
+const MOCK_SIGNED_OUT_KEY = 'chequeyar_mock_signed_out';
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null);
@@ -46,7 +47,7 @@ export const useAuthStore = defineStore('auth', () => {
       if (savedUser && savedToken) {
         user.value = JSON.parse(savedUser);
         access.value = savedToken;
-      } else if (mockActive) {
+      } else if (mockActive && localStorage.getItem(MOCK_SIGNED_OUT_KEY) !== 'true') {
         // Default seed user fallback for instant demo in mock mode ONLY
         user.value = {
           id: 1,
@@ -75,6 +76,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function login(credentials: LoginRequest) {
     const res = await authApi.login(credentials);
+    localStorage.removeItem(MOCK_SIGNED_OUT_KEY);
     setTokens(res.access, res.refresh);
     const u: User = {
       id: res.user.id,
@@ -91,6 +93,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function register(data: RegisterRequest) {
     const res = await authApi.register(data);
+    localStorage.removeItem(MOCK_SIGNED_OUT_KEY);
     setTokens(res.access, res.refresh);
     const u: User = {
       id: res.user.id,
@@ -118,6 +121,9 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(REFRESH_KEY);
     localStorage.removeItem(USER_KEY);
+    if (getMockMode()) {
+      localStorage.setItem(MOCK_SIGNED_OUT_KEY, 'true');
+    }
   }
 
   function switchRole(role: User['role']) {

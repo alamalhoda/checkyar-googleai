@@ -24,8 +24,10 @@ Current unit test suites in `src/` include:
 - `src/features/auth/userTypeKyc.test.ts`: Tests `user_type` ("natural" | "legal") registration rules, conditional KYC validation logic (10-digit national ID for natural vs 11-digit national ID + company name for legal), and `getKycQueue()` returning both natural and legal pending verifications with `user_type`.
 - `src/utils/persianUtils.test.ts`: Persian digit parsing, national ID validation, currency/number formatting, and date utilities.
 - `src/stores/auth.permissions.test.ts`: Role and permission checks within the authentication store.
+- `src/stores/auth.mockSignout.test.ts`: Mock sign-out marker transitions (fresh seed, reload persistence after logout without auto-reseed, login clearance, and live mode immunity).
+- `src/features/landing/guard.test.ts`: Pure landing redirect logic (`getLandingRedirect`) across enabled, disabled, absent, and error flag states for `/`, `/landing`, and other routes.
 - `src/features/listings/composables/useSmartPricing.test.ts`: Discount rate and smart pricing calculation logic.
-- `src/shared/composables/useFeatureFlags.test.ts`: Feature flag loading, stale localStorage merging without `show_risk_tier` (defaulting to disabled), and `show_risk_tier` dynamic evaluation/cache invalidation across toggle updates.
+- `src/shared/composables/useFeatureFlags.test.ts`: Feature flag loading, stale localStorage merging for `show_risk_tier` and `show_landing_page` (defaulting to enabled in simulator seed) without resetting user data, dynamic evaluation across toggle updates, and fail-closed error handling.
 - `src/features/moderation/moderationRiskTier.test.ts`: Moderation approval logic with `risk_tier` assignment.
 - `src/api/client.test.ts`: Mock environment gating checks.
 - `src/api/liveFixes.test.ts`: Live API handling checks for verification state & document uploads.
@@ -79,6 +81,18 @@ To test the frontend against a running backend (`doion` Django server):
 - **Live API Testing (`VITE_USE_MOCK=false`):**
   - When testing against a migrated and seeded backend (`doion`), live backend seed users include `holderkyc1` (natural pending KYC) and `holderkyclegal1` (legal pending KYC). See the `doion` seed documentation and [MASTER_API_CONTRACT.md](https://github.com/alamalhoda/doion/blob/develop/docs/development/MASTER_API_CONTRACT.md) for details.
   - Verification API responses return `user_type: "natural" | "legal"` read-only.
+
+### Testing the Landing Page as a Guest in Mock Mode
+
+To verify the public landing page experience from the perspective of an unauthenticated (guest) user:
+1. In mock mode (`VITE_USE_MOCK=true`), log out via the user menu in the header. This writes `chequeyar_mock_signed_out = 'true'` to `localStorage`.
+2. Reload the page or navigate to `/` or `/landing`. The mock auto-seed is skipped and you remain logged out.
+3. Observe:
+   - Header shows **ورود** (`landing-nav-login`) and **ثبت‌نام** (`landing-nav-register-btn`).
+   - Hero and sticky bar CTAs point to register and login.
+   - Anchor links (`#how-it-works`, `#live-listings`, `#faq`, `#contact-us`) scroll smoothly to each section.
+   - Footer links trigger the «به‌زودی» placeholder notification without broken routes.
+4. To return to an authenticated state, click **ورود**, log in with any demo persona, or clear `localStorage`.
 
 ### Mock/Simulator vs. Live Testing
 

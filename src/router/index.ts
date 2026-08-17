@@ -1,9 +1,37 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, type RouteRecordRaw, type NavigationGuard } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import { message } from '../utils/discreteApi';
+import { getLandingRedirect } from '../features/landing/guard';
+import { useFeatureFlags } from '../shared/composables/useFeatureFlags';
+
+const landingGateGuard: NavigationGuard = async (to) => {
+  const { fetchFlags, showLandingPage } = useFeatureFlags();
+  try {
+    await fetchFlags();
+  } catch {
+    // Fail closed
+  }
+  const redirectTarget = getLandingRedirect(showLandingPage.value, to.path);
+  if (redirectTarget && redirectTarget !== to.path) {
+    return redirectTarget;
+  }
+  return true;
+};
 
 const routes: RouteRecordRaw[] = [
-  { path: '/', redirect: '/marketplace' },
+  {
+    path: '/',
+    name: 'root',
+    beforeEnter: landingGateGuard,
+    component: () => import('../features/landing/LandingView.vue')
+  },
+  {
+    path: '/landing',
+    name: 'landing',
+    component: () => import('../features/landing/LandingView.vue'),
+    meta: { publicChrome: true },
+    beforeEnter: landingGateGuard
+  },
   { path: '/login', name: 'login', component: () => import('../features/auth/LoginView.vue'), meta: { guestOnly: true } },
   { path: '/register', name: 'register', component: () => import('../features/auth/RegisterView.vue'), meta: { guestOnly: true } },
 
