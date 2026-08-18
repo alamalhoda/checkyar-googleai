@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import LandingDecorLayer from './LandingDecorLayer.vue';
+
 withDefaults(
   defineProps<{
     id: string;
@@ -9,11 +11,21 @@ withDefaults(
     variant?: 'default' | 'muted' | 'elevated';
     narrow?: boolean;
     align?: 'center' | 'right';
+    decorPattern?: 'dots' | 'grid' | 'stripes' | 'mesh' | 'mesh-center' | 'none';
+    decorIntensity?: 'low' | 'medium';
+    decorPosition?: 'top-right' | 'bottom-left' | 'center' | 'full';
+    decorVector?: 'connectionNodes' | 'arcRing' | 'gridWave' | 'abstractShield' | 'growthCurve' | 'none';
+    decorVectorPosition?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'center';
   }>(),
   {
     variant: 'default',
     narrow: false,
     align: 'center',
+    decorPattern: 'none',
+    decorIntensity: 'low',
+    decorPosition: 'full',
+    decorVector: 'none',
+    decorVectorPosition: 'top-left'
   }
 );
 </script>
@@ -22,19 +34,29 @@ withDefaults(
   <section
     :id="id"
     :data-testid="testId"
-    class="relative w-full py-20 sm:py-24 scroll-mt-16"
+    class="relative w-full py-20 sm:py-24 scroll-mt-16 overflow-hidden"
     :class="[
       variant === 'muted' ? 'bg-[var(--theme-surface)]' : 'bg-[var(--theme-bg)]',
     ]"
   >
+    <!-- Background Decor Layer -->
+    <LandingDecorLayer
+      v-if="decorPattern !== 'none' || decorVector !== 'none'"
+      :pattern="decorPattern"
+      :intensity="decorIntensity"
+      :position="decorPosition"
+      :vector="decorVector"
+      :vector-position="decorVectorPosition"
+    />
+
     <!-- Subtle Gradient Separators for Elevated Variant -->
     <template v-if="variant === 'elevated'">
-      <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--theme-border-subtle)]/70 to-transparent"></div>
-      <div class="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[var(--theme-border-subtle)]/70 to-transparent"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent"></div>
+      <div class="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent"></div>
     </template>
 
     <div
-      class="mx-auto px-4 sm:px-6 lg:px-8"
+      class="relative z-10 mx-auto px-4 sm:px-6 lg:px-8"
       :class="narrow ? 'max-w-4xl' : 'max-w-7xl'"
     >
       <!-- Section Header -->

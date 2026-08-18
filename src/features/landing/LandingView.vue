@@ -3,6 +3,7 @@ import { onMounted } from 'vue';
 import LandingHeader from './LandingHeader.vue';
 import LandingFooter from './LandingFooter.vue';
 import { DOCUMENT_TITLE, META_DESCRIPTION } from './constants';
+import './styles/landingDecor.css';
 
 import HeroSection from './sections/HeroSection.vue';
 import ProblemSolutionSection from './sections/ProblemSolutionSection.vue';

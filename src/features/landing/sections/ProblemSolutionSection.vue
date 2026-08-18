@@ -16,14 +16,18 @@ const visual = landingContent.visual;
     :subtitle="content.subtitle"
     :eyebrow="visual.sectionEyebrows.problemSolution"
     variant="muted"
+    decorPattern="mesh"
+    decorIntensity="low"
+    decorVector="gridWave"
+    decorVectorPosition="top-left"
   >
     <!-- Problem & Solution Cards (2 Columns) -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-stretch">
       <!-- Problem Card -->
-      <LandingSurfaceCard bg="base" :hoverable="true" class="justify-between">
+      <LandingSurfaceCard bg="base" :glass="true" :hoverable="true" class="justify-between">
         <div>
           <div class="inline-flex items-center gap-2 mb-4">
-            <span class="rounded-lg bg-[var(--theme-surface-muted)] border border-[var(--theme-border-subtle)] px-2.5 py-1 text-xs font-medium text-[var(--theme-text-muted)]">
+            <span class="rounded-lg bg-[var(--theme-surface-muted)] border border-white/5 px-2.5 py-1 text-xs font-medium text-[var(--theme-text-muted)]">
               {{ content.problem.tag }}
             </span>
           </div>
@@ -50,8 +54,8 @@ const visual = landingContent.visual;
         </ul>
       </LandingSurfaceCard>
 
-      <!-- Solution Card (Highlighted) -->
-      <LandingSurfaceCard bg="base" :highlight="true" :accentTop="true" :hoverable="true" class="justify-between">
+      <!-- Solution Card (Highlighted with Gradient Top Accent) -->
+      <LandingSurfaceCard bg="base" :glass="true" :highlight="true" :accentTop="true" :hoverable="true" class="justify-between">
         <div>
           <div class="inline-flex items-center gap-2 mb-4">
             <span class="rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 text-xs font-medium text-emerald-400">

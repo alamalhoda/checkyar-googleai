@@ -45,11 +45,13 @@ function handleSubmit() {
     :eyebrow="landingContent.visual.sectionEyebrows.contactUs"
     variant="muted"
     :narrow="true"
+    decorPattern="grid"
+    decorIntensity="low"
   >
-    <LandingSurfaceCard bg="base" :accentTop="true" class="p-6 sm:p-10 shadow-xl shadow-black/30">
+    <LandingSurfaceCard bg="base" :glass="true" :accentTop="true" class="p-6 sm:p-10 shadow-xl shadow-black/30">
       <!-- Email Direct Pill -->
       <div class="flex justify-center mb-8">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--theme-surface)] border border-[var(--theme-border)] text-xs text-[var(--theme-text-secondary)] shadow-sm" dir="ltr">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--theme-surface)]/80 border border-white/10 text-xs text-[var(--theme-text-secondary)] shadow-sm" dir="ltr">
           <svg class="h-3.5 w-3.5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
@@ -110,7 +112,7 @@ function handleSubmit() {
             rows="4"
             data-testid="landing-contact-message"
             :placeholder="landingContent.contactUs.messagePlaceholder"
-            class="w-full px-4 py-3 rounded-xl bg-[var(--theme-input)] border text-[var(--theme-text-primary)] placeholder-[var(--theme-text-muted)] text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/80 transition resize-y"
+            class="w-full px-4 py-3 rounded-xl bg-[var(--theme-input)] border text-[var(--theme-text-primary)] placeholder-[var(--theme-text-muted)] text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/80 transition resize-none"
             :class="errors.message ? 'border-rose-500/80 focus:border-rose-500' : 'border-[var(--theme-border)] focus:border-emerald-500'"
           ></textarea>
           <p v-if="errors.message" class="mt-1.5 text-xs text-rose-400 font-medium">
@@ -119,11 +121,11 @@ function handleSubmit() {
         </div>
 
         <!-- Submit Button -->
-        <div class="pt-2">
+        <div>
           <button
             type="submit"
             data-testid="landing-contact-submit"
-            class="w-full min-h-[46px] inline-flex items-center justify-center px-6 py-3 text-sm font-bold rounded-xl text-slate-950 bg-emerald-400 hover:bg-emerald-300 transition duration-150 shadow-md shadow-emerald-950/40 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-400"
+            class="w-full min-h-[46px] flex items-center justify-center px-6 py-3 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold text-sm sm:text-base shadow-[0_10px_24px_-8px_rgba(16,185,129,0.45)] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 cursor-pointer"
           >
             {{ landingContent.contactUs.submitLabel }}
           </button>

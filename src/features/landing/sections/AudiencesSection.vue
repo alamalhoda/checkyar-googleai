@@ -16,11 +16,13 @@ const visual = landingContent.visual;
     :subtitle="content.subtitle"
     :eyebrow="visual.sectionEyebrows.audiences"
     variant="muted"
+    decorPattern="stripes"
+    decorIntensity="low"
   >
     <!-- 2 Audiences Columns -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-stretch">
       <!-- Holders Card (Right in RTL) -->
-      <LandingSurfaceCard bg="base" :hoverable="true" class="justify-between">
+      <LandingSurfaceCard bg="base" :glass="true" :hoverable="true" class="justify-between">
         <div>
           <div class="inline-flex items-center gap-2 mb-4">
             <span class="rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 text-xs font-medium text-emerald-400">
@@ -50,7 +52,7 @@ const visual = landingContent.visual;
       </LandingSurfaceCard>
 
       <!-- Investors Card (Left in RTL) -->
-      <LandingSurfaceCard bg="base" :hoverable="true" class="justify-between">
+      <LandingSurfaceCard bg="base" :glass="true" :hoverable="true" class="justify-between">
         <div>
           <div class="inline-flex items-center gap-2 mb-4">
             <span class="rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 text-xs font-medium text-emerald-400">

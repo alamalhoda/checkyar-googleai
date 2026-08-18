@@ -32,8 +32,10 @@ function isOpen(index: number): boolean {
     :eyebrow="visual.sectionEyebrows.faq"
     variant="muted"
     :narrow="true"
+    decorPattern="dots"
+    decorIntensity="low"
   >
-    <!-- FAQ Items Accordion -->
+    <!-- FAQ Items Accordion with Glass Styling -->
     <div class="space-y-3.5">
       <div
         v-for="(item, idx) in content.items"
@@ -42,8 +44,8 @@ function isOpen(index: number): boolean {
         class="rounded-2xl border transition-all duration-200 overflow-hidden"
         :class="[
           isOpen(idx)
-            ? 'border-emerald-500/30 bg-[var(--theme-bg)] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.3)]'
-            : 'border-[var(--theme-border)] bg-[var(--theme-bg)] hover:border-[var(--theme-border-subtle)]'
+            ? 'border-emerald-500/35 bg-[var(--theme-bg)]/90 shadow-[0_8px_24px_-4px_rgba(0,0,0,0.4)]'
+            : 'border-white/5 bg-[var(--theme-bg)]/70 hover:border-emerald-500/25'
         ]"
       >
         <button
@@ -78,7 +80,7 @@ function isOpen(index: number): boolean {
 
         <div
           v-if="isOpen(idx)"
-          class="px-5 sm:px-6 pb-5 pt-3 text-xs sm:text-sm leading-relaxed text-[var(--theme-text-secondary)] border-t border-[var(--theme-border-subtle)]/40 bg-[var(--theme-surface)]/50"
+          class="px-5 sm:px-6 pb-5 pt-3 text-xs sm:text-sm leading-relaxed text-[var(--theme-text-secondary)] border-t border-[var(--theme-border-subtle)]/40 bg-[var(--theme-surface)]/60 backdrop-blur-sm"
         >
           {{ item.answer }}
         </div>

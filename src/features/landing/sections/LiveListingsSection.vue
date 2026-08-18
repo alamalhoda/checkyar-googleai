@@ -44,6 +44,9 @@ onMounted(() => {
     :subtitle="landingContent.liveListings.subtitle"
     :eyebrow="landingContent.visual.sectionEyebrows.liveListings"
     variant="default"
+    decorPattern="mesh"
+    decorIntensity="low"
+    decorPosition="bottom-left"
   >
     <!-- 1. Loading State -->
     <div
@@ -54,7 +57,7 @@ onMounted(() => {
       <div
         v-for="i in 4"
         :key="i"
-        class="rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-surface)] p-6 flex flex-col justify-between"
+        class="rounded-2xl border border-white/5 bg-[var(--theme-surface)]/60 backdrop-blur-md p-6 flex flex-col justify-between"
       >
         <div>
           <div class="h-5 bg-[var(--theme-border)] rounded w-2/3 mb-4"></div>
@@ -99,17 +102,17 @@ onMounted(() => {
       </p>
       <RouterLink
         v-if="!authStore.isAuthenticated"
+        data-testid="landing-listings-empty-guest-cta"
         to="/register"
-        data-testid="landing-listings-empty-cta"
-        class="inline-flex items-center justify-center px-6 py-2.5 text-sm font-bold rounded-xl text-slate-950 bg-emerald-400 hover:bg-emerald-300 transition shadow-sm"
+        class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-emerald-400 text-slate-950 font-bold text-sm shadow-sm hover:bg-emerald-300 transition"
       >
         {{ landingContent.liveListings.emptyGuestCta }}
       </RouterLink>
       <RouterLink
         v-else
+        data-testid="landing-listings-empty-auth-cta"
         to="/marketplace"
-        data-testid="landing-listings-empty-cta"
-        class="inline-flex items-center justify-center px-6 py-2.5 text-sm font-bold rounded-xl text-slate-950 bg-emerald-400 hover:bg-emerald-300 transition shadow-sm"
+        class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-emerald-400 text-slate-950 font-bold text-sm shadow-sm hover:bg-emerald-300 transition"
       >
         {{ landingContent.liveListings.emptyAuthCta }}
       </RouterLink>
@@ -118,14 +121,15 @@ onMounted(() => {
     <!-- 4. Data State -->
     <div
       v-else
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+      data-testid="landing-listings-grid"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch"
     >
       <LandingListingCard
-        v-for="item in listings"
-        :key="item.id"
-        :listing="item"
-        :is-authenticated="authStore.isAuthenticated"
-        :show-risk-tier="showRiskTier"
+        v-for="listing in listings"
+        :key="listing.id"
+        :listing="listing"
+        :isAuthenticated="authStore.isAuthenticated"
+        :showRiskTier="showRiskTier"
       />
     </div>
   </LandingSectionShell>

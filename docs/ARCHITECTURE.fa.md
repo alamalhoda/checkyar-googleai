@@ -100,9 +100,11 @@ src/
   - صفحه فرود همواره با تم بصری تیره برند (`data-theme="dark"` و تم تیره اختصاصی Naive UI) نمایش داده می‌شود، بدون آن‌که تم انتخابی ذخیره‌شده کاربر در `localStorage` دستخوش تغییر شود.
   - مرجع واحد محتوا (SSOT) در فایل `src/features/landing/content/landingContent.ts` با رعایت دقیق نیم‌فاصله‌ها (`\u200c` / ZWNJ) و متادیتای بصری متمرکز (`landingContent.visual`) برای عناوین و برچسب‌های تزیینی نگهداری می‌شود.
   - کامپوننت‌های پایه و ماژولار در مسیر `src/features/landing/components/`:
-    - `LandingSectionShell.vue`: پوسته استاندارد بخش‌ها با ریتم عمودی یکدست، کنترل پهنای محتوا، نشان‌های بالاسری، عناوین و زیرعناوین و پس‌زمینه‌های متنوع (`default`, `muted`, `elevated` همراه با جداکننده‌های خطی ملایم).
-    - `LandingSurfaceCard.vue`: کارت‌های سطحی استاندارد با قابلیت برجسته‌سازی، خط حاشیه تاکیدی و انیمیشن شناوری.
+    - `LandingSectionShell.vue`: پوسته استاندارد بخش‌ها با ریتم عمودی یکدست، کنترل پهنای محتوا، نشان‌های بالاسری، عناوین و زیرعناوین، پس‌زمینه‌های متنوع (`default`, `muted`, `elevated`) و یکپارچه‌سازی لایه تزیینی پس‌زمینه با `LandingDecorLayer`.
+    - `LandingDecorLayer.vue`: رندر الگوهای هندسی کنترل‌شده (نقاط، شبکه، خطوط راه‌راه، مش گرادیان ایستا) و وکتورهای برداری درون‌خطی SVG با کنترل دقیق شفافیت (حداکثر ۰٫۳۵) و خصوصیات `pointer-events-none aria-hidden="true"`.
+    - `LandingSurfaceCard.vue`: کارت‌های سطحی استاندارد با پشتیبانی از سبک شیشه‌ای (`glass`)، کادرهای گرادیانی (`gradientBorder`)، قابلیت برجسته‌سازی، خط حاشیه تاکیدی و انیمیشن شناوری.
     - `LandingIconBadge.vue`: نشانگر عددی و آیکونی استاندارد برای مراحل و لیست‌ها.
+    - `landingDecor.css` و `landingVectors.ts`: متغیرهای متمرکز CSS و ابزارهای استایل برای سطوح شیشه‌ای، پترن‌های پس‌زمینه، بوردرهای گرادیان و هندسه وکتورهای SVG.
   - ساختار ۱۲ گانه صفحه توسط کامپوننت‌های مجزا در مسیر `src/features/landing/sections/` تشکیل شده است:
     - **بخش قهرمان (`HeroSection.vue`، `#hero`):** طرح‌بندی دو ستونه واکنش‌گرا با نشان اختصاصی ۴۸×۴۸ («چک»)، نوار تاکیدی راست‌چین، نشان وضعیت پایلوت و پنل تزیینی پیش‌نمایش شماتیک بازارچه.
     - **بخش‌های محتوایی و تعاملی:** `ProblemSolutionSection.vue` (`#problem-and-solution`)، `HowItWorksSection.vue` (`#how-it-works`)، `AudiencesSection.vue` (`#audiences`)، `LiveListingsSection.vue` (`#live-listings`)، `ResponsibilityBoundarySection.vue` (`#responsibility-boundary`)، `ProductStatusSection.vue` (`#product-status`)، `PricingSection.vue` (`#pricing`)، `FaqSection.vue` (`#faq`)، `ContactSection.vue` (`#contact-us`)، `LeadCaptureSection.vue` (`#lead-capture-form`) و `InvestingSection.vue` (`#investing-in-cheque-yar`).

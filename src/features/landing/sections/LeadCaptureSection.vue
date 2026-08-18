@@ -47,8 +47,10 @@ function handleSubmit() {
     :eyebrow="landingContent.visual.sectionEyebrows.leadCapture"
     variant="default"
     :narrow="true"
+    decorPattern="grid"
+    decorIntensity="low"
   >
-    <LandingSurfaceCard :accentTop="true" class="p-6 sm:p-10 shadow-xl shadow-black/30">
+    <LandingSurfaceCard :glass="true" :accentTop="true" class="p-6 sm:p-10 shadow-xl shadow-black/30">
       <!-- Form -->
       <form
         data-testid="landing-lead-form"
@@ -100,24 +102,19 @@ function handleSubmit() {
           <select
             v-model="form.role"
             data-testid="landing-lead-role"
-            class="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[var(--theme-input)] border text-[var(--theme-text-primary)] text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/80 transition cursor-pointer"
-            :class="errors.role ? 'border-rose-500/80 focus:border-rose-500' : 'border-[var(--theme-border)] focus:border-emerald-500'"
+            class="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[var(--theme-input)] border border-[var(--theme-border)] text-[var(--theme-text-primary)] text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/80 focus:border-emerald-500 transition"
           >
             <option
               v-for="role in landingContent.leadCapture.roles"
-              :key="role.value"
-              :value="role.value"
-              class="bg-[var(--theme-surface)] text-[var(--theme-text-primary)]"
+              :key="role"
+              :value="role"
             >
-              {{ role.label }}
+              {{ role }}
             </option>
           </select>
-          <p v-if="errors.role" class="mt-1.5 text-xs text-rose-400 font-medium">
-            {{ errors.role }}
-          </p>
         </div>
 
-        <!-- Note Field -->
+        <!-- Note (Optional) -->
         <div>
           <label class="block text-sm font-medium text-[var(--theme-text-secondary)] mb-2">
             {{ landingContent.leadCapture.noteLabel }}
@@ -127,8 +124,8 @@ function handleSubmit() {
             rows="3"
             data-testid="landing-lead-note"
             :placeholder="landingContent.leadCapture.notePlaceholder"
-            class="w-full px-4 py-3 rounded-xl bg-[var(--theme-input)] border text-[var(--theme-text-primary)] placeholder-[var(--theme-text-muted)] text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/80 transition resize-y"
-            :class="errors.note ? 'border-rose-500/80 focus:border-rose-500' : 'border-[var(--theme-border)] focus:border-emerald-500'"
+            class="w-full px-4 py-3 rounded-xl bg-[var(--theme-input)] border border-[var(--theme-border)] text-[var(--theme-text-primary)] placeholder-[var(--theme-text-muted)] text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/80 focus:border-emerald-500 transition resize-none"
+            :class="errors.note ? 'border-rose-500/80 focus:border-rose-500' : ''"
           ></textarea>
           <p v-if="errors.note" class="mt-1.5 text-xs text-rose-400 font-medium">
             {{ errors.note }}
@@ -136,11 +133,11 @@ function handleSubmit() {
         </div>
 
         <!-- Submit Button -->
-        <div class="pt-2">
+        <div>
           <button
             type="submit"
             data-testid="landing-lead-submit"
-            class="w-full min-h-[46px] inline-flex items-center justify-center px-6 py-3 text-sm font-bold rounded-xl text-slate-950 bg-emerald-400 hover:bg-emerald-300 transition duration-150 shadow-md shadow-emerald-950/40 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-400"
+            class="w-full min-h-[46px] flex items-center justify-center px-6 py-3 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold text-sm sm:text-base shadow-[0_10px_24px_-8px_rgba(16,185,129,0.45)] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 cursor-pointer"
           >
             {{ landingContent.leadCapture.submitLabel }}
           </button>

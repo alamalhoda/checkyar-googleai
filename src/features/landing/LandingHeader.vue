@@ -32,7 +32,7 @@ function navigateTo(path: string) {
   <header
     id="landing-header"
     data-testid="landing-header"
-    class="sticky top-0 z-50 w-full border-b border-[var(--theme-border)] bg-[var(--theme-surface)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-surface)]/80 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.35)]"
+    class="sticky top-0 z-50 w-full border-b border-white/10 landing-glass-header shadow-[0_4px_24px_-4px_rgba(0,0,0,0.40)]"
   >
     <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
       <!-- Brand Lockup -->
@@ -82,7 +82,7 @@ function navigateTo(path: string) {
             type="button"
             data-testid="landing-nav-login"
             @click="navigateTo('/login')"
-            class="inline-flex items-center justify-center rounded-xl border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-muted)] px-3.5 py-1.5 text-sm font-medium text-[var(--theme-text-primary)] hover:border-emerald-500/40 hover:text-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
+            class="inline-flex items-center justify-center rounded-xl border border-white/10 bg-[var(--theme-surface-muted)]/80 px-3.5 py-1.5 text-sm font-medium text-[var(--theme-text-primary)] hover:border-emerald-500/40 hover:text-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
           >
             ورود
           </button>
@@ -116,10 +116,10 @@ function navigateTo(path: string) {
       </div>
     </div>
 
-    <!-- Mobile Dropdown Menu -->
+    <!-- Mobile Dropdown Menu with Glass Style -->
     <div
       v-if="mobileMenuOpen"
-      class="border-b border-[var(--theme-border)] bg-[var(--theme-surface)] px-4 py-4 sm:hidden flex flex-col gap-3"
+      class="border-b border-white/10 bg-[var(--theme-surface)]/95 backdrop-blur-md px-4 py-4 sm:hidden flex flex-col gap-3 shadow-2xl"
     >
       <nav class="flex flex-col gap-2" aria-label="ناوبری موبایل">
         <a
@@ -132,7 +132,7 @@ function navigateTo(path: string) {
           {{ link.label }}
         </a>
       </nav>
-      <div class="pt-3 border-t border-[var(--theme-border)] flex flex-col gap-2">
+      <div class="pt-3 border-t border-white/10 flex flex-col gap-2">
         <template v-if="authStore.isAuthenticated">
           <button
             type="button"
@@ -149,7 +149,7 @@ function navigateTo(path: string) {
               type="button"
               data-testid="landing-nav-login-mobile"
               @click="navigateTo('/login')"
-              class="w-full rounded-xl border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-muted)] px-3 py-2.5 text-center text-sm font-medium text-[var(--theme-text-primary)] hover:border-emerald-500/40 hover:text-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+              class="w-full rounded-xl border border-white/10 bg-[var(--theme-surface-muted)]/80 px-3 py-2.5 text-center text-sm font-medium text-[var(--theme-text-primary)] hover:border-emerald-500/40 hover:text-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >
               ورود
             </button>
