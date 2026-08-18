@@ -3,11 +3,11 @@ import { useRouter } from 'vue-router';
 import { useAuthStore } from '../../../stores/auth';
 import { landingContent } from '../content/landingContent';
 import LandingDecorLayer from '../components/LandingDecorLayer.vue';
+import LandingHeroListingsPreview from '../components/LandingHeroListingsPreview.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
 const content = landingContent.hero;
-const visual = landingContent.visual;
 
 function handlePrimaryClick() {
   if (authStore.isAuthenticated) {
@@ -140,74 +140,9 @@ function handleTertiaryClick() {
           </div>
         </div>
 
-        <!-- Left Column (Decorative Glass Schematic UI Preview in RTL) -->
+        <!-- Left Column (Real Listings UI Preview in RTL) -->
         <div class="lg:col-span-5 flex flex-col items-center">
-          <div class="w-full max-w-md rounded-2xl border border-white/10 landing-glass-card p-6 shadow-[0_16px_36px_-10px_rgba(0,0,0,0.5)] relative overflow-hidden">
-            <!-- Subtle Top Accent Gradient Line -->
-            <div class="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-emerald-500 via-emerald-400 to-emerald-600"></div>
-
-            <!-- Schematic Window Header -->
-            <div class="flex items-center justify-between pb-4 mb-4 border-b border-[var(--theme-border-subtle)]">
-              <div class="flex items-center gap-2">
-                <div class="h-3 w-3 rounded-full bg-emerald-500/40"></div>
-                <div class="h-3 w-3 rounded-full bg-[var(--theme-border-subtle)]"></div>
-                <div class="h-3 w-3 rounded-full bg-[var(--theme-border-subtle)]"></div>
-              </div>
-              <span class="text-[11px] text-[var(--theme-text-muted)] font-mono">chequeyar.ir/preview</span>
-            </div>
-
-            <!-- Schematic Content Mock (Abstract / Static Blocks) -->
-            <div class="space-y-3.5 select-none" aria-hidden="true">
-              <!-- Mock Search / Filter Bar -->
-              <div class="flex items-center justify-between gap-2 p-2.5 rounded-lg bg-[var(--theme-bg)]/80 border border-white/5">
-                <div class="h-3 w-28 rounded bg-[var(--theme-border-subtle)]/70"></div>
-                <div class="h-5 w-16 rounded bg-emerald-500/15 border border-emerald-500/30"></div>
-              </div>
-
-              <!-- Schematic Card 1 -->
-              <div class="p-3.5 rounded-xl bg-[var(--theme-bg)]/90 border border-emerald-500/30 space-y-2.5 shadow-sm">
-                <div class="flex items-center justify-between">
-                  <div class="h-3.5 w-24 rounded bg-[var(--theme-text-secondary)]/40"></div>
-                  <div class="h-4 w-12 rounded-full bg-emerald-500/20 border border-emerald-500/30"></div>
-                </div>
-                <div class="flex items-center justify-between pt-1">
-                  <div class="h-3 w-16 rounded bg-[var(--theme-border-subtle)]"></div>
-                  <div class="h-3 w-20 rounded bg-[var(--theme-border-subtle)]"></div>
-                </div>
-              </div>
-
-              <!-- Schematic Card 2 -->
-              <div class="p-3.5 rounded-xl bg-[var(--theme-bg)]/70 border border-white/5 space-y-2.5 opacity-75">
-                <div class="flex items-center justify-between">
-                  <div class="h-3.5 w-20 rounded bg-[var(--theme-text-secondary)]/30"></div>
-                  <div class="h-4 w-12 rounded-full bg-[var(--theme-surface-muted)]"></div>
-                </div>
-                <div class="flex items-center justify-between pt-1">
-                  <div class="h-3 w-14 rounded bg-[var(--theme-border-subtle)]"></div>
-                  <div class="h-3 w-18 rounded bg-[var(--theme-border-subtle)]"></div>
-                </div>
-              </div>
-
-              <!-- Schematic Stat Row -->
-              <div class="grid grid-cols-2 gap-2 pt-1">
-                <div class="p-2.5 rounded-lg bg-[var(--theme-bg)]/80 border border-white/5 text-center">
-                  <div class="h-2.5 w-12 mx-auto rounded bg-[var(--theme-text-muted)]/50 mb-1.5"></div>
-                  <div class="h-3.5 w-16 mx-auto rounded bg-emerald-400/40"></div>
-                </div>
-                <div class="p-2.5 rounded-lg bg-[var(--theme-bg)]/80 border border-white/5 text-center">
-                  <div class="h-2.5 w-12 mx-auto rounded bg-[var(--theme-text-muted)]/50 mb-1.5"></div>
-                  <div class="h-3.5 w-16 mx-auto rounded bg-[var(--theme-text-secondary)]/40"></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Preview Caption -->
-            <div class="mt-4 pt-3 border-t border-[var(--theme-border-subtle)] text-center">
-              <span class="text-[11px] text-[var(--theme-text-muted)] font-medium">
-                {{ visual.heroPreviewCaption }}
-              </span>
-            </div>
-          </div>
+          <LandingHeroListingsPreview />
         </div>
       </div>
     </div>

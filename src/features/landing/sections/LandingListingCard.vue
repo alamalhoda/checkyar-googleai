@@ -2,9 +2,11 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import type { MarketplaceListing } from '../../../types/api';
+import { LISTING_STATUS_LABELS } from '../../../types/api';
 import { landingContent } from '../content/landingContent';
 import { toPersianDigits, formatTomanFromRial, formatJalaliDate } from '../../../utils/persianUtils';
 import { getLandingListingTarget } from '../utils/landingListingUtils';
+import { maskDisplayName } from '../utils/maskDisplayName';
 
 const props = defineProps<{
   listing: MarketplaceListing;
@@ -16,6 +18,18 @@ const router = useRouter();
 
 const formattedAmount = computed(() => formatTomanFromRial(props.listing.face_amount));
 const formattedDueDate = computed(() => formatJalaliDate(props.listing.due_date));
+
+const maskedIssuer = computed(() => {
+  const raw = props.listing.issuer_profile?.name || props.listing.issuer_name;
+  return maskDisplayName(raw);
+});
+
+const statusLabel = computed(() => {
+  if (props.listing.status && LISTING_STATUS_LABELS[props.listing.status]) {
+    return LISTING_STATUS_LABELS[props.listing.status];
+  }
+  return null;
+});
 
 const daysToDueText = computed(() => {
   if (typeof props.listing.days_to_due === 'number' && Number.isFinite(props.listing.days_to_due)) {
@@ -52,19 +66,27 @@ function handleActivate() {
     @keydown.enter.prevent="handleActivate"
     @keydown.space.prevent="handleActivate"
   >
-    <!-- Card Header: Bank & Risk Tier Badge -->
+    <!-- Card Header: Bank & Status / Risk Badges -->
     <div>
       <div class="flex items-center justify-between gap-2 mb-3.5">
         <span class="font-bold text-[var(--theme-text-primary)] text-base truncate">
           {{ listing.bank_name }}
         </span>
-        <span
-          v-if="showRiskTier && riskTierLabel"
-          data-testid="landing-listing-risk-tier"
-          class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 shrink-0"
-        >
-          {{ riskTierLabel }}
-        </span>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <span
+            v-if="statusLabel"
+            class="inline-flex items-center rounded-full bg-emerald-500/10 border border-emerald-500/25 px-2 py-0.5 text-[10px] font-medium text-emerald-400"
+          >
+            {{ statusLabel }}
+          </span>
+          <span
+            v-if="showRiskTier && riskTierLabel"
+            data-testid="landing-listing-risk-tier"
+            class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 shrink-0"
+          >
+            {{ riskTierLabel }}
+          </span>
+        </div>
       </div>
 
       <!-- Amount Block with Subtle Gradient Glow -->
@@ -84,17 +106,19 @@ function handleActivate() {
 
         <div v-if="daysToDueText" class="flex items-center justify-between">
           <span class="text-[var(--theme-text-muted)]">مهلت:</span>
-          <span class="text-[var(--theme-text-primary)]">{{ daysToDueText }}</span>
+          <span class="font-medium text-[var(--theme-text-primary)] tabular-nums">{{ daysToDueText }}</span>
         </div>
 
         <div v-if="discountRateText" class="flex items-center justify-between">
           <span class="text-[var(--theme-text-muted)]">{{ landingContent.liveListings.rateLabel }}</span>
-          <span class="text-emerald-400 font-bold">{{ discountRateText }}</span>
+          <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-bold tabular-nums">
+            {{ discountRateText }}
+          </span>
         </div>
 
-        <div v-if="listing.issuer_profile?.name" class="flex items-center justify-between truncate">
+        <div v-if="maskedIssuer" class="flex items-center justify-between truncate">
           <span class="text-[var(--theme-text-muted)]">صادرکننده:</span>
-          <span class="truncate max-w-[140px] text-[var(--theme-text-primary)]">{{ listing.issuer_profile.name }}</span>
+          <span class="truncate max-w-[140px] text-[var(--theme-text-primary)]">{{ maskedIssuer }}</span>
         </div>
       </div>
     </div>

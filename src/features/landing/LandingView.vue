@@ -6,6 +6,7 @@ import { DOCUMENT_TITLE, META_DESCRIPTION } from './constants';
 import './styles/landingDecor.css';
 
 import HeroSection from './sections/HeroSection.vue';
+import LandingTrustStrip from './components/LandingTrustStrip.vue';
 import ProblemSolutionSection from './sections/ProblemSolutionSection.vue';
 import HowItWorksSection from './sections/HowItWorksSection.vue';
 import AudiencesSection from './sections/AudiencesSection.vue';
@@ -42,6 +43,9 @@ onMounted(() => {
     <main class="flex-1 w-full flex flex-col">
       <!-- 1. Hero Section -->
       <HeroSection />
+
+      <!-- Trust Strip (Regulatory Summary) -->
+      <LandingTrustStrip />
 
       <!-- 2. Problem and Solution Section -->
       <ProblemSolutionSection />

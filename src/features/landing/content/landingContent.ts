@@ -15,6 +15,16 @@ export const landingContent = {
       primaryCta: 'ورود به بازارچه',
       secondaryCta: 'مشاهده آگهی\u200cها',
     },
+    previewEmpty: 'فعلاً آگهی منتشرشده\u200cای برای پیش\u200cنمایش نیست',
+  },
+  trustStrip: {
+    items: [
+      'بدون جابه\u200cجایی وجه',
+      'بدون نگه\u200cداری چک',
+      'بدون ضمانت وصول',
+      'نرخ پیشنهادی غیرالزام\u200cآور',
+    ],
+    detailsLink: 'جزئیات مسئولیت\u200cها',
   },
   problemSolution: {
     title: 'مسئله و راه\u200cحل',
@@ -238,7 +248,7 @@ export const landingContent = {
     successMessage: 'درخواست شما روی همین صفحه ثبت شد؛ در محصول فعلی به سرور ارسال نمی\u200cشود.',
   },
   visual: {
-    heroPreviewCaption: 'نمای شماتیک رابط بازارچه',
+    heroPreviewCaption: 'پیش\u200cنمایش آگهی\u200cهای منتشرشده',
     sectionEyebrows: {
       problemSolution: 'چالش و راهکار',
       howItWorks: 'فرآیند گام\u200cبه\u200cگام',

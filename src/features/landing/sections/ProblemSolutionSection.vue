@@ -21,8 +21,18 @@ const visual = landingContent.visual;
     decorVector="gridWave"
     decorVectorPosition="top-left"
   >
-    <!-- Problem & Solution Cards (2 Columns) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-stretch">
+    <!-- Problem & Solution Cards (2 Columns) with Static Transition Indicator -->
+    <div class="relative grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-stretch">
+      <!-- Ambient Center Flow Arrow (Desktop Only) -->
+      <div
+        class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[var(--theme-surface)]/90 border border-emerald-500/30 items-center justify-center text-emerald-400 shadow-md backdrop-blur-md pointer-events-none"
+        aria-hidden="true"
+      >
+        <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </div>
+
       <!-- Problem Card -->
       <LandingSurfaceCard bg="base" :glass="true" :hoverable="true" class="justify-between">
         <div>

@@ -146,7 +146,7 @@ describe('landingContent SSOT', () => {
     });
 
     it('has visual decorative strings and section eyebrows configured', () => {
-      expect(landingContent.visual.heroPreviewCaption).toBe('نمای شماتیک رابط بازارچه');
+      expect(landingContent.visual.heroPreviewCaption).toBe('پیش\u200cنمایش آگهی\u200cهای منتشرشده');
       expect(landingContent.visual.sectionEyebrows.problemSolution).toBe('چالش و راهکار');
       expect(landingContent.visual.sectionEyebrows.howItWorks).toBe('فرآیند گام\u200cبه\u200cگام');
       expect(landingContent.visual.sectionEyebrows.audiences).toBe('مخاطبان هدف');
@@ -158,6 +158,25 @@ describe('landingContent SSOT', () => {
       expect(landingContent.visual.sectionEyebrows.contactUs).toBe('ارتباط مستقیم');
       expect(landingContent.visual.sectionEyebrows.leadCapture).toBe('درخواست همکاری');
       expect(landingContent.visual.sectionEyebrows.investing).toBe('توسعه پایلوت');
+    });
+
+    it('has trustStrip scannable items and detailsLink aligned with responsibility boundary', () => {
+      expect(landingContent.trustStrip.items).toHaveLength(4);
+      expect(landingContent.trustStrip.items[0]).toBe('بدون جابه\u200cجایی وجه');
+      expect(landingContent.trustStrip.items[1]).toBe('بدون نگه\u200cداری چک');
+      expect(landingContent.trustStrip.items[2]).toBe('بدون ضمانت وصول');
+      expect(landingContent.trustStrip.items[3]).toBe('نرخ پیشنهادی غیرالزام\u200cآور');
+      expect(landingContent.trustStrip.detailsLink).toBe('جزئیات مسئولیت\u200cها');
+
+      expect(landingContent.trustStrip.items[0].includes('\u200c')).toBe(true);
+      expect(landingContent.trustStrip.items[1].includes('\u200c')).toBe(true);
+      expect(landingContent.trustStrip.items[3].includes('\u200c')).toBe(true);
+      expect(landingContent.trustStrip.detailsLink.includes('\u200c')).toBe(true);
+    });
+
+    it('has hero previewEmpty copy configured with ZWNJ', () => {
+      expect(landingContent.hero.previewEmpty).toBe('فعلاً آگهی منتشرشده\u200cای برای پیش\u200cنمایش نیست');
+      expect(landingContent.hero.previewEmpty.includes('\u200c')).toBe(true);
     });
   });
 });
