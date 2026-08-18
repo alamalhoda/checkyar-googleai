@@ -32,14 +32,14 @@ function scrollToListings() {
         <span class="relative flex h-2.5 w-2.5">
           <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
         </span>
-        <span class="text-xs font-semibold text-emerald-400">تابلوی زنده آگهی‌ها</span>
+        <span class="text-xs font-semibold text-emerald-400">{{ landingContent.hero.previewLiveBadge }}</span>
       </div>
       <button
         type="button"
         @click="scrollToListings"
         class="text-xs text-[var(--theme-text-muted)] hover:text-emerald-300 transition-colors cursor-pointer"
       >
-        مشاهده همه
+        {{ landingContent.hero.previewViewAll }}
       </button>
     </div>
 
@@ -67,14 +67,14 @@ function scrollToListings() {
       class="py-6 px-4 text-center rounded-xl bg-[var(--theme-surface)]/50 border border-white/5 space-y-3 min-h-[190px] flex flex-col justify-center items-center"
     >
       <p class="text-xs text-[var(--theme-text-muted)]">
-        بارگذاری پیش‌نمایش با وقفه مواجه شد
+        {{ landingContent.hero.previewError }}
       </p>
       <button
         type="button"
         @click="refetch"
         class="text-xs font-medium text-emerald-400 hover:text-emerald-300 transition cursor-pointer"
       >
-        تلاش مجدد
+        {{ landingContent.hero.previewRetry }}
       </button>
     </div>
 
@@ -91,7 +91,7 @@ function scrollToListings() {
         @click="scrollToListings"
         class="inline-flex items-center gap-1 text-xs font-medium text-emerald-400 hover:text-emerald-300 transition cursor-pointer"
       >
-        <span>مشاهده بخش آگهی‌ها</span>
+        <span>{{ landingContent.hero.previewEmptyAction }}</span>
         <svg class="w-3 h-3 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
         </svg>

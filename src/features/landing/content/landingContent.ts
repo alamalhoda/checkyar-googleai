@@ -15,7 +15,12 @@ export const landingContent = {
       primaryCta: 'ورود به بازارچه',
       secondaryCta: 'مشاهده آگهی\u200cها',
     },
+    previewLiveBadge: 'تابلوی زنده آگهی\u200cها',
+    previewViewAll: 'مشاهده همه',
+    previewError: 'بارگذاری پیش\u200cنمایش با وقفه مواجه شد',
+    previewRetry: 'تلاش مجدد',
     previewEmpty: 'فعلاً آگهی منتشرشده\u200cای برای پیش\u200cنمایش نیست',
+    previewEmptyAction: 'مشاهده بخش آگهی\u200cها',
   },
   trustStrip: {
     items: [

@@ -18,17 +18,19 @@ const visual = landingContent.visual;
     decorPattern="dots"
     decorIntensity="medium"
   >
-    <LandingSurfaceCard bg="base" :glass="true" :gradientBorder="true" :accentTop="true" class="text-center p-8 sm:p-12 items-center">
-      <!-- Status String Badge / Banner -->
-      <div class="inline-flex items-center gap-2.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 backdrop-blur-sm px-4 sm:px-5 py-2 text-sm sm:text-base font-bold text-emerald-300 mb-6 shadow-sm">
-        <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
-        <span>{{ content.statusText }}</span>
-      </div>
+    <LandingSurfaceCard bg="base" :glass="true" :gradientBorder="true" :accentTop="true">
+      <div class="flex flex-col items-center text-center py-2 sm:py-4">
+        <!-- Status String Badge / Banner -->
+        <div class="inline-flex items-center gap-2.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 backdrop-blur-sm px-4 sm:px-5 py-2 text-sm sm:text-base font-bold text-emerald-300 mb-6 shadow-sm">
+          <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+          <span>{{ content.statusText }}</span>
+        </div>
 
-      <!-- Description Paragraph -->
-      <p class="text-sm sm:text-base leading-[1.7] text-[var(--theme-text-secondary)] max-w-xl mx-auto">
-        {{ content.description }}
-      </p>
+        <!-- Description Paragraph -->
+        <p class="text-sm sm:text-base leading-[1.7] text-[var(--theme-text-secondary)] max-w-xl mx-auto">
+          {{ content.description }}
+        </p>
+      </div>
     </LandingSurfaceCard>
   </LandingSectionShell>
 </template>

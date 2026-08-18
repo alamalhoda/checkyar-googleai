@@ -70,7 +70,7 @@ describe('LandingSurfaceCard.vue', () => {
       },
     });
 
-    expect(wrapper.find('.bg-gradient-to-r').exists()).toBe(true);
+    expect(wrapper.find('.bg-gradient-to-l').exists()).toBe(true);
   });
 
   it('applies highlight border and shadow when highlight is true', () => {

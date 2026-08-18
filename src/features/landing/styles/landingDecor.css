@@ -1,92 +1,148 @@
 /**
  * Landing Page Decor System (SSOT for background layers, patterns, and glass surfaces)
- * Strictly complies with docs/design-system.md (dark emerald brand, <= AA contrast, <= 0.06 pattern opacity)
+ * Strictly complies with docs/design-system.md (dark emerald brand, <= AA contrast, neutral slate patterns)
  */
 
-:root {
-  --decor-dot-opacity-low: 0.035;
-  --decor-dot-opacity-med: 0.055;
-  --decor-grid-opacity-low: 0.025;
-  --decor-grid-opacity-med: 0.040;
-  --decor-stripe-opacity-low: 0.020;
-  --decor-stripe-opacity-med: 0.030;
-  --decor-mesh-opacity: 0.16;
+.landing-decor {
+  --landing-dots-opacity: 0.06;
+  --landing-grid-opacity: 0.04;
+  --landing-stripes-opacity: 0.03;
+  --landing-mesh-opacity: 0.22;
 }
 
-/* Background Patterns */
+.landing-decor-intensity-low {
+  --landing-dots-opacity: 0.035;
+  --landing-grid-opacity: 0.025;
+  --landing-stripes-opacity: 0.020;
+  --landing-mesh-opacity: 0.14;
+}
+
+.landing-decor-intensity-medium {
+  --landing-dots-opacity: 0.060;
+  --landing-grid-opacity: 0.040;
+  --landing-stripes-opacity: 0.030;
+  --landing-mesh-opacity: 0.22;
+}
+
+.landing-decor-intensity-high {
+  --landing-dots-opacity: 0.100;
+  --landing-grid-opacity: 0.070;
+  --landing-stripes-opacity: 0.050;
+  --landing-mesh-opacity: 0.32;
+}
+
+/* Background Patterns (Neutral slate ~#94a3b8 for depth without green tint) */
 .landing-bg-dots {
-  background-image: radial-gradient(var(--theme-primary, #10b981) 1.2px, transparent 1.2px);
-  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(148, 163, 184, var(--landing-dots-opacity, 0.06)) 1px, transparent 1px);
+  background-size: 22px 22px;
 }
 
 .landing-bg-grid {
   background-image:
-    linear-gradient(to right, rgba(16, 185, 129, 0.12) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(16, 185, 129, 0.12) 1px, transparent 1px);
-  background-size: 36px 36px;
+    linear-gradient(to right, rgba(148, 163, 184, var(--landing-grid-opacity, 0.04)) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, var(--landing-grid-opacity, 0.04)) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
 
 .landing-bg-stripes {
   background-image: repeating-linear-gradient(
-    135deg,
-    rgba(16, 185, 129, 0.08) 0,
-    rgba(16, 185, 129, 0.08) 1px,
+    -45deg,
+    rgba(148, 163, 184, var(--landing-stripes-opacity, 0.03)) 0,
+    rgba(148, 163, 184, var(--landing-stripes-opacity, 0.03)) 1px,
     transparent 0,
     transparent 20px
   );
 }
 
+.landing-corner-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(148, 163, 184, 0.05) 0,
+    rgba(148, 163, 184, 0.05) 1px,
+    transparent 0,
+    transparent 12px
+  );
+}
+
+/* Elliptical Emerald Mesh Gradients */
 .landing-bg-mesh-emerald {
   background-image:
-    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.14) 0%, transparent 45%),
-    radial-gradient(circle at 90% 80%, rgba(5, 150, 105, 0.10) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 60%);
+    radial-gradient(ellipse 65% 55% at 85% 15%, rgba(16, 185, 129, calc(var(--landing-mesh-opacity, 0.22) * 0.95)) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 65% at 15% 85%, rgba(5, 150, 105, calc(var(--landing-mesh-opacity, 0.22) * 0.75)) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 45% at 50% 50%, rgba(16, 185, 129, calc(var(--landing-mesh-opacity, 0.22) * 0.40)) 0%, transparent 70%);
 }
 
 .landing-bg-mesh-center {
-  background-image: radial-gradient(circle at 50% 40%, rgba(16, 185, 129, 0.15) 0%, transparent 55%);
+  background-image: radial-gradient(ellipse 60% 50% at 50% 45%, rgba(16, 185, 129, var(--landing-mesh-opacity, 0.22)) 0%, transparent 65%);
+}
+
+.landing-bg-mesh-bottom-left {
+  background-image: radial-gradient(ellipse 65% 55% at 15% 85%, rgba(16, 185, 129, var(--landing-mesh-opacity, 0.22)) 0%, transparent 65%);
 }
 
 /* Glass Surface Recipes */
 .landing-glass-card {
-  background-color: rgba(15, 23, 42, 0.65);
+  background-color: color-mix(in srgb, var(--theme-surface) 60%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .landing-glass-card-base {
-  background-color: rgba(2, 6, 23, 0.72);
+  background-color: color-mix(in srgb, var(--theme-bg) 65%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .landing-glass-header {
-  background-color: rgba(15, 23, 42, 0.75);
+  background-color: color-mix(in srgb, var(--theme-surface) 75%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* Gradient Borders */
-.landing-gradient-border {
-  border: 1px solid transparent;
-  background:
-    linear-gradient(var(--theme-surface), var(--theme-surface)) padding-box,
-    linear-gradient(135deg, rgba(16, 185, 129, 0.40), rgba(16, 185, 129, 0.08)) border-box;
-}
-
-.landing-gradient-border-base {
-  border: 1px solid transparent;
-  background:
-    linear-gradient(var(--theme-bg), var(--theme-bg)) padding-box,
-    linear-gradient(135deg, rgba(16, 185, 129, 0.40), rgba(16, 185, 129, 0.08)) border-box;
-}
-
+/* Gradient Borders (Pseudo-element approach, RTL-friendly start accent) */
+.landing-gradient-border,
+.landing-gradient-border-base,
 .landing-gradient-border-glass {
-  border: 1px solid transparent;
-  background:
-    linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)) padding-box,
-    linear-gradient(135deg, rgba(16, 185, 129, 0.45), rgba(16, 185, 129, 0.08)) border-box;
+  position: relative;
+}
+
+.landing-gradient-border::after,
+.landing-gradient-border-base::after,
+.landing-gradient-border-glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(to left, rgba(16, 185, 129, 0.55), rgba(16, 185, 129, 0.15) 60%, transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.landing-gradient-border-hover {
+  position: relative;
+}
+
+.landing-gradient-border-hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(to left, rgba(16, 185, 129, 0.50), rgba(16, 185, 129, 0.10) 60%, transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+.landing-gradient-border-hover:hover::after {
+  opacity: 1;
 }

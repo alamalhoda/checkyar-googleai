@@ -3,19 +3,29 @@ import { computed } from 'vue';
 import { landingVectors } from './landingVectors';
 
 interface Props {
-  pattern?: 'dots' | 'grid' | 'stripes' | 'mesh' | 'mesh-center' | 'none';
-  intensity?: 'low' | 'medium';
+  pattern?: 'dots' | 'grid' | 'stripes' | 'mesh' | 'mesh-center' | 'mesh-bottom-left' | 'none';
+  overlay?: 'dots' | 'grid' | 'stripes' | 'none';
+  intensity?: 'low' | 'medium' | 'high';
   position?: 'top-right' | 'bottom-left' | 'center' | 'full';
+  overlayPosition?: 'top-right' | 'bottom-left' | 'center' | 'full';
   vector?: 'connectionNodes' | 'arcRing' | 'gridWave' | 'abstractShield' | 'growthCurve' | 'none';
   vectorPosition?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'center';
+  cornerStripe?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   pattern: 'none',
+  overlay: 'none',
   intensity: 'low',
   position: 'full',
+  overlayPosition: 'full',
   vector: 'none',
-  vectorPosition: 'top-left'
+  vectorPosition: 'top-left',
+  cornerStripe: false,
+});
+
+const intensityClass = computed(() => {
+  return `landing-decor-intensity-${props.intensity}`;
 });
 
 const patternClass = computed(() => {
@@ -30,29 +40,42 @@ const patternClass = computed(() => {
       return 'landing-bg-mesh-emerald';
     case 'mesh-center':
       return 'landing-bg-mesh-center';
+    case 'mesh-bottom-left':
+      return 'landing-bg-mesh-bottom-left';
     default:
       return '';
   }
 });
 
-const patternOpacityClass = computed(() => {
-  if (props.pattern === 'dots') {
-    return props.intensity === 'medium' ? 'opacity-[0.055]' : 'opacity-[0.035]';
+const overlayClass = computed(() => {
+  switch (props.overlay) {
+    case 'dots':
+      return 'landing-bg-dots';
+    case 'grid':
+      return 'landing-bg-grid';
+    case 'stripes':
+      return 'landing-bg-stripes';
+    default:
+      return '';
   }
-  if (props.pattern === 'grid') {
-    return props.intensity === 'medium' ? 'opacity-[0.040]' : 'opacity-[0.025]';
-  }
-  if (props.pattern === 'stripes') {
-    return props.intensity === 'medium' ? 'opacity-[0.030]' : 'opacity-[0.020]';
-  }
-  if (props.pattern === 'mesh' || props.pattern === 'mesh-center') {
-    return props.intensity === 'medium' ? 'opacity-100' : 'opacity-70';
-  }
-  return 'opacity-100';
 });
 
 const positionClass = computed(() => {
   switch (props.position) {
+    case 'top-right':
+      return 'w-1/2 h-1/2 top-0 right-0';
+    case 'bottom-left':
+      return 'w-1/2 h-1/2 bottom-0 left-0';
+    case 'center':
+      return 'w-3/4 h-3/4 top-1/8 left-1/8';
+    case 'full':
+    default:
+      return 'inset-0 w-full h-full';
+  }
+});
+
+const overlayPositionClass = computed(() => {
+  switch (props.overlayPosition) {
     case 'top-right':
       return 'w-1/2 h-1/2 top-0 right-0';
     case 'bottom-left':
@@ -90,13 +113,26 @@ const vectorPositionClass = computed(() => {
 
 <template>
   <div
-    class="pointer-events-none absolute inset-0 overflow-hidden select-none"
+    class="landing-decor pointer-events-none absolute inset-0 overflow-hidden select-none"
+    :class="intensityClass"
     aria-hidden="true"
   >
-    <!-- Pattern Background -->
+    <!-- Base Pattern Background -->
     <div
       v-if="pattern !== 'none'"
-      :class="['absolute', positionClass, patternClass, patternOpacityClass]"
+      :class="['absolute', positionClass, patternClass]"
+    />
+
+    <!-- Stacking Overlay Layer (e.g. mesh + dots) -->
+    <div
+      v-if="overlay !== 'none'"
+      :class="['absolute', overlayPositionClass, overlayClass]"
+    />
+
+    <!-- Optional Corner Stripe Accent Block -->
+    <div
+      v-if="cornerStripe"
+      class="absolute top-0 right-0 w-48 h-48 landing-corner-stripes"
     />
 
     <!-- Optional SVG Vector Decor -->

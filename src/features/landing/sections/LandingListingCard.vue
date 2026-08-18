@@ -61,7 +61,7 @@ function handleActivate() {
   <button
     type="button"
     :data-testid="`landing-listing-card-${listing.id}`"
-    class="w-full text-right bg-[var(--theme-surface)]/80 backdrop-blur-md hover:bg-[var(--theme-surface-muted)] border border-white/10 hover:border-emerald-500/40 rounded-2xl p-5 sm:p-6 transition-all duration-200 hover:-translate-y-1 shadow-sm hover:shadow-[0_14px_30px_-6px_rgba(0,0,0,0.40)] flex flex-col justify-between cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 relative overflow-hidden"
+    class="w-full text-right landing-glass-card landing-gradient-border-hover border border-white/10 hover:border-emerald-500/40 rounded-2xl p-5 sm:p-6 transition-all duration-200 hover:-translate-y-[3px] shadow-sm hover:shadow-[0_16px_32px_-8px_rgba(0,0,0,0.35)] flex flex-col justify-between cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 relative overflow-hidden"
     @click="handleActivate"
     @keydown.enter.prevent="handleActivate"
     @keydown.space.prevent="handleActivate"

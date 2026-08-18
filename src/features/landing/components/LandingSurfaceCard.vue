@@ -22,8 +22,8 @@ const props = withDefaults(
 
 const surfaceClasses = computed(() => {
   if (props.gradientBorder) {
-    if (props.glass) return 'landing-gradient-border-glass backdrop-blur-md';
-    return props.bg === 'base' ? 'landing-gradient-border-base' : 'landing-gradient-border';
+    if (props.glass) return 'landing-gradient-border-glass landing-glass-card backdrop-blur-md';
+    return props.bg === 'base' ? 'landing-gradient-border-base bg-[var(--theme-bg)]' : 'landing-gradient-border bg-[var(--theme-surface)]';
   }
   if (props.glass) {
     return props.bg === 'base' ? 'landing-glass-card-base backdrop-blur-md' : 'landing-glass-card backdrop-blur-md';
@@ -32,11 +32,10 @@ const surfaceClasses = computed(() => {
 });
 
 const borderClasses = computed(() => {
-  if (props.gradientBorder) return ''; // Managed by gradient border background
   if (props.highlight) {
     return 'border-emerald-500/35 shadow-[0_12px_28px_-6px_rgba(0,0,0,0.30)]';
   }
-  if (props.glass) {
+  if (props.glass || props.gradientBorder) {
     return 'border-white/10';
   }
   return 'border-[var(--theme-border)]';
@@ -45,7 +44,7 @@ const borderClasses = computed(() => {
 
 <template>
   <div
-    class="relative flex flex-col rounded-2xl border p-6 sm:p-8"
+    class="relative flex flex-col rounded-2xl border overflow-hidden"
     :class="[
       surfaceClasses,
       borderClasses,
@@ -54,12 +53,15 @@ const borderClasses = computed(() => {
         : '',
     ]"
   >
-    <!-- Top Accent Bar (3px) -->
+    <!-- Top Accent Bar (3px) spanning full width -->
     <div
       v-if="accentTop"
-      class="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-t-2xl"
+      class="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-l from-emerald-500 via-emerald-400/80 to-transparent z-10"
     ></div>
 
-    <slot />
+    <!-- Inner content wrapper with padding -->
+    <div class="flex-1 flex flex-col p-6 sm:p-8">
+      <slot />
+    </div>
   </div>
 </template>

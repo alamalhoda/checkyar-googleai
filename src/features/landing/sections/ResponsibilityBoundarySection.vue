@@ -28,16 +28,17 @@ const visual = landingContent.visual;
         :key="index"
         :hoverable="true"
         :glass="true"
-        class="!p-5 flex-row items-center gap-4"
       >
-        <LandingIconBadge variant="emerald" size="md">
-          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          </svg>
-        </LandingIconBadge>
-        <span class="text-sm sm:text-base font-bold text-[var(--theme-text-primary)] leading-snug">
-          {{ statement }}
-        </span>
+        <div class="flex items-center gap-3.5 sm:gap-4 my-auto">
+          <LandingIconBadge variant="emerald" size="md" class="shrink-0">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </LandingIconBadge>
+          <span class="text-sm sm:text-base font-bold text-[var(--theme-text-primary)] leading-snug">
+            {{ statement }}
+          </span>
+        </div>
       </LandingSurfaceCard>
     </div>
 

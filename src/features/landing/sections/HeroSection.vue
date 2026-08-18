@@ -39,12 +39,22 @@ function handleTertiaryClick() {
     data-testid="landing-section-hero"
     class="relative w-full py-16 sm:py-24 lg:py-28 border-b border-[var(--theme-border)] bg-[var(--theme-bg)] overflow-hidden"
   >
-    <!-- Background Decor Layer 1: Static Mesh Glows -->
-    <div class="pointer-events-none absolute inset-0 landing-bg-mesh-emerald opacity-90" aria-hidden="true"></div>
+    <!-- Background Decor Layer: Mesh base + Slate dots overlay + Corner stripe -->
+    <LandingDecorLayer
+      pattern="mesh"
+      overlay="dots"
+      intensity="medium"
+      position="full"
+      :cornerStripe="true"
+    />
 
-    <!-- Background Decor Layer 2: Grid & Dots -->
-    <LandingDecorLayer pattern="dots" intensity="medium" position="full" />
-    <LandingDecorLayer pattern="grid" intensity="low" position="top-right" />
+    <!-- Static subtle noise filter (< 0.04 opacity) -->
+    <svg class="pointer-events-none absolute inset-0 w-full h-full opacity-[0.03] select-none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <filter id="landing-hero-noise">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch" />
+      </filter>
+      <rect width="100%" height="100%" filter="url(#landing-hero-noise)" />
+    </svg>
 
     <!-- Ambient Inline SVG Vector Elements (Static, <= 0.35 opacity) -->
     <div class="pointer-events-none absolute top-8 left-8 sm:top-12 sm:left-16 w-56 h-40 opacity-70 hidden sm:block" aria-hidden="true">

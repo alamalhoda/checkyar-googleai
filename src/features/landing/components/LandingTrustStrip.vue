@@ -14,11 +14,11 @@ function scrollToBoundary() {
     id="landing-trust-strip"
     data-testid="landing-trust-strip"
     aria-label="خلاصه مرز مسئولیت‌ها و انطباق رگولاتوری"
-    class="w-full border-y border-white/10 bg-[var(--theme-surface)]/60 backdrop-blur-md relative z-20 py-3 sm:py-4 px-4 sm:px-6 lg:px-8"
+    class="w-full border-y border-white/5 bg-[var(--theme-surface)]/50 backdrop-blur-md relative z-20 py-3 sm:py-4 px-4 sm:px-6 lg:px-8"
   >
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4">
       <!-- Scannable 4 Trust Items -->
-      <div class="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2.5 sm:gap-x-8 text-xs sm:text-sm font-medium text-[var(--theme-text)]">
+      <div class="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2.5 sm:gap-x-8 text-xs sm:text-sm font-medium text-[var(--theme-text-primary)]">
         <!-- Item 1: بدون جابه‌جایی وجه -->
         <div
           data-testid="landing-trust-item-1"

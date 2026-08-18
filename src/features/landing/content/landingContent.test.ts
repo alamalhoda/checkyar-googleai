@@ -174,9 +174,18 @@ describe('landingContent SSOT', () => {
       expect(landingContent.trustStrip.detailsLink.includes('\u200c')).toBe(true);
     });
 
-    it('has hero previewEmpty copy configured with ZWNJ', () => {
+    it('has hero preview keys configured with ZWNJ', () => {
+      expect(landingContent.hero.previewLiveBadge).toBe('تابلوی زنده آگهی\u200cها');
+      expect(landingContent.hero.previewViewAll).toBe('مشاهده همه');
+      expect(landingContent.hero.previewError).toBe('بارگذاری پیش\u200cنمایش با وقفه مواجه شد');
+      expect(landingContent.hero.previewRetry).toBe('تلاش مجدد');
       expect(landingContent.hero.previewEmpty).toBe('فعلاً آگهی منتشرشده\u200cای برای پیش\u200cنمایش نیست');
+      expect(landingContent.hero.previewEmptyAction).toBe('مشاهده بخش آگهی\u200cها');
+
+      expect(landingContent.hero.previewLiveBadge.includes('\u200c')).toBe(true);
+      expect(landingContent.hero.previewError.includes('\u200c')).toBe(true);
       expect(landingContent.hero.previewEmpty.includes('\u200c')).toBe(true);
+      expect(landingContent.hero.previewEmptyAction.includes('\u200c')).toBe(true);
     });
   });
 });

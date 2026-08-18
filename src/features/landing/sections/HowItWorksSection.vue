@@ -51,14 +51,14 @@ const visual = landingContent.visual;
               </span>
             </div>
 
-            <!-- Horizontal flow connector hint on desktop (RTL: steps 1,2 and 4,5 connect to next) -->
+            <!-- Horizontal flow connector hint on desktop (RTL: steps 1,2 and 4,5 connect to next on left) -->
             <span
               v-if="(index % 3 !== 2) && index < 5"
               class="hidden lg:flex items-center gap-1 text-[11px] font-mono text-emerald-500/40"
               aria-hidden="true"
             >
               <span class="w-8 h-px bg-gradient-to-l from-emerald-400/40 to-transparent"></span>
-              <svg class="w-3 h-3 text-emerald-400/60 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <svg class="w-3 h-3 text-emerald-400/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
             </span>

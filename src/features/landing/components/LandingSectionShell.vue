@@ -11,21 +11,27 @@ withDefaults(
     variant?: 'default' | 'muted' | 'elevated';
     narrow?: boolean;
     align?: 'center' | 'right';
-    decorPattern?: 'dots' | 'grid' | 'stripes' | 'mesh' | 'mesh-center' | 'none';
-    decorIntensity?: 'low' | 'medium';
+    decorPattern?: 'dots' | 'grid' | 'stripes' | 'mesh' | 'mesh-center' | 'mesh-bottom-left' | 'none';
+    decorOverlay?: 'dots' | 'grid' | 'stripes' | 'none';
+    decorIntensity?: 'low' | 'medium' | 'high';
     decorPosition?: 'top-right' | 'bottom-left' | 'center' | 'full';
+    decorOverlayPosition?: 'top-right' | 'bottom-left' | 'center' | 'full';
     decorVector?: 'connectionNodes' | 'arcRing' | 'gridWave' | 'abstractShield' | 'growthCurve' | 'none';
     decorVectorPosition?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'center';
+    decorCornerStripe?: boolean;
   }>(),
   {
     variant: 'default',
     narrow: false,
     align: 'center',
     decorPattern: 'none',
+    decorOverlay: 'none',
     decorIntensity: 'low',
     decorPosition: 'full',
+    decorOverlayPosition: 'full',
     decorVector: 'none',
-    decorVectorPosition: 'top-left'
+    decorVectorPosition: 'top-left',
+    decorCornerStripe: false,
   }
 );
 </script>
@@ -41,12 +47,15 @@ withDefaults(
   >
     <!-- Background Decor Layer -->
     <LandingDecorLayer
-      v-if="decorPattern !== 'none' || decorVector !== 'none'"
+      v-if="decorPattern !== 'none' || decorOverlay !== 'none' || decorVector !== 'none' || decorCornerStripe"
       :pattern="decorPattern"
+      :overlay="decorOverlay"
       :intensity="decorIntensity"
       :position="decorPosition"
+      :overlay-position="decorOverlayPosition"
       :vector="decorVector"
       :vector-position="decorVectorPosition"
+      :corner-stripe="decorCornerStripe"
     />
 
     <!-- Subtle Gradient Separators for Elevated Variant -->
