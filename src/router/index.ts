@@ -22,8 +22,9 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'root',
-    beforeEnter: landingGateGuard,
-    component: () => import('../features/landing/LandingView.vue')
+    component: () => import('../features/landing/LandingView.vue'),
+    meta: { publicChrome: true },
+    beforeEnter: landingGateGuard
   },
   {
     path: '/landing',

@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { message } from '../../utils/discreteApi';
+import { getCurrentJalaliYear } from '../../utils/persianUtils';
 
-function handlePlaceholderClick(name: string) {
+const currentYear = getCurrentJalaliYear();
+
+function handlePlaceholderClick() {
   message.info('به‌زودی');
 }
 </script>
@@ -74,7 +77,7 @@ function handlePlaceholderClick(name: string) {
               <button
                 type="button"
                 data-testid="landing-footer-link-terms"
-                @click="handlePlaceholderClick('terms')"
+                @click="handlePlaceholderClick"
                 class="text-left text-[var(--theme-text-secondary)] hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded px-1"
               >
                 قوانین و مقررات
@@ -84,7 +87,7 @@ function handlePlaceholderClick(name: string) {
               <button
                 type="button"
                 data-testid="landing-footer-link-privacy"
-                @click="handlePlaceholderClick('privacy')"
+                @click="handlePlaceholderClick"
                 class="text-left text-[var(--theme-text-secondary)] hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded px-1"
               >
                 حریم خصوصی
@@ -94,7 +97,7 @@ function handlePlaceholderClick(name: string) {
               <button
                 type="button"
                 data-testid="landing-footer-link-about"
-                @click="handlePlaceholderClick('about')"
+                @click="handlePlaceholderClick"
                 class="text-left text-[var(--theme-text-secondary)] hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded px-1"
               >
                 درباره ما
@@ -104,7 +107,7 @@ function handlePlaceholderClick(name: string) {
               <button
                 type="button"
                 data-testid="landing-footer-link-contact"
-                @click="handlePlaceholderClick('contact')"
+                @click="handlePlaceholderClick"
                 class="text-left text-[var(--theme-text-secondary)] hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded px-1"
               >
                 تماس با ما
@@ -123,7 +126,7 @@ function handlePlaceholderClick(name: string) {
             <button
               type="button"
               data-testid="landing-footer-link-telegram"
-              @click="handlePlaceholderClick('telegram')"
+              @click="handlePlaceholderClick"
               aria-label="کانال تلگرام چک‌یار"
               class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-muted)] text-[var(--theme-text-secondary)] hover:border-emerald-500/40 hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >
@@ -134,7 +137,7 @@ function handlePlaceholderClick(name: string) {
             <button
               type="button"
               data-testid="landing-footer-link-linkedin"
-              @click="handlePlaceholderClick('linkedin')"
+              @click="handlePlaceholderClick"
               aria-label="صفحه لینکدین چک‌یار"
               class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-muted)] text-[var(--theme-text-secondary)] hover:border-emerald-500/40 hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >
@@ -145,7 +148,7 @@ function handlePlaceholderClick(name: string) {
             <button
               type="button"
               data-testid="landing-footer-link-bale"
-              @click="handlePlaceholderClick('bale')"
+              @click="handlePlaceholderClick"
               aria-label="پیام‌رسان بله چک‌یار"
               class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-muted)] text-[var(--theme-text-secondary)] hover:border-emerald-500/40 hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >
@@ -157,7 +160,7 @@ function handlePlaceholderClick(name: string) {
 
       <!-- Copyright & Disclaimer Notice -->
       <div class="mt-10 border-t border-[var(--theme-border)] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--theme-text-muted)]">
-        <p>© ۱۴۰۴ تمامی حقوق مادی و معنوی برای چک‌یار محفوظ است.</p>
+        <p>© {{ currentYear }} تمامی حقوق مادی و معنوی برای چک‌یار محفوظ است.</p>
         <p>واسط فناورانه کشف و اتصال — فاقد کارکرد بانکی، اعتباری و تسهیلاتی</p>
       </div>
     </div>

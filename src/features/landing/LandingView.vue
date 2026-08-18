@@ -2,9 +2,7 @@
 import { onMounted } from 'vue';
 import LandingHeader from './LandingHeader.vue';
 import LandingFooter from './LandingFooter.vue';
-
-const DOCUMENT_TITLE = 'چکیار | سکوی دیجیتال کشف و اتصال در بازار نقدشوندگی چکهای مدتدار';
-const META_DESCRIPTION = 'چکیار سکوی دیجیتال کشف و اتصال در بازار نقدشوندگی چکهای مدتدار است؛ واسط فناورانه، نه نهاد مالی.';
+import { DOCUMENT_TITLE, META_DESCRIPTION } from './constants';
 
 onMounted(() => {
   document.title = DOCUMENT_TITLE;

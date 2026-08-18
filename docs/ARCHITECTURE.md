@@ -98,7 +98,7 @@ The application runtime behavior is governed by the `VITE_USE_MOCK` environment 
 - **Public Chrome & Landing Module (`src/features/landing/`):**
   - Routes tagged with `meta: { publicChrome: true }` (such as `/landing`) render in a standalone public layout without the internal `AppSidebar` or `AppHeader`.
   - The landing page forces the `dark` brand theme styling (`data-theme="dark"` and `darkTheme` + `getThemeOverrides('dark')` for Naive UI) without altering the user's saved theme preference in `localStorage`.
-  - The page presents 12 structured placeholder sections, anchor links (`#how-it-works`, `#live-listings`, `#faq`, `#contact-us`), and responsive action bars for guests and authenticated users.
+  - The page presents 12 structured placeholder sections, anchor links (`#how-it-works`, `#live-listings`, `#faq`, `#contact-us`), and header navigation action buttons for guests (`landing-nav-login`, `landing-nav-register`, `landing-nav-login-mobile`, `landing-nav-register-mobile`) and authenticated users (`landing-nav-marketplace`, `landing-nav-marketplace-mobile`).
 - **Fail-Closed Landing Gate (`show_landing_page`):**
   - Gated by the `show_landing_page` feature flag via an asynchronous per-route navigation guard (`beforeEnter`) on `/` and `/landing` that invokes the pure helper `getLandingRedirect(flagEnabled, targetPath)`.
   - When enabled (`true`), `/` redirects to `/landing`, while authenticated and guest users can freely access `/landing`.

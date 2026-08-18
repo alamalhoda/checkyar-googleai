@@ -112,3 +112,15 @@ export function amountToPersianWords(amountInToman: number | null): string {
 
   return result.join(' و ') + ' تومان';
 }
+
+// Get Current Jalali Year in Persian Digits
+export function getCurrentJalaliYear(date: Date = new Date()): string {
+  try {
+    const formatted = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { year: 'numeric' }).format(date);
+    const digits = formatted.replace(/[^\d۰-۹]/g, '');
+    return toPersianDigits(toEnglishDigits(digits));
+  } catch {
+    return '۱۴۰۵';
+  }
+}
+

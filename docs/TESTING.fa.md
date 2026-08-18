@@ -26,6 +26,7 @@ bun run test:watch
 - `src/stores/auth.permissions.test.ts`: بررسی سطح دسترسی‌ها و نقش‌ها در استور احراز هویت.
 - `src/stores/auth.mockSignout.test.ts`: بررسی حالات نشانگر خروج در شبیه‌ساز (ایجاد کاربر اولیه، حفظ حالت خروج پس از بارگذاری مجدد بدون لاگین خودکار، پاکسازی با ورود مجدد، و عدم تاثیر در حالت واقعی).
 - `src/features/landing/guard.test.ts`: بررسی منطق هدایت مسیر فرود (`getLandingRedirect`) در تمام حالات فعال، غیرفعال، ناموجود و خطای سرور برای مسیرهای `/` و `/landing`.
+- `src/features/landing/landingConstants.test.ts`: اعتبارسنجی یکپارچگی کاراکترهای نیم‌فاصله (ZWNJ / U+200C) و تایپوگرافی فارسی در عنوان و توضیحات متا صفحه فرود.
 - `src/features/listings/composables/useSmartPricing.test.ts`: محاسبات نرخ تنزیل و قیمت‌گذاری هوشمند.
 - `src/shared/composables/useFeatureFlags.test.ts`: بارگذاری کلیدهای فیچر، ادغام مقادیر اولیه در `localStorage` قدیمی برای `show_risk_tier` و `show_landing_page` بدون حذف داده‌های کاربر، و ارزیابی پویای کلیدها و مدیریت امن خطا (Fail-Closed).
 - `src/features/moderation/moderationRiskTier.test.ts`: بررسی منطق تصمیم‌گیری ناظر همراه با تخصیص `risk_tier`.
@@ -87,8 +88,7 @@ bun run lint
 ۱. در حالت شبیه‌ساز (`VITE_USE_MOCK=true`)، از طریق منوی کاربر در هدر روی دکمه **خروج** کلیک کنید. این کار نشانگر `chequeyar_mock_signed_out = 'true'` را در `localStorage` ثبت می‌کند.
 ۲. صفحه را رفرش کنید یا به آدرس `/` یا `/landing` بروید. کاربر دمو به صورت خودکار لاگین نخواهد شد و در حالت مهمان باقی می‌مانید.
 ۳. موارد زیر را بررسی کنید:
-   - هدر دکمه‌های **ورود** (`landing-nav-login`) و **ثبت‌نام** (`landing-nav-register-btn`) را نمایش می‌دهد.
-   - دکمه‌های فراخوان (CTA) در بنر اصلی و نوار چسبان به صفحات ثبت‌نام و ورود متصل هستند.
+   - هدر دکمه‌های **ورود** (`landing-nav-login`، در موبایل: `landing-nav-login-mobile`) و **ثبت‌نام** (`landing-nav-register`، در موبایل: `landing-nav-register-mobile`) را نمایش می‌دهد. برای کاربر وارد شده، دکمه **ورود به بازارچه** (`landing-nav-marketplace`، در موبایل: `landing-nav-marketplace-mobile`) نمایش می‌یابد.
    - لینک‌های لنگری هدر (`#how-it-works`، `#live-listings`، `#faq`، `#contact-us`) به آرامی به بخش‌های مربوطه اسکرول می‌کنند.
    - پیوندهای فوتر پیام «به‌زودی» را نمایش داده و هدایت شکسته به ۴۰۴ ندارند.
 ۴. جهت بازگشت به حالت کاربر وارد شده، روی دکمه ورود کلیک کرده و با یکی از کاربران نمایشی وارد شوید یا `localStorage` را پاک نمایید.

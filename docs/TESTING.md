@@ -26,6 +26,7 @@ Current unit test suites in `src/` include:
 - `src/stores/auth.permissions.test.ts`: Role and permission checks within the authentication store.
 - `src/stores/auth.mockSignout.test.ts`: Mock sign-out marker transitions (fresh seed, reload persistence after logout without auto-reseed, login clearance, and live mode immunity).
 - `src/features/landing/guard.test.ts`: Pure landing redirect logic (`getLandingRedirect`) across enabled, disabled, absent, and error flag states for `/`, `/landing`, and other routes.
+- `src/features/landing/landingConstants.test.ts`: Verifies zero-width non-joiner (U+200C / ZWNJ) character integrity and Persian typography for document title and meta description.
 - `src/features/listings/composables/useSmartPricing.test.ts`: Discount rate and smart pricing calculation logic.
 - `src/shared/composables/useFeatureFlags.test.ts`: Feature flag loading, stale localStorage merging for `show_risk_tier` and `show_landing_page` (defaulting to enabled in simulator seed) without resetting user data, dynamic evaluation across toggle updates, and fail-closed error handling.
 - `src/features/moderation/moderationRiskTier.test.ts`: Moderation approval logic with `risk_tier` assignment.
@@ -88,8 +89,7 @@ To verify the public landing page experience from the perspective of an unauthen
 1. In mock mode (`VITE_USE_MOCK=true`), log out via the user menu in the header. This writes `chequeyar_mock_signed_out = 'true'` to `localStorage`.
 2. Reload the page or navigate to `/` or `/landing`. The mock auto-seed is skipped and you remain logged out.
 3. Observe:
-   - Header shows **ورود** (`landing-nav-login`) and **ثبت‌نام** (`landing-nav-register-btn`).
-   - Hero and sticky bar CTAs point to register and login.
+   - Header shows **ورود** (`landing-nav-login`, mobile: `landing-nav-login-mobile`) and **ثبت‌نام** (`landing-nav-register`, mobile: `landing-nav-register-mobile`). For authenticated users, it shows **ورود به بازارچه** (`landing-nav-marketplace`, mobile: `landing-nav-marketplace-mobile`).
    - Anchor links (`#how-it-works`, `#live-listings`, `#faq`, `#contact-us`) scroll smoothly to each section.
    - Footer links trigger the «به‌زودی» placeholder notification without broken routes.
 4. To return to an authenticated state, click **ورود**, log in with any demo persona, or clear `localStorage`.

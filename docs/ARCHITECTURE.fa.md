@@ -98,7 +98,7 @@ src/
 - **پوسته عمومی و ماژول صفحه فرود (`src/features/landing/`):**
   - مسیرهای دارای مشخصه `meta: { publicChrome: true }` (مانند `/landing`) به شکل مستقل و بدون سایدبار (`AppSidebar`) یا هدر داخلی (`AppHeader`) رندر می‌شوند.
   - صفحه فرود همواره با تم بصری تیره برند (`data-theme="dark"` و تم تیره اختصاصی Naive UI) نمایش داده می‌شود، بدون آن‌که تم انتخابی ذخیره‌شده کاربر در `localStorage` دستخوش تغییر شود.
-  - این صفحه شامل ۱۲ بخش ساختارمند، پیوندهای پرشی به بخش‌ها (`#how-it-works`، `#live-listings`، `#faq`، `#contact-us`) و هدر/فوتر سازگار با کاربران مهمان و احراز هویت شده است.
+  - این صفحه شامل ۱۲ بخش ساختارمند، پیوندهای پرشی به بخش‌ها (`#how-it-works`، `#live-listings`، `#faq`، `#contact-us`) و دکمه‌های اقدام هدر برای کاربران مهمان (`landing-nav-login`, `landing-nav-register`, `landing-nav-login-mobile`, `landing-nav-register-mobile`) و کاربران وارد شده (`landing-nav-marketplace`, `landing-nav-marketplace-mobile`) است.
 - **گارد هدایت امن مسیر فرود (`show_landing_page`):**
   - این گارد با استفاده از تابع کمکی `getLandingRedirect(flagEnabled, targetPath)` به صورت ناهمگام در سطح مسیرهای `/` و `/landing` اعمال می‌گردد.
   - در صورت فعال بودن کلید (`true`)، مسیر `/` به `/landing` هدایت شده و کاربران (اعم از مهمان یا لاگین کرده) مستقیماً صفحه فرود را مشاهده می‌کنند.

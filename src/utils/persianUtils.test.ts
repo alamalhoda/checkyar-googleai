@@ -5,6 +5,7 @@ import {
   validateSayadId,
   validateNationalId,
   amountToPersianWords,
+  getCurrentJalaliYear,
 } from './persianUtils';
 
 describe('persianUtils', () => {
@@ -111,6 +112,21 @@ describe('persianUtils', () => {
       expect(resMillion).not.toBe('');
       expect(resMillion.endsWith('تومان')).toBe(true);
       expect(resMillion).toBe('یک میلیون تومان');
+    });
+  });
+
+  describe('getCurrentJalaliYear', () => {
+    it('returns a 4-digit Persian string for current or specified date', () => {
+      const year = getCurrentJalaliYear();
+      expect(year).toMatch(/^[۰-۹]{4}$/);
+
+      // Verify specific date (e.g. 2026-03-21 which is Jalali 1405)
+      const year2026 = getCurrentJalaliYear(new Date('2026-08-17T00:00:00Z'));
+      expect(year2026).toBe('۱۴۰۵');
+
+      // Verify 2025-05-01 which is Jalali 1404
+      const year2025 = getCurrentJalaliYear(new Date('2025-05-01T00:00:00Z'));
+      expect(year2025).toBe('۱۴۰۴');
     });
   });
 });

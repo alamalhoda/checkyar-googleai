@@ -136,7 +136,7 @@ function navigateTo(path: string) {
         <template v-if="authStore.isAuthenticated">
           <button
             type="button"
-            data-testid="landing-nav-marketplace"
+            data-testid="landing-nav-marketplace-mobile"
             @click="navigateTo('/marketplace')"
             class="w-full rounded-lg bg-emerald-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-emerald-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
           >
@@ -147,7 +147,7 @@ function navigateTo(path: string) {
           <div class="grid grid-cols-2 gap-2">
             <button
               type="button"
-              data-testid="landing-nav-login"
+              data-testid="landing-nav-login-mobile"
               @click="navigateTo('/login')"
               class="w-full rounded-lg border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-muted)] px-3 py-2 text-center text-sm font-medium text-[var(--theme-text-primary)] hover:border-emerald-500/40 hover:text-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >
@@ -155,7 +155,7 @@ function navigateTo(path: string) {
             </button>
             <button
               type="button"
-              data-testid="landing-nav-register"
+              data-testid="landing-nav-register-mobile"
               @click="navigateTo('/register')"
               class="w-full rounded-lg bg-emerald-600 px-3 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-emerald-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >

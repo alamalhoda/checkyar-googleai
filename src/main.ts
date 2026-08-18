@@ -29,4 +29,9 @@ window.addEventListener('unhandledrejection', (event) => {
   message.error(errMsg);
 });
 
-app.mount('#app');
+// Wait for router initial navigation to resolve before mounting
+// This keeps the server/HTML initial placeholder (#app-initial-loading) visible
+// until the matched view and its guards are fully resolved.
+router.isReady().then(() => {
+  app.mount('#app');
+});
