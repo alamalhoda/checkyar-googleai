@@ -5,12 +5,35 @@ export type AppTheme = 'dark' | 'light' | 'navy' | 'violet' | 'emerald' | 'warm'
 
 export const useUiStore = defineStore('ui', () => {
   const isMobileMenuOpen = ref(false);
+  const isSidebarCollapsed = ref<boolean>(
+    typeof localStorage !== 'undefined' && localStorage.getItem('chequeyar_sidebar_collapsed') === 'true'
+  );
   const currentTheme = ref<AppTheme>('dark');
 
   // Hybrid UX Preferences
-  const wizardMode = ref<boolean>(localStorage.getItem('chequeyar_wizard_mode') !== 'false'); // default true (wizard)
-  const isPowerUser = ref<boolean>(localStorage.getItem('chequeyar_power_user') === 'true'); // default false
-  const isAdvancedModerator = ref<boolean>(localStorage.getItem('chequeyar_advanced_mod') === 'true'); // default false
+  const wizardMode = ref<boolean>(
+    typeof localStorage !== 'undefined' ? localStorage.getItem('chequeyar_wizard_mode') !== 'false' : true
+  ); // default true (wizard)
+  const isPowerUser = ref<boolean>(
+    typeof localStorage !== 'undefined' ? localStorage.getItem('chequeyar_power_user') === 'true' : false
+  ); // default false
+  const isAdvancedModerator = ref<boolean>(
+    typeof localStorage !== 'undefined' ? localStorage.getItem('chequeyar_advanced_mod') === 'true' : false
+  ); // default false
+
+  function toggleSidebarCollapsed() {
+    isSidebarCollapsed.value = !isSidebarCollapsed.value;
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('chequeyar_sidebar_collapsed', String(isSidebarCollapsed.value));
+    }
+  }
+
+  function setSidebarCollapsed(val: boolean) {
+    isSidebarCollapsed.value = val;
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('chequeyar_sidebar_collapsed', String(val));
+    }
+  }
 
   function setWizardMode(val: boolean) {
     wizardMode.value = val;
@@ -68,10 +91,13 @@ export const useUiStore = defineStore('ui', () => {
 
   return {
     isMobileMenuOpen,
+    isSidebarCollapsed,
     currentTheme,
     wizardMode,
     isPowerUser,
     isAdvancedModerator,
+    toggleSidebarCollapsed,
+    setSidebarCollapsed,
     setWizardMode,
     setPowerUser,
     setAdvancedModerator,

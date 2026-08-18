@@ -39,6 +39,8 @@ Current unit test suites in `src/` include:
 - `src/api/liveFixes.test.ts`: Live API handling checks for verification state & document uploads.
 - `src/utils/offlineAssets.test.ts`: Offline asset guard asserting index.html has no Google Fonts CDN links and src/ has no external placeholder image URLs.
 - `src/utils/themeOverrides.test.ts`: Naive UI theme resolution and token overrides for all supported themes.
+- `src/stores/useUiStore.test.ts`: Validates UI store defaults, `isSidebarCollapsed` toggle and explicit setter with `chequeyar_sidebar_collapsed` localStorage persistence, and decoupling from mobile drawer state.
+- `src/shared/utils/breakpoints.test.ts`: Pure helper testing breakpoint constants and desktop `md` (`768px`) evaluation.
 - `src/features/reports/utils/chartTheming.test.ts`: ApexCharts dynamic palette, tooltip, and theme adaptation testing.
 
 ---

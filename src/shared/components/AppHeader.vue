@@ -26,6 +26,7 @@ import { useAuthStore } from '../../stores/auth';
 import { useBackendSimulatorStore } from '../../stores/useBackendSimulatorStore';
 import { useUiStore, type AppTheme } from '../../stores/useUiStore';
 import { getMockMode, setMockMode, isMockEnvEnabled } from '../../api';
+import { matchDesktopMedia } from '../utils/breakpoints';
 import type { UserRole } from '../../types/api';
 
 const router = useRouter();
@@ -34,6 +35,21 @@ const message = useMessage();
 const authStore = useAuthStore();
 const simulatorStore = useBackendSimulatorStore();
 const uiStore = useUiStore();
+
+const sidebarToggleAriaLabel = computed(() => {
+  if (matchDesktopMedia()) {
+    return uiStore.isSidebarCollapsed ? 'گسترش منو' : 'جمع کردن منو';
+  }
+  return uiStore.isMobileMenuOpen ? 'بستن منو' : 'باز کردن منو';
+});
+
+function handleSidebarToggle() {
+  if (matchDesktopMedia()) {
+    uiStore.toggleSidebarCollapsed();
+  } else {
+    uiStore.toggleMobileMenu();
+  }
+}
 
 const isMockEnv = computed(() => isMockEnvEnabled());
 
@@ -153,15 +169,17 @@ const pageTitle = computed(() => {
 
 <template>
   <header class="h-16 border-b border-slate-800 bg-slate-900/80 backdrop-blur px-4 sm:px-6 flex items-center justify-between sticky top-0 z-40">
-    <!-- Page Title & Mobile Menu Toggle -->
+    <!-- Page Title & Sidebar Toggle (Mobile Drawer / Desktop Rail Collapse) -->
     <div class="flex items-center gap-3 min-w-0">
       <NButton
         quaternary
         circle
         size="small"
-        class="md:hidden text-slate-300 shrink-0"
-        @click="uiStore.toggleMobileMenu"
-        aria-label="باز کردن منو"
+        data-testid="app-sidebar-toggle"
+        class="text-slate-300 hover:text-emerald-400 shrink-0"
+        @click="handleSidebarToggle"
+        :aria-label="sidebarToggleAriaLabel"
+        :title="sidebarToggleAriaLabel"
       >
         <template #icon>
           <MenuOutline class="w-5 h-5 text-slate-200" />

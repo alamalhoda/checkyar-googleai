@@ -39,6 +39,8 @@ bun run test:watch
 - `src/api/liveFixes.test.ts`: بررسی عملکرد Live API برای وضعیت احراز هویت و آپلود مدارک.
 - `src/utils/offlineAssets.test.ts`: گارد تست عدم استفاده از CDNهای خارجی و لینک‌های فونت یا تصاویر غیرلوکال.
 - `src/utils/themeOverrides.test.ts`: ارزیابی تعیین تم و توکن‌های اختصاصی Naive UI برای تمامی پوسته‌ها.
+- `src/stores/useUiStore.test.ts`: اعتبارسنجی مقادیر پیش‌فرض استور، تغییر وضعیت و متدهای `isSidebarCollapsed`، ماندگاری در `localStorage` با کلید `chequeyar_sidebar_collapsed` و تفکیک از وضعیت دراور موبایل.
+- `src/shared/utils/breakpoints.test.ts`: اعتبارسنجی توابع خالص کمکی ابعاد و بریک‌پوینت دسکتاپ (`768px` / `md`).
 - `src/features/reports/utils/chartTheming.test.ts`: اعتبارسنجی تنظیمات پویا، پالت رنگ و تولتیپ نمودارهای ApexCharts.
 
 ---

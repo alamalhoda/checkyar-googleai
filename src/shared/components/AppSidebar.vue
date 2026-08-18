@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, h } from 'vue';
+import { computed, h, onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { NMenu, NBadge, NIcon, NDrawer, NDrawerContent } from 'naive-ui';
 import {
@@ -20,12 +20,45 @@ import {
 import { useAuthStore } from '../../stores/auth';
 import { useBackendSimulatorStore } from '../../stores/useBackendSimulatorStore';
 import { useUiStore } from '../../stores/useUiStore';
+import { BREAKPOINT_MD } from '../utils/breakpoints';
 
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 const simulatorStore = useBackendSimulatorStore();
 const uiStore = useUiStore();
+
+let mediaQueryList: MediaQueryList | null = null;
+
+const handleMediaChange = (e: MediaQueryListEvent | MediaQueryList) => {
+  if (e.matches && uiStore.isMobileMenuOpen) {
+    uiStore.closeMobileMenu();
+  }
+};
+
+onMounted(() => {
+  if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
+    mediaQueryList = window.matchMedia(`(min-width: ${BREAKPOINT_MD}px)`);
+    if (mediaQueryList.matches && uiStore.isMobileMenuOpen) {
+      uiStore.closeMobileMenu();
+    }
+    if (typeof mediaQueryList.addEventListener === 'function') {
+      mediaQueryList.addEventListener('change', handleMediaChange);
+    } else if (typeof (mediaQueryList as any).addListener === 'function') {
+      (mediaQueryList as any).addListener(handleMediaChange);
+    }
+  }
+});
+
+onUnmounted(() => {
+  if (mediaQueryList) {
+    if (typeof mediaQueryList.removeEventListener === 'function') {
+      mediaQueryList.removeEventListener('change', handleMediaChange);
+    } else if (typeof (mediaQueryList as any).removeListener === 'function') {
+      (mediaQueryList as any).removeListener(handleMediaChange);
+    }
+  }
+});
 
 const unreadCount = computed(() => {
   return (simulatorStore.notifications || []).filter(n => !n?.read_at).length;
@@ -150,31 +183,45 @@ const handleMenuSelect = (key: string) => {
 
 <template>
   <!-- Desktop Sidebar -->
-  <aside class="hidden md:flex w-64 bg-slate-900 border-l border-slate-800 flex-col shrink-0 h-screen sticky top-0 z-30">
+  <aside
+    data-testid="app-sidebar"
+    :data-collapsed="uiStore.isSidebarCollapsed ? 'true' : 'false'"
+    class="hidden md:flex bg-slate-900 border-l border-slate-800 flex-col shrink-0 h-screen sticky top-0 z-30 transition-[width] duration-200 ease-in-out"
+    :class="uiStore.isSidebarCollapsed ? 'w-[72px]' : 'w-64'"
+  >
     <!-- Brand Title -->
-    <div class="p-5 border-b border-slate-800 flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-lg">
+    <div
+      class="p-4 border-b border-slate-800 flex items-center min-h-[73px] transition-all duration-200 overflow-hidden"
+      :class="uiStore.isSidebarCollapsed ? 'justify-center' : 'gap-3'"
+    >
+      <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-lg shrink-0">
         چک
       </div>
-      <div>
-        <h1 class="text-base font-bold text-slate-100 tracking-tight">چک‌یار</h1>
-        <p class="text-[11px] text-slate-400">سامانه معامله مطالبات و چک صیادی</p>
+      <div v-if="!uiStore.isSidebarCollapsed" class="min-w-0">
+        <h1 class="text-base font-bold text-slate-100 tracking-tight truncate">چک‌یار</h1>
+        <p class="text-[11px] text-slate-400 truncate">سامانه معامله مطالبات و چک صیادی</p>
       </div>
     </div>
 
     <!-- Navigation Menu -->
-    <div class="flex-1 py-3 px-2 overflow-y-auto">
+    <div class="flex-1 py-3 px-2 overflow-y-auto overflow-x-hidden">
       <NMenu
         :options="menuOptions"
         :value="activeKey"
-        @update:value="handleMenuSelect"
+        :collapsed="uiStore.isSidebarCollapsed"
+        :collapsed-width="56"
+        :collapsed-icon-size="20"
         :indent="18"
         accordion
+        @update:value="handleMenuSelect"
       />
     </div>
 
     <!-- User Role Badge Footer -->
-    <div class="p-4 border-t border-slate-800 bg-slate-950/40 text-xs text-slate-400">
+    <div
+      v-if="!uiStore.isSidebarCollapsed"
+      class="p-4 border-t border-slate-800 bg-slate-950/40 text-xs text-slate-400"
+    >
       <div class="flex items-center justify-between">
         <span>نقش فعلی کاربر:</span>
         <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
@@ -184,6 +231,17 @@ const handleMenuSelect = (key: string) => {
         </span>
       </div>
     </div>
+    <div
+      v-else
+      class="p-3 border-t border-slate-800 bg-slate-950/40 flex justify-center"
+      :title="`نقش فعلی: ${authStore.userRole === 'check_holder' ? 'دارنده چک' : authStore.userRole === 'investor' ? 'سرمایه‌گذار' : authStore.userRole === 'moderator' ? 'ناظر سیستم' : 'مدیر کل'}`"
+    >
+      <span class="w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+        {{ authStore.userRole === 'check_holder' ? 'دارنده' :
+           authStore.userRole === 'investor' ? 'سرمایه' :
+           authStore.userRole === 'moderator' ? 'ناظر' : 'مدیر' }}
+      </span>
+    </div>
   </aside>
 
   <!-- Mobile Drawer Sidebar -->
@@ -191,7 +249,7 @@ const handleMenuSelect = (key: string) => {
     v-model:show="uiStore.isMobileMenuOpen"
     :width="280"
     placement="right"
-    class="bg-slate-900 text-slate-100 md:hidden"
+    class="bg-slate-900 text-slate-100"
   >
     <NDrawerContent
       closable
