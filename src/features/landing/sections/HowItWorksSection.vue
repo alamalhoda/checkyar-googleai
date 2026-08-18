@@ -34,8 +34,8 @@ const content = landingContent.howItWorks;
             <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold text-sm">
               {{ toPersianDigits(step.number) }}
             </span>
-            <span v-if="step.number === 6" class="rounded-md bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 text-[11px] font-medium text-amber-300">
-              تسویه مستقیم
+            <span v-if="step.number === 6" class="rounded-md bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 text-[11px] font-medium text-emerald-300">
+              {{ content.directSettlementTag }}
             </span>
           </div>
 

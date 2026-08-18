@@ -50,7 +50,7 @@ const content = landingContent.audiences;
         <!-- Investors Card (Left in RTL) -->
         <div class="flex flex-col rounded-2xl border border-[var(--theme-border-subtle)] bg-[var(--theme-bg)] p-6 sm:p-8">
           <div class="inline-flex items-center gap-2 mb-4">
-            <span class="rounded-lg bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-1 text-xs font-medium text-indigo-400">
+            <span class="rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 text-xs font-medium text-emerald-400">
               {{ content.investors.tag }}
             </span>
           </div>
@@ -65,7 +65,7 @@ const content = landingContent.audiences;
 
           <ul class="space-y-2.5 text-xs sm:text-sm text-[var(--theme-text-secondary)] border-t border-[var(--theme-border)] pt-4 mt-auto">
             <li v-for="(point, idx) in content.investors.points" :key="idx" class="flex items-start gap-2.5">
-              <span class="text-indigo-400 font-bold mt-0.5">&bull;</span>
+              <span class="text-emerald-400 font-bold mt-0.5">&bull;</span>
               <span>{{ point }}</span>
             </li>
           </ul>

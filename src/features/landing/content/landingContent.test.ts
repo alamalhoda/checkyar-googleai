@@ -31,8 +31,15 @@ describe('landingContent SSOT', () => {
       expect(landingContent.hero.badge).toBe(expectedStatus);
     });
 
+    it('has the correct product status description without rejected claims', () => {
+      expect(landingContent.productStatus.description).toBe(
+        'چک\u200cیار در لایه ۱ آماده پایلوت کنترل\u200cشده است؛ نه در حال ساخت MVP، و نه عرضه عمومی. مسیر کشف و اتصال پیاده\u200cسازی شده است.'
+      );
+    });
+
     it('preserves U+200C in product status', () => {
       expect(landingContent.productStatus.statusText.includes('\u200c')).toBe(true);
+      expect(landingContent.productStatus.description.includes('\u200c')).toBe(true);
     });
   });
 
@@ -95,6 +102,28 @@ describe('landingContent SSOT', () => {
       expect(landingContent.hero.productName.includes('\u200c')).toBe(true);
       expect(landingContent.hero.oneLiner.includes('\u200c')).toBe(true);
       expect(landingContent.hero.headline.includes('\u200c')).toBe(true);
+    });
+  });
+
+  describe('SSOT compliance and copy sanity', () => {
+    it('contains centralized tags for boundary, direct settlement, and pricing model', () => {
+      expect(landingContent.responsibilityBoundary.tag).toBe('مرز مسئولیت رگولاتوری');
+      expect(landingContent.howItWorks.directSettlementTag).toBe('تسویه مستقیم');
+      expect(landingContent.pricing.modelTag).toBe('مدل آتی');
+    });
+
+    it('has updated audience investor copy', () => {
+      expect(landingContent.audiences.investors.description).toBe(
+        'سرمایه\u200cگذاران و شرکت\u200cهایی که به دنبال فرصت\u200cهای شفاف خرید چک مدت\u200cدار هستند.'
+      );
+      expect(landingContent.audiences.investors.points[2]).toBe('پشتیبانی یکپارچه از اشخاص حقیقی و حقوقی');
+    });
+
+    it('contains no forbidden or rejected terms anywhere in landingContent', () => {
+      const serialized = JSON.stringify(landingContent);
+      expect(serialized).not.toContain('مطالبات');
+      expect(serialized).not.toContain('پذیرش شرکای پایلوت');
+      expect(serialized).not.toContain('user_type');
     });
   });
 });

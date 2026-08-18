@@ -38,7 +38,7 @@ const content = landingContent.pricing;
         >
           <div class="inline-flex items-center gap-2 mb-3">
             <span class="rounded-md bg-[var(--theme-surface-muted)] border border-[var(--theme-border-subtle)] px-2 py-0.5 text-[11px] font-medium text-[var(--theme-text-muted)]">
-              مدل آتی
+              {{ content.modelTag }}
             </span>
           </div>
 

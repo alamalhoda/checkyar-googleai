@@ -26,7 +26,7 @@ const content = landingContent.problemSolution;
         <!-- Problem Card -->
         <div class="flex flex-col rounded-2xl border border-[var(--theme-border-subtle)] bg-[var(--theme-bg)] p-6 sm:p-8">
           <div class="inline-flex items-center gap-2 mb-4">
-            <span class="rounded-lg bg-rose-500/10 border border-rose-500/20 px-2.5 py-1 text-xs font-medium text-rose-400">
+            <span class="rounded-lg bg-[var(--theme-surface-muted)] border border-[var(--theme-border-subtle)] px-2.5 py-1 text-xs font-medium text-[var(--theme-text-muted)]">
               {{ content.problem.tag }}
             </span>
           </div>
@@ -41,7 +41,7 @@ const content = landingContent.problemSolution;
 
           <ul class="space-y-2.5 text-xs sm:text-sm text-[var(--theme-text-secondary)] border-t border-[var(--theme-border)] pt-4">
             <li v-for="(point, idx) in content.problem.points" :key="idx" class="flex items-start gap-2.5">
-              <span class="text-rose-400 font-bold mt-0.5">&times;</span>
+              <span class="text-[var(--theme-text-muted)] font-bold mt-0.5">&times;</span>
               <span>{{ point }}</span>
             </li>
           </ul>

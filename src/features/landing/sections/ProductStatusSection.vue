@@ -19,7 +19,7 @@ const content = landingContent.productStatus;
 
         <!-- Status String Badge / Banner -->
         <div class="inline-flex items-center gap-2.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-sm sm:text-base font-bold text-emerald-300 mb-6">
-          <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
           <span>{{ content.statusText }}</span>
         </div>
 

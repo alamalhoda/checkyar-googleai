@@ -50,7 +50,7 @@ function handleTertiaryClick() {
             data-testid="landing-hero-pilot-badge"
             class="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-medium text-emerald-300"
           >
-            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
             {{ content.badge }}
           </span>
         </div>
@@ -95,7 +95,7 @@ function handleTertiaryClick() {
             @click="handleTertiaryClick"
             class="text-xs text-[var(--theme-text-muted)] hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded px-2 py-1"
           >
-            {{ content.guest.tertiaryLink }} &larr;
+            {{ content.guest.tertiaryLink }}
           </button>
         </div>
       </div>

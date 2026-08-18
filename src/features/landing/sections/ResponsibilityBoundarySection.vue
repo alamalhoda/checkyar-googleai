@@ -14,8 +14,8 @@ const content = landingContent.responsibilityBoundary;
       <!-- Section Header -->
       <div class="mx-auto max-w-3xl text-center mb-12">
         <div class="inline-flex items-center justify-center mb-3">
-          <span class="rounded-full bg-amber-500/10 border border-amber-500/20 px-3 py-1 text-xs font-medium text-amber-300">
-            مرز مسئولیت رگولاتوری
+          <span class="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 text-xs font-medium text-emerald-300">
+            {{ content.tag }}
           </span>
         </div>
         <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--theme-text-primary)]">
@@ -31,9 +31,9 @@ const content = landingContent.responsibilityBoundary;
         <div
           v-for="(statement, index) in content.statements"
           :key="index"
-          class="flex items-center gap-3 rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-surface)] p-5 transition-colors hover:border-amber-500/30"
+          class="flex items-center gap-3 rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-surface)] p-5 transition-colors hover:border-emerald-500/30"
         >
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"/>
               <line x1="12" y1="8" x2="12" y2="12"/>
