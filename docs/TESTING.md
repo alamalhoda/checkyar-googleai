@@ -28,6 +28,10 @@ Current unit test suites in `src/` include:
 - `src/features/landing/guard.test.ts`: Pure landing redirect logic (`getLandingRedirect`) across enabled, disabled, absent, and error flag states for `/`, `/landing`, and other routes.
 - `src/features/landing/landingConstants.test.ts`: Verifies zero-width non-joiner (U+200C / ZWNJ) character integrity and Persian typography for document title and meta description.
 - `src/features/landing/content/landingContent.test.ts`: Validates Single Source of Truth (SSOT) integrity for regulatory locked strings (§2.5 four boundary statements and closing sentence, §2.6 product status string, §2.8 all 6 FAQ questions and locked answers, pricing disclaimer, and ZWNJ formatting).
+- `src/features/landing/forms/iranianMobile.test.ts`: Pure validator testing Iranian mobile number formats with English and Persian digits.
+- `src/features/landing/forms/leadCaptureValidator.test.ts`: Pure validator testing lead capture form fields (name, mobile, role, note limits).
+- `src/features/landing/forms/contactValidator.test.ts`: Pure validator testing contact form fields (name, email format, message limits).
+- `src/features/landing/utils/landingListingUtils.test.ts`: Navigation routing helper returning `/login` for guests and `/listings/:id` for authenticated users.
 - `src/features/listings/composables/useSmartPricing.test.ts`: Discount rate and smart pricing calculation logic.
 - `src/shared/composables/useFeatureFlags.test.ts`: Feature flag loading, stale localStorage merging for `show_risk_tier` and `show_landing_page` (defaulting to enabled in simulator seed) without resetting user data, dynamic evaluation across toggle updates, and fail-closed error handling.
 - `src/features/moderation/moderationRiskTier.test.ts`: Moderation approval logic with `risk_tier` assignment.
@@ -95,6 +99,9 @@ To verify the public landing page experience from the perspective of an unauthen
    - Hero CTAs provide primary `landing-hero-primary-cta` («ثبت‌نام» -> `/register`) and secondary `landing-hero-secondary-cta` («ورود» -> `/login`) for guests, plus tertiary link «مشاهده بازارچه».
    - Responsibility Boundary section (`#responsibility-boundary`) renders all 4 locked statements as separate cards, accompanied by the closing sentence «چک‌یار واسط فناورانه است، نه نهاد مالی.».
    - Pricing section (`#pricing`) lists the 3 future revenue models with no numbers and the prominent disclaimer «در محصول فعلی کارمزدی دریافت نمی‌شود.».
+   - Live listings section (`#live-listings`) displays up to 4 published listings with toman currency conversion, Jalali due dates, and remaining days. Clicking a card directs guests to `/login` with zero authenticated network requests.
+   - Risk Tier Badge Gating: In default mock seed, `show_risk_tier` is disabled (no badge shown). Navigate to `/admin/feature-flags` as Admin, enable `show_risk_tier`, and reload `/landing` to observe risk badges (`data-testid="landing-listing-risk-tier"`) on listings with assigned risk tiers.
+   - Interactive Forms (`#contact-us`, `#lead-capture-form`): Invalid submissions display inline field errors. Valid submissions display toast feedback and reset fields without triggering backend HTTP requests.
    - FAQ section (`#faq`) displays all 6 locked questions (`landing-faq-item-1` through `landing-faq-item-6`), which expand on click to reveal locked answers.
    - Anchor links (`#how-it-works`, `#live-listings`, `#faq`, `#contact-us`) scroll smoothly to each section.
    - Footer links trigger the «به‌زودی» placeholder notification without broken routes.

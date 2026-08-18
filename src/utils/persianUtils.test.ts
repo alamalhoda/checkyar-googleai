@@ -6,6 +6,8 @@ import {
   validateNationalId,
   amountToPersianWords,
   getCurrentJalaliYear,
+  formatTomanFromRial,
+  formatJalaliDate,
 } from './persianUtils';
 
 describe('persianUtils', () => {
@@ -127,6 +129,43 @@ describe('persianUtils', () => {
       // Verify 2025-05-01 which is Jalali 1404
       const year2025 = getCurrentJalaliYear(new Date('2025-05-01T00:00:00Z'));
       expect(year2025).toBe('۱۴۰۴');
+    });
+  });
+
+  describe('formatTomanFromRial', () => {
+    it('divides rials by 10 and formats with Persian locale separators', () => {
+      // 500,000,000 Rials = 50,000,000 Tomans
+      const formatted = formatTomanFromRial('500000000');
+      expect(formatted).toBe((50000000).toLocaleString('fa-IR'));
+
+      const formattedNum = formatTomanFromRial(1000000);
+      expect(formattedNum).toBe((100000).toLocaleString('fa-IR'));
+    });
+
+    it('handles Persian digits in input string', () => {
+      const formatted = formatTomanFromRial('۵۰۰۰۰۰۰۰۰');
+      expect(formatted).toBe((50000000).toLocaleString('fa-IR'));
+    });
+
+    it('handles zero and invalid inputs gracefully', () => {
+      expect(formatTomanFromRial(0)).toBe('۰');
+      expect(formatTomanFromRial('invalid')).toBe('۰');
+      expect(formatTomanFromRial(-100)).toBe('۰');
+    });
+  });
+
+  describe('formatJalaliDate', () => {
+    it('formats a valid ISO date to Jalali representation', () => {
+      const jalali = formatJalaliDate('2026-03-21');
+      expect(jalali).toBeTruthy();
+      expect(jalali).toContain('۱۴۰۵');
+    });
+
+    it('returns empty string for invalid dates without throwing', () => {
+      expect(formatJalaliDate('')).toBe('');
+      expect(formatJalaliDate('not-a-date')).toBe('');
+      expect(formatJalaliDate(null as any)).toBe('');
+      expect(formatJalaliDate(undefined as any)).toBe('');
     });
   });
 });

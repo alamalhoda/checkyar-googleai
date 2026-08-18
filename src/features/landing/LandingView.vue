@@ -8,10 +8,13 @@ import HeroSection from './sections/HeroSection.vue';
 import ProblemSolutionSection from './sections/ProblemSolutionSection.vue';
 import HowItWorksSection from './sections/HowItWorksSection.vue';
 import AudiencesSection from './sections/AudiencesSection.vue';
+import LiveListingsSection from './sections/LiveListingsSection.vue';
 import ResponsibilityBoundarySection from './sections/ResponsibilityBoundarySection.vue';
 import ProductStatusSection from './sections/ProductStatusSection.vue';
 import PricingSection from './sections/PricingSection.vue';
 import FaqSection from './sections/FaqSection.vue';
+import ContactSection from './sections/ContactSection.vue';
+import LeadCaptureSection from './sections/LeadCaptureSection.vue';
 import InvestingSection from './sections/InvestingSection.vue';
 
 onMounted(() => {
@@ -48,23 +51,8 @@ onMounted(() => {
       <!-- 4. Audiences Section -->
       <AudiencesSection />
 
-      <!-- 5. Live Listings Section (Placeholder) -->
-      <section
-        id="live-listings"
-        data-testid="landing-section-live-listings"
-        class="w-full py-16 border-b border-[var(--theme-border)] bg-[var(--theme-bg)] scroll-mt-16"
-      >
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div class="rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-surface)] p-8 sm:p-12 text-center">
-            <h2 class="text-xl sm:text-2xl font-bold text-[var(--theme-text-primary)]">
-              تابلوی آگهی‌های زنده
-            </h2>
-            <p class="mt-3 text-sm text-[var(--theme-text-muted)] max-w-2xl mx-auto">
-              [نمای زنده از آخرین آگهی‌های تاییدشده و فرصت‌های معاملاتی]
-            </p>
-          </div>
-        </div>
-      </section>
+      <!-- 5. Live Listings Section -->
+      <LiveListingsSection />
 
       <!-- 6. Responsibility Boundary Section -->
       <ResponsibilityBoundarySection />
@@ -78,41 +66,11 @@ onMounted(() => {
       <!-- 9. FAQ Section -->
       <FaqSection />
 
-      <!-- 10. Contact Us Section (Placeholder) -->
-      <section
-        id="contact-us"
-        data-testid="landing-section-contact-us"
-        class="w-full py-16 border-b border-[var(--theme-border)] bg-[var(--theme-surface)] scroll-mt-16"
-      >
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div class="rounded-2xl border border-[var(--theme-border-subtle)] bg-[var(--theme-bg)] p-8 sm:p-12 text-center">
-            <h2 class="text-xl sm:text-2xl font-bold text-[var(--theme-text-primary)]">
-              تماس با ما
-            </h2>
-            <p class="mt-3 text-sm text-[var(--theme-text-muted)] max-w-2xl mx-auto">
-              [کانال‌های ارتباطی، پشتیبانی کاربری و اطلاعات تماس]
-            </p>
-          </div>
-        </div>
-      </section>
+      <!-- 10. Contact Us Section -->
+      <ContactSection />
 
-      <!-- 11. Lead Capture Form Section (Placeholder) -->
-      <section
-        id="lead-capture-form"
-        data-testid="landing-section-lead-capture-form"
-        class="w-full py-16 border-b border-[var(--theme-border)] bg-[var(--theme-bg)]"
-      >
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div class="rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-surface)] p-8 sm:p-12 text-center">
-            <h2 class="text-xl sm:text-2xl font-bold text-[var(--theme-text-primary)]">
-              درخواست مشاوره و ثبت تقاضا
-            </h2>
-            <p class="mt-3 text-sm text-[var(--theme-text-muted)] max-w-2xl mx-auto">
-              [فرم جذب سرنخ و دریافت مشاوره اختصاصی]
-            </p>
-          </div>
-        </div>
-      </section>
+      <!-- 11. Lead Capture Form Section -->
+      <LeadCaptureSection />
 
       <!-- 12. Investing in Cheque Yar Section -->
       <InvestingSection />

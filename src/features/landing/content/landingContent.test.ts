@@ -112,6 +112,23 @@ describe('landingContent SSOT', () => {
       expect(landingContent.pricing.modelTag).toBe('مدل آتی');
     });
 
+    it('has complete liveListings, leadCapture, and contactUs content definitions', () => {
+      expect(landingContent.liveListings.title).toBe('تابلوی آگهی\u200cهای زنده');
+      expect(landingContent.liveListings.emptyText).toBe('هنوز آگهی منتشرشده\u200cای وجود ندارد');
+      expect(landingContent.liveListings.emptyGuestCta).toBe('ثبت\u200cنام');
+      expect(landingContent.liveListings.emptyAuthCta).toBe('ورود به بازارچه');
+
+      expect(landingContent.leadCapture.title).toBe('درخواست مشاوره و ثبت تقاضا');
+      expect(landingContent.leadCapture.successMessage).toBe(
+        'درخواست شما روی همین صفحه ثبت شد؛ در محصول فعلی به سرور ارسال نمی\u200cشود.'
+      );
+
+      expect(landingContent.contactUs.title).toBe('تماس با ما');
+      expect(landingContent.contactUs.successMessage).toBe(
+        'درخواست شما روی همین صفحه ثبت شد؛ در محصول فعلی به سرور ارسال نمی\u200cشود.'
+      );
+    });
+
     it('has updated audience investor copy', () => {
       expect(landingContent.audiences.investors.description).toBe(
         'سرمایه\u200cگذاران و شرکت\u200cهایی که به دنبال فرصت\u200cهای شفاف خرید چک مدت\u200cدار هستند.'

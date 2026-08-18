@@ -124,3 +124,27 @@ export function getCurrentJalaliYear(date: Date = new Date()): string {
   }
 }
 
+// Format Toman from Rial amount (divide by 10, floor, Persian digits + separators, no currency word)
+export function formatTomanFromRial(amount: string | number): string {
+  const cleaned = typeof amount === 'number' ? amount : parseFloat(toEnglishDigits(String(amount).replace(/,/g, '').trim()));
+  if (isNaN(cleaned) || cleaned < 0) return '۰';
+  const toman = Math.floor(cleaned / 10);
+  return toman.toLocaleString('fa-IR');
+}
+
+// Format ISO date (YYYY-MM-DD) to Jalali display date. Returns empty string on invalid/garbage input, never throws.
+export function formatJalaliDate(isoDate: string): string {
+  if (!isoDate || typeof isoDate !== 'string') return '';
+  try {
+    const d = new Date(isoDate.trim());
+    if (isNaN(d.getTime())) return '';
+    return new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).format(d);
+  } catch {
+    return '';
+  }
+}
+
