@@ -47,7 +47,7 @@ function handleActivate() {
   <button
     type="button"
     :data-testid="`landing-listing-card-${listing.id}`"
-    class="w-full text-right bg-[var(--theme-surface)] hover:bg-[var(--theme-surface-hover)] border border-[var(--theme-border)] hover:border-emerald-500/50 rounded-xl p-5 transition duration-150 flex flex-col justify-between cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500/80"
+    class="w-full text-right bg-[var(--theme-surface)] hover:bg-[var(--theme-surface-muted)] border border-[var(--theme-border)] hover:border-emerald-500/50 rounded-xl p-5 transition duration-150 flex flex-col justify-between cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500/80"
     @click="handleActivate"
     @keydown.enter.prevent="handleActivate"
     @keydown.space.prevent="handleActivate"
@@ -100,9 +100,8 @@ function handleActivate() {
     </div>
 
     <!-- Footer Action hint -->
-    <div class="mt-4 pt-3 border-t border-[var(--theme-border-subtle)] flex items-center justify-between text-xs text-[var(--theme-text-muted)]">
-      <span>{{ isAuthenticated ? 'مشاهده جزئیات' : 'ورود برای معامله' }}</span>
-      <span class="text-emerald-400">&larr;</span>
+    <div class="mt-4 pt-3 border-t border-[var(--theme-border-subtle)] text-xs text-[var(--theme-text-muted)]">
+      <span>{{ isAuthenticated ? landingContent.liveListings.authCardAction : landingContent.liveListings.guestCardAction }}</span>
     </div>
   </button>
 </template>

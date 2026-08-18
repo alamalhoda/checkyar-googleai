@@ -198,6 +198,8 @@ export const landingContent = {
     daysToDueSuffix: 'روز تا سررسید',
     rateLabel: 'نرخ تنزیل پیشنهادی:',
     rateUnit: '٪',
+    guestCardAction: 'ورود برای مشاهده',
+    authCardAction: 'مشاهده جزئیات',
     riskLabels: {
       low: 'کم\u200cریسک',
       medium: 'متوسط',

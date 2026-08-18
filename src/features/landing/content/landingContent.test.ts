@@ -117,6 +117,8 @@ describe('landingContent SSOT', () => {
       expect(landingContent.liveListings.emptyText).toBe('هنوز آگهی منتشرشده\u200cای وجود ندارد');
       expect(landingContent.liveListings.emptyGuestCta).toBe('ثبت\u200cنام');
       expect(landingContent.liveListings.emptyAuthCta).toBe('ورود به بازارچه');
+      expect(landingContent.liveListings.guestCardAction).toBe('ورود برای مشاهده');
+      expect(landingContent.liveListings.authCardAction).toBe('مشاهده جزئیات');
 
       expect(landingContent.leadCapture.title).toBe('درخواست مشاوره و ثبت تقاضا');
       expect(landingContent.leadCapture.successMessage).toBe(

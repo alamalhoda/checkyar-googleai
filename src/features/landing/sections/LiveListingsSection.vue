@@ -61,7 +61,7 @@ onMounted(() => {
         <div
           v-for="i in 4"
           :key="i"
-          class="rounded-xl border border-[var(--theme-border)] bg-[var(--theme-surface)] p-5 animate-pulse flex flex-col justify-between"
+          class="rounded-xl border border-[var(--theme-border)] bg-[var(--theme-surface)] p-5 flex flex-col justify-between"
         >
           <div>
             <div class="h-5 bg-[var(--theme-border)] rounded w-2/3 mb-4"></div>
