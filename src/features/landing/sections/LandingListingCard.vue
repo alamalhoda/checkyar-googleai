@@ -47,61 +47,63 @@ function handleActivate() {
   <button
     type="button"
     :data-testid="`landing-listing-card-${listing.id}`"
-    class="w-full text-right bg-[var(--theme-surface)] hover:bg-[var(--theme-surface-muted)] border border-[var(--theme-border)] hover:border-emerald-500/50 rounded-xl p-5 transition duration-150 flex flex-col justify-between cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500/80"
+    class="w-full text-right bg-[var(--theme-surface)] hover:bg-[var(--theme-surface-muted)] border border-[var(--theme-border)] hover:border-emerald-500/40 rounded-2xl p-5 sm:p-6 transition-all duration-200 hover:-translate-y-1 shadow-sm hover:shadow-[0_12px_28px_-6px_rgba(0,0,0,0.35)] flex flex-col justify-between cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
     @click="handleActivate"
     @keydown.enter.prevent="handleActivate"
     @keydown.space.prevent="handleActivate"
   >
     <!-- Card Header: Bank & Risk Tier Badge -->
     <div>
-      <div class="flex items-center justify-between gap-2 mb-3">
+      <div class="flex items-center justify-between gap-2 mb-3.5">
         <span class="font-bold text-[var(--theme-text-primary)] text-base truncate">
           {{ listing.bank_name }}
         </span>
         <span
           v-if="showRiskTier && riskTierLabel"
           data-testid="landing-listing-risk-tier"
-          class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 shrink-0"
+          class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 shrink-0"
         >
           {{ riskTierLabel }}
         </span>
       </div>
 
-      <!-- Amount -->
-      <div class="mb-3">
-        <div class="text-xs text-[var(--theme-text-muted)] mb-0.5">مبلغ اسمی</div>
-        <div class="text-lg font-bold text-emerald-400">
+      <!-- Amount Block -->
+      <div class="mb-4 p-3 rounded-xl bg-[var(--theme-bg)] border border-[var(--theme-border-subtle)]/60">
+        <div class="text-[11px] text-[var(--theme-text-muted)] mb-1">مبلغ اسمی چک</div>
+        <div class="text-xl font-extrabold text-emerald-400 tabular-nums">
           {{ formattedAmount }} <span class="text-xs font-normal text-[var(--theme-text-secondary)]">{{ landingContent.liveListings.currencyUnit }}</span>
         </div>
       </div>
 
       <!-- Details List -->
-      <div class="space-y-1.5 text-xs text-[var(--theme-text-secondary)]">
+      <div class="space-y-2 text-xs text-[var(--theme-text-secondary)]">
         <div v-if="formattedDueDate" class="flex items-center justify-between">
           <span class="text-[var(--theme-text-muted)]">سررسید:</span>
-          <span>{{ formattedDueDate }}</span>
+          <span class="font-medium text-[var(--theme-text-primary)]">{{ formattedDueDate }}</span>
         </div>
 
         <div v-if="daysToDueText" class="flex items-center justify-between">
           <span class="text-[var(--theme-text-muted)]">مهلت:</span>
-          <span>{{ daysToDueText }}</span>
+          <span class="text-[var(--theme-text-primary)]">{{ daysToDueText }}</span>
         </div>
 
         <div v-if="discountRateText" class="flex items-center justify-between">
           <span class="text-[var(--theme-text-muted)]">{{ landingContent.liveListings.rateLabel }}</span>
-          <span class="text-emerald-400 font-medium">{{ discountRateText }}</span>
+          <span class="text-emerald-400 font-bold">{{ discountRateText }}</span>
         </div>
 
         <div v-if="listing.issuer_profile?.name" class="flex items-center justify-between truncate">
           <span class="text-[var(--theme-text-muted)]">صادرکننده:</span>
-          <span class="truncate max-w-[150px]">{{ listing.issuer_profile.name }}</span>
+          <span class="truncate max-w-[140px] text-[var(--theme-text-primary)]">{{ listing.issuer_profile.name }}</span>
         </div>
       </div>
     </div>
 
     <!-- Footer Action hint -->
-    <div class="mt-4 pt-3 border-t border-[var(--theme-border-subtle)] text-xs text-[var(--theme-text-muted)]">
-      <span>{{ isAuthenticated ? landingContent.liveListings.authCardAction : landingContent.liveListings.guestCardAction }}</span>
+    <div class="mt-5 pt-3.5 border-t border-[var(--theme-border-subtle)] text-xs text-[var(--theme-text-muted)] flex items-center justify-between">
+      <span class="font-medium group-hover:text-emerald-300 transition-colors">
+        {{ isAuthenticated ? landingContent.liveListings.authCardAction : landingContent.liveListings.guestCardAction }}
+      </span>
     </div>
   </button>
 </template>

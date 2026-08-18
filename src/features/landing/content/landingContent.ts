@@ -237,4 +237,20 @@ export const landingContent = {
     submitLabel: 'ارسال پیام',
     successMessage: 'درخواست شما روی همین صفحه ثبت شد؛ در محصول فعلی به سرور ارسال نمی\u200cشود.',
   },
+  visual: {
+    heroPreviewCaption: 'نمای شماتیک رابط بازارچه',
+    sectionEyebrows: {
+      problemSolution: 'چالش و راهکار',
+      howItWorks: 'فرآیند گام\u200cبه\u200cگام',
+      audiences: 'مخاطبان هدف',
+      liveListings: 'فرصت\u200cهای فعال',
+      responsibilityBoundary: 'انطباق رگولاتوری',
+      productStatus: 'شفافیت توسعه',
+      pricing: 'مدل\u200cهای آتی',
+      faq: 'راهنمای کاربری',
+      contactUs: 'ارتباط مستقیم',
+      leadCapture: 'درخواست همکاری',
+      investing: 'توسعه پایلوت',
+    },
+  },
 };

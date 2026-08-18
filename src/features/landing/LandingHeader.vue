@@ -32,28 +32,28 @@ function navigateTo(path: string) {
   <header
     id="landing-header"
     data-testid="landing-header"
-    class="sticky top-0 z-50 w-full border-b border-[var(--theme-border)] bg-[var(--theme-surface)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-surface)]/80"
+    class="sticky top-0 z-50 w-full border-b border-[var(--theme-border)] bg-[var(--theme-surface)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--theme-surface)]/80 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.35)]"
   >
     <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
       <!-- Brand Lockup -->
       <div class="flex items-center gap-3">
         <a
           href="#hero"
-          class="flex items-center gap-2.5 rounded-lg text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+          class="flex items-center gap-3 rounded-lg text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
           aria-label="چک‌یار - صفحه اصلی"
         >
-          <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold text-lg">
-            چ
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-black text-base shadow-sm">
+            چک
           </div>
           <div class="flex flex-col">
-            <span class="text-lg font-bold tracking-tight text-[var(--theme-text-primary)]">چک‌یار</span>
-            <span class="text-[10px] text-[var(--theme-text-muted)] -mt-1 hidden sm:inline">سکوی کشف و اتصال بازار چک</span>
+            <span class="text-lg font-extrabold tracking-tight text-[var(--theme-text-primary)]">چک‌یار</span>
+            <span class="text-[11px] text-[var(--theme-text-muted)] -mt-0.5 hidden sm:inline font-medium">سکوی کشف و اتصال بازار چک</span>
           </div>
         </a>
       </div>
 
       <!-- Desktop Navigation Anchors -->
-      <nav class="hidden md:flex items-center gap-6" aria-label="ناوبری صفحه اصلی">
+      <nav class="hidden md:flex items-center gap-7" aria-label="ناوبری صفحه اصلی">
         <a
           v-for="link in navLinks"
           :key="link.href"
@@ -72,7 +72,7 @@ function navigateTo(path: string) {
             type="button"
             data-testid="landing-nav-marketplace"
             @click="navigateTo('/marketplace')"
-            class="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+            class="inline-flex items-center justify-center rounded-xl bg-emerald-400 px-4 py-2 text-sm font-bold text-slate-950 shadow-sm hover:bg-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 cursor-pointer"
           >
             ورود به بازارچه
           </button>
@@ -82,7 +82,7 @@ function navigateTo(path: string) {
             type="button"
             data-testid="landing-nav-login"
             @click="navigateTo('/login')"
-            class="inline-flex items-center justify-center rounded-lg border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-muted)] px-3.5 py-1.5 text-sm font-medium text-[var(--theme-text-primary)] hover:border-emerald-500/40 hover:text-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+            class="inline-flex items-center justify-center rounded-xl border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-muted)] px-3.5 py-1.5 text-sm font-medium text-[var(--theme-text-primary)] hover:border-emerald-500/40 hover:text-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
           >
             ورود
           </button>
@@ -90,7 +90,7 @@ function navigateTo(path: string) {
             type="button"
             data-testid="landing-nav-register"
             @click="navigateTo('/register')"
-            class="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-3.5 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+            class="inline-flex items-center justify-center rounded-xl bg-emerald-400 px-4 py-1.5 text-sm font-bold text-slate-950 shadow-sm hover:bg-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 cursor-pointer"
           >
             ثبت‌نام
           </button>
@@ -104,7 +104,7 @@ function navigateTo(path: string) {
           @click="mobileMenuOpen = !mobileMenuOpen"
           :aria-expanded="mobileMenuOpen"
           aria-label="منوی ناوبری"
-          class="inline-flex items-center justify-center rounded-md p-2 text-[var(--theme-text-secondary)] hover:bg-[var(--theme-surface-muted)] hover:text-[var(--theme-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+          class="inline-flex items-center justify-center rounded-lg p-2 text-[var(--theme-text-secondary)] hover:bg-[var(--theme-surface-muted)] hover:text-[var(--theme-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
         >
           <svg v-if="!mobileMenuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -127,7 +127,7 @@ function navigateTo(path: string) {
           :key="link.href"
           :href="link.href"
           @click.prevent="scrollToSection(link.href)"
-          class="rounded-md px-3 py-2 text-sm font-medium text-[var(--theme-text-secondary)] hover:bg-[var(--theme-surface-muted)] hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+          class="rounded-lg px-3 py-2 text-sm font-medium text-[var(--theme-text-secondary)] hover:bg-[var(--theme-surface-muted)] hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
         >
           {{ link.label }}
         </a>
@@ -138,7 +138,7 @@ function navigateTo(path: string) {
             type="button"
             data-testid="landing-nav-marketplace-mobile"
             @click="navigateTo('/marketplace')"
-            class="w-full rounded-lg bg-emerald-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-emerald-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+            class="w-full rounded-xl bg-emerald-400 px-4 py-2.5 text-center text-sm font-bold text-slate-950 shadow-sm hover:bg-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
           >
             ورود به بازارچه
           </button>
@@ -149,7 +149,7 @@ function navigateTo(path: string) {
               type="button"
               data-testid="landing-nav-login-mobile"
               @click="navigateTo('/login')"
-              class="w-full rounded-lg border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-muted)] px-3 py-2 text-center text-sm font-medium text-[var(--theme-text-primary)] hover:border-emerald-500/40 hover:text-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+              class="w-full rounded-xl border border-[var(--theme-border-subtle)] bg-[var(--theme-surface-muted)] px-3 py-2.5 text-center text-sm font-medium text-[var(--theme-text-primary)] hover:border-emerald-500/40 hover:text-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >
               ورود
             </button>
@@ -157,7 +157,7 @@ function navigateTo(path: string) {
               type="button"
               data-testid="landing-nav-register-mobile"
               @click="navigateTo('/register')"
-              class="w-full rounded-lg bg-emerald-600 px-3 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-emerald-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+              class="w-full rounded-xl bg-emerald-400 px-3 py-2.5 text-center text-sm font-bold text-slate-950 shadow-sm hover:bg-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >
               ثبت‌نام
             </button>

@@ -144,5 +144,20 @@ describe('landingContent SSOT', () => {
       expect(serialized).not.toContain('پذیرش شرکای پایلوت');
       expect(serialized).not.toContain('user_type');
     });
+
+    it('has visual decorative strings and section eyebrows configured', () => {
+      expect(landingContent.visual.heroPreviewCaption).toBe('نمای شماتیک رابط بازارچه');
+      expect(landingContent.visual.sectionEyebrows.problemSolution).toBe('چالش و راهکار');
+      expect(landingContent.visual.sectionEyebrows.howItWorks).toBe('فرآیند گام\u200cبه\u200cگام');
+      expect(landingContent.visual.sectionEyebrows.audiences).toBe('مخاطبان هدف');
+      expect(landingContent.visual.sectionEyebrows.liveListings).toBe('فرصت\u200cهای فعال');
+      expect(landingContent.visual.sectionEyebrows.responsibilityBoundary).toBe('انطباق رگولاتوری');
+      expect(landingContent.visual.sectionEyebrows.productStatus).toBe('شفافیت توسعه');
+      expect(landingContent.visual.sectionEyebrows.pricing).toBe('مدل\u200cهای آتی');
+      expect(landingContent.visual.sectionEyebrows.faq).toBe('راهنمای کاربری');
+      expect(landingContent.visual.sectionEyebrows.contactUs).toBe('ارتباط مستقیم');
+      expect(landingContent.visual.sectionEyebrows.leadCapture).toBe('درخواست همکاری');
+      expect(landingContent.visual.sectionEyebrows.investing).toBe('توسعه پایلوت');
+    });
   });
 });

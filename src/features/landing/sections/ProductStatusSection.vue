@@ -1,33 +1,32 @@
 <script setup lang="ts">
 import { landingContent } from '../content/landingContent';
+import LandingSectionShell from '../components/LandingSectionShell.vue';
+import LandingSurfaceCard from '../components/LandingSurfaceCard.vue';
 
 const content = landingContent.productStatus;
+const visual = landingContent.visual;
 </script>
 
 <template>
-  <section
+  <LandingSectionShell
     id="product-status"
-    data-testid="landing-section-product-status"
-    class="w-full py-16 sm:py-20 border-b border-[var(--theme-border)] bg-[var(--theme-surface)]"
+    testId="landing-section-product-status"
+    :title="content.title"
+    :eyebrow="visual.sectionEyebrows.productStatus"
+    variant="muted"
+    :narrow="true"
   >
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-3xl rounded-2xl border border-[var(--theme-border-subtle)] bg-[var(--theme-bg)] p-8 sm:p-12 text-center">
-        <!-- Section Title -->
-        <h2 class="text-xl sm:text-2xl font-bold text-[var(--theme-text-primary)] mb-6">
-          {{ content.title }}
-        </h2>
-
-        <!-- Status String Badge / Banner -->
-        <div class="inline-flex items-center gap-2.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-sm sm:text-base font-bold text-emerald-300 mb-6">
-          <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
-          <span>{{ content.statusText }}</span>
-        </div>
-
-        <!-- Description Paragraph -->
-        <p class="text-xs sm:text-sm leading-relaxed text-[var(--theme-text-secondary)] max-w-xl mx-auto">
-          {{ content.description }}
-        </p>
+    <LandingSurfaceCard bg="base" :accentTop="true" class="text-center p-8 sm:p-12 items-center">
+      <!-- Status String Badge / Banner -->
+      <div class="inline-flex items-center gap-2.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 sm:px-5 py-2 text-sm sm:text-base font-bold text-emerald-300 mb-6 shadow-sm">
+        <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+        <span>{{ content.statusText }}</span>
       </div>
-    </div>
-  </section>
+
+      <!-- Description Paragraph -->
+      <p class="text-sm sm:text-base leading-[1.7] text-[var(--theme-text-secondary)] max-w-xl mx-auto">
+        {{ content.description }}
+      </p>
+    </LandingSurfaceCard>
+  </LandingSectionShell>
 </template>

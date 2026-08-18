@@ -1,57 +1,47 @@
 <script setup lang="ts">
 import { landingContent } from '../content/landingContent';
+import LandingSectionShell from '../components/LandingSectionShell.vue';
+import LandingSurfaceCard from '../components/LandingSurfaceCard.vue';
+import LandingIconBadge from '../components/LandingIconBadge.vue';
 
 const content = landingContent.responsibilityBoundary;
+const visual = landingContent.visual;
 </script>
 
 <template>
-  <section
+  <LandingSectionShell
     id="responsibility-boundary"
-    data-testid="landing-section-responsibility-boundary"
-    class="w-full py-16 sm:py-20 border-b border-[var(--theme-border)] bg-[var(--theme-bg)] scroll-mt-16"
+    testId="landing-section-responsibility-boundary"
+    :title="content.title"
+    :subtitle="content.subtitle"
+    :eyebrow="content.tag || visual.sectionEyebrows.responsibilityBoundary"
+    variant="elevated"
   >
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <!-- Section Header -->
-      <div class="mx-auto max-w-3xl text-center mb-12">
-        <div class="inline-flex items-center justify-center mb-3">
-          <span class="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 text-xs font-medium text-emerald-300">
-            {{ content.tag }}
-          </span>
-        </div>
-        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--theme-text-primary)]">
-          {{ content.title }}
-        </h2>
-        <p class="mt-3 text-sm sm:text-base text-[var(--theme-text-secondary)]">
-          {{ content.subtitle }}
-        </p>
-      </div>
-
-      <!-- 4 Distinct Regulatory Boundary Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-        <div
-          v-for="(statement, index) in content.statements"
-          :key="index"
-          class="flex items-center gap-3 rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-surface)] p-5 transition-colors hover:border-emerald-500/30"
-        >
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="12" y1="8" x2="12" y2="12"/>
-              <line x1="12" y1="16" x2="12.01" y2="16"/>
-            </svg>
-          </div>
-          <span class="text-sm font-bold text-[var(--theme-text-primary)] leading-snug">
-            {{ statement }}
-          </span>
-        </div>
-      </div>
-
-      <!-- Closing Sentence (Separate, Prominent Banner) -->
-      <div class="mx-auto max-w-2xl rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-6 text-center shadow-sm shadow-emerald-950/20">
-        <p class="text-base sm:text-lg font-bold text-emerald-300">
-          {{ content.closingSentence }}
-        </p>
-      </div>
+    <!-- 4 Distinct Regulatory Boundary Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-10">
+      <LandingSurfaceCard
+        v-for="(statement, index) in content.statements"
+        :key="index"
+        :hoverable="true"
+        class="!p-5 flex-row items-center gap-4"
+      >
+        <LandingIconBadge variant="emerald" size="md">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+        </LandingIconBadge>
+        <span class="text-sm sm:text-base font-bold text-[var(--theme-text-primary)] leading-snug">
+          {{ statement }}
+        </span>
+      </LandingSurfaceCard>
     </div>
-  </section>
+
+    <!-- Closing Sentence (Prominent Banner) -->
+    <div class="mx-auto max-w-2xl rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-6 sm:p-8 text-center shadow-[0_12px_28px_-6px_rgba(16,185,129,0.15)] relative overflow-hidden">
+      <div class="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-emerald-500 via-emerald-300 to-emerald-500"></div>
+      <p class="text-base sm:text-xl font-black text-emerald-300">
+        {{ content.closingSentence }}
+      </p>
+    </div>
+  </LandingSectionShell>
 </template>
