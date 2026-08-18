@@ -27,6 +27,7 @@ Current unit test suites in `src/` include:
 - `src/stores/auth.mockSignout.test.ts`: Mock sign-out marker transitions (fresh seed, reload persistence after logout without auto-reseed, login clearance, and live mode immunity).
 - `src/features/landing/guard.test.ts`: Pure landing redirect logic (`getLandingRedirect`) across enabled, disabled, absent, and error flag states for `/`, `/landing`, and other routes.
 - `src/features/landing/landingConstants.test.ts`: Verifies zero-width non-joiner (U+200C / ZWNJ) character integrity and Persian typography for document title and meta description.
+- `src/features/landing/content/landingContent.test.ts`: Validates Single Source of Truth (SSOT) integrity for regulatory locked strings (§2.5 four boundary statements and closing sentence, §2.6 product status string, §2.8 all 6 FAQ questions and locked answers, pricing disclaimer, and ZWNJ formatting).
 - `src/features/listings/composables/useSmartPricing.test.ts`: Discount rate and smart pricing calculation logic.
 - `src/shared/composables/useFeatureFlags.test.ts`: Feature flag loading, stale localStorage merging for `show_risk_tier` and `show_landing_page` (defaulting to enabled in simulator seed) without resetting user data, dynamic evaluation across toggle updates, and fail-closed error handling.
 - `src/features/moderation/moderationRiskTier.test.ts`: Moderation approval logic with `risk_tier` assignment.
@@ -90,6 +91,11 @@ To verify the public landing page experience from the perspective of an unauthen
 2. Reload the page or navigate to `/` or `/landing`. The mock auto-seed is skipped and you remain logged out.
 3. Observe:
    - Header shows **ورود** (`landing-nav-login`, mobile: `landing-nav-login-mobile`) and **ثبت‌نام** (`landing-nav-register`, mobile: `landing-nav-register-mobile`). For authenticated users, it shows **ورود به بازارچه** (`landing-nav-marketplace`, mobile: `landing-nav-marketplace-mobile`).
+   - Hero section renders the pilot badge (`landing-hero-pilot-badge`) with exact text `v1 لایه ۱ آماده پایلوت — نه در حال ساخت MVP، نه لانچ‌شده`.
+   - Hero CTAs provide primary `landing-hero-primary-cta` («ثبت‌نام» -> `/register`) and secondary `landing-hero-secondary-cta` («ورود» -> `/login`) for guests, plus tertiary link «مشاهده بازارچه».
+   - Responsibility Boundary section (`#responsibility-boundary`) renders all 4 locked statements as separate cards, accompanied by the closing sentence «چک‌یار واسط فناورانه است، نه نهاد مالی.».
+   - Pricing section (`#pricing`) lists the 3 future revenue models with no numbers and the prominent disclaimer «در محصول فعلی کارمزدی دریافت نمی‌شود.».
+   - FAQ section (`#faq`) displays all 6 locked questions (`landing-faq-item-1` through `landing-faq-item-6`), which expand on click to reveal locked answers.
    - Anchor links (`#how-it-works`, `#live-listings`, `#faq`, `#contact-us`) scroll smoothly to each section.
    - Footer links trigger the «به‌زودی» placeholder notification without broken routes.
 4. To return to an authenticated state, click **ورود**, log in with any demo persona, or clear `localStorage`.

@@ -98,7 +98,11 @@ src/
 - **پوسته عمومی و ماژول صفحه فرود (`src/features/landing/`):**
   - مسیرهای دارای مشخصه `meta: { publicChrome: true }` (مانند `/landing`) به شکل مستقل و بدون سایدبار (`AppSidebar`) یا هدر داخلی (`AppHeader`) رندر می‌شوند.
   - صفحه فرود همواره با تم بصری تیره برند (`data-theme="dark"` و تم تیره اختصاصی Naive UI) نمایش داده می‌شود، بدون آن‌که تم انتخابی ذخیره‌شده کاربر در `localStorage` دستخوش تغییر شود.
-  - این صفحه شامل ۱۲ بخش ساختارمند، پیوندهای پرشی به بخش‌ها (`#how-it-works`، `#live-listings`، `#faq`، `#contact-us`) و دکمه‌های اقدام هدر برای کاربران مهمان (`landing-nav-login`, `landing-nav-register`, `landing-nav-login-mobile`, `landing-nav-register-mobile`) و کاربران وارد شده (`landing-nav-marketplace`, `landing-nav-marketplace-mobile`) است.
+  - مرجع واحد محتوا (SSOT) در فایل `src/features/landing/content/landingContent.ts` با رعایت دقیق نیم‌فاصله‌ها (`\u200c` / ZWNJ) نگهداری می‌شود.
+  - ساختار ۱۲ گانه صفحه توسط کامپوننت‌های مجزا در مسیر `src/features/landing/sections/` تشکیل شده است:
+    - **بخش‌های کامل و غنی از محتوا:** `HeroSection.vue` (`#hero`)، `ProblemSolutionSection.vue` (`#problem-and-solution`)، `HowItWorksSection.vue` (`#how-it-works`)، `AudiencesSection.vue` (`#audiences`)، `ResponsibilityBoundarySection.vue` (`#responsibility-boundary`)، `ProductStatusSection.vue` (`#product-status`)، `PricingSection.vue` (`#pricing`)، `FaqSection.vue` (`#faq`)، و `InvestingSection.vue` (`#investing-in-cheque-yar`).
+    - **بخش‌های جانمایی (جهت اتصال به API و فرم‌ها در فاز بعد):** `#live-listings` (`landing-section-live-listings`)، `#contact-us` (`landing-section-contact-us`) و `#lead-capture-form` (`landing-section-lead-capture-form`).
+  - این صفحه شامل پیوندهای پرشی به بخش‌ها (`#how-it-works`، `#live-listings`، `#faq`، `#contact-us`) و دکمه‌های اقدام هدر برای کاربران مهمان (`landing-nav-login`, `landing-nav-register`, `landing-nav-login-mobile`, `landing-nav-register-mobile`) و کاربران وارد شده (`landing-nav-marketplace`, `landing-nav-marketplace-mobile`) است.
 - **گارد هدایت امن مسیر فرود (`show_landing_page`):**
   - این گارد با استفاده از تابع کمکی `getLandingRedirect(flagEnabled, targetPath)` به صورت ناهمگام در سطح مسیرهای `/` و `/landing` اعمال می‌گردد.
   - در صورت فعال بودن کلید (`true`)، مسیر `/` به `/landing` هدایت شده و کاربران (اعم از مهمان یا لاگین کرده) مستقیماً صفحه فرود را مشاهده می‌کنند.

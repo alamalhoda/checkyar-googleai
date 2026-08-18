@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { message } from '../../utils/discreteApi';
 import { getCurrentJalaliYear } from '../../utils/persianUtils';
+import { landingContent } from './content/landingContent';
 
 const currentYear = getCurrentJalaliYear();
 
@@ -26,7 +27,7 @@ function handlePlaceholderClick() {
             <span class="text-lg font-bold text-[var(--theme-text-primary)]">چک‌یار</span>
           </div>
           <p class="text-xs leading-relaxed text-[var(--theme-text-muted)]">
-            سکوی دیجیتال کشف و اتصال در بازار نقدشوندگی چک‌های مدت‌دار. چک‌یار یک واسط فناورانه است و نهاد مالی یا بانکی نمی‌باشد.
+            {{ landingContent.hero.oneLiner }}. {{ landingContent.responsibilityBoundary.closingSentence }}
           </p>
         </div>
 
@@ -161,7 +162,7 @@ function handlePlaceholderClick() {
       <!-- Copyright & Disclaimer Notice -->
       <div class="mt-10 border-t border-[var(--theme-border)] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--theme-text-muted)]">
         <p>© {{ currentYear }} تمامی حقوق مادی و معنوی برای چک‌یار محفوظ است.</p>
-        <p>واسط فناورانه کشف و اتصال — فاقد کارکرد بانکی، اعتباری و تسهیلاتی</p>
+        <p>تسویه و انتقال چک بیرون از پلتفرم انجام می‌شود.</p>
       </div>
     </div>
   </footer>
