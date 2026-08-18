@@ -41,6 +41,7 @@ bun run test:watch
 - `src/utils/themeOverrides.test.ts`: ارزیابی تعیین تم و توکن‌های اختصاصی Naive UI برای تمامی پوسته‌ها.
 - `src/stores/useUiStore.test.ts`: اعتبارسنجی مقادیر پیش‌فرض استور، تغییر وضعیت و متدهای `isSidebarCollapsed`، ماندگاری در `localStorage` با کلید `chequeyar_sidebar_collapsed` و تفکیک از وضعیت دراور موبایل.
 - `src/shared/utils/breakpoints.test.ts`: اعتبارسنجی توابع خالص کمکی ابعاد و بریک‌پوینت دسکتاپ (`768px` / `md`).
+- `src/shared/utils/menuOptions.test.ts`: اعتبارسنجی تابع خالص مسطح‌سازی عناوین گروه‌های منو، استخراج فرزندان، حفظ آیتم‌های مستقل، عدم جهش در آرایه ورودی و تطابق با ساختار سایدبار در حالت ریل فشرده.
 - `src/features/reports/utils/chartTheming.test.ts`: اعتبارسنجی تنظیمات پویا، پالت رنگ و تولتیپ نمودارهای ApexCharts.
 
 ---

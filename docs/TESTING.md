@@ -41,6 +41,7 @@ Current unit test suites in `src/` include:
 - `src/utils/themeOverrides.test.ts`: Naive UI theme resolution and token overrides for all supported themes.
 - `src/stores/useUiStore.test.ts`: Validates UI store defaults, `isSidebarCollapsed` toggle and explicit setter with `chequeyar_sidebar_collapsed` localStorage persistence, and decoupling from mobile drawer state.
 - `src/shared/utils/breakpoints.test.ts`: Pure helper testing breakpoint constants and desktop `md` (`768px`) evaluation.
+- `src/shared/utils/menuOptions.test.ts`: Pure helper testing menu option group flattening, unnesting children, non-group item preservation, array immutability, and fixture matching for compact sidebar rail.
 - `src/features/reports/utils/chartTheming.test.ts`: ApexCharts dynamic palette, tooltip, and theme adaptation testing.
 
 ---

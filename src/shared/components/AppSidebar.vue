@@ -21,6 +21,7 @@ import { useAuthStore } from '../../stores/auth';
 import { useBackendSimulatorStore } from '../../stores/useBackendSimulatorStore';
 import { useUiStore } from '../../stores/useUiStore';
 import { BREAKPOINT_MD } from '../utils/breakpoints';
+import { flattenMenuGroups } from '../utils/menuOptions';
 
 const route = useRoute();
 const router = useRouter();
@@ -173,6 +174,10 @@ const menuOptions = computed(() => {
   return options;
 });
 
+const desktopMenuOptions = computed(() => {
+  return uiStore.isSidebarCollapsed ? flattenMenuGroups(menuOptions.value) : menuOptions.value;
+});
+
 const activeKey = computed(() => route.path);
 
 const handleMenuSelect = (key: string) => {
@@ -206,7 +211,7 @@ const handleMenuSelect = (key: string) => {
     <!-- Navigation Menu -->
     <div class="flex-1 py-3 px-2 overflow-y-auto overflow-x-hidden">
       <NMenu
-        :options="menuOptions"
+        :options="desktopMenuOptions"
         :value="activeKey"
         :collapsed="uiStore.isSidebarCollapsed"
         :collapsed-width="56"
@@ -236,10 +241,10 @@ const handleMenuSelect = (key: string) => {
       class="p-3 border-t border-slate-800 bg-slate-950/40 flex justify-center"
       :title="`نقش فعلی: ${authStore.userRole === 'check_holder' ? 'دارنده چک' : authStore.userRole === 'investor' ? 'سرمایه‌گذار' : authStore.userRole === 'moderator' ? 'ناظر سیستم' : 'مدیر کل'}`"
     >
-      <span class="w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-        {{ authStore.userRole === 'check_holder' ? 'دارنده' :
-           authStore.userRole === 'investor' ? 'سرمایه' :
-           authStore.userRole === 'moderator' ? 'ناظر' : 'مدیر' }}
+      <span class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+        {{ authStore.userRole === 'check_holder' ? 'چ' :
+           authStore.userRole === 'investor' ? 'س' :
+           authStore.userRole === 'moderator' ? 'ن' : 'م' }}
       </span>
     </div>
   </aside>
