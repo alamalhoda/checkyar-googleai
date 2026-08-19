@@ -35,6 +35,18 @@ export interface Document { id: number; document_type: DocumentType; file: strin
 export interface Verification { id: number; user_type?: UserType; full_name: string; national_id: string; company_name: string; status: VerificationStatus; rejection_reason: string; rejection_code: string; documents: Document[]; }
 export interface CreateVerificationRequest { full_name: string; national_id?: string; company_name?: string; national_id_front?: File | string; national_id_back?: File | string; selfie?: File | string; }
 
+export interface BankSummary {
+  code: string;
+  display_name: string;
+  logo_url: string | null;
+  brand_color_light: string;
+  brand_color_dark: string;
+}
+
+export interface Bank extends BankSummary {
+  aliases: string[];
+}
+
 export interface IssuerProfile { id: number; national_or_company_id: string; name: string; credit_score: number | null; created_at: string; updated_at: string; }
 export interface ChequeListing { id: number; owner_id: number; issuer_profile: IssuerProfile; bank_name: string; cheque_serial_number: string; face_amount: string; due_date: string; issuer_type: IssuerType; issuer_name: string; issuer_national_id: string; description: string; suggested_discount_rate: string | null; risk_tier: 'low' | 'medium' | 'high' | null; status: ListingStatus; rejection_reason: string; rejection_code: string | null; resubmit_count: number; documents?: ListingDocumentItem[]; created_at: string; updated_at: string; }
 export interface CreateListingRequest { issuer?: number; bank_name: string; cheque_serial_number: string; face_amount: number | string; due_date: string; issuer_type: IssuerType; issuer_name: string; issuer_national_id: string; description?: string; suggested_discount_rate?: string | null; }

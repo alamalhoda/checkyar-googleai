@@ -56,7 +56,7 @@ src/
 │   ├── notifications/       # User notification center and preference settings
 │   └── profile/             # User profile and account management
 ├── router/                  # Vue Router definitions and navigation guard logic
-├── shared/                  # Shared/reusable UI components (AppHeader, AppSidebar, ConfirmDialog)
+├── shared/                  # Shared/reusable UI components (AppHeader, AppSidebar, ConfirmDialog, BankBadge) and bank catalog (src/shared/banks/)
 ├── stores/                  # Global Pinia stores (auth store, backend simulator store)
 ├── types/                   # TypeScript interfaces, DTO definitions, and API response types
 ├── utils/                   # Helpers (Persian number formatting, date helpers, validation)
@@ -195,4 +195,12 @@ The application supports six distinct themes: `dark` (default), `light`, `warm`,
 - **Tailwind v4 Integration:** Tailwind utility classes map semantic colors to CSS variables (`--color-slate-900: var(--theme-bg)`, `--color-slate-800: var(--theme-surface)`, etc.).
 - **Discrete API Adaptation:** For notifications, dialogs, and messages initialized outside Vue render trees, `src/utils/discreteApi.ts` provides a reactive wrapper that resolves current theme overrides on demand.
 - **ApexCharts Theming:** Managed via `src/features/reports/utils/chartTheming.ts` (`getApexChartThemeConfig`), ensuring chart palettes, grid borders, tooltips, and labels adjust responsively according to the active theme.
+
+---
+
+## 9. Bank Catalog & BankBadge Component
+
+- **Local Bank Catalog (`src/shared/banks/`):** Acts as the frontend Single Source of Truth (SSOT) for 14 standardized Iranian banks (`LOCAL_BANKS` in `src/shared/banks/catalog.ts`), matching backend codes and providing lookup helpers (`findBankByCode`, `findBankByNameOrAlias`, `getBankBrandColor` in `src/shared/banks/lookup.ts`). This serves mock mode and acts as a fallback for live API bank data.
+- **Reusable Bank Badge (`src/shared/components/BankBadge.vue`):** Visual badge supporting catalog banks (logo image or initial letter over theme-aware brand color surface), compact/default sizes, dark/light themes, and unknown bank fallbacks (`BusinessOutline` building icon).
+- **Follow-up Scope:** Wiring the badge into listing cards, detail pages, forms, and simulator payloads will be executed in follow-up integration tasks.
 

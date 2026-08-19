@@ -42,6 +42,8 @@ Current unit test suites in `src/` include:
 - `src/stores/useUiStore.test.ts`: Validates UI store defaults, `isSidebarCollapsed` toggle and explicit setter with `chequeyar_sidebar_collapsed` localStorage persistence, and decoupling from mobile drawer state.
 - `src/shared/utils/breakpoints.test.ts`: Pure helper testing breakpoint constants and desktop `md` (`768px`) evaluation.
 - `src/shared/utils/menuOptions.test.ts`: Pure helper testing menu option group flattening, unnesting children, non-group item preservation, array immutability, and fixture matching for compact sidebar rail.
+- `src/shared/banks/lookup.test.ts`: Validates 14 local catalog bank definitions, stable ascending Persian sorting, exact code lookup with trimming, display name and alias exact lookup (without fuzzy/substring matches), and theme brand color resolution.
+- `src/shared/components/BankBadge.test.ts`: Validates BankBadge component rendering across catalog logo, initial character on theme brand color surface, unknown fallback state with neutral building icon, accessible label without name, and compact size styling.
 - `src/features/reports/utils/chartTheming.test.ts`: ApexCharts dynamic palette, tooltip, and theme adaptation testing.
 
 ---
