@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
 import { banksApi, listingsApi } from './index';
 import { api, setMockMode } from './client';
@@ -10,14 +10,24 @@ describe('banksApi and listingsApi bank payload contract', () => {
     vi.restoreAllMocks();
   });
 
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
   it('banksApi.list returns mock catalog when mock mode is enabled', async () => {
+    vi.stubEnv('VITE_USE_MOCK', 'true');
     setMockMode(true);
+
+    const getSpy = vi.spyOn(api, 'get');
+
     const result = await banksApi.list();
+    expect(getSpy).not.toHaveBeenCalled();
     expect(result.length).toBeGreaterThan(0);
     expect(result.some(b => b.code === 'mellat')).toBe(true);
   });
 
   it('banksApi.list calls GET /banks/ when mock mode is false', async () => {
+    vi.stubEnv('VITE_USE_MOCK', 'false');
     setMockMode(false);
 
     const mockBanks = [
@@ -41,6 +51,7 @@ describe('banksApi and listingsApi bank payload contract', () => {
   });
 
   it('listingsApi.createListing transforms bank_name to bank code and strips bank_name from payload in live mode', async () => {
+    vi.stubEnv('VITE_USE_MOCK', 'false');
     setMockMode(false);
 
     const postSpy = vi.spyOn(api, 'post').mockResolvedValueOnce({
@@ -66,6 +77,7 @@ describe('banksApi and listingsApi bank payload contract', () => {
   });
 
   it('listingsApi.updateListing transforms bank_name to bank code and strips bank_name from payload in live mode', async () => {
+    vi.stubEnv('VITE_USE_MOCK', 'false');
     setMockMode(false);
 
     const patchSpy = vi.spyOn(api, 'patch').mockResolvedValueOnce({
