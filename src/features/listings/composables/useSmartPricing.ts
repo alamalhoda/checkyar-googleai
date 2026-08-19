@@ -86,11 +86,11 @@ export async function fetchSmartPricingSuggestion(params: FetchSmartPricingParam
 
   // 3. Bank Risk Premium
   let bankPremium = 1.0;
-  if (bank.includes('ملی') || bank.includes('ملت')) {
+  if (bank === 'melli' || bank === 'mellat' || bank.includes('ملی') || bank.includes('ملت')) {
     bankPremium = 0.5;
-  } else if (bank.includes('صادرات') || bank.includes('تجارت')) {
+  } else if (bank === 'saderat' || bank === 'tejarat' || bank.includes('صادرات') || bank.includes('تجارت')) {
     bankPremium = 0.8;
-  } else if (bank.includes('پاسارگاد') || bank.includes('سامان')) {
+  } else if (bank === 'pasargad' || bank === 'saman' || bank.includes('پاسارگاد') || bank.includes('سامان')) {
     bankPremium = 1.2;
   } else if (bank) {
     bankPremium = 1.5;

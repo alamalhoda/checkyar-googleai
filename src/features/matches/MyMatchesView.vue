@@ -7,10 +7,11 @@ import {
 } from 'naive-ui';
 import {
   CheckmarkCircleOutline, CloseCircleOutline, BanOutline,
-  CallOutline, MailOutline, PersonOutline, BusinessOutline,
+  CallOutline, MailOutline, PersonOutline,
   CalendarOutline, CashOutline, SwapHorizontalOutline, DocumentTextOutline
 } from '@vicons/ionicons5';
 import ConfirmDialog from '../../shared/components/ConfirmDialog.vue';
+import BankBadge from '../../shared/components/BankBadge.vue';
 import { matchesApi } from '../../api';
 import { useAuthStore } from '../../stores/auth';
 import type { Match, MatchStatus } from '../../types/api';
@@ -205,11 +206,13 @@ const handleDeclineSubmit = async () => {
                 <!-- Card Header -->
                 <div class="flex flex-wrap items-center justify-between border-b border-slate-800 pb-3 mb-4 gap-2">
                   <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 font-black">
-                      <SwapHorizontalOutline class="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h3 class="text-base font-bold text-slate-100">{{ item.listing.bank_name }}</h3>
+                    <BankBadge
+                      :bank="item.listing.bank"
+                      :fallback-name="item.listing.bank_name"
+                      theme="dark"
+                      size="default"
+                    />
+                    <div class="border-r border-slate-700 pr-3 mr-1">
                       <p class="text-xs text-slate-400">شناسه آگهی: #{{ item.listing.id }} | تاریخ ثبت پیشنهاد: {{ new Date(item.created_at).toLocaleDateString('fa-IR') }}</p>
                     </div>
                   </div>
@@ -329,11 +332,13 @@ const handleDeclineSubmit = async () => {
                 <!-- Card Header -->
                 <div class="flex flex-wrap items-center justify-between border-b border-slate-800 pb-3 mb-4 gap-2">
                   <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 font-black">
-                      <CashOutline class="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h3 class="text-base font-bold text-slate-100">{{ item.listing.bank_name }}</h3>
+                    <BankBadge
+                      :bank="item.listing.bank"
+                      :fallback-name="item.listing.bank_name"
+                      theme="dark"
+                      size="default"
+                    />
+                    <div class="border-r border-slate-700 pr-3 mr-1">
                       <p class="text-xs text-slate-400">شناسه آگهی: #{{ item.listing.id }} | تاریخ ارسال پیشنهاد: {{ new Date(item.created_at).toLocaleDateString('fa-IR') }}</p>
                     </div>
                   </div>

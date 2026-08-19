@@ -45,6 +45,7 @@ bun run test:watch
 - `src/shared/banks/lookup.test.ts`: بررسی کاتالوگ ۱۴ بانک محلی، مرتب‌سازی صعودی الفبایی فارسی، جستجوی دقیق بر اساس کد با فاصله‌زدایی، جستجو بر اساس نام نمایشی و نام‌های مستعار (بدون تطابق فازی یا زیررشته)، و استخراج رنگ سازمانی بر اساس تم.
 - `src/shared/banks/useBanksCatalog.test.ts`: اعتبارسنجی کامپوزبل واکنشی کاتالوگ بانک‌ها (`useBanksCatalog`)، بارگذاری همگام اولیه از `LOCAL_BANKS` و دریافت ناهمگام از `GET /api/v1/banks/` با فال‌بک در زمان بروز خطا.
 - `src/shared/components/BankBadge.test.ts`: ارزیابی کامپوننت BankBadge در حالات رندر لوگو، نمایش حرف اول با رنگ سازمانی تم، حالت بانک نامشخص با آیکون خنثی ساختمان، دسترسی‌پذیری و حالت اندازه فشرده.
+- `src/shared/components/BankSelect.test.ts`: ارزیابی کامپوننت BankSelect در رندر گزینه‌های کاتالوگ بانک‌ها، فعال‌سازی گزینه همه بانک‌ها و انتشار رویدادهای `update:value` و `update:modelValue` با کدهای استاندارد کاتالوگ.
 - `src/api/banks.test.ts`: بررسی دریافت لیست بانک‌ها از API و شبیه‌ساز، تبدیل فیلد `bank_name` به کد استاندارد `bank` و حذف `bank_name` از پی‌لودهای خروجی `createListing` و `updateListing`.
 - `src/stores/useBackendSimulatorStore.banks.test.ts`: اعتبارسنجی ثبت کاتالوگ بانک‌ها در شبیه‌ساز، تکمیل خودکار آگهی‌ها با `BankSummary`، اعتبارسنجی کد بانک در ایجاد/ویرایش و تقدم فیلتر کد بانک بر نام بانک در جستجوی بازارچه.
 - `src/features/reports/utils/chartTheming.test.ts`: اعتبارسنجی تنظیمات پویا، پالت رنگ و تولتیپ نمودارهای ApexCharts.

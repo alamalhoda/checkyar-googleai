@@ -5,6 +5,7 @@ import {
   NCard, NDataTable, NButton, NTag, NAlert, NSpin, NSpace, NPagination, useMessage
 } from 'naive-ui';
 import ConfirmDialog from '../../shared/components/ConfirmDialog.vue';
+import BankBadge from '../../shared/components/BankBadge.vue';
 import { listingsApi } from '../../api';
 import { LISTING_STATUS_LABELS, type ChequeListing, type ListingStatus } from '../../types/api';
 
@@ -81,7 +82,12 @@ const columns = [
   {
     title: 'بانک صادرکننده',
     key: 'bank_name',
-    render: (row: ChequeListing) => h('div', { class: 'font-bold text-slate-100' }, row.bank_name)
+    render: (row: ChequeListing) => h(BankBadge, {
+      bank: row.bank,
+      fallbackName: row.bank_name,
+      size: 'compact',
+      theme: 'dark'
+    })
   },
   {
     title: 'مبلغ اسمی (ریال)',

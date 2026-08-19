@@ -6,10 +6,12 @@ import {
   NDataTable, NTag, NSpace, NTabs, NTabPane, type DataTableColumns
 } from 'naive-ui';
 import {
-  FilterOutline, RefreshOutline, GridOutline, ListOutline, BusinessOutline,
+  FilterOutline, RefreshOutline, GridOutline, ListOutline,
   CalendarOutline, TrendingDownOutline, ShieldCheckmarkOutline
 } from '@vicons/ionicons5';
 import ListingCard from '../../shared/components/ListingCard.vue';
+import BankBadge from '../../shared/components/BankBadge.vue';
+import BankSelect from '../../shared/components/BankSelect.vue';
 import LatestListingsWidget from './LatestListingsWidget.vue';
 import { marketplaceApi } from '../../api';
 import type { MarketplaceListing, ListingFilters } from '../../types/api';
@@ -29,23 +31,12 @@ const filters = ref<ListingFilters>({
   ordering: undefined,
   risk_tier: undefined,
   bank_name: undefined,
+  bank: undefined,
   issuer_type: undefined,
   min_amount: undefined,
   max_amount: undefined,
   max_days_to_due: undefined
 });
-
-const bankOptions = [
-  { label: 'همه بانک‌ها', value: '' },
-  { label: 'بانک سامان', value: 'بانک سامان' },
-  { label: 'بانک ملی ایران', value: 'بانک ملی ایران' },
-  { label: 'بانک ملت', value: 'بانک ملت' },
-  { label: 'بانک تجارت', value: 'بانک تجارت' },
-  { label: 'بانک صادرات ایران', value: 'بانک صادرات ایران' },
-  { label: 'بانک پاسارگاد', value: 'بانک پاسارگاد' },
-  { label: 'بانک پارسیان', value: 'بانک پارسیان' },
-  { label: 'بانک سپه', value: 'بانک سپه' }
-];
 
 const riskOptions = [
   { label: 'همه سطوح ریسک', value: '' },
@@ -77,8 +68,13 @@ const columns = computed<DataTableColumns<MarketplaceListing>>(() => {
       title: 'بانک و شناسه',
       key: 'bank_name',
       render(row) {
-        return h('div', { class: 'space-y-0.5' }, [
-          h('div', { class: 'font-bold text-slate-100 flex items-center gap-1' }, row.bank_name),
+        return h('div', { class: 'space-y-1' }, [
+          h(BankBadge, {
+            bank: row.bank,
+            fallbackName: row.bank_name,
+            size: 'compact',
+            theme: 'dark'
+          }),
           h('div', { class: 'text-[11px] text-slate-400 font-mono' }, `صیاد: ${row.cheque_serial_number}`)
         ]);
       }
@@ -165,7 +161,12 @@ const loadListings = async () => {
   loading.value = true;
   try {
     const cleanFilters: ListingFilters = { ...filters.value };
-    if (!cleanFilters.bank_name) delete cleanFilters.bank_name;
+    if (!cleanFilters.bank_name) {
+      delete cleanFilters.bank_name;
+      delete cleanFilters.bank;
+    } else {
+      cleanFilters.bank = cleanFilters.bank_name;
+    }
     if (!cleanFilters.risk_tier) delete cleanFilters.risk_tier;
     if (!cleanFilters.issuer_type) delete cleanFilters.issuer_type;
 
@@ -206,6 +207,7 @@ const handleResetFilters = () => {
     ordering: undefined,
     risk_tier: undefined,
     bank_name: undefined,
+    bank: undefined,
     issuer_type: undefined,
     min_amount: undefined,
     max_amount: undefined,
@@ -246,7 +248,13 @@ const goToExpressInterest = (id: number) => {
             <div class="space-y-4 text-xs">
               <div>
                 <label class="block text-slate-400 mb-1">بانک عامل:</label>
-                <NSelect v-model:value="filters.bank_name" :options="bankOptions" placeholder="همه بانک‌ها" clearable />
+                <BankSelect
+                  v-model:value="filters.bank_name"
+                  allow-all
+                  size="small"
+                  placeholder="همه بانک‌ها"
+                  data-testid="marketplace-filter-bank"
+                />
               </div>
 
               <div v-if="showRiskTier">

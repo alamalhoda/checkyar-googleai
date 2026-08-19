@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { NCard, NForm, NFormItem, NInput, NSelect, NButton, NAlert, NSpin, useMessage } from 'naive-ui';
 import ConfirmDialog from '../../shared/components/ConfirmDialog.vue';
+import BankBadge from '../../shared/components/BankBadge.vue';
 import { matchesApi, marketplaceApi } from '../../api';
 import { useAuthStore } from '../../stores/auth';
 import type { SettlementType, MarketplaceListing } from '../../types/api';
@@ -106,8 +107,14 @@ onMounted(loadListing);
             <NCard class="md:col-span-1 bg-slate-900 border border-slate-800 rounded-2xl h-fit">
               <div class="border-b border-slate-800 pb-3 mb-3">
                 <span class="text-xs text-slate-400">خلاصه آگهی هدف:</span>
-                <h3 class="text-lg font-bold text-slate-100 mt-1">{{ listing.bank_name }}</h3>
-                <p class="text-xs text-slate-400 font-mono">صیاد: {{ listing.cheque_serial_number }}</p>
+                <div class="mt-2">
+                  <BankBadge
+                    :bank="listing.bank"
+                    :fallback-name="listing.bank_name"
+                    theme="dark"
+                  />
+                </div>
+                <p class="text-xs text-slate-400 font-mono mt-1">صیاد: {{ listing.cheque_serial_number }}</p>
               </div>
 
               <div class="space-y-3 text-xs">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, h } from 'vue';
 import {
   NCard,
   NGrid,
@@ -28,6 +28,8 @@ import {
   TrendingUpOutline,
   CheckmarkCircleOutline
 } from '@vicons/ionicons5';
+import BankBadge from '../../../shared/components/BankBadge.vue';
+import { findBankByNameOrAlias } from '../../../shared/banks/lookup';
 import { useReportsStore } from '../stores/reportsStore';
 import GlobalFiltersPanel from '../components/GlobalFiltersPanel.vue';
 import KpiCard from '../components/KpiCard.vue';
@@ -154,7 +156,18 @@ const txColumns = [
 // Table Columns for Upcoming Due Dates
 const dueColumns = [
   { title: 'شماره چک', key: 'checkNumber', width: 110 },
-  { title: 'بانک صادرکننده', key: 'bankName' },
+  {
+    title: 'بانک صادرکننده',
+    key: 'bankName',
+    render(row: any) {
+      return h(BankBadge, {
+        bank: row.bank || findBankByNameOrAlias(row.bankName),
+        fallbackName: row.bankName,
+        size: 'compact',
+        theme: 'dark'
+      });
+    }
+  },
   {
     title: 'مبلغ (ریال)',
     key: 'amount',

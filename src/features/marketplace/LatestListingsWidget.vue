@@ -2,7 +2,8 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { NCard, NTag, NButton, NSpin, NEmpty } from 'naive-ui';
-import { BusinessOutline, CalendarOutline, FlashOutline, ArrowBackOutline } from '@vicons/ionicons5';
+import { CalendarOutline, FlashOutline, ArrowBackOutline } from '@vicons/ionicons5';
+import BankBadge from '../../shared/components/BankBadge.vue';
 import { marketplaceApi } from '../../api';
 import type { MarketplaceListing } from '../../types/api';
 import { useFeatureFlags } from '../../shared/composables/useFeatureFlags';
@@ -65,10 +66,12 @@ const goToDetail = (id: number) => {
           @click="goToDetail(item.id)"
         >
           <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-bold text-slate-200 flex items-center gap-1">
-              <BusinessOutline class="w-3.5 h-3.5 text-indigo-400" />
-              {{ item.bank_name }}
-            </span>
+            <BankBadge
+              :bank="item.bank"
+              :fallback-name="item.bank_name"
+              size="compact"
+              theme="dark"
+            />
             <NTag v-if="showRiskTier" size="small" :type="item.risk_tier === 'low' ? 'success' : item.risk_tier === 'medium' ? 'warning' : 'error'" round class="text-[10px]">
               {{ item.risk_tier === 'low' ? 'کم‌ریسک' : item.risk_tier === 'medium' ? 'متوسط' : 'پرریسک' }}
             </NTag>

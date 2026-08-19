@@ -7,13 +7,21 @@
           <h1 class="text-xl font-bold text-slate-100">گفتگو و تنظیم شرایط معامله</h1>
           <NTag type="info" round size="small">کد معامله #{{ matchId }}</NTag>
         </div>
-        <p v-if="matchStore.currentMatch" class="text-xs text-slate-400 flex items-center gap-3">
+        <div v-if="matchStore.currentMatch" class="text-xs text-slate-400 flex flex-wrap items-center gap-3 mt-1">
           <span>طرف معامله: <strong class="text-slate-100">{{ matchStore.currentMatch.counterpartyName }}</strong></span>
           <span>•</span>
-          <span>بانک: <strong class="text-slate-100">{{ matchStore.currentMatch.listingBank }}</strong></span>
+          <span class="inline-flex items-center gap-1.5">
+            <span>بانک:</span>
+            <BankBadge
+              :bank="matchStore.currentMatch.bank"
+              :fallback-name="matchStore.currentMatch.listingBank"
+              size="compact"
+              theme="dark"
+            />
+          </span>
           <span>•</span>
           <span>مبلغ اسمی چک: <strong class="text-emerald-400">{{ matchStore.currentMatch.listingOriginalAmount.toLocaleString('fa-IR') }} تومان</strong></span>
-        </p>
+        </div>
       </div>
 
       <!-- Power User Switcher -->
@@ -82,6 +90,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { NCard, NSwitch, NButton, NModal, NSpin, NTag } from 'naive-ui';
+import BankBadge from '../../../shared/components/BankBadge.vue';
 import { useMatchesStore, type ProposalItem } from '../stores/matchesStore';
 import { useUiStore } from '../../../stores/useUiStore';
 import ProposalTimeline from '../components/ProposalTimeline.vue';

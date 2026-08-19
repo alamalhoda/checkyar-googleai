@@ -124,12 +124,10 @@
 
             <!-- Bank Selection -->
             <NFormItem label="بانک صادرکننده" required>
-              <NSelect
+              <BankSelect
                 v-model:value="form.formData.bank"
-                :options="bankOptions"
                 placeholder="انتخاب بانک صادرکننده"
                 size="large"
-                filterable
               />
             </NFormItem>
           </div>
@@ -421,9 +419,17 @@
                 <span class="text-slate-400">کد/شناسه ملی صادرکننده:</span>
                 <span class="font-mono text-slate-200">{{ form.formData.issuerNationalId }}</span>
               </div>
-              <div class="flex justify-between border-b border-slate-800/60 pb-1.5">
+              <div class="flex justify-between border-b border-slate-800/60 pb-1.5 items-center">
                 <span class="text-slate-400">بانک صادرکننده:</span>
-                <span class="text-slate-100">{{ form.formData.bank }} - {{ form.formData.city }}</span>
+                <div class="flex items-center gap-2">
+                  <BankBadge
+                    :bank="findBankByCode(form.formData.bank) || findBankByNameOrAlias(form.formData.bank)"
+                    :fallback-name="form.formData.bank"
+                    size="compact"
+                    theme="dark"
+                  />
+                  <span v-if="form.formData.city" class="text-slate-400 text-xs">({{ form.formData.city }})</span>
+                </div>
               </div>
             </div>
 
@@ -537,9 +543,9 @@
           </NFormItem>
 
           <NFormItem label="بانک صادرکننده" required>
-            <NSelect
+            <BankSelect
               v-model:value="form.formData.bank"
-              :options="bankOptions"
+              placeholder="انتخاب بانک صادرکننده"
               size="large"
             />
           </NFormItem>
@@ -695,6 +701,9 @@ import {
 } from 'naive-ui';
 import { useListingForm } from '../composables/useListingForm';
 import SmartPricingCalculator from '../components/SmartPricingCalculator.vue';
+import BankSelect from '../../../shared/components/BankSelect.vue';
+import BankBadge from '../../../shared/components/BankBadge.vue';
+import { findBankByCode, findBankByNameOrAlias } from '../../../shared/banks/lookup';
 import { amountToPersianWords } from '../../../utils/persianUtils';
 
 const router = useRouter();
@@ -705,19 +714,6 @@ const form = useListingForm();
 
 const frontInputRef = ref<HTMLInputElement | null>(null);
 const backInputRef = ref<HTMLInputElement | null>(null);
-
-const bankOptions = [
-  { label: 'بانک ملی ایران', value: 'بانک ملی' },
-  { label: 'بانک ملت', value: 'بانک ملت' },
-  { label: 'بانک صادرات ایران', value: 'بانک صادرات' },
-  { label: 'بانک پاسارگاد', value: 'بانک پاسارگاد' },
-  { label: 'بانک تجارت', value: 'بانک تجارت' },
-  { label: 'بانک سامان', value: 'بانک سامان' },
-  { label: 'بانک پارسیان', value: 'بانک پارسیان' },
-  { label: 'بانک سپه', value: 'بانک سپه' },
-  { label: 'بانک مسکن', value: 'بانک مسکن' },
-  { label: 'بانک شهر', value: 'بانک شهر' }
-];
 
 const settlementOptions = [
   { label: 'پرداخت امن و امانی (Escrow)', value: 'escrow' },
@@ -750,7 +746,7 @@ function fillSampleData() {
   form.formData.serialNumber = '7890123456789012';
   form.formData.amount = 150000000;
   form.formData.dueDate = Date.now() + 45 * 24 * 60 * 60 * 1000; // 45 days from now
-  form.formData.bank = 'بانک ملت';
+  form.formData.bank = 'mellat';
   form.formData.issuerType = 'natural';
   form.formData.issuerName = 'محمد رضایی';
   form.formData.issuerNationalId = '0078912345';

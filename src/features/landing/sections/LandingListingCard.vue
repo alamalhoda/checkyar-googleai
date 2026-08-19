@@ -7,6 +7,7 @@ import { landingContent } from '../content/landingContent';
 import { toPersianDigits, formatTomanFromRial, formatJalaliDate } from '../../../utils/persianUtils';
 import { getLandingListingTarget } from '../utils/landingListingUtils';
 import { maskDisplayName } from '../utils/maskDisplayName';
+import BankBadge from '../../../shared/components/BankBadge.vue';
 
 const props = defineProps<{
   listing: MarketplaceListing;
@@ -69,9 +70,13 @@ function handleActivate() {
     <!-- Card Header: Bank & Status / Risk Badges -->
     <div>
       <div class="flex items-center justify-between gap-2 mb-3.5">
-        <span class="font-bold text-[var(--theme-text-primary)] text-base truncate">
-          {{ listing.bank_name }}
-        </span>
+        <BankBadge
+          :bank="listing.bank"
+          :fallback-name="listing.bank_name"
+          theme="dark"
+          size="compact"
+          class="truncate"
+        />
         <div class="flex items-center gap-1.5 shrink-0">
           <span
             v-if="statusLabel"

@@ -14,6 +14,7 @@ import {
   NSpace
 } from 'naive-ui';
 import { FilterOutline, RefreshOutline, FlashOutline } from '@vicons/ionicons5';
+import BankSelect from '../../../shared/components/BankSelect.vue';
 import { useReportsStore } from '../stores/reportsStore';
 import type { DateBucket } from '../types/reports.types';
 
@@ -42,15 +43,6 @@ const provinceOptions = [
   { label: 'خراسان رضوی', value: 'خراسان رضوی' },
   { label: 'فارس', value: 'فارس' },
   { label: 'آذربایجان شرقی', value: 'آذربایجان شرقی' }
-];
-
-const bankOptions = [
-  { label: 'همه بانک‌ها', value: '' },
-  { label: 'بانک ملت', value: 'بانک ملت' },
-  { label: 'بانک صادرات', value: 'بانک صادرات' },
-  { label: 'بانک پاسارگاد', value: 'بانک پاسارگاد' },
-  { label: 'بانک تجارت', value: 'بانک تجارت' },
-  { label: 'بانک ملی', value: 'بانک ملی' }
 ];
 
 const handleBucketChange = (val: DateBucket) => {
@@ -169,10 +161,11 @@ const resetFilters = () => {
       <NGridItem>
         <div class="flex flex-col gap-1">
           <label class="text-[11px] font-semibold text-slate-400">بانک صادرکننده</label>
-          <NSelect
+          <BankSelect
             :value="store.filters.bank || ''"
-            :options="bankOptions"
+            allow-all
             size="small"
+            placeholder="همه بانک‌ها"
             @update:value="handleBankChange"
           />
         </div>

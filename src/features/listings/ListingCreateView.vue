@@ -8,7 +8,9 @@ import {
 } from 'naive-ui';
 import { listingsApi } from '../../api';
 import type { IssuerType } from '../../types/api';
-import { findBankByNameOrAlias } from '../../shared/banks/lookup';
+import { findBankByCode, findBankByNameOrAlias } from '../../shared/banks/lookup';
+import BankSelect from '../../shared/components/BankSelect.vue';
+import BankBadge from '../../shared/components/BankBadge.vue';
 
 const router = useRouter();
 const message = useMessage();
@@ -23,7 +25,7 @@ const issuerName = ref('');
 const issuerNationalId = ref('');
 
 // Step 2: Cheque & Facility Details
-const bankName = ref('بانک سامان');
+const bankCode = ref('saman');
 const chequeSerialNumber = ref('');
 const faceAmount = ref<number | null>(500000000);
 const dueDateTimestamp = ref<number | null>(Date.now() + 30 * 24 * 3600 * 1000);
@@ -32,18 +34,6 @@ const suggestedDiscountRate = ref('2.5');
 
 // Step 3: Documents
 const uploadedFiles = ref<any[]>([]);
-
-const bankOptions = [
-  { label: 'بانک سامان', value: 'بانک سامان' },
-  { label: 'بانک ملی ایران', value: 'بانک ملی ایران' },
-  { label: 'بانک ملت', value: 'بانک ملت' },
-  { label: 'بانک تجارت', value: 'بانک تجارت' },
-  { label: 'بانک صادرات ایران', value: 'بانک صادرات ایران' },
-  { label: 'بانک پاسارگاد', value: 'بانک پاسارگاد' },
-  { label: 'بانک پارسیان', value: 'بانک پارسیان' },
-  { label: 'بانک آینده', value: 'بانک آینده' },
-  { label: 'بانک سپه', value: 'بانک سپه' }
-];
 
 const issuerTypeOptions = [
   { label: 'شخص حقوقی (شرکت / سازمان)', value: 'legal' },
@@ -114,14 +104,14 @@ const handleSubmit = async () => {
 
   try {
     const formattedDueDate = new Date(dueDateTimestamp.value!).toISOString().split('T')[0];
-    const matchedBank = findBankByNameOrAlias(bankName.value);
-    const bankCode = matchedBank?.code || bankName.value.trim();
+    const resolvedBank = findBankByCode(bankCode.value) || findBankByNameOrAlias(bankCode.value);
+    const finalBankCode = resolvedBank?.code || bankCode.value.trim();
 
     const created = await listingsApi.createListing({
       issuer_type: issuerType.value,
       issuer_name: issuerName.value,
       issuer_national_id: issuerNationalId.value,
-      bank: bankCode,
+      bank: finalBankCode,
       cheque_serial_number: chequeSerialNumber.value.trim(),
       face_amount: String(faceAmount.value),
       due_date: formattedDueDate,
@@ -200,7 +190,7 @@ const handleSubmit = async () => {
             <NForm label-placement="top" class="space-y-4">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <NFormItem label="بانک صادرکننده">
-                  <NSelect v-model:value="bankName" :options="bankOptions" size="large" />
+                  <BankSelect v-model:value="bankCode" size="large" />
                 </NFormItem>
 
                 <NFormItem label="شماره صیادی ۱۶ رقمی چک">
@@ -269,7 +259,7 @@ const handleSubmit = async () => {
               <div class="font-bold text-emerald-400 mb-2">خلاصه مشخصات آگهی:</div>
               <div class="grid grid-cols-2 gap-2">
                 <div><span class="text-slate-400">صادرکننده:</span> {{ issuerName }} ({{ issuerNationalId }})</div>
-                <div><span class="text-slate-400">بانک:</span> {{ bankName }}</div>
+                <div class="flex items-center gap-1.5"><span class="text-slate-400">بانک:</span> <BankBadge :bank="findBankByCode(bankCode) || findBankByNameOrAlias(bankCode)" size="compact" theme="dark" /></div>
                 <div><span class="text-slate-400">شماره صیادی:</span> {{ chequeSerialNumber }}</div>
                 <div><span class="text-slate-400">مبلغ:</span> {{ Number(faceAmount).toLocaleString('fa-IR') }} ریال</div>
                 <div><span class="text-slate-400">تاریخ سررسید:</span> {{ dueDateTimestamp ? new Date(dueDateTimestamp).toLocaleDateString('fa-IR') : '' }}</div>

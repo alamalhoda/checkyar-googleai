@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { moderationApi, listingsApi, isMock, type ModerationQueueItem, type Verification, type ModerationDecisionRequest } from '../../../api';
+import { moderationApi, listingsApi, isMock, type ModerationQueueItem, type Verification, type ModerationDecisionRequest, type BankSummary } from '../../../api';
+import { findBankByNameOrAlias } from '../../../shared/banks/lookup';
 import { message } from '../../../utils/discreteApi';
 
 export interface ReviewItemDetails {
@@ -10,6 +11,7 @@ export interface ReviewItemDetails {
   amount: number;
   dueDate: string;
   bank: string;
+  bankObject?: BankSummary | null;
   city: string;
   riskScore: number;
   riskLevel: 'low' | 'medium' | 'high';
@@ -76,6 +78,7 @@ export const useModerationStore = defineStore('moderation', () => {
           amount: Number(listing.face_amount) || 0,
           dueDate: listing.due_date ? new Date(listing.due_date).toLocaleDateString('fa-IR') : '۱۴۰۳/۰۸/۱۵',
           bank: listing.bank_name || 'بانک مبدا',
+          bankObject: listing.bank || findBankByNameOrAlias(listing.bank_name || ''),
           city: 'تهران',
           riskScore: listing.risk_tier === 'high' ? 40 : listing.risk_tier === 'medium' ? 65 : 85,
           riskLevel: listing.risk_tier || 'low',
@@ -100,6 +103,7 @@ export const useModerationStore = defineStore('moderation', () => {
         amount: 250000000,
         dueDate: '1403/08/15',
         bank: 'بانک پاسارگاد',
+        bankObject: findBankByNameOrAlias('بانک پاسارگاد'),
         city: 'تهران',
         riskScore: 82,
         riskLevel: 'low',

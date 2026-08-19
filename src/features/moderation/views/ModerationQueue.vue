@@ -49,8 +49,13 @@
               >
                 <td class="p-3 font-mono font-bold text-slate-300">#{{ item.id }}</td>
                 <td class="p-3">
-                  <div class="font-mono text-slate-100">{{ item.cheque_serial_number || '1234567890123456' }}</div>
-                  <div class="text-slate-400 text-[11px]">{{ item.bank_name || 'بانک ملت' }}</div>
+                  <div class="font-mono text-slate-100 mb-1">{{ item.cheque_serial_number || '1234567890123456' }}</div>
+                  <BankBadge
+                    :bank="item.bank"
+                    :fallback-name="item.bank_name || 'بانک ملت'"
+                    size="compact"
+                    theme="dark"
+                  />
                 </td>
                 <td class="p-3 font-bold text-emerald-400">{{ Number(item.face_amount || 0).toLocaleString('fa-IR') }}</td>
                 <td class="p-3 text-amber-300 font-mono">۱۵ دقیقه</td>
@@ -82,6 +87,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { NCard, NBadge, NSelect, NButton, NTag, NSpin } from 'naive-ui';
+import BankBadge from '../../../shared/components/BankBadge.vue';
 import { useModerationStore } from '../stores/moderationStore';
 
 const router = useRouter();

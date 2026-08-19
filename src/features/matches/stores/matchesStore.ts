@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, reactive } from 'vue';
 import { matchesApi, type Match } from '../../../api';
+import type { BankSummary } from '../../../types/api';
 import { message } from '../../../utils/discreteApi';
 
 export interface ProposalItem {
@@ -20,6 +21,7 @@ export interface MatchDetailsData {
   listingId: number;
   listingSerial: string;
   listingBank: string;
+  bank?: BankSummary | null;
   listingOriginalAmount: number;
   counterpartyName: string;
   counterpartyPhone: string;
@@ -52,6 +54,7 @@ export const useMatchesStore = defineStore('matches', () => {
         listingId: res?.listing?.id || 1,
         listingSerial: '1234567890123456',
         listingBank: res?.listing?.bank_name || 'بانک ملت',
+        bank: res?.listing?.bank || null,
         listingOriginalAmount: res?.listing?.face_amount ? Number(res.listing.face_amount) : 100000000,
         counterpartyName: counterparty?.name || 'علی رضایی',
         counterpartyPhone: counterparty?.phone || '09123456789',

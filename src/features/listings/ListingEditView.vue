@@ -6,9 +6,10 @@ import {
   NButton, NAlert, NSpin, useMessage
 } from 'naive-ui';
 import ConfirmDialog from '../../shared/components/ConfirmDialog.vue';
+import BankSelect from '../../shared/components/BankSelect.vue';
 import { listingsApi } from '../../api';
 import type { ChequeListing, IssuerType } from '../../types/api';
-import { findBankByNameOrAlias } from '../../shared/banks/lookup';
+import { findBankByCode, findBankByNameOrAlias } from '../../shared/banks/lookup';
 
 const route = useRoute();
 const router = useRouter();
@@ -23,7 +24,7 @@ const errorMsg = ref('');
 const showConfirmModal = ref(false);
 
 // Form fields
-const bankName = ref('بانک سامان');
+const bankCode = ref('saman');
 const chequeSerialNumber = ref('');
 const faceAmount = ref<number | null>(0);
 const dueDateTimestamp = ref<number | null>(Date.now());
@@ -32,18 +33,6 @@ const issuerName = ref('');
 const issuerNationalId = ref('');
 const description = ref('');
 const suggestedDiscountRate = ref('2.5');
-
-const bankOptions = [
-  { label: 'بانک سامان', value: 'بانک سامان' },
-  { label: 'بانک ملی ایران', value: 'بانک ملی ایران' },
-  { label: 'بانک ملت', value: 'بانک ملت' },
-  { label: 'بانک تجارت', value: 'بانک تجارت' },
-  { label: 'بانک صادرات ایران', value: 'بانک صادرات ایران' },
-  { label: 'بانک پاسارگاد', value: 'بانک پاسارگاد' },
-  { label: 'بانک پارسیان', value: 'بانک پارسیان' },
-  { label: 'بانک آینده', value: 'بانک آینده' },
-  { label: 'بانک سپه', value: 'بانک سپه' }
-];
 
 const issuerTypeOptions = [
   { label: 'شخص حقوقی (شرکت / سازمان)', value: 'legal' },
@@ -63,7 +52,7 @@ const loadListing = async () => {
       return;
     }
 
-    bankName.value = res.bank_name;
+    bankCode.value = res.bank?.code || findBankByNameOrAlias(res.bank_name)?.code || res.bank_name;
     chequeSerialNumber.value = res.cheque_serial_number;
     faceAmount.value = Number(res.face_amount);
     dueDateTimestamp.value = new Date(res.due_date).getTime();
@@ -104,11 +93,11 @@ const handleSave = async () => {
       ? new Date(dueDateTimestamp.value).toISOString().split('T')[0]
       : undefined;
 
-    const matchedBank = findBankByNameOrAlias(bankName.value);
-    const bankCode = matchedBank?.code || bankName.value.trim();
+    const resolvedBank = findBankByCode(bankCode.value) || findBankByNameOrAlias(bankCode.value);
+    const finalBankCode = resolvedBank?.code || bankCode.value.trim();
 
     await listingsApi.updateListing(listingId.value, {
-      bank: bankCode,
+      bank: finalBankCode,
       cheque_serial_number: chequeSerialNumber.value,
       face_amount: faceAmount.value || 0,
       due_date: formattedDueDate,
@@ -172,7 +161,7 @@ onMounted(loadListing);
               </NFormItem>
 
               <NFormItem label="بانک صادرکننده">
-                <NSelect v-model:value="bankName" :options="bankOptions" />
+                <BankSelect v-model:value="bankCode" />
               </NFormItem>
             </div>
 

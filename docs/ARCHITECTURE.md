@@ -212,5 +212,12 @@ The application supports six distinct themes: `dark` (default), `light`, `warm`,
   - Enforces valid bank code verification upon `createListing` and `updateListing`.
   - Filters marketplace listings with precedence for `filters.bank` (exact code) over `filters.bank_name` (partial name/alias).
 - **Reusable Bank Badge (`src/shared/components/BankBadge.vue`):** Visual badge supporting catalog banks (logo image or initial letter over theme-aware brand color surface), compact/default sizes, dark/light themes, and unknown bank fallbacks with initial and building icon.
-- **Follow-up Scope:** Wiring the badge into listing cards, detail pages, and filters will be executed in follow-up integration tasks.
+- **Reusable Bank Select (`src/shared/components/BankSelect.vue`):** Standard selection component backed by `useBanksCatalog` that sends catalog codes (e.g. `mellat`), supports an optional `allow-all` filter option, and renders options with `BankBadge`.
+- **Wired Surfaces:**
+  - **Marketplace & Filters:** `MarketplaceView.vue` and `ListingCard.vue` render `BankBadge` and filter with `BankSelect`.
+  - **Listing Lifecycle:** `ListingCreateWizard.vue`, `ListingCreateView.vue`, `ListingEditView.vue`, `ListingDetailView.vue`, `MyListingsView.vue`, and `SmartPricingCalculator.vue` use `BankSelect` for bank selection and `BankBadge` for display.
+  - **Matches & Settlements:** `ExpressInterestView.vue`, `TradeDetails.vue`, and `MyMatchesView.vue` render `BankBadge` for listing and match bank summaries.
+  - **Moderation:** `ModerationQueueView.vue`, `ModerationQueue.vue`, and `ModerationReview.vue` (both simple and advanced inspection modes) render `BankBadge`.
+  - **Reports & Public Landing:** `GlobalFiltersPanel.vue` (reports filter), `UserReportsDashboard.vue` (due dates table), and `LandingListingCard.vue` (landing live listings) render `BankBadge` and utilize `BankSelect`.
+  - *Note:* `MyAccountView.vue` (destination payout account bank) is reserved for dedicated payout bank integration.
 

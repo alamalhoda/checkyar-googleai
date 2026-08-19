@@ -10,6 +10,7 @@ import {
   ShieldCheckmarkOutline, RefreshOutline
 } from '@vicons/ionicons5';
 import ConfirmDialog from '../../shared/components/ConfirmDialog.vue';
+import BankBadge from '../../shared/components/BankBadge.vue';
 import { moderationApi } from '../../api';
 import type { ModerationQueueItem, RejectionCode } from '../../types/api';
 import { REJECTION_CODE_LABELS } from '../../types/api';
@@ -154,8 +155,13 @@ const columns: DataTableColumns<ModerationQueueItem> = [
   {
     title: 'بانک صادرکننده',
     key: 'bank_name',
-    width: 130,
-    render: (row) => h('span', { class: 'font-bold text-slate-100' }, row.bank_name)
+    width: 140,
+    render: (row) => h(BankBadge, {
+      bank: row.bank,
+      fallbackName: row.bank_name,
+      theme: 'dark',
+      size: 'compact'
+    })
   },
   {
     title: 'مبلغ اسمی (تومان)',
@@ -260,7 +266,7 @@ const columns: DataTableColumns<ModerationQueueItem> = [
     >
       <div v-if="selectedDetailItem" class="space-y-4 text-xs">
         <div class="grid grid-cols-2 gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
-          <div><span class="text-slate-400">بانک:</span> <strong class="text-slate-200">{{ selectedDetailItem.bank_name }}</strong></div>
+          <div class="flex items-center gap-1.5"><span class="text-slate-400">بانک:</span> <BankBadge :bank="selectedDetailItem.bank" :fallback-name="selectedDetailItem.bank_name" size="compact" theme="dark" /></div>
           <div><span class="text-slate-400">سریال چک:</span> <strong class="font-mono text-slate-200">{{ selectedDetailItem.cheque_serial_number }}</strong></div>
           <div><span class="text-slate-400">مبلغ اسمی:</span> <strong class="text-emerald-400 font-mono">{{ formatTomans(selectedDetailItem.face_amount) }} تومان</strong></div>
           <div><span class="text-slate-400">سررسید:</span> <strong class="text-slate-200">{{ selectedDetailItem.due_date }}</strong></div>

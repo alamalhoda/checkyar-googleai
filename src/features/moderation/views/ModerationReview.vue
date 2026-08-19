@@ -40,7 +40,15 @@
               </div>
               <div>
                 <span class="text-slate-500">بانک صادرکننده:</span>
-                <div class="text-slate-100">{{ store.currentReviewItem.bank }} ({{ store.currentReviewItem.city }})</div>
+                <div class="mt-1 flex items-center gap-1.5">
+                  <BankBadge
+                    :bank="store.currentReviewItem.bankObject"
+                    :fallback-name="store.currentReviewItem.bank"
+                    size="compact"
+                    theme="dark"
+                  />
+                  <span v-if="store.currentReviewItem.city" class="text-slate-400 text-xs">({{ store.currentReviewItem.city }})</span>
+                </div>
               </div>
               <div>
                 <span class="text-slate-500">تاریخ سررسید:</span>
@@ -89,9 +97,14 @@
                   <span class="text-slate-500">مبلغ:</span>
                   <span class="text-emerald-400 font-bold">{{ store.currentReviewItem.amount.toLocaleString('fa-IR') }} تومان</span>
                 </div>
-                <div class="flex justify-between">
+                <div class="flex justify-between items-center">
                   <span class="text-slate-500">بانک:</span>
-                  <span class="text-slate-100">{{ store.currentReviewItem.bank }}</span>
+                  <BankBadge
+                    :bank="store.currentReviewItem.bankObject"
+                    :fallback-name="store.currentReviewItem.bank"
+                    size="compact"
+                    theme="dark"
+                  />
                 </div>
               </div>
 
@@ -193,6 +206,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { NCard, NSwitch, NFormItem, NSelect, NInput, NButton, NSpin, NTag, useMessage } from 'naive-ui';
+import BankBadge from '../../../shared/components/BankBadge.vue';
 import { useModerationStore } from '../stores/moderationStore';
 import { useUiStore } from '../../../stores/useUiStore';
 import { REJECTION_CODE_LABELS, type RejectionCode } from '../../../types/api';

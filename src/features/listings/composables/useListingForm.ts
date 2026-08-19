@@ -3,7 +3,7 @@ import { useUiStore } from '../../../stores/useUiStore';
 import { message } from '../../../utils/discreteApi';
 import { listingsApi } from '../../../api';
 import { validateSayadId, validateNationalId, toEnglishDigits } from '../../../utils/persianUtils';
-import { findBankByNameOrAlias } from '../../../shared/banks/lookup';
+import { findBankByNameOrAlias, findBankByCode } from '../../../shared/banks/lookup';
 
 function toBlobOrFile(data: string, defaultName: string): Blob {
   if (data.startsWith('data:')) {
@@ -186,7 +186,7 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
       const cleanSayad = toEnglishDigits(formData.serialNumber).trim();
       const cleanNationalId = toEnglishDigits(formData.issuerNationalId).trim();
 
-      const matchedBank = findBankByNameOrAlias(formData.bank);
+      const matchedBank = findBankByCode(formData.bank) || findBankByNameOrAlias(formData.bank);
       const bankCode = matchedBank?.code || formData.bank.trim();
 
       const newListing = await listingsApi.createListing({

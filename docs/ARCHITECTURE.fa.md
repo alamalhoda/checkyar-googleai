@@ -211,6 +211,13 @@ src/
   - اعتبارسنجی کد بانک هنگام ایجاد یا ویرایش آگهی (`createListing` و `updateListing`).
   - تقدم فیلتر کد بانک (`filters.bank`) بر فیلتر متنی نام بانک (`filters.bank_name`) در جستجوی بازارچه.
 - **نشان بانک (`src/shared/components/BankBadge.vue`):** کامپوننت اشتراکی نمایش نماد بانک برای بانک‌های کاتالوگ (تصویر لوگو یا حرف اول روی سطح رنگ سازمانی متناسب با تم تاریک/روشن)، اندازه‌های استاندارد و فشرده، و وضعیت بانک نامشخص (با حرف اول نام و آیکون ساختمان).
-- **دامنه تغییرات آتی:** جایگزینی آیکون‌های کارت‌های آگهی و فرم‌های ثبت با نشان و سلکتور بانک در مراحل بعدی پیاده‌سازی خواهد شد.
+- **انتخابگر بانک (`src/shared/components/BankSelect.vue`):** کامپوننت استاندارد انتخاب بانک مبتنی بر `useBanksCatalog` که کدهای استاندارد کاتالوگ (مانند `mellat`) را ارسال نموده و از گزینه همه بانک‌ها و نمایش با `BankBadge` پشتیبانی می‌کند.
+- **بخش‌های یکپارچه‌شده:**
+  - **بازارچه و فیلترها:** در `MarketplaceView.vue` و `ListingCard.vue` جهت فیلتر و نمایش کارت‌های آگهی.
+  - **چرخه حیات آگهی:** در `ListingCreateWizard.vue`، `ListingCreateView.vue`، `ListingEditView.vue`، `ListingDetailView.vue`، `MyListingsView.vue` و `SmartPricingCalculator.vue` جهت انتخاب بانک و نمایش مشخصات.
+  - **مطابقت‌ها و تسویه:** در `ExpressInterestView.vue`، `TradeDetails.vue` و `MyMatchesView.vue` جهت نمایش هویت بانک چک در مطابقت‌ها.
+  - **نظارت و ارزیابی:** در `ModerationQueueView.vue`، `ModerationQueue.vue` و `ModerationReview.vue` (در هر دو حالت بررسی ساده و پیشرفته).
+  - **گزارش‌ها و لندینگ عمومی:** در `GlobalFiltersPanel.vue` (فیلتر گزارشات)، `UserReportsDashboard.vue` (جدول سررسیدها) و `LandingListingCard.vue` (کارت‌های آگهی زنده در صفحه لندینگ).
+  - *تذکر:* صفحه `MyAccountView.vue` (حساب بانکی مقصد تسویه) به فاز اختصاصی حساب تسویه واگذار شده است.
 
 

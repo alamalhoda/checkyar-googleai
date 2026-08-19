@@ -72,8 +72,11 @@
       <div class="bg-slate-800/60 p-3.5 rounded-xl border border-slate-700/60 text-xs leading-relaxed space-y-1 text-slate-300">
         <div class="flex items-start gap-2">
           <span class="text-amber-400 mt-0.5">💬</span>
-          <div>
-            بر اساس شرایط فعلی بازار و بانک <strong class="text-slate-100">{{ bankId || 'نامشخص' }}</strong>، نرخ پیشنهادی الگوریتم <strong class="text-amber-300 font-mono">{{ suggestedDiscountRate }}٪ سالانه</strong> (معادل مبلغ خالص <strong class="text-emerald-400 font-mono">{{ suggestedNetPrice.toLocaleString('fa-IR') }} تومان</strong>) می‌باشد.
+          <div class="flex items-center flex-wrap gap-1.5">
+            <span>بر اساس شرایط فعلی بازار و</span>
+            <BankBadge v-if="currentBank" :bank="currentBank" size="compact" theme="dark" />
+            <strong v-else class="text-slate-100">{{ bankId || 'بانک نامشخص' }}</strong>
+            <span>، نرخ پیشنهادی الگوریتم <strong class="text-amber-300 font-mono">{{ suggestedDiscountRate }}٪ سالانه</strong> (معادل مبلغ خالص <strong class="text-emerald-400 font-mono">{{ suggestedNetPrice.toLocaleString('fa-IR') }} تومان</strong>) می‌باشد.</span>
           </div>
         </div>
         <div class="flex items-center gap-2 pt-1.5 border-t border-slate-700/40 text-slate-400">
@@ -179,6 +182,8 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue';
 import { NTag, NSlider, NButton, NSpin, NTooltip } from 'naive-ui';
+import BankBadge from '../../../shared/components/BankBadge.vue';
+import { findBankByCode, findBankByNameOrAlias } from '../../../shared/banks/lookup';
 import {
   useSmartPricing,
   calculateNetPrice,
@@ -221,6 +226,11 @@ const {
   daysToDue,
   loadPricingSuggestion,
 } = useSmartPricing();
+
+const currentBank = computed(() => {
+  if (!props.bankId) return null;
+  return findBankByCode(props.bankId) || findBankByNameOrAlias(props.bankId);
+});
 
 const userSelectedRate = ref<number>(props.initialDiscountRate ?? 25.0);
 const showBreakdown = ref<boolean>(false);

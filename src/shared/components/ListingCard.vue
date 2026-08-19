@@ -6,9 +6,9 @@ import {
   ShieldCheckmarkOutline,
   AlertCircleOutline,
   TrendingDownOutline,
-  BusinessOutline,
   PersonOutline
 } from '@vicons/ionicons5';
+import BankBadge from './BankBadge.vue';
 import type { MarketplaceListing, ChequeListing, ListingStatus } from '../../types/api';
 import { LISTING_STATUS_LABELS } from '../../types/api';
 import { useFeatureFlags } from '../composables/useFeatureFlags';
@@ -76,14 +76,13 @@ const maskedIssuerId = computed(() => {
   >
     <!-- Header: Bank & Status / Risk -->
     <div class="flex items-start justify-between border-b border-slate-800 pb-3 mb-3">
-      <div class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-          <BusinessOutline class="w-5 h-5" />
-        </div>
-        <div>
-          <h3 class="text-sm font-bold text-slate-100">{{ props.listing.bank_name }}</h3>
-          <p class="text-[11px] text-slate-400 font-mono mt-0.5">سریال صیادی: {{ props.listing.cheque_serial_number }}</p>
-        </div>
+      <div class="flex flex-col">
+        <BankBadge
+          :bank="props.listing.bank"
+          :fallback-name="props.listing.bank_name"
+          theme="dark"
+        />
+        <p class="text-[11px] text-slate-400 font-mono mt-1 mr-1">سریال صیادی: {{ props.listing.cheque_serial_number }}</p>
       </div>
 
       <div class="flex flex-col items-end gap-1">

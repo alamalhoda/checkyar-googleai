@@ -5,6 +5,7 @@ import {
   NCard, NTag, NButton, NSpin, NAlert, NDescriptions, NDescriptionsItem, NDivider, useMessage
 } from 'naive-ui';
 import ConfirmDialog from '../../shared/components/ConfirmDialog.vue';
+import BankBadge from '../../shared/components/BankBadge.vue';
 import { listingsApi, complianceApi } from '../../api';
 import { useAuthStore } from '../../stores/auth';
 import { LISTING_STATUS_LABELS, type ChequeListing, type ListingStatus } from '../../types/api';
@@ -144,7 +145,11 @@ onMounted(loadListingDetail);
             <NCard class="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl">
               <template #header>
                 <div class="flex items-center justify-between">
-                  <span class="font-bold text-slate-100 text-lg">{{ listing.bank_name }}</span>
+                  <BankBadge
+                    :bank="listing.bank"
+                    :fallback-name="listing.bank_name"
+                    theme="dark"
+                  />
                   <span class="text-emerald-400 font-extrabold text-xl">
                     {{ Number(listing.face_amount).toLocaleString('fa-IR') }} ریال
                   </span>
