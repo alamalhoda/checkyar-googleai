@@ -5,12 +5,16 @@ import {
   NDescriptions, NDescriptionsItem, useMessage
 } from 'naive-ui';
 import ConfirmDialog from '../../shared/components/ConfirmDialog.vue';
+import BankSelect from '../../shared/components/BankSelect.vue';
 import { usersApi } from '../../api';
+import { getMockMode } from '../../api/client';
 import type { User, UserRole } from '../../types/api';
 import { useUiStore, type AppTheme } from '../../stores/useUiStore';
+import { useBackendSimulatorStore } from '../../stores/useBackendSimulatorStore';
 
 const message = useMessage();
 const uiStore = useUiStore();
+const simulatorStore = useBackendSimulatorStore();
 
 const user = ref<User | null>(null);
 const loading = ref(true);
@@ -22,6 +26,8 @@ const name = ref('');
 const email = ref('');
 const phone = ref('');
 const role = ref<'check_holder' | 'investor'>('check_holder');
+const payoutBank = ref<string | null>(null);
+const iban = ref('');
 
 const showConfirmModal = ref(false);
 
@@ -41,6 +47,9 @@ const loadUserData = async () => {
     phone.value = res.phone || '';
     if (res.role === 'check_holder' || res.role === 'investor') {
       role.value = res.role;
+    }
+    if (getMockMode() && res.id) {
+      payoutBank.value = simulatorStore.getPayoutBankCode(res.id) || null;
     }
   } catch (err: any) {
     const apiErr = err?.response?.data?.error || err?.error;
@@ -79,6 +88,9 @@ const handleSave = async () => {
       role: role.value
     });
     user.value = updated;
+    if (getMockMode() && updated.id) {
+      simulatorStore.setPayoutBankCode(updated.id, payoutBank.value);
+    }
     message.success('اطلاعات حساب با موفقیت به روز گردید.');
   } catch (err: any) {
     const apiErr = err?.response?.data?.error || err?.error;
@@ -203,6 +215,44 @@ onMounted(loadUserData);
               </NForm>
             </NCard>
           </div>
+
+          <!-- Payout Bank Settings Card -->
+          <NCard class="bg-slate-900 border border-slate-800 rounded-2xl shadow-lg" title="تنظیمات حساب بانکی و واریز">
+            <p class="text-xs text-slate-400 -mt-2 mb-4">
+              مشخصات بانک مقصد واریز وجوه حاصل از معاملات و تسویه چک‌ها
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <NFormItem label="بانک مقصد واریز">
+                <BankSelect
+                  v-model:value="payoutBank"
+                  :allow-all="false"
+                  placeholder="انتخاب بانک مقصد"
+                  data-testid="account-payout-bank"
+                  class="w-full"
+                />
+              </NFormItem>
+              <NFormItem label="شماره شبا (اختیاری)">
+                <NInput
+                  v-model:value="iban"
+                  placeholder="IR000000000000000000000000"
+                  class="font-mono text-left"
+                  dir="ltr"
+                />
+              </NFormItem>
+            </div>
+            <div class="flex justify-end pt-2">
+              <NButton
+                type="primary"
+                secondary
+                size="medium"
+                :loading="saving"
+                @click="triggerSave"
+                class="font-bold"
+              >
+                ذخیره حساب بانکی
+              </NButton>
+            </div>
+          </NCard>
 
           <!-- Theme & Color Selector Card -->
           <NCard class="bg-slate-900 border border-slate-800 rounded-2xl shadow-lg" title="تنظیمات پوسته و ظاهر برنامه (6 Theme)">

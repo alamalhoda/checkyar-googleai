@@ -193,4 +193,22 @@ bun run lint
 ۳. در بخش گزارش‌ها (`/reports`) عملکرد صحیح پالت رنگی و تولتیپ‌های نمودارهای ApexCharts را در هر دو حالت تیره و روشن بررسی کنید.
 ۴. دستورات `bun run lint` و `bun run test` را جهت تایید عدم وجود رگرسیون اجرا نمایید.
 
+---
+
+## ۹. اعتبارسنجی کاتالوگ بانک‌ها و حساب تسویه
+
+### آزمون نشان و انتخابگر بانک
+- **نشان بانک (`BankBadge.vue`):** تحت آزمون در `src/shared/components/BankBadge.test.ts` در ابعاد استاندارد، حالت فشرده، رنگ‌های سازمانی و حالت بانک نامشخص.
+- **انتخابگر بانک (`BankSelect.vue`):** تحت آزمون در `src/shared/components/BankSelect.test.ts` شامل:
+  - رندر صحیح لیست با لوگو یا نماد برند بانک.
+  - گزینه «همه بانک‌ها» (`allow-all="true"`) با آیکون ساختمانی خنثی (`BusinessOutline`) و بدون رنگ برند.
+  - انتقال و اعمال صحیح ویژگی‌های `data-testid` (`bank-select`, `marketplace-bank-filter`, `listing-form-bank`, `account-payout-bank`).
+- **فیلتر بانک در بازارچه (`MarketplaceView.vue`):** تحت آزمون در `src/features/marketplace/MarketplaceView.test.ts`. تایید ارسال تنها کد بانک (`bank`)، حذف `bank_name` از پارامترهای درخواست، و پاک‌سازی هر دو در زمان ریست فیلتر.
+- **اعتبارسنجی فرم ثبت آگهی (`useListingForm.ts`):** تحت آزمون در `src/features/listings/composables/useListingForm.test.ts`. تایید نامعتبر بودن مرحله ۱ در صورت عدم انتخاب بانک معتبر و توقف انتشار آگهی بدون فراخوانی `createListing`.
+- **تنظیمات بانک مقصد واریز در حساب کاربری (`MyAccountView.vue`):** تحت آزمون در `src/features/profile/MyAccountView.test.ts`. شامل:
+  - رندر `BankSelect` با شناسه `data-testid="account-payout-bank"` و `allow-all="false"`.
+  - در **حالت شبیه‌ساز (Mock)**، بازیابی و ذخیره کد بانک در استور شبیه‌ساز (`getPayoutBankCode` / `setPayoutBankCode`) و ذخیره پایدار در `chequeyar_simulator_v1`.
+  - در **حالت زنده (Live)**، ذخیره اطلاعات کاربری بدون ارسال فیلد ناموجود بانک به اندپوینت پروفایل جنگو (`usersApi.updateMe`).
+
+
 

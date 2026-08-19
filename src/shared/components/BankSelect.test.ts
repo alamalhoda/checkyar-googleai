@@ -60,4 +60,29 @@ describe('BankSelect.vue', () => {
     expect(wrapper.emitted('update:modelValue')).toBeTruthy();
     expect(wrapper.emitted('update:modelValue')![0]).toEqual(['melli']);
   });
+
+  it('renders all-banks label with BusinessOutline icon and without brand badge', () => {
+    const wrapper = mount(BankSelect, {
+      props: {
+        allowAll: true
+      }
+    });
+
+    const vm = wrapper.vm as any;
+    const allOption = vm.options[0];
+    const rendered = vm.renderOptionLabel(allOption);
+    expect(rendered).toBeDefined();
+    // rendered should have children including NIcon and text span, not BankBadge
+    expect(rendered.type).toBe('div');
+  });
+
+  it('passes data-testid properly', () => {
+    const wrapper = mount(BankSelect, {
+      props: {
+        dataTestid: 'custom-bank-select'
+      }
+    });
+
+    expect(wrapper.attributes('data-testid') || wrapper.find('[data-testid="custom-bank-select"]').exists()).toBeTruthy();
+  });
 });

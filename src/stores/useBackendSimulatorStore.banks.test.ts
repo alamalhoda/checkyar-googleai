@@ -153,4 +153,24 @@ describe('useBackendSimulatorStore bank catalog and listing operations', () => {
     expect(hydratedMatch?.listing?.bank).toBeDefined();
     expect(hydratedMatch?.listing?.bank?.code).toBe('ayandeh');
   });
+
+  it('manages payout bank code per user with persistence', () => {
+    const store = useBackendSimulatorStore();
+    store.resetToSeed();
+
+    // Default seed has pasargad for user 1
+    expect(store.getPayoutBankCode(1)).toBe('pasargad');
+
+    // Update payout bank for user 1
+    store.setPayoutBankCode(1, 'mellat');
+    expect(store.getPayoutBankCode(1)).toBe('mellat');
+
+    // Reload from storage
+    store.init();
+    expect(store.getPayoutBankCode(1)).toBe('mellat');
+
+    // Clear payout bank
+    store.setPayoutBankCode(1, null);
+    expect(store.getPayoutBankCode(1)).toBeNull();
+  });
 });

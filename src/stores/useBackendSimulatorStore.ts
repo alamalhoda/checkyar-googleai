@@ -537,6 +537,10 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     { id: 3, actor: 2, actor_username: 'investor1', event_type: 'MATCH_CREATED', object_type: 'Match', object_id: '502', metadata: { listing_id: 101 }, ip_address: '91.92.100.4', created_at: '2025-02-18T10:00:00Z' }
   ];
 
+  const seedPayoutBankCodes: Record<number, string> = {
+    1: 'pasargad'
+  };
+
   // Load state from localStorage or initialize
   const banks = ref<Bank[]>([...LOCAL_BANKS]);
   const users = ref<User[]>([]);
@@ -547,6 +551,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
   const verifications = ref<Verification[]>([]);
   const featureFlags = ref<FeatureFlag[]>([]);
   const auditEvents = ref<AuditEvent[]>([]);
+  const payoutBankCodes = ref<Record<number, string>>({ ...seedPayoutBankCodes });
   const notificationPrefs = ref<NotificationPreferences>({
     in_app_enabled: true,
     sms_enabled: true,
@@ -570,6 +575,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
         verifications.value = parsed.verifications || seedVerifications;
         featureFlags.value = parsed.featureFlags || seedFeatureFlags;
         auditEvents.value = parsed.auditEvents || seedAuditEvents;
+        payoutBankCodes.value = parsed.payoutBankCodes || { ...seedPayoutBankCodes };
         if (parsed.notificationPrefs) notificationPrefs.value = parsed.notificationPrefs;
 
         let needsPersist = false;
@@ -664,6 +670,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     verifications.value = JSON.parse(JSON.stringify(seedVerifications));
     featureFlags.value = JSON.parse(JSON.stringify(seedFeatureFlags));
     auditEvents.value = JSON.parse(JSON.stringify(seedAuditEvents));
+    payoutBankCodes.value = JSON.parse(JSON.stringify(seedPayoutBankCodes));
     persist();
   }
 
@@ -678,7 +685,8 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
         verifications: verifications.value,
         featureFlags: featureFlags.value,
         auditEvents: auditEvents.value,
-        notificationPrefs: notificationPrefs.value
+        notificationPrefs: notificationPrefs.value,
+        payoutBankCodes: payoutBankCodes.value
       }));
     } catch (e) {
       console.error('Failed to persist simulator state', e);
@@ -1333,6 +1341,19 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     };
   }
 
+  function getPayoutBankCode(userId: number): string | null {
+    return payoutBankCodes.value[userId] || null;
+  }
+
+  function setPayoutBankCode(userId: number, bankCode: string | null) {
+    if (bankCode) {
+      payoutBankCodes.value[userId] = bankCode;
+    } else {
+      delete payoutBankCodes.value[userId];
+    }
+    persist();
+  }
+
   return {
     banks,
     users,
@@ -1343,6 +1364,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     verifications,
     featureFlags,
     auditEvents,
+    payoutBankCodes,
     notificationPrefs,
     init,
     resetToSeed,
@@ -1372,6 +1394,8 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     toggleFeatureFlag,
     updateFeatureFlag,
     persist,
-    getAuditEvents
+    getAuditEvents,
+    getPayoutBankCode,
+    setPayoutBankCode
   };
 });

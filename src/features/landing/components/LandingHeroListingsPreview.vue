@@ -5,6 +5,7 @@ import { landingContent } from '../content/landingContent';
 import { formatTomanFromRial, toPersianDigits } from '../../../utils/persianUtils';
 import { LISTING_STATUS_LABELS } from '../../../types/api';
 import { maskDisplayName } from '../utils/maskDisplayName';
+import BankBadge from '../../../shared/components/BankBadge.vue';
 
 const { listings, isLoading, hasError, refetch } = useLandingLatestListings();
 
@@ -109,14 +110,12 @@ function scrollToListings() {
       >
         <!-- Bank & Status / Rate -->
         <div class="flex items-center justify-between gap-2 mb-2">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="flex h-6 w-6 items-center justify-center rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold text-[11px] shrink-0">
-              {{ listing.bank_name ? listing.bank_name.charAt(0) : 'چ' }}
-            </span>
-            <span class="text-xs font-medium text-[var(--theme-text-primary)] truncate">
-              {{ listing.bank_name }}
-            </span>
-          </div>
+          <BankBadge
+            :bank="listing.bank"
+            :fallback-name="listing.bank_name"
+            size="compact"
+            theme="dark"
+          />
 
           <div class="flex items-center gap-1.5 shrink-0">
             <span

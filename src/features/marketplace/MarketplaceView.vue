@@ -161,11 +161,11 @@ const loadListings = async () => {
   loading.value = true;
   try {
     const cleanFilters: ListingFilters = { ...filters.value };
-    if (!cleanFilters.bank_name) {
+    if (cleanFilters.bank) {
       delete cleanFilters.bank_name;
-      delete cleanFilters.bank;
     } else {
-      cleanFilters.bank = cleanFilters.bank_name;
+      delete cleanFilters.bank;
+      delete cleanFilters.bank_name;
     }
     if (!cleanFilters.risk_tier) delete cleanFilters.risk_tier;
     if (!cleanFilters.issuer_type) delete cleanFilters.issuer_type;
@@ -249,11 +249,11 @@ const goToExpressInterest = (id: number) => {
               <div>
                 <label class="block text-slate-400 mb-1">بانک عامل:</label>
                 <BankSelect
-                  v-model:value="filters.bank_name"
+                  v-model:value="filters.bank"
                   allow-all
                   size="small"
                   placeholder="همه بانک‌ها"
-                  data-testid="marketplace-filter-bank"
+                  data-testid="marketplace-bank-filter"
                 />
               </div>
 

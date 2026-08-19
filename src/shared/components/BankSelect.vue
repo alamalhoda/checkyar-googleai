@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, h } from 'vue';
-import { NSelect, type SelectOption } from 'naive-ui';
+import { NSelect, NIcon, type SelectOption } from 'naive-ui';
+import { BusinessOutline } from '@vicons/ionicons5';
 import { useBanksCatalog } from '../banks/useBanksCatalog';
 import { findBankByCode } from '../banks/lookup';
 import BankBadge from './BankBadge.vue';
@@ -14,6 +15,7 @@ interface Props {
   placeholder?: string;
   filterable?: boolean;
   clearable?: boolean;
+  dataTestid?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -24,7 +26,8 @@ const props = withDefaults(defineProps<Props>(), {
   size: 'medium',
   placeholder: 'انتخاب بانک',
   filterable: true,
-  clearable: true
+  clearable: true,
+  dataTestid: 'bank-select'
 });
 
 const emit = defineEmits<{
@@ -69,7 +72,10 @@ const options = computed<SelectOption[]>(() => {
 
 function renderOptionLabel(option: SelectOption) {
   if (!option.value) {
-    return h('span', { class: 'text-slate-300 text-xs font-sans' }, option.label as string);
+    return h('div', { class: 'flex items-center gap-2 py-0.5 text-slate-300 text-xs font-sans' }, [
+      h(NIcon, { size: 16, class: 'text-slate-400 shrink-0' }, { default: () => h(BusinessOutline) }),
+      h('span', null, option.label as string)
+    ]);
   }
 
   const bankSummary = findBankByCode(option.value as string);
@@ -95,6 +101,7 @@ function renderOptionLabel(option: SelectOption) {
     :filterable="filterable"
     :clearable="clearable"
     :render-label="renderOptionLabel"
+    :data-testid="($attrs['data-testid'] as string) || props.dataTestid || 'bank-select'"
     class="font-sans"
   />
 </template>

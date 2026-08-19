@@ -128,6 +128,7 @@
                 v-model:value="form.formData.bank"
                 placeholder="انتخاب بانک صادرکننده"
                 size="large"
+                data-testid="listing-form-bank"
               />
             </NFormItem>
           </div>
@@ -547,6 +548,7 @@
               v-model:value="form.formData.bank"
               placeholder="انتخاب بانک صادرکننده"
               size="large"
+              data-testid="listing-form-bank"
             />
           </NFormItem>
 

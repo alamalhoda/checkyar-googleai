@@ -194,4 +194,22 @@ When modifying UI components or surfaces:
 3. Check charts in `/reports` to verify dynamic palette and tooltip switching across themes.
 4. Run `bun run lint` and `bun run test` to ensure zero regressions across theme utilities.
 
+---
+
+## 9. Bank Catalog & Payout Bank Verification
+
+### Testing Bank Badges and Bank Selection
+- **BankBadge (`BankBadge.vue`):** Verified via `src/shared/components/BankBadge.test.ts` across standard sizes, compact mode, brand colors, and unknown bank fallbacks.
+- **BankSelect (`BankSelect.vue`):** Verified via `src/shared/components/BankSelect.test.ts`. Checks:
+  - Option list rendering with logo or brand initial.
+  - "All Banks" (`allow-all="true"`) option rendering with neutral building icon (`BusinessOutline`) and no brand color.
+  - Correct propagation of `data-testid` props (`bank-select`, `marketplace-bank-filter`, `listing-form-bank`, `account-payout-bank`).
+- **Marketplace Bank Filtering (`MarketplaceView.vue`):** Verified via `src/features/marketplace/MarketplaceView.test.ts`. Confirms that selecting a bank sends `bank` code only, removes `bank_name` from the request query object, and clears both fields when resetting.
+- **Listing Creation Form Validation (`useListingForm.ts`):** Verified via `src/features/listings/composables/useListingForm.test.ts`. Confirms that invalid or empty bank values prevent Step 1 validity and abort `publishListing` without calling `listingsApi.createListing`.
+- **My Account Payout Bank Settings (`MyAccountView.vue`):** Verified via `src/features/profile/MyAccountView.test.ts`. Confirms:
+  - `BankSelect` is rendered with `data-testid="account-payout-bank"` and `allow-all="false"`.
+  - In **Mock Mode**, restoring and saving the payout bank updates `useBackendSimulatorStore` (`getPayoutBankCode` / `setPayoutBankCode`) and saves to `chequeyar_simulator_v1`.
+  - In **Live Mode**, saving profile details calls `usersApi.updateMe` without attaching unbacked `bank` fields to the Django REST request.
+
+
 

@@ -131,6 +131,7 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
   const isValidStep1 = computed(() => {
     const cleanSayad = toEnglishDigits(formData.serialNumber).trim();
     const cleanNationalId = toEnglishDigits(formData.issuerNationalId).trim();
+    const matchedBank = findBankByCode(formData.bank) || findBankByNameOrAlias(formData.bank);
     return (
       cleanSayad.length === 16 &&
       formData.amount !== null && formData.amount >= 1_000_000 &&
@@ -138,7 +139,8 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
       formData.dueDate > Date.now() - 86400000 && // not in the deep past
       formData.issuerName.trim().length >= 2 &&
       cleanNationalId.length >= 10 &&
-      formData.bank.trim().length > 0
+      formData.bank.trim().length > 0 &&
+      !!matchedBank
     );
   });
 
@@ -187,7 +189,11 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
       const cleanNationalId = toEnglishDigits(formData.issuerNationalId).trim();
 
       const matchedBank = findBankByCode(formData.bank) || findBankByNameOrAlias(formData.bank);
-      const bankCode = matchedBank?.code || formData.bank.trim();
+      if (!matchedBank) {
+        message.error('لطفاً بانک عامل معتبر انتخاب نمایید.');
+        return false;
+      }
+      const bankCode = matchedBank.code;
 
       const newListing = await listingsApi.createListing({
         face_amount: formData.amount || 0,

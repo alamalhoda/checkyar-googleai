@@ -80,6 +80,7 @@ describe('LandingHeroListingsPreview.vue', () => {
 
     const listingLinks = wrapper.findAll('a[href="#live-listings"]');
     expect(listingLinks).toHaveLength(2);
+    expect(wrapper.findComponent({ name: 'BankBadge' }).exists()).toBe(true);
   });
 
   it('renders empty state when no listings are returned', async () => {

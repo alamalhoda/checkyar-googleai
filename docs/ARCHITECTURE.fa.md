@@ -211,13 +211,14 @@ src/
   - اعتبارسنجی کد بانک هنگام ایجاد یا ویرایش آگهی (`createListing` و `updateListing`).
   - تقدم فیلتر کد بانک (`filters.bank`) بر فیلتر متنی نام بانک (`filters.bank_name`) در جستجوی بازارچه.
 - **نشان بانک (`src/shared/components/BankBadge.vue`):** کامپوننت اشتراکی نمایش نماد بانک برای بانک‌های کاتالوگ (تصویر لوگو یا حرف اول روی سطح رنگ سازمانی متناسب با تم تاریک/روشن)، اندازه‌های استاندارد و فشرده، و وضعیت بانک نامشخص (با حرف اول نام و آیکون ساختمان).
-- **انتخابگر بانک (`src/shared/components/BankSelect.vue`):** کامپوننت استاندارد انتخاب بانک مبتنی بر `useBanksCatalog` که کدهای استاندارد کاتالوگ (مانند `mellat`) را ارسال نموده و از گزینه همه بانک‌ها و نمایش با `BankBadge` پشتیبانی می‌کند.
+- **انتخابگر بانک (`src/shared/components/BankSelect.vue`):** کامپوننت استاندارد انتخاب بانک مبتنی بر `useBanksCatalog` که کدهای استاندارد کاتالوگ (مانند `mellat`) را ارسال نموده، از گزینه «همه بانک‌ها» با آیکون ساختمانی خنثی `BusinessOutline` و بدون رنگ برند پشتیبانی می‌کند و ویژگی‌های استاندارد `data-testid` (`bank-select`, `listing-form-bank`, `marketplace-bank-filter`, `account-payout-bank`) را ارائه می‌دهد.
+- **اعتبارسنجی دقیق فرم آگهی (`useListingForm.ts`):** متدهای `isValidStep1` و `publishListing` تطابق کد یا نام بانک با کاتالوگ رسمی را از طریق `findBankByCode` / `findBankByNameOrAlias` الزامی می‌دانند و در صورت عدم تطابق با نمایش خطای فارسی از فراخوانی `createListing` جلوگیری می‌کنند.
 - **بخش‌های یکپارچه‌شده:**
-  - **بازارچه و فیلترها:** در `MarketplaceView.vue` و `ListingCard.vue` جهت فیلتر و نمایش کارت‌های آگهی.
-  - **چرخه حیات آگهی:** در `ListingCreateWizard.vue`، `ListingCreateView.vue`، `ListingEditView.vue`، `ListingDetailView.vue`، `MyListingsView.vue` و `SmartPricingCalculator.vue` جهت انتخاب بانک و نمایش مشخصات.
+  - **بازارچه و فیلترها:** در `MarketplaceView.vue` و `ListingCard.vue`؛ فیلتر بر اساس `filters.bank` و با کامپوننت `BankSelect` (`data-testid="marketplace-bank-filter"`) عمل کرده و `loadListings` تنها کد بانک را ارسال و `bank_name` را از درخواست حذف می‌کند.
+  - **چرخه حیات آگهی:** در `ListingCreateWizard.vue`، `ListingEdit.vue`، `ListingDetailView.vue`، `MyListingsView.vue` و `SmartPricingCalculator.vue` با شناسه `data-testid="listing-form-bank"` جهت انتخاب و نمایش مشخصات بانک.
   - **مطابقت‌ها و تسویه:** در `ExpressInterestView.vue`، `TradeDetails.vue` و `MyMatchesView.vue` جهت نمایش هویت بانک چک در مطابقت‌ها.
   - **نظارت و ارزیابی:** در `ModerationQueueView.vue`، `ModerationQueue.vue` و `ModerationReview.vue` (در هر دو حالت بررسی ساده و پیشرفته).
-  - **گزارش‌ها و لندینگ عمومی:** در `GlobalFiltersPanel.vue` (فیلتر گزارشات)، `UserReportsDashboard.vue` (جدول سررسیدها) و `LandingListingCard.vue` (کارت‌های آگهی زنده در صفحه لندینگ).
-  - *تذکر:* صفحه `MyAccountView.vue` (حساب بانکی مقصد تسویه) به فاز اختصاصی حساب تسویه واگذار شده است.
+  - **گزارش‌ها و لندینگ عمومی:** در `GlobalFiltersPanel.vue` (فیلتر گزارشات)، `UserReportsDashboard.vue` (جدول سررسیدها)، `LandingListingCard.vue` (کارت‌های آگهی زنده در صفحه لندینگ) و `LandingHeroListingsPreview.vue` (پیش‌نمایش آگهی‌ها در هیرو لندینگ با `BankBadge`).
+  - **بانک مقصد واریز در حساب کاربری:** در `MyAccountView.vue` کارت اختصاصی «تنظیمات حساب بانکی و واریز» با `BankSelect` (`data-testid="account-payout-bank"`, `allow-all=false`) و فیلد اختیاری شبا تعبیه شده است. در **حالت شبیه‌ساز (Mock)**، کد بانک انتخابی در استور شبیه‌ساز با متدهای `getPayoutBankCode` / `setPayoutBankCode` و در `chequeyar_simulator_v1` ذخیره می‌شود (پیش‌فرض بانک پاسارگاد برای کاربر ۱). در **حالت زنده (Live)**، انتخاب به‌صورت محلی در صفحه نگه داشته شده و هیچ درخواست `PATCH` با فیلد بانک به اندپوینت پروفایل جنگو `/users/me/` ارسال نمی‌شود.
 
 
