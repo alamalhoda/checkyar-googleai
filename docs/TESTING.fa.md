@@ -166,10 +166,11 @@ bun run lint
 
 ## ۷. یکپارچه‌سازی مداوم - CI (GitHub Actions) و سیاست محیط شبیه‌ساز
 
-فرآیند تست و ساخت اتوماتیک در فایل [.github/workflows/ci.yml](../.github/workflows/ci.yml) پیکربندی شده است. با هر push یا pull_request روی شاخه `main`، اکشن‌های زیر در GitHub اجرا می‌شوند:
-- `bun run lint` (بررسی تایپ‌ها و اعتبار کد)
-- `bun run test` (اجرای آزمون‌های واحد Vitest در محیط `happy-dom` با دسترسی ایمن به `localStorage` در کلاینت API)
-- `bun run build` (بررسی کامپایل و ساخت نسخه نهایی)
+فرآیند تست و ساخت اتوماتیک در فایل [.github/workflows/ci.yml](../.github/workflows/ci.yml) پیکربندی شده است. با هر push یا pull_request روی شاخه `main`، ۴ مرحله اعتبارسنجی متوالی در GitHub اجرا می‌شوند:
+۱. `bun run lint` (بررسی تایپ‌ها و اعتبار کد با `tsc --noEmit`)
+۲. `bun run test` (اجرای آزمون‌های واحد Vitest در محیط `happy-dom` با دسترسی ایمن به `localStorage` در کلاینت API)
+۳. `bun run build` (بررسی کامپایل و ساخت نسخه نهایی پیش‌فرض)
+۴. `bun run build` با متغیرهای `VITE_USE_MOCK="false"` و `VITE_API_BASE_URL="https://chequeyar-back.chbkn.dev/api/v1"` (اعتبارسنجی ساخت نسخه نهایی واقعی Live غیرماک)
 
 ### سیاست محیطی حالت شبیه‌سازی در تست‌ها
 - **وابسته به محیط (Env Gated):** تمام المان‌ها و کلیدهای شبیه‌ساز تنها زمانی فعال هستند که `VITE_USE_MOCK=true` باشد.

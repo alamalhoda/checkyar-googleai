@@ -28,3 +28,9 @@ jobs:
 
       - name: Build production app
         run: bun run build
+
+      - name: Build production app (live, non-mock)
+        env:
+          VITE_USE_MOCK: "false"
+          VITE_API_BASE_URL: "https://chequeyar-back.chbkn.dev/api/v1"
+        run: bun run build

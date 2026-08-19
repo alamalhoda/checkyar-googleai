@@ -167,10 +167,11 @@ When introducing feature modifications or UI logic changes:
 
 ## 7. CI (GitHub Actions) & Mock Environment Policy
 
-Continuous Integration is configured via [.github/workflows/ci.yml](../.github/workflows/ci.yml). On every push and pull request to the `main` branch, GitHub Actions executes:
-- `bun run lint` (TypeScript compilation & type checking)
-- `bun run test` (Vitest unit tests running in `happy-dom` environment; `localStorage` access in `src/api/client.ts` is safely guarded)
-- `bun run build` (Production build validation)
+Continuous Integration is configured via [.github/workflows/ci.yml](../.github/workflows/ci.yml). On every push and pull request to the `main` branch, GitHub Actions executes four sequential verification steps:
+1. `bun run lint` (TypeScript compilation & type checking)
+2. `bun run test` (Vitest unit tests running in `happy-dom` environment; `localStorage` access in `src/api/client.ts` is safely guarded)
+3. `bun run build` (Default production build validation)
+4. `bun run build` with `VITE_USE_MOCK="false"` and `VITE_API_BASE_URL="https://chequeyar-back.chbkn.dev/api/v1"` (Live non-mock production build verification)
 
 ### Mock Mode Environment Policy in Testing
 - **Env Gated:** Mock/simulator UI chrome and runtime toggles are active ONLY when `VITE_USE_MOCK=true`.
