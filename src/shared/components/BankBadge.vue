@@ -42,6 +42,11 @@ const brandColor = computed(() => {
   return getBankBrandColor(props.bank, props.theme);
 });
 
+const fallbackInitial = computed(() => {
+  const trimmed = props.fallbackName?.trim() || '';
+  return trimmed ? trimmed.charAt(0) : '';
+});
+
 const markSizeClass = computed(() => {
   return props.size === 'compact'
     ? 'w-6 h-6 text-xs rounded-md'
@@ -95,17 +100,18 @@ const textSizeClass = computed(() => {
       {{ bankInitial }}
     </div>
 
-    <!-- State 3: Unknown / no catalog match (Neutral building icon, no brand color) -->
+    <!-- State 3: Unknown / no catalog match (Neutral building icon + optional initial, no brand color) -->
     <div
       v-else
       :class="[
         markSizeClass,
-        'flex items-center justify-center bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 shrink-0'
+        'flex items-center justify-center bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 shrink-0 gap-0.5 select-none'
       ]"
       :aria-hidden="showName ? 'true' : undefined"
       data-testid="bank-badge-unknown"
     >
       <BusinessOutline :class="iconSizeClass" />
+      <span v-if="fallbackInitial" class="text-[10px] font-bold leading-none" data-testid="bank-badge-unknown-initial">{{ fallbackInitial }}</span>
     </div>
 
     <!-- Display Name Label -->

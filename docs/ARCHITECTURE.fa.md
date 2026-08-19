@@ -197,10 +197,20 @@ src/
 
 ---
 
-## ۹. کاتالوگ محلی بانک‌ها و کامپوننت BankBadge
+## ۹. کاتالوگ بانک‌ها، لایه API و یکپارچه‌سازی شبیه‌ساز
 
-- **کاتالوگ محلی بانک‌ها (`src/shared/banks/`):** مرجع واحد حقیقت (SSOT) کلاینت برای ۱۴ بانک استاندارد ایرانی (`LOCAL_BANKS` در `src/shared/banks/catalog.ts`) منطبق با کدهای سرور، همراه با توابع کمکی جستجو (`findBankByCode`، `findBankByNameOrAlias`، `getBankBrandColor` در `src/shared/banks/lookup.ts`) جهت استفاده در شبیه‌ساز و فال‌بک داده‌های زنده API.
-- **نشان بانک (`src/shared/components/BankBadge.vue`):** کامپوننت اشتراکی نمایش نماد بانک برای بانک‌های کاتالوگ (تصویر لوگو یا حرف اول روی سطح رنگ سازمانی متناسب با تم تاریک/روشن)، اندازه‌های استاندارد و فشرده، و وضعیت بانک نامشخص (با آیکون ساختمان `BusinessOutline` بدون رنگ کاتالوگ).
-- **دامنه تغییرات آتی:** اتصال این کامپوننت به کارت‌های آگهی، صفحات جزئیات، فرم‌ها و شبیه‌ساز در مراحل بعدی پیاده‌سازی خواهد شد.
+- **کاتالوگ محلی بانک‌ها (`src/shared/banks/`):** مرجع واحد حقیقت (SSOT) کلاینت برای ۱۴ بانک استاندارد ایرانی (`LOCAL_BANKS` در `src/shared/banks/catalog.ts`) منطبق با کدهای سرور، همراه با توابع کمکی جستجو (`findBankByCode`، `findBankByNameOrAlias`، `toBankSummary`، `getBankBrandColor` در `src/shared/banks/lookup.ts`).
+- **کامپوزبل واکنشی کاتالوگ (`useBanksCatalog` در `src/shared/banks/useBanksCatalog.ts`):** خروجی `{ banks, loading, error, fetchBanks }` جهت دریافت ناهمگام لیست بانک‌ها از `GET /api/v1/banks/` با فال‌بک آنی و همگام به `LOCAL_BANKS`.
+- **لایه واسط ای‌پی‌آی (`src/api/`):**
+  - متد `banksApi.list()` جهت دریافت لیست بانک‌ها از سرور (یا `store.listBanks()` در حالت شبیه‌ساز).
+  - متدهای `listingsApi.createListing` و `listingsApi.updateListing` فیلد استاندارد `bank` (کد بانک) را ارسال و فیلد متنی `bank_name` را از بدنه درخواست ارسالی حذف می‌کنند.
+  - ساختارهای داده آگهی (`ChequeListing`, `MarketplaceListing`, `ListingSummary`, `ModerationQueueItem`) شامل آبجکت `bank: BankSummary | null` در کنار فیلد `bank_name` می‌باشند.
+- **تکمیل داده‌ها در شبیه‌ساز (`src/stores/useBackendSimulatorStore.ts`):**
+  - هدایت فراخوانی‌های `/banks` در `client.ts` به لیست بانک‌های شبیه‌ساز.
+  - پر کردن خودکار فیلد `bank` برای آگهی‌ها یا مطابقت‌های فاقد آن در زمان مقداردهی اولیه (`init()`) با استفاده از `findBankByNameOrAlias`.
+  - اعتبارسنجی کد بانک هنگام ایجاد یا ویرایش آگهی (`createListing` و `updateListing`).
+  - تقدم فیلتر کد بانک (`filters.bank`) بر فیلتر متنی نام بانک (`filters.bank_name`) در جستجوی بازارچه.
+- **نشان بانک (`src/shared/components/BankBadge.vue`):** کامپوننت اشتراکی نمایش نماد بانک برای بانک‌های کاتالوگ (تصویر لوگو یا حرف اول روی سطح رنگ سازمانی متناسب با تم تاریک/روشن)، اندازه‌های استاندارد و فشرده، و وضعیت بانک نامشخص (با حرف اول نام و آیکون ساختمان).
+- **دامنه تغییرات آتی:** جایگزینی آیکون‌های کارت‌های آگهی و فرم‌های ثبت با نشان و سلکتور بانک در مراحل بعدی پیاده‌سازی خواهد شد.
 
 

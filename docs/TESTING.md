@@ -43,7 +43,10 @@ Current unit test suites in `src/` include:
 - `src/shared/utils/breakpoints.test.ts`: Pure helper testing breakpoint constants and desktop `md` (`768px`) evaluation.
 - `src/shared/utils/menuOptions.test.ts`: Pure helper testing menu option group flattening, unnesting children, non-group item preservation, array immutability, and fixture matching for compact sidebar rail.
 - `src/shared/banks/lookup.test.ts`: Validates 14 local catalog bank definitions, stable ascending Persian sorting, exact code lookup with trimming, display name and alias exact lookup (without fuzzy/substring matches), and theme brand color resolution.
+- `src/shared/banks/useBanksCatalog.test.ts`: Validates reactive bank catalog composable (`useBanksCatalog`), synchronous initial load of `LOCAL_BANKS`, and remote `GET /api/v1/banks/` fetch with error fallback.
 - `src/shared/components/BankBadge.test.ts`: Validates BankBadge component rendering across catalog logo, initial character on theme brand color surface, unknown fallback state with neutral building icon, accessible label without name, and compact size styling.
+- `src/api/banks.test.ts`: Validates `banksApi.list` live and mock routing, and `listingsApi.createListing`/`updateListing` transformation ensuring `bank` code is passed and `bank_name` is stripped from outgoing payloads.
+- `src/stores/useBackendSimulatorStore.banks.test.ts`: Validates simulator store bank catalog seeding, listing hydration with `BankSummary`, bank code enforcement on create/update, and marketplace filter precedence (`filters.bank` over `filters.bank_name`).
 - `src/features/reports/utils/chartTheming.test.ts`: ApexCharts dynamic palette, tooltip, and theme adaptation testing.
 
 ---

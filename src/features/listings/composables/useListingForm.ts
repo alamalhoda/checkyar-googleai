@@ -3,6 +3,7 @@ import { useUiStore } from '../../../stores/useUiStore';
 import { message } from '../../../utils/discreteApi';
 import { listingsApi } from '../../../api';
 import { validateSayadId, validateNationalId, toEnglishDigits } from '../../../utils/persianUtils';
+import { findBankByNameOrAlias } from '../../../shared/banks/lookup';
 
 function toBlobOrFile(data: string, defaultName: string): Blob {
   if (data.startsWith('data:')) {
@@ -185,10 +186,13 @@ export function useListingForm(initialData?: Partial<ListingFormData>) {
       const cleanSayad = toEnglishDigits(formData.serialNumber).trim();
       const cleanNationalId = toEnglishDigits(formData.issuerNationalId).trim();
 
+      const matchedBank = findBankByNameOrAlias(formData.bank);
+      const bankCode = matchedBank?.code || formData.bank.trim();
+
       const newListing = await listingsApi.createListing({
         face_amount: formData.amount || 0,
         due_date: formData.dueDate ? new Date(formData.dueDate).toISOString() : new Date().toISOString(),
-        bank_name: formData.bank,
+        bank: bankCode,
         cheque_serial_number: cleanSayad,
         issuer_type: formData.issuerType,
         issuer_name: formData.issuerName,

@@ -23,6 +23,13 @@ function createMockListing(id: number): MarketplaceListing {
       created_at: '2026-01-01',
       updated_at: '2026-01-01',
     },
+    bank: {
+      code: 'mellat',
+      display_name: 'بانک ملت',
+      brand_color_light: '#E21836',
+      brand_color_dark: '#C4112C',
+      logo_url: null,
+    },
     bank_name: 'بانک ملت',
     cheque_serial_number: `1234567890${id}`,
     face_amount: '50000000',

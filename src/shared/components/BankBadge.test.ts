@@ -62,11 +62,11 @@ describe('BankBadge Component', () => {
     expect(wrapper.find('[data-testid="bank-badge-unknown"]').exists()).toBe(false);
   });
 
-  it('renders unknown state with neutral building icon and fallback name without brand color', () => {
+  it('renders unknown state with neutral building icon, fallback initial, and fallback name without brand color', () => {
     const wrapper = mount(BankBadge, {
       props: {
         bank: null,
-        fallbackName: 'بانک قرض‌الحسنه رسالت',
+        fallbackName: 'صندوق قرض‌الحسنه رسالت',
       },
     });
 
@@ -74,9 +74,12 @@ describe('BankBadge Component', () => {
     const unknownEl = wrapper.find('[data-testid="bank-badge-unknown"]');
     expect(unknownEl.exists()).toBe(true);
     expect(unknownEl.attributes('style')).toBeUndefined();
+    const fallbackInitialEl = wrapper.find('[data-testid="bank-badge-unknown-initial"]');
+    expect(fallbackInitialEl.exists()).toBe(true);
+    expect(fallbackInitialEl.text()).toBe('ص');
     expect(wrapper.find('[data-testid="bank-badge-initial"]').exists()).toBe(false);
     expect(wrapper.find('[data-testid="bank-badge-logo"]').exists()).toBe(false);
-    expect(wrapper.text()).toContain('بانک قرض‌الحسنه رسالت');
+    expect(wrapper.text()).toContain('صندوق قرض‌الحسنه رسالت');
   });
 
   it('hides text label and provides accessible aria-label on root when showName is false', () => {

@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import type {
+  Bank,
+  BankSummary,
   User,
   Profile,
   LoginRequest,
@@ -29,6 +31,8 @@ import type {
   PaginatedResponse,
   ApiErrorEnvelope
 } from '../types/api';
+import { LOCAL_BANKS } from '../shared/banks/catalog';
+import { findBankByCode, findBankByNameOrAlias, toBankSummary } from '../shared/banks/lookup';
 
 const STORAGE_KEY = 'chequeyar_simulator_v1';
 
@@ -59,6 +63,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: 101,
       owner_id: 1,
       issuer_profile: { id: 10, national_or_company_id: '1010203040', name: 'شرکت فولاد صنعت آریا', credit_score: 780, created_at: '2025-01-15T10:00:00Z', updated_at: '2025-01-15T10:00:00Z' },
+      bank: toBankSummary(findBankByCode('mellat')!),
       bank_name: 'بانک ملت',
       cheque_serial_number: '7410293841',
       face_amount: '1200000000',
@@ -80,6 +85,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: 102,
       owner_id: 1,
       issuer_profile: { id: 11, national_or_company_id: '1038291048', name: 'بازرگانی پارس داروی البرز', credit_score: 820, created_at: '2025-01-16T10:00:00Z', updated_at: '2025-01-16T10:00:00Z' },
+      bank: toBankSummary(findBankByCode('pasargad')!),
       bank_name: 'بانک پاسارگاد',
       cheque_serial_number: '8820192834',
       face_amount: '2500000000',
@@ -101,6 +107,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: 103,
       owner_id: 1,
       issuer_profile: { id: 12, national_or_company_id: '0078921043', name: 'محمدجواد رضایی (فروشگاه پارچه)', credit_score: 650, created_at: '2025-01-17T10:00:00Z', updated_at: '2025-01-17T10:00:00Z' },
+      bank: toBankSummary(findBankByCode('melli')!),
       bank_name: 'بانک ملی ایران',
       cheque_serial_number: '3310928172',
       face_amount: '450000000',
@@ -122,6 +129,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: 104,
       owner_id: 1,
       issuer_profile: { id: 13, national_or_company_id: '1086129384', name: 'صنایع غذایی بهروز', credit_score: 790, created_at: '2025-01-18T10:00:00Z', updated_at: '2025-01-18T10:00:00Z' },
+      bank: toBankSummary(findBankByCode('tejarat')!),
       bank_name: 'بانک تجارت',
       cheque_serial_number: '9910293812',
       face_amount: '1800000000',
@@ -143,6 +151,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: 105,
       owner_id: 1,
       issuer_profile: { id: 14, national_or_company_id: '0061293841', name: 'حمیدرضا امیری', credit_score: 580, created_at: '2025-01-19T10:00:00Z', updated_at: '2025-01-19T10:00:00Z' },
+      bank: toBankSummary(findBankByCode('saderat')!),
       bank_name: 'بانک صادرات ایران',
       cheque_serial_number: '4410293811',
       face_amount: '350000000',
@@ -164,6 +173,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: 106,
       owner_id: 1,
       issuer_profile: { id: 15, national_or_company_id: '1010394821', name: 'گروه صنعتی کاوه', credit_score: 750, created_at: '2025-01-20T10:00:00Z', updated_at: '2025-01-20T10:00:00Z' },
+      bank: toBankSummary(findBankByCode('saman')!),
       bank_name: 'بانک سامان',
       cheque_serial_number: '5520193822',
       face_amount: '3200000000',
@@ -185,6 +195,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: 107,
       owner_id: 1,
       issuer_profile: { id: 16, national_or_company_id: '0054321987', name: 'سارا کاظمی', credit_score: 700, created_at: '2025-01-21T10:00:00Z', updated_at: '2025-01-21T10:00:00Z' },
+      bank: toBankSummary(findBankByCode('parsian')!),
       bank_name: 'بانک پارسیان',
       cheque_serial_number: '6610293844',
       face_amount: '600000000',
@@ -206,6 +217,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: 108,
       owner_id: 1,
       issuer_profile: { id: 17, national_or_company_id: '1010998877', name: 'پتروشیمی جم', credit_score: 890, created_at: '2025-01-22T10:00:00Z', updated_at: '2025-01-22T10:00:00Z' },
+      bank: toBankSummary(findBankByCode('sepah')!),
       bank_name: 'بانک سپه',
       cheque_serial_number: '7710293855',
       face_amount: '5000000000',
@@ -227,6 +239,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: 109,
       owner_id: 1,
       issuer_profile: { id: 18, national_or_company_id: '0087654321', name: 'مهدی کریمی', credit_score: 610, created_at: '2025-01-23T10:00:00Z', updated_at: '2025-01-23T10:00:00Z' },
+      bank: toBankSummary(findBankByCode('ayandeh')!),
       bank_name: 'بانک آینده',
       cheque_serial_number: '8810293866',
       face_amount: '280000000',
@@ -248,6 +261,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: 110,
       owner_id: 1,
       issuer_profile: { id: 19, national_or_company_id: '1020304050', name: 'تکمیل ساخت پاسارگاد', credit_score: 720, created_at: '2025-01-24T10:00:00Z', updated_at: '2025-01-24T10:00:00Z' },
+      bank: toBankSummary(findBankByCode('maskan')!),
       bank_name: 'بانک مسکن',
       cheque_serial_number: '9910293877',
       face_amount: '1500000000',
@@ -269,6 +283,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: 111,
       owner_id: 1,
       issuer_profile: { id: 20, national_or_company_id: '1030405060', name: 'فناوری اطلاعات رایان', credit_score: 800, created_at: '2025-01-25T10:00:00Z', updated_at: '2025-01-25T10:00:00Z' },
+      bank: toBankSummary(findBankByCode('keshavarzi')!),
       bank_name: 'بانک کشاورزی',
       cheque_serial_number: '1120293888',
       face_amount: '800000000',
@@ -290,6 +305,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: 112,
       owner_id: 1,
       issuer_profile: { id: 21, national_or_company_id: '0011223344', name: 'فاطمه احمدی', credit_score: 670, created_at: '2025-01-26T10:00:00Z', updated_at: '2025-01-26T10:00:00Z' },
+      bank: toBankSummary(findBankByCode('refah')!),
       bank_name: 'بانک رفاه کارگران',
       cheque_serial_number: '2230293899',
       face_amount: '400000000',
@@ -311,6 +327,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: 113,
       owner_id: 1,
       issuer_profile: { id: 22, national_or_company_id: '1040506070', name: 'تولیدی پوشاک پگاه', credit_score: 710, created_at: '2025-01-27T10:00:00Z', updated_at: '2025-01-27T10:00:00Z' },
+      bank: toBankSummary(findBankByCode('shahr')!),
       bank_name: 'بانک شهر',
       cheque_serial_number: '3340293800',
       face_amount: '950000000',
@@ -332,7 +349,8 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: 114,
       owner_id: 1,
       issuer_profile: { id: 23, national_or_company_id: '1050607080', name: 'صنایع شیمیایی سپاهان', credit_score: 840, created_at: '2025-01-28T10:00:00Z', updated_at: '2025-01-28T10:00:00Z' },
-      bank_name: 'بانک ملت',
+      bank: null,
+      bank_name: 'صندوق قرض‌الحسنه کارآفرینان',
       cheque_serial_number: '4450293811',
       face_amount: '4100000000',
       due_date: '2027-02-01',
@@ -353,6 +371,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: 115,
       owner_id: 1,
       issuer_profile: { id: 24, national_or_company_id: '0099887766', name: 'کامران نوری', credit_score: 640, created_at: '2025-01-29T10:00:00Z', updated_at: '2025-01-29T10:00:00Z' },
+      bank: toBankSummary(findBankByCode('sina')!),
       bank_name: 'بانک سینا',
       cheque_serial_number: '5560293822',
       face_amount: '220000000',
@@ -375,7 +394,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
   const seedMatches: Match[] = [
     {
       id: 501,
-      listing: { id: 110, bank_name: 'بانک مسکن', face_amount: '1500000000', due_date: '2026-10-10', status: 'matched', created_at: '2025-02-14T10:00:00Z', updated_at: '2025-02-15T12:00:00Z' },
+      listing: { id: 110, bank: toBankSummary(findBankByCode('maskan')!), bank_name: 'بانک مسکن', face_amount: '1500000000', due_date: '2026-10-10', status: 'matched', created_at: '2025-02-14T10:00:00Z', updated_at: '2025-02-15T12:00:00Z' },
       investor: { id: 2, username: 'investor1', name: 'سرمایه‌گذاری نوین (سرمایه‌گذار)' },
       check_holder: { id: 1, username: 'holder1', name: 'رضا صبوری (دارنده چک)' },
       status: 'accepted',
@@ -388,7 +407,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     },
     {
       id: 502,
-      listing: { id: 101, bank_name: 'بانک ملت', face_amount: '1200000000', due_date: '2026-09-15', status: 'published', created_at: '2025-02-01T10:00:00Z', updated_at: '2025-02-02T11:00:00Z' },
+      listing: { id: 101, bank: toBankSummary(findBankByCode('mellat')!), bank_name: 'بانک ملت', face_amount: '1200000000', due_date: '2026-09-15', status: 'published', created_at: '2025-02-01T10:00:00Z', updated_at: '2025-02-02T11:00:00Z' },
       investor: { id: 2, username: 'investor1', name: 'سرمایه‌گذاری نوین (سرمایه‌گذار)' },
       check_holder: { id: 1, username: 'holder1', name: 'رضا صبوری (دارنده چک)' },
       status: 'pending',
@@ -519,6 +538,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
   ];
 
   // Load state from localStorage or initialize
+  const banks = ref<Bank[]>([...LOCAL_BANKS]);
   const users = ref<User[]>([]);
   const profiles = ref<Record<number, Profile>>({});
   const listings = ref<ChequeListing[]>([]);
@@ -532,6 +552,10 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     sms_enabled: true,
     email_enabled: false
   });
+
+  function listBanks(): Bank[] {
+    return banks.value;
+  }
 
   function init() {
     try {
@@ -549,6 +573,34 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
         if (parsed.notificationPrefs) notificationPrefs.value = parsed.notificationPrefs;
 
         let needsPersist = false;
+
+        // Hydrate bank on listings if missing or undefined
+        listings.value.forEach(l => {
+          if ((l as any).bank === undefined) {
+            const found = findBankByNameOrAlias(l.bank_name);
+            if (found) {
+              l.bank = toBankSummary(found);
+              l.bank_name = found.display_name;
+            } else {
+              l.bank = null;
+            }
+            needsPersist = true;
+          }
+        });
+
+        // Hydrate bank on matches listing summaries if missing or undefined
+        matches.value.forEach(m => {
+          if (m.listing && (m.listing as any).bank === undefined) {
+            const found = findBankByNameOrAlias(m.listing.bank_name);
+            if (found) {
+              m.listing.bank = toBankSummary(found);
+              m.listing.bank_name = found.display_name;
+            } else {
+              m.listing.bank = null;
+            }
+            needsPersist = true;
+          }
+        });
 
         // Merge any missing seed feature flags (e.g. show_risk_tier) into stored flags
         seedFeatureFlags.forEach(sf => {
@@ -603,6 +655,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
   }
 
   function resetToSeed() {
+    banks.value = [...LOCAL_BANKS];
     users.value = JSON.parse(JSON.stringify(seedUsers));
     profiles.value = JSON.parse(JSON.stringify(seedProfiles));
     listings.value = JSON.parse(JSON.stringify(seedListings));
@@ -745,8 +798,22 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     if (filters.risk_tier) {
       result = result.filter(r => r.risk_tier === filters.risk_tier);
     }
-    if (filters.bank_name) {
-      result = result.filter(r => r.bank_name.includes(filters.bank_name!));
+    if (filters.bank && filters.bank.trim()) {
+      const targetCode = filters.bank.trim();
+      result = result.filter(r => r.bank?.code === targetCode);
+    } else if (filters.bank_name && filters.bank_name.trim()) {
+      const query = filters.bank_name.trim();
+      result = result.filter(r => {
+        if (r.bank_name && r.bank_name.includes(query)) return true;
+        if (r.bank) {
+          if (r.bank.display_name && r.bank.display_name.includes(query)) return true;
+          const catalogBank = findBankByCode(r.bank.code);
+          if (catalogBank && catalogBank.aliases.some(alias => alias.includes(query))) {
+            return true;
+          }
+        }
+        return false;
+      });
     }
     if (filters.issuer_type) {
       result = result.filter(r => r.issuer_type === filters.issuer_type);
@@ -787,6 +854,21 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
   }
 
   function createListing(userId: number, req: CreateListingRequest): ChequeListing {
+    const rawReq = req as any;
+    if (!req.bank || typeof req.bank !== 'string' || !req.bank.trim() || (rawReq.bank_name && !req.bank)) {
+      throw createErrorEnvelope('VALIDATION_ERROR', 'کد بانک الزامی است.', {
+        bank: ['کد بانک الزامی است.']
+      });
+    }
+
+    const bankCode = req.bank.trim();
+    const catalogBank = findBankByCode(bankCode);
+    if (!catalogBank) {
+      throw createErrorEnvelope('VALIDATION_ERROR', 'بانک انتخاب‌شده نامعتبر است.', {
+        bank: ['بانک انتخاب‌شده نامعتبر است.']
+      });
+    }
+
     const newListing: ChequeListing = {
       id: Date.now(),
       owner_id: userId,
@@ -798,7 +880,8 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       },
-      bank_name: req.bank_name,
+      bank: toBankSummary(catalogBank),
+      bank_name: catalogBank.display_name,
       cheque_serial_number: req.cheque_serial_number,
       face_amount: String(req.face_amount),
       due_date: req.due_date,
@@ -826,7 +909,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       event_type: 'LISTING_CREATED',
       object_type: 'ChequeListing',
       object_id: String(newListing.id),
-      metadata: { bank: req.bank_name, face_amount: req.face_amount },
+      metadata: { bank: catalogBank.display_name, face_amount: req.face_amount },
       ip_address: '127.0.0.1',
       created_at: new Date().toISOString()
     });
@@ -840,7 +923,25 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     if (!item) throw createErrorEnvelope('NOT_FOUND_ERROR', 'آگهی یافت نشد.');
     if (item.owner_id !== userId) throw createErrorEnvelope('PERMISSION_ERROR', 'شما دسترسی ویرایش این آگهی را ندارید.');
 
-    if (req.bank_name) item.bank_name = req.bank_name;
+    const rawReq = req as any;
+    if (rawReq.bank_name !== undefined && req.bank === undefined) {
+      throw createErrorEnvelope('VALIDATION_ERROR', 'کد بانک الزامی است.', {
+        bank: ['کد بانک الزامی است.']
+      });
+    }
+
+    if (req.bank !== undefined) {
+      const bankCode = req.bank.trim();
+      const catalogBank = findBankByCode(bankCode);
+      if (!catalogBank) {
+        throw createErrorEnvelope('VALIDATION_ERROR', 'بانک انتخاب‌شده نامعتبر است.', {
+          bank: ['بانک انتخاب‌شده نامعتبر است.']
+        });
+      }
+      item.bank = toBankSummary(catalogBank);
+      item.bank_name = catalogBank.display_name;
+    }
+
     if (req.cheque_serial_number) item.cheque_serial_number = req.cheque_serial_number;
     if (req.face_amount !== undefined) item.face_amount = String(req.face_amount);
     if (req.due_date) item.due_date = req.due_date;
@@ -874,6 +975,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
       id: Date.now(),
       listing: {
         id: listing.id,
+        bank: listing.bank,
         bank_name: listing.bank_name,
         face_amount: listing.face_amount,
         due_date: listing.due_date,
@@ -1232,6 +1334,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
   }
 
   return {
+    banks,
     users,
     profiles,
     listings,
@@ -1243,6 +1346,7 @@ export const useBackendSimulatorStore = defineStore('backendSimulator', () => {
     notificationPrefs,
     init,
     resetToSeed,
+    listBanks,
     handleLogin,
     handleRegister,
     getMarketplaceListings,

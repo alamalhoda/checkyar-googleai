@@ -198,9 +198,19 @@ The application supports six distinct themes: `dark` (default), `light`, `warm`,
 
 ---
 
-## 9. Bank Catalog & BankBadge Component
+## 9. Bank Catalog, API Facade & Simulator Integration
 
-- **Local Bank Catalog (`src/shared/banks/`):** Acts as the frontend Single Source of Truth (SSOT) for 14 standardized Iranian banks (`LOCAL_BANKS` in `src/shared/banks/catalog.ts`), matching backend codes and providing lookup helpers (`findBankByCode`, `findBankByNameOrAlias`, `getBankBrandColor` in `src/shared/banks/lookup.ts`). This serves mock mode and acts as a fallback for live API bank data.
-- **Reusable Bank Badge (`src/shared/components/BankBadge.vue`):** Visual badge supporting catalog banks (logo image or initial letter over theme-aware brand color surface), compact/default sizes, dark/light themes, and unknown bank fallbacks (`BusinessOutline` building icon).
-- **Follow-up Scope:** Wiring the badge into listing cards, detail pages, forms, and simulator payloads will be executed in follow-up integration tasks.
+- **Local Bank Catalog (`src/shared/banks/`):** Acts as the frontend Single Source of Truth (SSOT) for 14 standardized Iranian banks (`LOCAL_BANKS` in `src/shared/banks/catalog.ts`), matching backend codes and providing lookup helpers (`findBankByCode`, `findBankByNameOrAlias`, `toBankSummary`, `getBankBrandColor` in `src/shared/banks/lookup.ts`).
+- **Reactive Catalog Composable (`useBanksCatalog` in `src/shared/banks/useBanksCatalog.ts`):** Returns `{ banks, loading, error, fetchBanks }` to fetch the bank list asynchronously from `GET /api/v1/banks/` while defaulting to `LOCAL_BANKS` as an instantaneous synchronous fallback.
+- **API Facade & Payloads (`src/api/`):**
+  - `banksApi.list()` calls `GET /api/v1/banks/` (or `store.listBanks()` in mock mode).
+  - `listingsApi.createListing` and `listingsApi.updateListing` accept `bank` (code string) and strip `bank_name` from outgoing HTTP payloads.
+  - Listing DTOs (`ChequeListing`, `MarketplaceListing`, `ListingSummary`, `ModerationQueueItem`) include `bank: BankSummary | null` alongside legacy `bank_name`.
+- **Backend Simulator Hydration (`src/stores/useBackendSimulatorStore.ts`):**
+  - Intercepts `/banks` in `client.ts` to return mock bank list.
+  - Auto-hydrates any listings or matches lacking a `bank` field on `init()` via `findBankByNameOrAlias`.
+  - Enforces valid bank code verification upon `createListing` and `updateListing`.
+  - Filters marketplace listings with precedence for `filters.bank` (exact code) over `filters.bank_name` (partial name/alias).
+- **Reusable Bank Badge (`src/shared/components/BankBadge.vue`):** Visual badge supporting catalog banks (logo image or initial letter over theme-aware brand color surface), compact/default sizes, dark/light themes, and unknown bank fallbacks with initial and building icon.
+- **Follow-up Scope:** Wiring the badge into listing cards, detail pages, and filters will be executed in follow-up integration tasks.
 

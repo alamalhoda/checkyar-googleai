@@ -26,6 +26,19 @@ export function findBankByNameOrAlias(name?: string | null): Bank | undefined {
 }
 
 /**
+ * Converts a Bank object to a BankSummary object (stripping aliases).
+ */
+export function toBankSummary(bank: Bank): BankSummary {
+  return {
+    code: bank.code,
+    display_name: bank.display_name,
+    brand_color_light: bank.brand_color_light,
+    brand_color_dark: bank.brand_color_dark,
+    logo_url: bank.logo_url,
+  };
+}
+
+/**
  * Returns the theme-appropriate brand color hex string for a catalog bank or summary.
  * Returns undefined if bank is null or undefined.
  */

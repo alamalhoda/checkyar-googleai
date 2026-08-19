@@ -123,6 +123,11 @@ async function handleMockRequest(config: InternalAxiosRequestConfig): Promise<an
     return simulator.createVerification(body);
   }
 
+  // Banks Catalog
+  if ((url.endsWith('/banks') || url.endsWith('/banks/') || url.includes('/banks/')) && method === 'get') {
+    return simulator.listBanks();
+  }
+
   // Marketplace
   if (url.includes('/marketplace/listings/latest') && method === 'get') {
     return simulator.getMarketplaceListings({ page_size: 4 }).results;

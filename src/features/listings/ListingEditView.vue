@@ -8,6 +8,7 @@ import {
 import ConfirmDialog from '../../shared/components/ConfirmDialog.vue';
 import { listingsApi } from '../../api';
 import type { ChequeListing, IssuerType } from '../../types/api';
+import { findBankByNameOrAlias } from '../../shared/banks/lookup';
 
 const route = useRoute();
 const router = useRouter();
@@ -103,8 +104,11 @@ const handleSave = async () => {
       ? new Date(dueDateTimestamp.value).toISOString().split('T')[0]
       : undefined;
 
+    const matchedBank = findBankByNameOrAlias(bankName.value);
+    const bankCode = matchedBank?.code || bankName.value.trim();
+
     await listingsApi.updateListing(listingId.value, {
-      bank_name: bankName.value,
+      bank: bankCode,
       cheque_serial_number: chequeSerialNumber.value,
       face_amount: faceAmount.value || 0,
       due_date: formattedDueDate,

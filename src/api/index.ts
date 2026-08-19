@@ -1,6 +1,8 @@
 import { api, setMockMode, getMockMode, isMockEnvEnabled } from './client';
 import { useBackendSimulatorStore } from '../stores/useBackendSimulatorStore';
 import type {
+  Bank,
+  BankSummary,
   LoginRequest,
   LoginResponse,
   RegisterRequest,
@@ -31,6 +33,8 @@ import type {
 } from '../types/api';
 
 export type {
+  Bank,
+  BankSummary,
   LoginRequest,
   LoginResponse,
   RegisterRequest,
@@ -70,6 +74,14 @@ export function unwrapList<T>(data: unknown): T[] {
   }
   return [];
 }
+
+export const banksApi = {
+  list: async (): Promise<Bank[]> => {
+    if (isMock()) return useBackendSimulatorStore().listBanks();
+    const res = await api.get('/banks/');
+    return unwrapList<Bank>(res.data);
+  }
+};
 
 export const authApi = {
   login: async (data: LoginRequest): Promise<LoginResponse> => {
@@ -206,7 +218,8 @@ export const listingsApi = {
   },
   createListing: async (data: CreateListingRequest): Promise<ChequeListing> => {
     if (isMock()) return useBackendSimulatorStore().createListing(1, data);
-    const payload = { ...data };
+    const { bank_name, ...rest } = data as any;
+    const payload = { ...rest };
     if (!payload.issuer && payload.issuer_national_id) {
       try {
         const searchRes = await api.get('/issuer-profiles/', { params: { national_or_company_id: payload.issuer_national_id } });
@@ -235,7 +248,8 @@ export const listingsApi = {
   },
   updateListing: async (id: number, data: UpdateListingRequest): Promise<ChequeListing> => {
     if (isMock()) return useBackendSimulatorStore().updateListing(1, id, data);
-    const res = await api.patch(`/listings/${id}/`, data);
+    const { bank_name, ...payload } = data as any;
+    const res = await api.patch(`/listings/${id}/`, payload);
     return res.data;
   },
   uploadDocument: async (id: number, documentType: string, file: File | Blob | string): Promise<any> => {

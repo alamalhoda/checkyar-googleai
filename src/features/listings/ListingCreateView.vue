@@ -8,6 +8,7 @@ import {
 } from 'naive-ui';
 import { listingsApi } from '../../api';
 import type { IssuerType } from '../../types/api';
+import { findBankByNameOrAlias } from '../../shared/banks/lookup';
 
 const router = useRouter();
 const message = useMessage();
@@ -113,12 +114,14 @@ const handleSubmit = async () => {
 
   try {
     const formattedDueDate = new Date(dueDateTimestamp.value!).toISOString().split('T')[0];
+    const matchedBank = findBankByNameOrAlias(bankName.value);
+    const bankCode = matchedBank?.code || bankName.value.trim();
 
     const created = await listingsApi.createListing({
       issuer_type: issuerType.value,
       issuer_name: issuerName.value,
       issuer_national_id: issuerNationalId.value,
-      bank_name: bankName.value,
+      bank: bankCode,
       cheque_serial_number: chequeSerialNumber.value.trim(),
       face_amount: String(faceAmount.value),
       due_date: formattedDueDate,
