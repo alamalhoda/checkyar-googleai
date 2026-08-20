@@ -60,7 +60,7 @@ VITE_API_BASE_URL=http://localhost:8000/api/v1
   - [docs/TESTING.md](docs/TESTING.md) (انگلیسی)
   - [docs/TESTING.fa.md](docs/TESTING.fa.md) (فارسی)
 - **یکپارچه‌سازی مداوم (CI):**
-  - [.github/workflows/ci.yml](.github/workflows/ci.yml) (اجرای اتوماتیک typecheck، unit tests، بیلد پیش‌فرض و بیلد لایو غیرماک با هر push/PR روی `main`)
+  - [.github/workflows/ci.yml](.github/workflows/ci.yml) (اجرای اتوماتیک typecheck، unit tests، بیلد پیش‌فرض و بیلد لایو غیرماک با هر push/PR روی `main` و ارسال دیسپچ E2E به doion پس از موفقیت push به `main`)
 - **دموی آنلاین هاست‌شده (CD Demo):**
   - [https://chequeyar-front-demo.chbkn.dev/](https://chequeyar-front-demo.chbkn.dev/) (نسخه دموی شبیه‌ساز ماک روی چابکان استاتیک؛ بدون اتصال به API واقعی؛ مستقرشده توسط [.github/workflows/cd-demo.yml](.github/workflows/cd-demo.yml))
 - **عدم وابستگی به CDN خارجی (Offline/National Network):** تمامی فونت‌ها (وزیرمتن) و تصاویر دمو/جایگزین به صورت ذخیره لوکال (`public/fonts/` و `public/images/placeholders/`) پیاده‌سازی شده و بدون نیاز به اینترنت بین‌الملل اجرا می‌شوند.

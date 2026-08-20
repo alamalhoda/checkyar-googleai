@@ -173,6 +173,9 @@ Continuous Integration is configured via [.github/workflows/ci.yml](../.github/w
 3. `bun run build` (Default production build validation)
 4. `bun run build` with `VITE_USE_MOCK="false"` and `VITE_API_BASE_URL="https://chequeyar-back.chbkn.dev/api/v1"` (Live non-mock production build verification)
 
+### E2E Integration Dispatch (`dispatch-doion-e2e.yml`)
+Upon successful completion of the CI workflow on a push to `main`, [.github/workflows/dispatch-doion-e2e.yml](../.github/workflows/dispatch-doion-e2e.yml) sends a `repository_dispatch` event (`event_type: "frontend-e2e"`) to `alamalhoda/doion` with the verified UI commit SHA (`ui_sha`). The Playwright E2E test results execute and report in the `doion` Actions tab without gating or blocking frontend checks in this repository. The repository owner must configure the secret `DOION_E2E_DISPATCH_TOKEN` (a GitHub PAT with permissions to post repository dispatch events to `alamalhoda/doion`).
+
 ### Mock Mode Environment Policy in Testing
 - **Env Gated:** Mock/simulator UI chrome and runtime toggles are active ONLY when `VITE_USE_MOCK=true`.
 - **Live-Only UI:** When `VITE_USE_MOCK=false`, simulator header controls, login mock banners, switches (`data-testid="mock-mode-switch"`), persona quick login panels, and quick-fill helper buttons are hidden.

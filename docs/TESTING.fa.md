@@ -172,6 +172,9 @@ bun run lint
 ۳. `bun run build` (بررسی کامپایل و ساخت نسخه نهایی پیش‌فرض)
 ۴. `bun run build` با متغیرهای `VITE_USE_MOCK="false"` و `VITE_API_BASE_URL="https://chequeyar-back.chbkn.dev/api/v1"` (اعتبارسنجی ساخت نسخه نهایی واقعی Live غیرماک)
 
+### ارسال رویداد تست سرتاسری به مخزن بک‌اند (`dispatch-doion-e2e.yml`)
+پس از اجرای موفق و سبز شدن فرآیند CI در زمان push به شاخه `main`، ورک‌فلو [.github/workflows/dispatch-doion-e2e.yml](../.github/workflows/dispatch-doion-e2e.yml) یک رویداد `repository_dispatch` با نوع `frontend-e2e` همراه با شناسه هش کامیت فرانت‌اند (`ui_sha`) به مخزن `alamalhoda/doion` ارسال می‌کند. آزمون‌های Playwright مستقلاً در اکشن‌های مخزن `doion` اجرا می‌شوند و نتیجه آن‌ها مانع یا گارد ادغام در این ریپازیتوری نخواهد بود. جهت فعال‌سازی این ارسال، مقدار سکرت `DOION_E2E_DISPATCH_TOKEN` (یک Personal Access Token در گیت‌هاب با دسترسی ثبت دیسپچ در `alamalhoda/doion`) باید توسط مالک مخزن در تنظیمات گیت‌هاب اکشنز تعریف گردد.
+
 ### سیاست محیطی حالت شبیه‌سازی در تست‌ها
 - **وابسته به محیط (Env Gated):** تمام المان‌ها و کلیدهای شبیه‌ساز تنها زمانی فعال هستند که `VITE_USE_MOCK=true` باشد.
 - **رابط کاربری خالص Live:** در صورت `VITE_USE_MOCK=false` کنترل‌های هدر، بنرهای دمو، کلید `data-testid="mock-mode-switch"`، کارت‌های کاراکتر دمو و دکمه‌های پرکردن سریع کاملاً پنهان می‌شوند.
