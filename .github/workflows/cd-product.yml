@@ -46,4 +46,6 @@ jobs:
           # .gitignore contains dist/ by default. Remove dist/ from .gitignore on runner so CLI uploads built assets.
           sed -i '/dist\//d' .gitignore || true
           chabok login -t "$CHABOKAN_TOKEN"
+          printf '%s\n' '{"service":"chequeyar-front"}' > chabok.json
+          echo "Overrode chabok.json on runner to target service: chequeyar-front"
           chabok deploy -s chequeyar-front
