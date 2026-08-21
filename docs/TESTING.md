@@ -167,12 +167,14 @@ When introducing feature modifications or UI logic changes:
 
 ## 7. CI (GitHub Actions), Docker Verification & Mock Environment Policy
 
-Continuous Integration is configured via [.github/workflows/ci.yml](../.github/workflows/ci.yml). On every push and pull request to the `main` branch, GitHub Actions executes five sequential verification steps:
+Continuous Integration is configured via [.github/workflows/ci.yml](../.github/workflows/ci.yml). Google AI Studio continuously pushes to the default `main` intake branch. The long-lived `product` branch acts as the production git line. On every push and pull request to both `main` and `product` branches (including PRs targeting `product` from `main`), GitHub Actions executes five sequential verification steps:
 1. `bun run lint` (TypeScript compilation & type checking)
 2. `bun run test` (Vitest unit tests running in `happy-dom` environment; `localStorage` access in `src/api/client.ts` is safely guarded)
 3. `bun run build` (Default production build validation)
 4. `bun run build` with `VITE_USE_MOCK="false"` and `VITE_API_BASE_URL="https://chequeyar-back.chbkn.dev/api/v1"` (Live non-mock production build verification)
 5. `docker build` with `VITE_USE_MOCK="false"` and `VITE_API_BASE_URL="https://chequeyar-back.chbkn.dev/api/v1"` (Production container packaging verification)
+
+> Note: Deployment of the production SPA service (`chequeyar-front`) from the `product` branch is decoupled and handled in a separate step. Opening a PR from `main` to `product` exercises the identical CI verification suite.
 
 ### Docker Build & Local Compose Smoke Testing
 

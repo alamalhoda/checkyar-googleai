@@ -166,12 +166,14 @@ bun run lint
 
 ## ۷. یکپارچه‌سازی مداوم - CI (GitHub Actions)، تست داکر و سیاست محیط شبیه‌ساز
 
-فرآیند تست و ساخت اتوماتیک در فایل [.github/workflows/ci.yml](../.github/workflows/ci.yml) پیکربندی شده است. با هر push یا pull_request روی شاخه `main`، ۵ مرحله اعتبارسنجی متوالی در GitHub اجرا می‌شوند:
+فرآیند تست و ساخت اتوماتیک در فایل [.github/workflows/ci.yml](../.github/workflows/ci.yml) پیکربندی شده است. توسعه در Google AI Studio کماکان به شاخه پیش‌فرض `main` پوش می‌شود. شاخه پایدار `product` به عنوان خط پروداکشن (Production) فرانت‌اند عمل می‌کند. با هر push یا pull_request روی هر دو شاخه `main` و `product` (شامل PRهای با مقصد `product` از مبدأ `main`)، ۵ مرحله اعتبارسنجی متوالی در GitHub اجرا می‌شوند:
 ۱. `bun run lint` (بررسی تایپ‌ها و اعتبار کد با `tsc --noEmit`)
 ۲. `bun run test` (اجرای آزمون‌های واحد Vitest در محیط `happy-dom` با دسترسی ایمن به `localStorage` در کلاینت API)
 ۳. `bun run build` (بررسی کامپایل و ساخت نسخه نهایی پیش‌فرض)
 ۴. `bun run build` با متغیرهای `VITE_USE_MOCK="false"` و `VITE_API_BASE_URL="https://chequeyar-back.chbkn.dev/api/v1"` (اعتبارسنجی ساخت نسخه نهایی واقعی Live غیرماک)
 ۵. `docker build` با متغیرهای `VITE_USE_MOCK="false"` و `VITE_API_BASE_URL="https://chequeyar-back.chbkn.dev/api/v1"` (اعتبارسنجی بسته‌بندی ایمیج کانتینری پروداکشن)
+
+> نکته: فرآیند استقرار نهایی سرویس SPA پروداکشن (`chequeyar-front`) از شاخه `product` در این گام مجزا بوده و در مراحل بعدی انجام خواهد شد. باز کردن PR از `main` به `product` دقیقاً همین ۵ گام اعتبارسنجی CI را اجرا و اعتبارسنجی می‌نماید.
 
 ### آزمون بیلد داکر و تست محلی با Docker Compose
 

@@ -6,7 +6,7 @@
 
 ## ۱. هدف پروژه و جریان توسعه
 
-این مخزن (`alamalhoda/checkyar-googleai`) شامل واسط کاربری فعال محصول چک‌یار است.
+این مخزن (`alamalhoda/checkyar-googleai`) شامل واسط کاربری فعال محصول چک‌یار است. شاخه `product` به عنوان شاخه پایدار و خط پروداکشن (Production) عمل می‌کند و شاخه `main` شاخه اصلی دریافت و توسعه در Google AI Studio می‌باشد.
 
 ### جریان همگام‌سازی یک‌طرفه (One-Way Sync)
 
@@ -143,7 +143,7 @@ src/
 
 - **دموی آنلاین ماک:** به عنوان سرویس استاتیک چابکان (`chequeyar-front-demo`) در آدرس [https://chequeyar-front-demo.chbkn.dev/](https://chequeyar-front-demo.chbkn.dev/) در دسترس است.
 - **استقرار خودکار:** توسط ورک‌فلو گیت‌هاب اکشنز (`.github/workflows/cd-demo.yml`) با متغیر `VITE_USE_MOCK=true` در زمان کامپایل ساخته و مستقر می‌شود.
-- **اعتبارسنجی زنده در CI و دیسپچ E2E:** علاوه بر بیلد دمو، فرآیند CI روی شاخه `main` (`.github/workflows/ci.yml`) نیز در هر push و pull_request یک نسخه نهایی غیرماک را در برابر `https://chequeyar-back.chbkn.dev/api/v1` با `VITE_USE_MOCK=false` کامپایل، ایمیج داکر پروداکشن را بیلد و اعتبارسنجی می‌کند و پس از موفقیت CI روی push به `main`، ورک‌فلو `.github/workflows/dispatch-doion-e2e.yml` جهت اجرای تست‌های E2E با همان SHA به مخزن `alamalhoda/doion` پیام دیسپچ می‌فرستد.
+- **اعتبارسنجی زنده در CI و دیسپچ E2E:** علاوه بر بیلد دمو، فرآیند CI روی شاخه‌های `main` و `product` (`.github/workflows/ci.yml`) نیز در هر push و pull_request یک نسخه نهایی غیرماک را در برابر `https://chequeyar-back.chbkn.dev/api/v1` با `VITE_USE_MOCK=false` کامپایل، ایمیج داکر پروداکشن را بیلد و اعتبارسنجی می‌کند و پس از موفقیت CI روی push به `main`، ورک‌فلو `.github/workflows/dispatch-doion-e2e.yml` جهت اجرای تست‌های E2E با همان SHA به مخزن `alamalhoda/doion` پیام دیسپچ می‌فرستد.
 - **پیکربندی وب‌سرور:** از طریق فایل ریشه `nginx.conf` با مسیر ریشه `/usr/share/nginx/html/dist` (فایل‌های بیلدشده SPA) و دستور `try_files $uri $uri/ /index.html` برای پشتیبانی کامل از مسیریابی Vue Router تنظیم شده است.
 - **محیط و وضعیت داده‌ها:** هیچ بک‌اند یا دیتابیس واقعی متصل نیست. داده‌های شبیه‌ساز در `localStorage` مرورگر هر کاربر ذخیره می‌شوند و پایگاه‌داده اشتراکی وجود ندارد.
 - **دامنه کاربرد:** این محیط صرفاً دموی نمایشی است و نسخه عملیاتی (Production) یا استیجینگ زنده (Live Staging) **نیست**. پیش‌نمایش در Codespaces نیز به عنوان محیط دوم توسعه/پیش‌نمایش ابری فعال است.
