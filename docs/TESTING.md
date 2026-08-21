@@ -210,7 +210,7 @@ The hosted mock demo deployment is handled separately from CI testing. Upon push
 
 ### Continuous Deployment for Product Live SPA (`cd-product.yml`)
 
-Deployment of the live production SPA service (`chequeyar-front`) is configured as a separate, manual owner-triggered workflow ([.github/workflows/cd-product.yml](../.github/workflows/cd-product.yml)). It is triggered via `workflow_dispatch` only (with the owner selecting the `product` branch), compiles the live bundle (`VITE_USE_MOCK=false`, `VITE_API_BASE_URL=https://chequeyar-back.chbkn.dev/api/v1`), overrides `chabok.json` on the runner workspace to target `chequeyar-front` (because Chabokan CLI prefers that file over `-s`), and deploys directly to the existing Chabokan service `chequeyar-front`. Mock demo CD (`cd-demo.yml`) remains unchanged.
+Deployment of the live production SPA service (`chequeyar-front`) is configured as a separate, manual owner-triggered workflow ([.github/workflows/cd-product.yml](../.github/workflows/cd-product.yml)). It is triggered via `workflow_dispatch` only (with the owner selecting the `product` branch), compiles the live bundle (`VITE_USE_MOCK=false`, `VITE_API_BASE_URL=https://chequeyar-back.chbkn.dev/api/v1`), overrides `chabok.json` on the runner workspace to target `chequeyar-front` (because Chabokan CLI prefers that file over `-s`), and deploys directly to the existing Chabokan service `chequeyar-front`. The PaaS Vue host ignores this repo's `nginx.conf` via `.chabokignore` because the Docker container root path differs from Chabokan's default `/app/dist`, while panel environment variables (`VITE_USE_MOCK=false`, `VITE_API_BASE_URL=https://chequeyar-back.chbkn.dev/api/v1`) configure the server build. Mock demo CD (`cd-demo.yml`) remains unchanged.
 
 ---
 
