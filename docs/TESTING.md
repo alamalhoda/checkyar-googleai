@@ -208,6 +208,10 @@ Upon successful completion of the CI workflow on a push to `main`, [.github/work
 
 The hosted mock demo deployment is handled separately from CI testing. Upon push to `main`, [.github/workflows/cd-demo.yml](../.github/workflows/cd-demo.yml) executes lint and unit tests, compiles a mock SPA with `VITE_USE_MOCK=true`, and deploys it to Chabokan Static (`chequeyar-front-demo`). The standard CI workflow (`ci.yml`) continues to run default live-shape compilation checks on push and PR. E2E tests remain in the `doion` monorepo (`e2e/`).
 
+### Continuous Deployment for Product Live SPA (`cd-product.yml`)
+
+Deployment of the live production SPA service (`chequeyar-front`) is configured as a separate, manual owner-triggered workflow ([.github/workflows/cd-product.yml](../.github/workflows/cd-product.yml)). It is triggered via `workflow_dispatch` only (with the owner selecting the `product` branch), compiles the live bundle (`VITE_USE_MOCK=false`, `VITE_API_BASE_URL=https://chequeyar-back.chbkn.dev/api/v1`), and deploys directly to the existing Chabokan service `chequeyar-front`. Mock demo CD (`cd-demo.yml`) remains unchanged.
+
 ---
 
 ## 8. Theming & Dynamic Styling Verification

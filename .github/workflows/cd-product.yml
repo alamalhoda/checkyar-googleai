@@ -1,0 +1,49 @@
+name: CD Product (Chabokan live)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-product:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Typecheck (lint)
+        run: bun run lint
+
+      - name: Run unit tests
+        run: bun run test
+
+      - name: Build LIVE bundle
+        env:
+          VITE_USE_MOCK: "false"
+          VITE_API_BASE_URL: "https://chequeyar-back.chbkn.dev/api/v1"
+        run: bun run build
+
+      - name: Setup Node.js (for Chabokan CLI)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Deploy to Chabokan
+        env:
+          CHABOKAN_TOKEN: ${{ secrets.CHABOKAN_TOKEN }}
+        run: |
+          if [ -z "$CHABOKAN_TOKEN" ]; then
+            echo "Error: CHABOKAN_TOKEN secret is not set or empty." >&2
+            exit 1
+          fi
+          npm install -g @chabokan.net/cli
+          # .gitignore contains dist/ by default. Remove dist/ from .gitignore on runner so CLI uploads built assets.
+          sed -i '/dist\//d' .gitignore || true
+          chabok login -t "$CHABOKAN_TOKEN"
+          chabok deploy -s chequeyar-front
