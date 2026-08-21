@@ -209,7 +209,7 @@ docker compose up --build
 
 ### استقرار نسخه عملیاتی Live فرانت‌اند (`cd-product.yml`)
 
-استقرار سرویس SPA پروداکشن (`chequeyar-front`) در یک ورک‌فلو مجزا و دستی ([.github/workflows/cd-product.yml](../.github/workflows/cd-product.yml)) تعریف شده است. این ورک‌فلو صرفاً با تریگر دستی `workflow_dispatch` توسط مالک و با انتخاب شاخه `product` اجرا می‌گردد؛ پروژه با متغیرهای زنده (`VITE_USE_MOCK=false` و `VITE_API_BASE_URL=https://chequeyar-back.chbkn.dev/api/v1`) کامپایل شده و در سرویس چابکان `chequeyar-front` مستقر می‌شود. فرآیند خودکار استقرار دموی ماک (`cd-demo.yml`) بدون تغییر به فعالیت خود ادامه می‌دهد.
+استقرار سرویس SPA پروداکشن (`chequeyar-front`) در یک ورک‌فلو مجزا و دستی ([.github/workflows/cd-product.yml](../.github/workflows/cd-product.yml)) تعریف شده است. این ورک‌فلو صرفاً با تریگر دستی `workflow_dispatch` توسط مالک و با انتخاب شاخه `product` اجرا می‌گردد؛ پروژه با متغیرهای زنده (`VITE_USE_MOCK=false` و `VITE_API_BASE_URL=https://chequeyar-back.chbkn.dev/api/v1`) کامپایل شده، فایل `chabok.json` روی رانر گیت‌هاب جهت اشاره به `chequeyar-front` بازنویسی می‌شود (زیرا Chabokan CLI اولویت را به محتوای `chabok.json` نسبت به آرگومان `-s` می‌دهد) و در سرویس چابکان `chequeyar-front` مستقر می‌شود. فرآیند خودکار استقرار دموی ماک (`cd-demo.yml`) بدون تغییر به فعالیت خود ادامه می‌دهد.
 
 ---
 
