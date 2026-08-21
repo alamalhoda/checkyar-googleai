@@ -207,6 +207,10 @@ docker compose up --build
 
 استقرار نسخه دموی ماک به صورت مجزا از CI آزمون‌ها مدیریت می‌شود. پس از هر push به شاخه `main`، ورک‌فلو [.github/workflows/cd-demo.yml](../.github/workflows/cd-demo.yml) تست‌های واحد و lint را اجرا کرده، نسخه ماک SPA را با `VITE_USE_MOCK=true` بیلد می‌کند و در سرویس استاتیک چابکان (`chequeyar-front-demo`) مستقر می‌سازد. ورک‌فلو اصلی CI (`ci.yml`) همچنان اعتبارسنجی بیلد پیش‌فرض و تست‌ها را بر عهده دارد و آزمون‌های E2E در مخزن `doion` (پوشه `e2e/`) نگهداری می‌شوند.
 
+### استقرار نسخه عملیاتی Live فرانت‌اند (`cd-product.yml`)
+
+استقرار سرویس SPA پروداکشن (`chequeyar-front`) در یک ورک‌فلو مجزا و دستی ([.github/workflows/cd-product.yml](../.github/workflows/cd-product.yml)) تعریف شده است. این ورک‌فلو صرفاً با تریگر دستی `workflow_dispatch` توسط مالک و با انتخاب شاخه `product` اجرا می‌گردد؛ پروژه با متغیرهای زنده (`VITE_USE_MOCK=false` و `VITE_API_BASE_URL=https://chequeyar-back.chbkn.dev/api/v1`) کامپایل شده و در سرویس چابکان `chequeyar-front` مستقر می‌شود. فرآیند خودکار استقرار دموی ماک (`cd-demo.yml`) بدون تغییر به فعالیت خود ادامه می‌دهد.
+
 ---
 
 ## ۸. اعتبارسنجی پوسته‌ها و استایل‌های پویا

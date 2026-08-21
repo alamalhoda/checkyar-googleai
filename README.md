@@ -63,6 +63,8 @@ VITE_API_BASE_URL=http://localhost:8000/api/v1
   - [.github/workflows/ci.yml](.github/workflows/ci.yml) (اجرای اتوماتیک typecheck، unit tests، بیلد پیش‌فرض، بیلد لایو غیرماک و ساخت ایمیج داکر پروداکشن با هر push/PR روی شاخه‌های `main` و `product` و ارسال دیسپچ E2E به doion پس از موفقیت push به `main`. جهت بررسی انتشار، کافی است در گیت‌هاب مقایسه `product...main` با base: `product` و compare: `main` به صورت PR باز شود.)
 - **دموی آنلاین هاست‌شده (CD Demo):**
   - [https://chequeyar-front-demo.chbkn.dev/](https://chequeyar-front-demo.chbkn.dev/) (نسخه دموی شبیه‌ساز ماک روی چابکان استاتیک؛ بدون اتصال به API واقعی؛ مستقرشده توسط [.github/workflows/cd-demo.yml](.github/workflows/cd-demo.yml))
+- **استقرار سرویس لایو پروداکشن (CD Product):**
+  - استقرار دستی نسخه زنده (Live) روی سرویس چابکان `chequeyar-front` از طریق اجرای دستی ورک‌فلو [.github/workflows/cd-product.yml](.github/workflows/cd-product.yml) (`workflow_dispatch`) از مبدأ شاخه `product`.
 - **عدم وابستگی به CDN خارجی (Offline/National Network):** تمامی فونت‌ها (وزیرمتن) و تصاویر دمو/جایگزین به صورت ذخیره لوکال (`public/fonts/` و `public/images/placeholders/`) پیاده‌سازی شده و بدون نیاز به اینترنت بین‌الملل اجرا می‌شوند.
 
 ---
