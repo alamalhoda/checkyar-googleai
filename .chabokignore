@@ -4,4 +4,3 @@ node_modules/
 .env.*
 coverage/
 *.log
-nginx.conf
