@@ -165,13 +165,32 @@ When introducing feature modifications or UI logic changes:
 
 ---
 
-## 7. CI (GitHub Actions) & Mock Environment Policy
+## 7. CI (GitHub Actions), Docker Verification & Mock Environment Policy
 
-Continuous Integration is configured via [.github/workflows/ci.yml](../.github/workflows/ci.yml). On every push and pull request to the `main` branch, GitHub Actions executes four sequential verification steps:
+Continuous Integration is configured via [.github/workflows/ci.yml](../.github/workflows/ci.yml). On every push and pull request to the `main` branch, GitHub Actions executes five sequential verification steps:
 1. `bun run lint` (TypeScript compilation & type checking)
 2. `bun run test` (Vitest unit tests running in `happy-dom` environment; `localStorage` access in `src/api/client.ts` is safely guarded)
 3. `bun run build` (Default production build validation)
 4. `bun run build` with `VITE_USE_MOCK="false"` and `VITE_API_BASE_URL="https://chequeyar-back.chbkn.dev/api/v1"` (Live non-mock production build verification)
+5. `docker build` with `VITE_USE_MOCK="false"` and `VITE_API_BASE_URL="https://chequeyar-back.chbkn.dev/api/v1"` (Production container packaging verification)
+
+### Docker Build & Local Compose Smoke Testing
+
+While daily active frontend development runs on the host via `bun run dev`, the containerized production image can be tested locally:
+
+```bash
+# Build production live container image
+docker build \
+  --build-arg VITE_USE_MOCK="false" \
+  --build-arg VITE_API_BASE_URL="http://localhost:8000/api/v1" \
+  -t checkyar-frontend:local .
+
+# Run containerized frontend on port 8080
+docker run -p 8080:80 checkyar-frontend:local
+
+# Or use docker-compose for local smoke testing
+docker compose up --build
+```
 
 ### E2E Integration Dispatch (`dispatch-doion-e2e.yml`)
 Upon successful completion of the CI workflow on a push to `main`, [.github/workflows/dispatch-doion-e2e.yml](../.github/workflows/dispatch-doion-e2e.yml) sends a `repository_dispatch` event (`event_type: "frontend-e2e"`) to `alamalhoda/doion` with the verified UI commit SHA (`ui_sha`). The Playwright E2E test results execute and report in the `doion` Actions tab without gating or blocking frontend checks in this repository. The repository owner must configure the secret `DOION_E2E_DISPATCH_TOKEN` (a GitHub PAT with permissions to post repository dispatch events to `alamalhoda/doion`).

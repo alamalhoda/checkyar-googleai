@@ -60,7 +60,7 @@ VITE_API_BASE_URL=http://localhost:8000/api/v1
   - [docs/TESTING.md](docs/TESTING.md) (انگلیسی)
   - [docs/TESTING.fa.md](docs/TESTING.fa.md) (فارسی)
 - **یکپارچه‌سازی مداوم (CI):**
-  - [.github/workflows/ci.yml](.github/workflows/ci.yml) (اجرای اتوماتیک typecheck، unit tests، بیلد پیش‌فرض و بیلد لایو غیرماک با هر push/PR روی `main` و ارسال دیسپچ E2E به doion پس از موفقیت push به `main`)
+  - [.github/workflows/ci.yml](.github/workflows/ci.yml) (اجرای اتوماتیک typecheck، unit tests، بیلد پیش‌فرض، بیلد لایو غیرماک و ساخت ایمیج داکر پروداکشن با هر push/PR روی `main` و ارسال دیسپچ E2E به doion پس از موفقیت push به `main`)
 - **دموی آنلاین هاست‌شده (CD Demo):**
   - [https://chequeyar-front-demo.chbkn.dev/](https://chequeyar-front-demo.chbkn.dev/) (نسخه دموی شبیه‌ساز ماک روی چابکان استاتیک؛ بدون اتصال به API واقعی؛ مستقرشده توسط [.github/workflows/cd-demo.yml](.github/workflows/cd-demo.yml))
 - **عدم وابستگی به CDN خارجی (Offline/National Network):** تمامی فونت‌ها (وزیرمتن) و تصاویر دمو/جایگزین به صورت ذخیره لوکال (`public/fonts/` و `public/images/placeholders/`) پیاده‌سازی شده و بدون نیاز به اینترنت بین‌الملل اجرا می‌شوند.
@@ -212,6 +212,26 @@ bun run build
 ```
 
 خروجی کامپایل‌شده در پوشه `dist` قرار خواهد گرفت.
+
+---
+
+### بسته‌بندی و اجرای داکر (اختیاری / Production Image)
+
+علاوه بر مسیر روزمره توسعه روی هاست (`bun run dev`)، امکان ساخت ایمیج پروداکشن Nginx و اجرای داکر وجود دارد:
+
+```bash
+# ساخت ایمیج داکر
+docker build \
+  --build-arg VITE_USE_MOCK="false" \
+  --build-arg VITE_API_BASE_URL="http://localhost:8000/api/v1" \
+  -t checkyar-frontend:local .
+
+# اجرای ایمیج روی پورت ۸۰۸۰
+docker run -p 8080:80 checkyar-frontend:local
+
+# یا اجرای محلی با Docker Compose
+docker compose up --build
+```
 
 ---
 

@@ -143,10 +143,19 @@ src/
 
 - **دموی آنلاین ماک:** به عنوان سرویس استاتیک چابکان (`chequeyar-front-demo`) در آدرس [https://chequeyar-front-demo.chbkn.dev/](https://chequeyar-front-demo.chbkn.dev/) در دسترس است.
 - **استقرار خودکار:** توسط ورک‌فلو گیت‌هاب اکشنز (`.github/workflows/cd-demo.yml`) با متغیر `VITE_USE_MOCK=true` در زمان کامپایل ساخته و مستقر می‌شود.
-- **اعتبارسنجی زنده در CI و دیسپچ E2E:** علاوه بر بیلد دمو، فرآیند CI روی شاخه `main` (`.github/workflows/ci.yml`) نیز در هر push و pull_request یک نسخه نهایی غیرماک را در برابر `https://chequeyar-back.chbkn.dev/api/v1` با `VITE_USE_MOCK=false` کامپایل و اعتبارسنجی می‌کند و پس از موفقیت CI روی push به `main`، ورک‌فلو `.github/workflows/dispatch-doion-e2e.yml` جهت اجرای تست‌های E2E با همان SHA به مخزن `alamalhoda/doion` پیام دیسپچ می‌فرستد.
+- **اعتبارسنجی زنده در CI و دیسپچ E2E:** علاوه بر بیلد دمو، فرآیند CI روی شاخه `main` (`.github/workflows/ci.yml`) نیز در هر push و pull_request یک نسخه نهایی غیرماک را در برابر `https://chequeyar-back.chbkn.dev/api/v1` با `VITE_USE_MOCK=false` کامپایل، ایمیج داکر پروداکشن را بیلد و اعتبارسنجی می‌کند و پس از موفقیت CI روی push به `main`، ورک‌فلو `.github/workflows/dispatch-doion-e2e.yml` جهت اجرای تست‌های E2E با همان SHA به مخزن `alamalhoda/doion` پیام دیسپچ می‌فرستد.
 - **پیکربندی وب‌سرور:** از طریق فایل ریشه `nginx.conf` با مسیر ریشه `/usr/share/nginx/html/dist` (فایل‌های بیلدشده SPA) و دستور `try_files $uri $uri/ /index.html` برای پشتیبانی کامل از مسیریابی Vue Router تنظیم شده است.
 - **محیط و وضعیت داده‌ها:** هیچ بک‌اند یا دیتابیس واقعی متصل نیست. داده‌های شبیه‌ساز در `localStorage` مرورگر هر کاربر ذخیره می‌شوند و پایگاه‌داده اشتراکی وجود ندارد.
 - **دامنه کاربرد:** این محیط صرفاً دموی نمایشی است و نسخه عملیاتی (Production) یا استیجینگ زنده (Live Staging) **نیست**. پیش‌نمایش در Codespaces نیز به عنوان محیط دوم توسعه/پیش‌نمایش ابری فعال است.
+
+### بسته‌بندی ایمیج داکر پروداکشن و Docker Compose
+
+- **کانتینر چندمرحله‌ای (`Dockerfile`):**
+  - **مرحله ۱ (Builder):** استفاده از `oven/bun:1-alpine`، کپی فایل‌های `bun.lock` و `package.json`، نصب با `bun install --frozen-lockfile`، دریافت متغیرهای بیلد `VITE_USE_MOCK` (پیش‌فرض `false`) و `VITE_API_BASE_URL` (پیش‌فرض `https://chequeyar-back.chbkn.dev/api/v1`) و کامپایل با `bun run build`.
+  - **مرحله ۲ (Runner):** استفاده از `nginx:alpine` سبک، کپی `nginx.conf` به `/etc/nginx/conf.d/default.conf`، کپی خروجی `/app/dist` به `/usr/share/nginx/html/dist` و سرو روی پورت ۸۰ همراه با هدایت SPA.
+- **تست دودی و محلی (`docker-compose.yml`):**
+  - ارائه سرویس لوکال کانتینری متصل به `http://localhost:8000/api/v1` با نگاشت پورت ۸۰۸۰ به پورت ۸۰ کانتینر.
+  - فرآیند توسعه روزمره کماکان مبتنی بر هاست با `bun run dev` است. بسته‌بندی داکر جهت اعتبارسنجی استقرارها و تست در پایپ‌لاین CI کاربرد دارد.
 
 ---
 

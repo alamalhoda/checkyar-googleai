@@ -164,13 +164,32 @@ bun run lint
 
 ---
 
-## ۷. یکپارچه‌سازی مداوم - CI (GitHub Actions) و سیاست محیط شبیه‌ساز
+## ۷. یکپارچه‌سازی مداوم - CI (GitHub Actions)، تست داکر و سیاست محیط شبیه‌ساز
 
-فرآیند تست و ساخت اتوماتیک در فایل [.github/workflows/ci.yml](../.github/workflows/ci.yml) پیکربندی شده است. با هر push یا pull_request روی شاخه `main`، ۴ مرحله اعتبارسنجی متوالی در GitHub اجرا می‌شوند:
+فرآیند تست و ساخت اتوماتیک در فایل [.github/workflows/ci.yml](../.github/workflows/ci.yml) پیکربندی شده است. با هر push یا pull_request روی شاخه `main`، ۵ مرحله اعتبارسنجی متوالی در GitHub اجرا می‌شوند:
 ۱. `bun run lint` (بررسی تایپ‌ها و اعتبار کد با `tsc --noEmit`)
 ۲. `bun run test` (اجرای آزمون‌های واحد Vitest در محیط `happy-dom` با دسترسی ایمن به `localStorage` در کلاینت API)
 ۳. `bun run build` (بررسی کامپایل و ساخت نسخه نهایی پیش‌فرض)
 ۴. `bun run build` با متغیرهای `VITE_USE_MOCK="false"` و `VITE_API_BASE_URL="https://chequeyar-back.chbkn.dev/api/v1"` (اعتبارسنجی ساخت نسخه نهایی واقعی Live غیرماک)
+۵. `docker build` با متغیرهای `VITE_USE_MOCK="false"` و `VITE_API_BASE_URL="https://chequeyar-back.chbkn.dev/api/v1"` (اعتبارسنجی بسته‌بندی ایمیج کانتینری پروداکشن)
+
+### آزمون بیلد داکر و تست محلی با Docker Compose
+
+توسعه روزمره کماکان روی هاست از طریق `bun run dev` انجام می‌شود. جهت تست ایمیج کانتینری و وب‌سرور Nginx به صورت محلی:
+
+```bash
+# بیلد ایمیج پروداکشن برای تست لوکال
+docker build \
+  --build-arg VITE_USE_MOCK="false" \
+  --build-arg VITE_API_BASE_URL="http://localhost:8000/api/v1" \
+  -t checkyar-frontend:local .
+
+# اجرای کانتینر روی پورت ۸۰۸۰
+docker run -p 8080:80 checkyar-frontend:local
+
+# یا استفاده از Docker Compose برای اجرای سریع
+docker compose up --build
+```
 
 ### ارسال رویداد تست سرتاسری به مخزن بک‌اند (`dispatch-doion-e2e.yml`)
 پس از اجرای موفق و سبز شدن فرآیند CI در زمان push به شاخه `main`، ورک‌فلو [.github/workflows/dispatch-doion-e2e.yml](../.github/workflows/dispatch-doion-e2e.yml) یک رویداد `repository_dispatch` با نوع `frontend-e2e` همراه با شناسه هش کامیت فرانت‌اند (`ui_sha`) به مخزن `alamalhoda/doion` ارسال می‌کند. آزمون‌های Playwright مستقلاً در اکشن‌های مخزن `doion` اجرا می‌شوند و نتیجه آن‌ها مانع یا گارد ادغام در این ریپازیتوری نخواهد بود. جهت فعال‌سازی این ارسال، مقدار سکرت `DOION_E2E_DISPATCH_TOKEN` (یک Personal Access Token در گیت‌هاب با دسترسی ثبت دیسپچ در `alamalhoda/doion`) باید توسط مالک مخزن در تنظیمات گیت‌هاب اکشنز تعریف گردد.

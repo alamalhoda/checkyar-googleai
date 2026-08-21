@@ -34,3 +34,10 @@ jobs:
           VITE_USE_MOCK: "false"
           VITE_API_BASE_URL: "https://chequeyar-back.chbkn.dev/api/v1"
         run: bun run build
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            --build-arg VITE_USE_MOCK="false" \
+            --build-arg VITE_API_BASE_URL="https://chequeyar-back.chbkn.dev/api/v1" \
+            -t checkyar-frontend:ci .

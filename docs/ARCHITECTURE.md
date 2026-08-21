@@ -143,10 +143,19 @@ The application runtime behavior is governed by the `VITE_USE_MOCK` environment 
 
 - **Hosted Mock Demo:** Deployed as a Chabokan Static PaaS service (`chequeyar-front-demo`) at [https://chequeyar-front-demo.chbkn.dev/](https://chequeyar-front-demo.chbkn.dev/).
 - **Automated Workflow:** Built in GitHub Actions via `.github/workflows/cd-demo.yml` with `VITE_USE_MOCK=true` (compile-time gate).
-- **CI Live Verification & E2E Dispatch:** In addition to mock demo builds, CI on `main` (`.github/workflows/ci.yml`) compiles a non-mock production bundle against `https://chequeyar-back.chbkn.dev/api/v1` (`VITE_USE_MOCK=false`) on every push and pull request, and upon successful CI on push to `main`, `.github/workflows/dispatch-doion-e2e.yml` notifies `alamalhoda/doion` to run Playwright E2E against that verified UI commit SHA.
+- **CI Live Verification & E2E Dispatch:** In addition to mock demo builds, CI on `main` (`.github/workflows/ci.yml`) compiles a non-mock production bundle against `https://chequeyar-back.chbkn.dev/api/v1` (`VITE_USE_MOCK=false`) and builds the production Docker container image on every push and pull request. Upon successful CI on push to `main`, `.github/workflows/dispatch-doion-e2e.yml` notifies `alamalhoda/doion` to run Playwright E2E against that verified UI commit SHA.
 - **Web Server Configuration:** Configured via root `nginx.conf` with document root at `/usr/share/nginx/html/dist` (the compiled SPA bundle) and `try_files $uri $uri/ /index.html` for Vue Router HTML5 history mode support.
 - **Environment & State:** No live backend or database connection is used. Simulator state is persisted per-browser in `localStorage`, not in a shared server database.
 - **Scope:** This demo environment is strictly for UI inspection and stakeholder demonstrations. It is **NOT** production and **NOT** Live staging. Codespaces mock preview remains available as a secondary local/cloud preview.
+
+### Production Docker Image & Compose Packaging
+
+- **Multi-Stage Container (`Dockerfile`):**
+  - **Stage 1 (Builder):** Uses `oven/bun:1-alpine`, copies `bun.lock` and `package.json`, runs `bun install --frozen-lockfile`, accepts build args `VITE_USE_MOCK` (default `false`) and `VITE_API_BASE_URL` (default `https://chequeyar-back.chbkn.dev/api/v1`), and compiles the production bundle via `bun run build`.
+  - **Stage 2 (Runner):** Uses lightweight `nginx:alpine`, copies `nginx.conf` to `/etc/nginx/conf.d/default.conf`, copies `/app/dist` to `/usr/share/nginx/html/dist`, and serves traffic on port 80 with SPA fallback routing.
+- **Local Smoke Testing (`docker-compose.yml`):**
+  - Provides a local containerized service targeting `http://localhost:8000/api/v1` with port 8080 mapped to container port 80.
+  - Daily developer iteration remains host-based (`bun run dev`). Docker packaging serves for staging verification, containerized deployments, and CI smoke testing.
 
 ---
 
