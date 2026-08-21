@@ -6,7 +6,7 @@ This document serves as the Single Source of Truth (SSOT) for the **Cheque Yar (
 
 ## 1. Purpose & Development Workflow
 
-This repository (`alamalhoda/checkyar-googleai`) houses the active web frontend for the Cheque Yar platform.
+This repository (`alamalhoda/checkyar-googleai`) houses the active web frontend for the Cheque Yar platform. The `product` branch is the long-lived production git line, and `main` is the primary Google AI Studio intake and development branch.
 
 ### One-Way Sync Flow
 
@@ -143,7 +143,7 @@ The application runtime behavior is governed by the `VITE_USE_MOCK` environment 
 
 - **Hosted Mock Demo:** Deployed as a Chabokan Static PaaS service (`chequeyar-front-demo`) at [https://chequeyar-front-demo.chbkn.dev/](https://chequeyar-front-demo.chbkn.dev/).
 - **Automated Workflow:** Built in GitHub Actions via `.github/workflows/cd-demo.yml` with `VITE_USE_MOCK=true` (compile-time gate).
-- **CI Live Verification & E2E Dispatch:** In addition to mock demo builds, CI on `main` (`.github/workflows/ci.yml`) compiles a non-mock production bundle against `https://chequeyar-back.chbkn.dev/api/v1` (`VITE_USE_MOCK=false`) and builds the production Docker container image on every push and pull request. Upon successful CI on push to `main`, `.github/workflows/dispatch-doion-e2e.yml` notifies `alamalhoda/doion` to run Playwright E2E against that verified UI commit SHA.
+- **CI Live Verification & E2E Dispatch:** In addition to mock demo builds, CI on `main` and `product` (`.github/workflows/ci.yml`) compiles a non-mock production bundle against `https://chequeyar-back.chbkn.dev/api/v1` (`VITE_USE_MOCK=false`) and builds the production Docker container image on every push and pull request. Upon successful CI on push to `main`, `.github/workflows/dispatch-doion-e2e.yml` notifies `alamalhoda/doion` to run Playwright E2E against that verified UI commit SHA.
 - **Web Server Configuration:** Configured via root `nginx.conf` with document root at `/usr/share/nginx/html/dist` (the compiled SPA bundle) and `try_files $uri $uri/ /index.html` for Vue Router HTML5 history mode support.
 - **Environment & State:** No live backend or database connection is used. Simulator state is persisted per-browser in `localStorage`, not in a shared server database.
 - **Scope:** This demo environment is strictly for UI inspection and stakeholder demonstrations. It is **NOT** production and **NOT** Live staging. Codespaces mock preview remains available as a secondary local/cloud preview.
