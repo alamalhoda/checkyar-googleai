@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%" fill="none">
+  <!-- Slide 10: Moats & Competitive Advantage -->
+  <g transform="translate(60, 60)">
+    <!-- Moat 1: Two-Sided Network Effects -->
+    <g transform="translate(0, 0)">
+      <rect width="230" height="120" rx="14" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+      <circle cx="35" cy="35" r="16" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+      <text x="35" y="40" fill="#34d399" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">⚡</text>
+      <text x="65" y="32" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="bold">اثر شبکه‌ای دوطرفه</text>
+      <text x="65" y="48" fill="#10b981" font-family="sans-serif" font-size="9.5">Network Effects</text>
+      <text x="20" y="80" fill="#cbd5e1" font-family="sans-serif" font-size="10">با افزایش دارندگان چک، عمق بازار و سرعت نقدشوندگی افزایش می‌یابد.</text>
+    </g>
+
+    <!-- Moat 2: Algorithmic Pricing & Risk Engine -->
+    <g transform="translate(250, 0)">
+      <rect width="230" height="120" rx="14" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+      <circle cx="35" cy="35" r="16" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+      <text x="35" y="40" fill="#60a5fa" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">⚙</text>
+      <text x="65" y="32" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="bold">موتور تحلیل و پیشنهاد نرخ</text>
+      <text x="65" y="48" fill="#60a5fa" font-family="sans-serif" font-size="9.5">Dynamic Risk Scoring</text>
+      <text x="20" y="80" fill="#cbd5e1" font-family="sans-serif" font-size="10">تخمین عادلانه نرخ تنزیل بر اساس سررسید و داده‌های اعتباری صیاد.</text>
+    </g>
+
+    <!-- Moat 3: 2-Tier KYC & Verified Trust -->
+    <g transform="translate(0, 140)">
+      <rect width="230" height="120" rx="14" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+      <circle cx="35" cy="35" r="16" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="35" y="40" fill="#fbbf24" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">✓</text>
+      <text x="65" y="32" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="bold">احراز هویت دوسطحی</text>
+      <text x="65" y="48" fill="#fbbf24" font-family="sans-serif" font-size="9.5">KYC & Moderation Pipeline</text>
+      <text x="20" y="80" fill="#cbd5e1" font-family="sans-serif" font-size="10">تفکیک حقوقی و حقیقی با صف نظارت دقیق و مسدودسازی کلاهبرداری.</text>
+    </g>
+
+    <!-- Moat 4: Regulatory-First Architecture -->
+    <g transform="translate(250, 140)">
+      <rect width="230" height="120" rx="14" fill="#0f172a" stroke="#a855f7" stroke-width="1.5"/>
+      <circle cx="35" cy="35" r="16" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/>
+      <text x="35" y="40" fill="#c084fc" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">🛡</text>
+      <text x="65" y="32" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="bold">انطباق حقوقی و رگولاتوری</text>
+      <text x="65" y="48" fill="#c084fc" font-family="sans-serif" font-size="9.5">Sayad Infrastructure Ready</text>
+      <text x="20" y="80" fill="#cbd5e1" font-family="sans-serif" font-size="10">معماری سازگار با قوانین تجارت و چک صیاد بدون ایجاد شبهه بانکی.</text>
+    </g>
+  </g>
+</svg>

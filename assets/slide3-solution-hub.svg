@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%" fill="none">
+  <!-- Slide 3: Solution - Smart Matching & Transparent Discovery -->
+  <defs>
+    <linearGradient id="solGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left: Cheque Holder Data Input -->
+  <g transform="translate(60, 110)">
+    <rect width="130" height="180" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+    <rect x="18" y="20" width="40" height="40" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <circle cx="38" cy="40" r="8" fill="#34d399"/>
+    <rect x="18" y="75" width="80" height="7" rx="3.5" fill="#f8fafc"/>
+    <rect x="18" y="90" width="60" height="5" rx="2.5" fill="#64748b"/>
+    <rect x="18" y="110" width="94" height="24" rx="6" fill="#1e293b"/>
+    <rect x="26" y="118" width="50" height="8" rx="4" fill="#34d399"/>
+    <rect x="18" y="145" width="94" height="20" rx="6" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1"/>
+    <text x="65" y="159" fill="#34d399" font-family="sans-serif" font-size="9" font-weight="bold" text-anchor="middle">ثبت چک صیاد</text>
+  </g>
+
+  <!-- Connection Flow Right to Left (RTL Flow) & Left to Center -->
+  <path d="M190 200 L 250 200" stroke="#10b981" stroke-width="2" stroke-dasharray="4 4"/>
+  <polygon points="248,196 256,200 248,204" fill="#10b981"/>
+
+  <!-- Center: Matching Engine Core -->
+  <g transform="translate(240, 90)">
+    <rect width="140" height="220" rx="16" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+    <circle cx="70" cy="55" r="30" fill="url(#solGlow)" stroke="#34d399" stroke-width="1.5"/>
+    <!-- Algorithmic Pulse inside -->
+    <path d="M52 55 L 62 45 L 70 65 L 78 50 L 88 55" stroke="#10b981" stroke-width="2" fill="none"/>
+    <text x="70" y="105" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">موتور تطبیق هوشمند</text>
+    <rect x="20" y="125" width="100" height="20" rx="6" fill="#1e293b"/>
+    <text x="70" y="139" fill="#cbd5e1" font-family="sans-serif" font-size="9" text-anchor="middle">تحلیل ریسک اعتباری</text>
+    <rect x="20" y="152" width="100" height="20" rx="6" fill="#1e293b"/>
+    <text x="70" y="166" fill="#cbd5e1" font-family="sans-serif" font-size="9" text-anchor="middle">کشف نرخ پیشنهادی</text>
+    <rect x="20" y="179" width="100" height="22" rx="6" fill="#10b981"/>
+    <text x="70" y="194" fill="#020617" font-family="sans-serif" font-size="10" font-weight="bold" text-anchor="middle">اتصال بدون اصطکاک</text>
+  </g>
+
+  <!-- Connection to Investor -->
+  <path d="M380 200 L 440 200" stroke="#10b981" stroke-width="2" stroke-dasharray="4 4"/>
+  <polygon points="438,196 446,200 438,204" fill="#10b981"/>
+
+  <!-- Right: Investor Opportunity Hub -->
+  <g transform="translate(430, 110)">
+    <rect width="130" height="180" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+    <rect x="18" y="20" width="40" height="40" rx="10" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+    <circle cx="38" cy="40" r="8" fill="#60a5fa"/>
+    <rect x="18" y="75" width="80" height="7" rx="3.5" fill="#f8fafc"/>
+    <rect x="18" y="90" width="60" height="5" rx="2.5" fill="#64748b"/>
+    <rect x="18" y="110" width="94" height="24" rx="6" fill="#1e293b"/>
+    <rect x="26" y="118" width="50" height="8" rx="4" fill="#60a5fa"/>
+    <rect x="18" y="145" width="94" height="20" rx="6" fill="#3b82f6" fill-opacity="0.15" stroke="#3b82f6" stroke-width="1"/>
+    <text x="65" y="159" fill="#93c5fd" font-family="sans-serif" font-size="9" font-weight="bold" text-anchor="middle">سرمایه‌گذار / خریدار</text>
+  </g>
+</svg>

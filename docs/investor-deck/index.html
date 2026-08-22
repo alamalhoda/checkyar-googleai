@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>چک‌یار | ارائه سرمایه‌گذار (Investor Deck)</title>
+  
+  <!-- Fonts: Vazirmatn -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       Design System CSS Variables (Dark Slate / Emerald Tokens)
+       Reference: docs/design-system.md
+       ========================================================================== */
+    :root {
+      color-scheme: dark;
+      --theme-bg: #020617;
+      --theme-surface: #0f172a;
+      --theme-surface-muted: #1e293b;
+      --theme-border: #1e293b;
+      --theme-border-subtle: #334155;
+      --theme-text-primary: #f8fafc;
+      --theme-text-on-surface: #cbd5e1;
+      --theme-text-secondary: #94a3b8;
+      --theme-text-muted: #64748b;
+      --theme-primary: #10b981;
+      --theme-primary-hover: #059669;
+      --theme-primary-pressed: #047857;
+      --theme-primary-soft: #34d399;
+      --theme-selection-bg: rgba(16, 185, 129, 0.3);
+      --theme-selection-text: #6ee7b7;
+      
+      --status-success: #10b981;
+      --status-warning: #f59e0b;
+      --status-error: #f43f5e;
+      --status-info: #3b82f6;
+
+      --radius-control: 8px;
+      --radius-card: 16px;
+      --radius-badge: 6px;
+      --radius-pill: 9999px;
+      
+      --font-sans: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --shadow-card: 0 12px 28px -6px rgba(0, 0, 0, 0.35);
+      --shadow-primary-btn: 0 10px 24px -8px rgba(16, 185, 129, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--theme-bg);
+      color: var(--theme-text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.7;
+      overflow-x: hidden;
+      min-height: 100vh;
+      font-variant-numeric: tabular-nums;
+    }
+
+    ::selection {
+      background-color: var(--theme-selection-bg);
+      color: var(--theme-selection-text);
+    }
+
+    /* ==========================================================================
+       App Layout & Presentation Shell
+       ========================================================================== */
+    #deck-app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Mode: Scroll / Document View */
+    #deck-app.scroll-mode {
+      height: auto;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+
+    /* Top Control Bar */
+    .deck-topbar {
+      height: 56px;
+      background-color: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--theme-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 50;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background-color: rgba(16, 185, 129, 0.10);
+      border: 1px solid rgba(16, 185, 129, 0.30);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--theme-primary-soft);
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--theme-text-primary);
+      line-height: 1.2;
+    }
+
+    .brand-subtitle {
+      font-size: 10.5px;
+      color: var(--theme-text-secondary);
+      line-height: 1.2;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Progress Indicator Bar */
+    .progress-bar-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background-color: var(--theme-surface-muted);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--theme-primary);
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: var(--radius-control);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background-color: var(--theme-primary);
+      color: #020617;
+      font-weight: 700;
+      box-shadow: var(--shadow-primary-btn);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--theme-primary-hover);
+    }
+
+    .btn-secondary {
+      background-color: var(--theme-surface);
+      border-color: var(--theme-border);
+      color: var(--theme-text-primary);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--theme-surface-muted);
+      border-color: var(--theme-border-subtle);
+    }
+
+    .btn-icon {
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      border-radius: var(--radius-control);
+      background-color: var(--theme-surface);
+      border: 1px solid var(--theme-border);
+      color: var(--theme-text-secondary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-icon:hover {
+      color: var(--theme-text-primary);
+      background-color: var(--theme-surface-muted);
+      border-color: var(--theme-border-subtle);
+    }
+
+    .btn-icon.active {
+      background-color: rgba(16, 185, 129, 0.15);
+      border-color: var(--theme-primary);
+      color: var(--theme-primary-soft);
+    }
+
+    /* ==========================================================================
+       Slide Viewport & Containers
+       ========================================================================== */
+    .viewport {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background-color: var(--theme-bg);
+      padding: 16px 24px;
+      overflow: hidden;
+    }
+
+    .scroll-mode .viewport {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      overflow: visible;
+      padding: 40px 20px 80px 20px;
+      gap: 48px;
+    }
+
+    .slide-stage {
+      width: 100%;
+      max-width: 1200px;
+      aspect-ratio: 16 / 9;
+      max-height: calc(100vh - 140px);
+      background-color: var(--theme-surface);
+      border: 1px solid var(--theme-border);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      position: relative;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 36px 44px 30px 44px;
+      border-right: 4px solid var(--theme-primary); /* Design system signature accent strip */
+    }
+
+    .slide-stage.active {
+      display: flex;
+      animation: fadeInSlide 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .scroll-mode .slide-stage {
+      display: flex !important;
+      max-height: none;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      margin-bottom: 24px;
+    }
+
+    @keyframes fadeInSlide {
+      from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.995);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Slide Header */
+    .slide-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .slide-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .slide-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--theme-primary-soft);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .slide-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--theme-text-primary);
+      line-height: 1.3;
+    }
+
+    .slide-subtitle {
+      font-size: 13.5px;
+      color: var(--theme-text-secondary);
+      font-weight: 400;
+    }
+
+    .slide-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-badge);
+      background-color: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.30);
+      color: var(--theme-primary-soft);
+      white-space: nowrap;
+    }
+
+    .slide-badge.warning {
+      background-color: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.30);
+      color: #fbbf24;
+    }
+
+    .slide-badge.info {
+      background-color: rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.30);
+      color: #93c5fd;
+    }
+
+    /* Slide Body Grid & Content */
+    .slide-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: center;
+      min-height: 0;
+    }
+
+    .slide-body.full-width {
+      grid-template-columns: 1fr;
+      align-items: stretch;
+    }
+
+    .slide-body.columns-3 {
+      grid-template-columns: repeat(3, 1fr);
+      align-items: stretch;
+    }
+
+    .slide-body.columns-4 {
+      grid-template-columns: repeat(4, 1fr);
+      align-items: stretch;
+    }
+
+    /* Content Cards (Design System flat cards) */
+    .content-box {
+      background-color: var(--theme-surface-muted);
+      border: 1px solid var(--theme-border-subtle);
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      height: 100%;
+      justify-content: center;
+    }
+
+    .content-box-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--theme-text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .content-box-text {
+      font-size: 12.5px;
+      color: var(--theme-text-on-surface);
+      line-height: 1.65;
+    }
+
+    /* Feature Lists */
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--theme-text-on-surface);
+      line-height: 1.6;
+    }
+
+    .feature-icon-bullet {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      background-color: rgba(16, 185, 129, 0.15);
+      color: var(--theme-primary-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: bold;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .feature-icon-bullet.blue {
+      background-color: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+    }
+
+    .feature-icon-bullet.amber {
+      background-color: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+    }
+
+    .feature-icon-bullet.purple {
+      background-color: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+    }
+
+    /* Illustration Container */
+    .illustration-frame {
+      width: 100%;
+      height: 100%;
+      max-height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(2, 6, 23, 0.5);
+      border: 1px solid var(--theme-border);
+      border-radius: 12px;
+      padding: 12px;
+      overflow: hidden;
+    }
+
+    .illustration-frame img,
+    .illustration-frame svg {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* Stat / KPI Card */
+    .kpi-card {
+      background-color: var(--theme-surface-muted);
+      border: 1px solid var(--theme-border-subtle);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .kpi-label {
+      font-size: 11px;
+      color: var(--theme-text-secondary);
+      font-weight: 500;
+    }
+
+    .kpi-value {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--theme-text-primary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .kpi-sub {
+      font-size: 10.5px;
+      color: var(--theme-primary-soft);
+      font-weight: 600;
+    }
+
+    /* Slide Footer */
+    .slide-footer {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--theme-border);
+      margin-top: 16px;
+      padding-top: 10px;
+      font-size: 10.5px;
+      color: var(--theme-text-muted);
+    }
+
+    .slide-footer-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* ==========================================================================
+       Bottom Navigation Toolbar
+       ========================================================================== */
+    .deck-bottombar {
+      height: 60px;
+      background-color: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--theme-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 50;
+      flex-shrink: 0;
+    }
+
+    .scroll-mode .deck-bottombar {
+      position: sticky;
+      bottom: 0;
+    }
+
+    .slide-counter {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--theme-text-secondary);
+    }
+
+    .slide-counter span {
+      color: var(--theme-text-primary);
+      font-weight: 700;
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* ==========================================================================
+       Overview Grid Drawer / Modal
+       ========================================================================== */
+    .overview-modal {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(2, 6, 23, 0.88);
+      backdrop-filter: blur(16px);
+      z-index: 100;
+      display: none;
+      flex-direction: column;
+      padding: 24px 32px;
+      overflow-y: auto;
+    }
+
+    .overview-modal.open {
+      display: flex;
+    }
+
+    .overview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      max-width: 1200px;
+      width: 100%;
+      margin-inline: auto;
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 18px;
+      max-width: 1200px;
+      width: 100%;
+      margin-inline: auto;
+    }
+
+    .overview-thumb {
+      background-color: var(--theme-surface);
+      border: 1px solid var(--theme-border);
+      border-radius: 10px;
+      padding: 14px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.2s ease;
+      text-align: right;
+    }
+
+    .overview-thumb:hover {
+      border-color: var(--theme-primary);
+      background-color: var(--theme-surface-muted);
+      transform: translateY(-2px);
+    }
+
+    .overview-thumb.active {
+      border-color: var(--theme-primary);
+      box-shadow: 0 0 0 1px var(--theme-primary);
+    }
+
+    .thumb-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--theme-primary-soft);
+    }
+
+    .thumb-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--theme-text-primary);
+    }
+
+    .thumb-desc {
+      font-size: 11px;
+      color: var(--theme-text-secondary);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ==========================================================================
+       Speaker Notes Drawer
+       ========================================================================== */
+    .notes-drawer {
+      position: absolute;
+      bottom: 60px;
+      left: 24px;
+      right: 24px;
+      background-color: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--theme-border-subtle);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: none;
+      z-index: 60;
+      box-shadow: var(--shadow-card);
+      backdrop-filter: blur(12px);
+    }
+
+    .notes-drawer.open {
+      display: block;
+      animation: slideUpNotes 0.2s ease forwards;
+    }
+
+    @keyframes slideUpNotes {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .notes-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--theme-primary-soft);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .notes-content {
+      font-size: 12px;
+      color: var(--theme-text-on-surface);
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       Print & PDF Specific Styles
+       ========================================================================== */
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+      }
+
+      .deck-topbar,
+      .deck-bottombar,
+      .overview-modal,
+      .notes-drawer {
+        display: none !important;
+      }
+
+      #deck-app {
+        height: auto !important;
+        overflow: visible !important;
+      }
+
+      .viewport {
+        padding: 0 !important;
+        display: block !important;
+        background-color: transparent !important;
+      }
+
+      .slide-stage {
+        display: flex !important;
+        break-after: page;
+        page-break-after: always;
+        width: 100% !important;
+        max-width: none !important;
+        height: 100vh !important;
+        aspect-ratio: 16 / 9;
+        margin: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        background-color: #020617 !important; /* Keep rich brand contrast on PDF */
+        color: #f8fafc !important;
+        padding: 30px !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+
+    /* Responsive styling for smaller screens */
+    @media (max-width: 900px) {
+      .slide-stage {
+        aspect-ratio: auto;
+        min-height: 480px;
+        padding: 24px 20px;
+      }
+
+      .slide-body {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .slide-title {
+        font-size: 20px;
+      }
+
+      .illustration-frame {
+        max-height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="deck-app">
+  <!-- Top Navigation & Utility Bar -->
+  <header class="deck-topbar">
+    <div class="brand-lockup">
+      <div class="brand-mark">چک</div>
+      <div class="brand-text">
+        <span class="brand-title">چک‌یار</span>
+        <span class="brand-subtitle">ارائه رسمی سرمایه‌گذار (Investor Deck)</span>
+      </div>
+    </div>
+
+    <div class="topbar-actions">
+      <button class="btn btn-secondary" id="btn-toggle-notes" title="یادداشت‌های ارائه (N)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        یادداشت‌ها
+      </button>
+
+      <button class="btn btn-secondary" id="btn-toggle-mode" title="تغییر به حالت مطالعه پیوسته">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+        <span id="mode-text">حالت مطالعه</span>
+      </button>
+
+      <button class="btn btn-secondary" id="btn-overview" title="فهرست اسلایدها (O)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        فهرست
+      </button>
+
+      <button class="btn btn-secondary" onclick="window.print()" title="چاپ یا ذخیره PDF">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        PDF
+      </button>
+
+      <button class="btn-icon" id="btn-fullscreen" title="تمام‌صفحه (F)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+      </button>
+    </div>
+
+    <!-- Live progress line -->
+    <div class="progress-bar-container">
+      <div class="progress-bar-fill" id="progress-bar" style="width: 7.14%;"></div>
+    </div>
+  </header>
+
+  <!-- Slide Presentation Viewport -->
+  <main class="viewport" id="viewport">
+
+    <!-- ==========================================
+         SLIDE 1: Title & Hook
+         ========================================== -->
+    <section class="slide-stage active" data-slide="1" data-title="عنوان و معرفی چک‌یار">
+      <div class="slide-header">
+        <div class="slide-title-wrap">
+          <div class="slide-eyebrow">
+            <span>ارائه معرفی پروژه</span>
+            <span>•</span>
+            <span>بخش اول: معرفی بنیادین</span>
+          </div>
+          <h1 class="slide-title">چک‌یار (Cheque Yar)</h1>
+          <p class="slide-subtitle">سکوی دیجیتال کشف و اتصال در بازار نقدشوندگی چک‌های صیادی و مطالبات</p>
+        </div>
+        <div class="slide-badge">v1 لایه ۱ آماده پایلوت</div>
+      </div>
+
+      <div class="slide-body">
+        <div class="feature-list">
+          <div class="content-box">
+            <h2 class="content-box-title">
+              <span class="feature-icon-bullet">✓</span>
+              ماموریت سامانه
+            </h2>
+            <p class="content-box-text">
+              تسهیل و شفاف‌سازی فرآیند معرفی و کشف فرصت تنزیل چک میان دارندگان چک مدت‌دار و سرمایه‌گذاران خریدار، با حداقل اصطکاک و حذف واسطه‌های سنتی غیرشفاف.
+            </p>
+          </div>
+
+          <div class="content-box">
+            <h2 class="content-box-title">
+              <span class="feature-icon-bullet blue">✦</span>
+              نقش رگولاتوری شفاف
+            </h2>
+            <p class="content-box-text">
+              واسط فناورانه و Marketplace اطلاعاتی — بدون نگهداری یا لمس وجوه مالی در لایه اول. تسویه و ظهرنویسی در بستر رسمی سامانه صیاد بانک مرکزی.
+            </p>
+          </div>
+        </div>
+
+        <div class="illustration-frame">
+          <img src="../../assets/slide1-hero-network.svg" alt="شبکه تطبیق هوشمند چک‌یار">
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>چک‌یار | سند معرفی سرمایه‌گذار</span>
+        <div class="slide-footer-right">
+          <span>نسخه پایدار ۱۴۰۵</span>
+          <span>اسلاید ۱ از ۱۴</span>
+        </div>
+      </div>
+      
+      <!-- Hidden Speaker Notes -->
+      <div class="slide-notes-data" style="display:none;">
+        چک‌یار اولین مارکت‌پلیس دیجیتال تخصصی برای حل معضل قفل‌شدگی نقدینگی در چک‌های صیادی است. تمرکز ما روی شفافیت، سرعت کشف نرخ، و رعایت چارچوب دقیق رگولاتوری است.
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 2: Problem Statement
+         ========================================== -->
+    <section class="slide-stage" data-slide="2" data-title="بیان مسئله و چالش‌های بازار">
+      <div class="slide-header">
+        <div class="slide-title-wrap">
+          <div class="slide-eyebrow">
+            <span>چالش‌های بازار فعلی</span>
+            <span>•</span>
+            <span>بخش دوم: شناخت مسئله</span>
+          </div>
+          <h2 class="slide-title">بحران نقدینگی و اصطکاک بازار سنتی</h2>
+          <p class="slide-subtitle">چرا تبدیل چک‌های مدت‌دار به سرمایه در گردش پرهزینه و ناامن است؟</p>
+        </div>
+        <div class="slide-badge warning">چالش نقدشوندگی SMEs</div>
+      </div>
+
+      <div class="slide-body">
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon-bullet amber">۱</div>
+            <div>
+              <strong style="color:var(--theme-text-primary);">قفل شدن سرمایه در گردش کسب‌وکارها:</strong>
+              میانگین سررسید چک‌ها در زنجیره تامین ۳ تا ۶ ماه است که باعث توقف جریان نقدینگی تولیدکنندگان و اصناف می‌شود.
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-bullet amber">۲</div>
+            <div>
+              <strong style="color:var(--theme-text-primary);">واسطه‌گری سنتی و غیرشفاف (دلالان چک):</strong>
+              کارمزدهای نجومی و تنزیل‌های ناعادلانه (۵ تا ۹ درصد ماهانه) به دلیل نبود مکانیزم کشف قیمت رقابتی.
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-bullet amber">۳</div>
+            <div>
+              <strong style="color:var(--theme-text-primary);">عدم دسترسی به اعتبارسنجی شفاف:</strong>
+              خریداران چک به سوابق اعتباری صادرکننده و وضعیت برگشتی‌ها دسترسی ساختاریافته ندارند و ریسک نکول افزایش می‌یابد.
+            </div>
+          </div>
+        </div>
+
+        <div class="illustration-frame">
+          <img src="../../assets/slide2-problem-friction.svg" alt="چالش‌های بازار سنتی چک">
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>چک‌یار | سند معرفی سرمایه‌گذار</span>
+        <div class="slide-footer-right">
+          <span>شناخت نیاز و نقاط درد بازار</span>
+          <span>اسلاید ۲ از ۱۴</span>
+        </div>
+      </div>
+
+      <div class="slide-notes-data" style="display:none;">
+        در شرایط تورمی و تنگنای اعتباری بانک‌ها، بیش از ۸۰ درصد بنگاه‌های کوچک و متوسط برای سرمایه در گردش به چک‌های مدت‌دار متکی هستند اما کانال رسمی و سریعی برای تنزیل منصفانه ندارند.
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 3: Solution
+         ========================================== -->
+    <section class="slide-stage" data-slide="3" data-title="راه‌حل چک‌یار">
+      <div class="slide-header">
+        <div class="slide-title-wrap">
+          <div class="slide-eyebrow">
+            <span>راه‌حل پیشنهادی</span>
+            <span>•</span>
+            <span>بخش سوم: راهکار ما</span>
+          </div>
+          <h2 class="slide-title">Marketplace هوشمند کشف و اتصال</h2>
+          <p class="slide-subtitle">زیرساخت دیجیتال تطبیق مستقیم، کشف نرخ پیشنهادی و ارزیابی ریسک</p>
+        </div>
+        <div class="slide-badge">تطبیق هوشمند بدون واسطه</div>
+      </div>
+
+      <div class="slide-body">
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon-bullet">✓</div>
+            <div>
+              <strong style="color:var(--theme-text-primary);">کشف شفاف نرخ تنزیل (Stub Engine):</strong>
+              محاسبه نرخ پیشنهادی بر پایه فاصله تا سررسید و امتیاز اعتباری صادرکننده، جهت راهنمایی طرفین معامله.
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-bullet">✓</div>
+            <div>
+              <strong style="color:var(--theme-text-primary);">اتصال امن دارندگان و سرمایه‌گذاران:</strong>
+              امکان ثبت آگهی چک صیادی با مدارک تاییدشده و فیلترهای پیشرفته برای سرمایه‌گذاران حقیقی و حقوقی.
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-bullet">✓</div>
+            <div>
+              <strong style="color:var(--theme-text-primary);">جریان تطبیق ساختاریافته (Match Lifecycle):</strong>
+              ارسال پیشنهاد نرخ، بررسی پیشنهادها، پذیرش و هدایت به تسویه رسمی در سامانه صیاد بانک مرکزی.
+            </div>
+          </div>
+        </div>
+
+        <div class="illustration-frame">
+          <img src="../../assets/slide3-solution-hub.svg" alt="موتور تطبیق چک‌یار">
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>چک‌یار | سند معرفی سرمایه‌گذار</span>
+        <div class="slide-footer-right">
+          <span>کاهش اصطکاک و دموکراسی نقدینگی</span>
+          <span>اسلاید ۳ از ۱۴</span>
+        </div>
+      </div>
+
+      <div class="slide-notes-data" style="display:none;">
+        پلتفرم چک‌یار نقش تابلو اعلانات هوشمند و تسریع‌کننده تطبیق را ایفا می‌کند. همه توافق‌ها شفاف بوده و هیچ ابهام یا هزینه پنهانی برای کاربر ایجاد نمی‌شود.
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 4: Market Size
+         ========================================== -->
+    <section class="slide-stage" data-slide="4" data-title="اندازه بازار و فرصت رشد">
+      <div class="slide-header">
+        <div class="slide-title-wrap">
+          <div class="slide-eyebrow">
+            <span>پتانسیل بازار ایران</span>
+            <span>•</span>
+            <span>بخش چهارم: اندازه بازار</span>
+          </div>
+          <h2 class="slide-title">بازار چند صد همتی معاملات چک صیاد</h2>
+          <p class="slide-subtitle">فرصت تحول دیجیتال در بزرگ‌ترین ابزار پرداخت اعتباری کشور</p>
+        </div>
+        <div class="slide-badge info">TAM / SAM / SOM</div>
+      </div>
+
+      <div class="slide-body">
+        <div class="feature-list">
+          <div class="kpi-card">
+            <div class="kpi-label">TAM — کل گردش چک‌های صیادی سالانه کشور</div>
+            <div class="kpi-value">+۵٬۰۰۰ همت</div>
+            <div class="kpi-sub">بیش از ۵۰۰ میلیون فقره چک مبادله‌ای در سامانه چکاوک</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">SAM — بازار تنزیل و نقدشوندگی مطالبات B2B</div>
+            <div class="kpi-value">~۵۰۰ همت</div>
+            <div class="kpi-sub">حجم تخمینی معاملات مطالبات و چک‌های متقاضی نقدشوندگی سریع</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">SOM — هدف‌گذاری فاز پایلوت و سال اول</div>
+            <div class="kpi-value">۵ تا ۱۵ همت</div>
+            <div class="kpi-sub">جذب ۱٪ تا ۳٪ از گردش چک‌های اصناف هدف در تهران و قطب‌های صنعتی</div>
+          </div>
+        </div>
+
+        <div class="illustration-frame">
+          <img src="../../assets/slide4-market-tam.svg" alt="نمودار اندازه بازار چک‌یار">
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>چک‌یار | سند معرفی سرمایه‌گذار</span>
+        <div class="slide-footer-right">
+          <span>تحلیل حجم معاملات و پتانسیل نفوذ</span>
+          <span>اسلاید ۴ از ۱۴</span>
+        </div>
+      </div>
+
+      <div class="slide-notes-data" style="display:none;">
+        چک صیادی مهم‌ترین ابزار مالی B2B در ایران است. حتی نفوذ ۱ درصدی در این بازار، چک‌یار را به یکی از پرگردش‌ترین پلتفرم‌های فین‌تک کشور بدل خواهد کرد.
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 5: Architecture & Roadmap
+         ========================================== -->
+    <section class="slide-stage" data-slide="5" data-title="معماری لایه‌ای و نقشه‌راه">
+      <div class="slide-header">
+        <div class="slide-title-wrap">
+          <div class="slide-eyebrow">
+            <span>استراتژی توسعه ماژولار</span>
+            <span>•</span>
+            <span>بخش پنجم: معماری و افق محصول</span>
+          </div>
+          <h2 class="slide-title">معماری ۳ لایه‌ای و گام‌های مقیاس‌پذیری</h2>
+          <p class="slide-subtitle">کاهش ریسک رگولاتوری در فاز نخست و آمادگی کامل فنی برای گسترش آتی</p>
+        </div>
+        <div class="slide-badge">Roadmap & Settlement Port</div>
+      </div>
+
+      <div class="slide-body full-width">
+        <div class="illustration-frame" style="max-height: 360px;">
+          <img src="../../assets/slide5-layers-architecture.svg" alt="نقشه‌راه ۳ لایه‌ای چک‌یار">
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>چک‌یار | سند معرفی سرمایه‌گذار</span>
+        <div class="slide-footer-right">
+          <span>معماری Modular Monolith با قابلیت سوییچ لایه‌ها</span>
+          <span>اسلاید ۵ از ۱۴</span>
+        </div>
+      </div>
+
+      <div class="slide-notes-data" style="display:none;">
+        ما آگاهانه از لایه ۱ (Marketplace محض) شروع کرده‌ایم تا بدون نیاز به مجوزهای پیچیده بانکی وارد بازار شویم. با این حال، معماری سیستم Settlement Port دارد تا در آینده لایه‌های ۲ و ۳ اضافه شوند.
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 6: Product Features & Flow
+         ========================================== -->
+    <section class="slide-stage" data-slide="6" data-title="جریان محصول و ویژگی‌ها">
+      <div class="slide-header">
+        <div class="slide-title-wrap">
+          <div class="slide-eyebrow">
+            <span>جریان سفر کاربر (User Journey)</span>
+            <span>•</span>
+            <span>بخش ششم: ویژگی‌های پیاده‌شده</span>
+          </div>
+          <h2 class="slide-title">جریان کامل معامله در چک‌یار v1</h2>
+          <p class="slide-subtitle">از احراز هویت دوسطحی تا کشف، ابراز تمایل و تایید تسویه</p>
+        </div>
+        <div class="slide-badge">۱۸ ویوی توسعه‌یافته در SPA</div>
+      </div>
+
+      <div class="slide-body full-width">
+        <div class="illustration-frame" style="max-height: 360px;">
+          <img src="../../assets/slide6-product-flow.svg" alt="جریان عملیاتی محصول چک‌یار">
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>چک‌یار | سند معرفی سرمایه‌گذار</span>
+        <div class="slide-footer-right">
+          <span>پوشش ۱۰۰٪ جریان‌های حیاتی و سناریوهای مرزی</span>
+          <span>اسلاید ۶ از ۱۴</span>
+        </div>
+      </div>
+
+      <div class="slide-notes-data" style="display:none;">
+        تمامی مراحل شامل ویزارد ثبت آگهی، آپلود مدارک، صف ناظر، احراز حقیقی/حقوقی، فیلترهای پیشرفته بازارچه و سیستم پیشنهاد قیمت پیاده‌سازی شده و تست‌های آن پاس شده‌اند.
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 7: Technology Stack
+         ========================================== -->
+    <section class="slide-stage" data-slide="7" data-title="معماری فنی و پشته فناوری">
+      <div class="slide-header">
+        <div class="slide-title-wrap">
+          <div class="slide-eyebrow">
+            <span>فناوری و مهندسی نرم‌افزار</span>
+            <span>•</span>
+            <span>بخش هفتم: پشته فنی</span>
+          </div>
+          <h2 class="slide-title">پشته فناوری مقیاس‌پذیر و ایمن</h2>
+          <p class="slide-subtitle">طراحی ماژولار مبتنی بر استانداردهای مهندسی روز و زبان طراحی یکپارچه</p>
+        </div>
+        <div class="slide-badge">Vue 3 + DRF + Design System</div>
+      </div>
+
+      <div class="slide-body full-width">
+        <div class="illustration-frame" style="max-height: 360px;">
+          <img src="../../assets/slide7-tech-stack.svg" alt="پشته فناوری و معماری نرم‌افزار">
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>چک‌یار | سند معرفی سرمایه‌گذار</span>
+        <div class="slide-footer-right">
+          <span>کد تمیز، بدون وابستگی مخرب، آماده استقرار در چابکان</span>
+          <span>اسلاید ۷ از ۱۴</span>
+        </div>
+      </div>
+
+      <div class="slide-notes-data" style="display:none;">
+        توسعه در فرانت‌اند با Vue 3 و Tailwind CSS v4 و Naive UI انجام شده و بک‌اند با Django 5 REST Framework پیاده‌سازی شده است. سیستم دارای لاگ ممیزی کامل رویدادها است.
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 8: Monetization Model
+         ========================================== -->
+    <section class="slide-stage" data-slide="8" data-title="مدل درآمدی و اقتصاد کسب‌وکار">
+      <div class="slide-header">
+        <div class="slide-title-wrap">
+          <div class="slide-eyebrow">
+            <span>جریان‌های درآمدی</span>
+            <span>•</span>
+            <span>بخش هشتم: مدل کسب‌وکار</span>
+          </div>
+          <h2 class="slide-title">جریان‌های متنوع و چندلایه درآمدی</h2>
+          <p class="slide-subtitle">از کارمزد اتصال در فاز ۱ تا اشتراک سازمانی و خدمات ارزش افزوده</p>
+        </div>
+        <div class="slide-badge">Monetization Streams</div>
+      </div>
+
+      <div class="slide-body full-width">
+        <div class="illustration-frame" style="max-height: 360px;">
+          <img src="../../assets/slide8-monetization.svg" alt="جریان‌های درآمدی چک‌یار">
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>چک‌یار | سند معرفی سرمایه‌گذار</span>
+        <div class="slide-footer-right">
+          <span>مقیاس‌پذیری درآمد همگام با رشد حجم معاملات</span>
+          <span>اسلاید ۸ از ۱۴</span>
+        </div>
+      </div>
+
+      <div class="slide-notes-data" style="display:none;">
+        در لایه ۱ مدل درآمدی بر پایه کارمزد اتصال موفق (Match Fee) و اشتراک ابزارهای حرفه‌ای تحلیل ریسک برای سرمایه‌گذاران است. با ورود به لایه ۲، کارمزدهای امانت‌داری افزوده خواهد شد.
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 9: Go-To-Market
+         ========================================== -->
+    <section class="slide-stage" data-slide="9" data-title="استراتژی ورود به بازار">
+      <div class="slide-header">
+        <div class="slide-title-wrap">
+          <div class="slide-eyebrow">
+            <span>استراتژی رشد (GTM)</span>
+            <span>•</span>
+            <span>بخش نهم: استراتژی نفوذ</span>
+          </div>
+          <h2 class="slide-title">استراتژی گام‌به‌گام نفوذ در بازار B2B</h2>
+          <p class="slide-subtitle">شروع از پایلوت کنترل‌شده با اصناف هدف تا مقیاس ملی</p>
+        </div>
+        <div class="slide-badge">Pilot to Scale Strategy</div>
+      </div>
+
+      <div class="slide-body full-width">
+        <div class="illustration-frame" style="max-height: 360px;">
+          <img src="../../assets/slide9-gtm-funnel.svg" alt="استراتژی ورود به بازار و رشد چک‌یار">
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>چک‌یار | سند معرفی سرمایه‌گذار</span>
+        <div class="slide-footer-right">
+          <span>تمرکز بر صنایع با سررسید چک‌های بالا (پخش، ساختمانی، قطعات)</span>
+          <span>اسلاید ۹ از ۱۴</span>
+        </div>
+      </div>
+
+      <div class="slide-notes-data" style="display:none;">
+        فاز اول روی اجرای پایلوت با ۵۰ شرکت معتمد متمرکز است تا شاخص‌های زمان تطبیق، نرخ ریزش و بازخورد بازار سنجیده شود، سپس وارد مشارکت‌های زنجیره تامین خواهیم شد.
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 10: Competitive Advantage & Moats
+         ========================================== -->
+    <section class="slide-stage" data-slide="10" data-title="مزیت رقابتی و موانع ورود">
+      <div class="slide-header">
+        <div class="slide-title-wrap">
+          <div class="slide-eyebrow">
+            <span>مزیت‌های رقابتی پایدار</span>
+            <span>•</span>
+            <span>بخش دهم: موانع ورود رقبا</span>
+          </div>
+          <h2 class="slide-title">چهار ستون مزیت رقابتی چک‌یار</h2>
+          <p class="slide-subtitle">چرا رقبا به‌سادگی قادر به بازتولید ارزش چک‌یار نیستند؟</p>
+        </div>
+        <div class="slide-badge">Defensible Moats</div>
+      </div>
+
+      <div class="slide-body full-width">
+        <div class="illustration-frame" style="max-height: 360px;">
+          <img src="../../assets/slide10-moats.svg" alt="مزیت‌های رقابتی و موانع ورود">
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>چک‌یار | سند معرفی سرمایه‌گذار</span>
+        <div class="slide-footer-right">
+          <span>اثر شبکه‌ای + شفافیت اعتباری + انطباق حقوقی</span>
+          <span>اسلاید ۱۰ از ۱۴</span>
+        </div>
+      </div>
+
+      <div class="slide-notes-data" style="display:none;">
+        اثر شبکه‌ای دوطرفه، موتور تخمین نرخ تنزیل بر اساس داده‌های تجمیعی و فرآیند دقیق احراز هویت دوسطحی، دیوارهای دفاعی قدرتمندی در برابر ورود رقبای جدید ایجاد می‌کنند.
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 11: Legal & Regulatory Framework
+         ========================================== -->
+    <section class="slide-stage" data-slide="11" data-title="چارچوب حقوقی و انطباق رگولاتوری">
+      <div class="slide-header">
+        <div class="slide-title-wrap">
+          <div class="slide-eyebrow">
+            <span>انطباق قانونی و فقهی</span>
+            <span>•</span>
+            <span>بخش یازدهم: ریسک رگولاتوری</span>
+          </div>
+          <h2 class="slide-title">مرز دقیق مسئولیت و انطباق کامل حقوقی</h2>
+          <p class="slide-subtitle">تفکیک صریح نقش Marketplace از نهادهای واسطه‌گر مالی</p>
+        </div>
+        <div class="slide-badge">Legal Compliance Shield</div>
+      </div>
+
+      <div class="slide-body full-width">
+        <div class="illustration-frame" style="max-height: 360px;">
+          <img src="../../assets/slide11-regulatory.svg" alt="چارچوب حقوقی و رگولاتوری چک‌یار">
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>چک‌یار | سند معرفی سرمایه‌گذار</span>
+        <div class="slide-footer-right">
+          <span>انطباق با قانون جدید صدور چک و آیین‌نامه‌های صیاد</span>
+          <span>اسلاید ۱۱ از ۱۴</span>
+        </div>
+      </div>
+
+      <div class="slide-notes-data" style="display:none;">
+        چک‌یار در لایه ۱ هرگز وجهی دریافت یا پرداخت نمی‌کند. انتقال مالکیت چک منحصراً از طریق ظهرنویسی در سامانه صیاد بانک مرکزی و تسویه خارج از پلتفرم صورت می‌پذیرد.
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 12: Traction & Status
+         ========================================== -->
+    <section class="slide-stage" data-slide="12" data-title="وضعیت فعلی و دستاوردها">
+      <div class="slide-header">
+        <div class="slide-title-wrap">
+          <div class="slide-eyebrow">
+            <span>پیشرفت اجرایی پروژه</span>
+            <span>•</span>
+            <span>بخش دوازدهم: وضعیت فنی و محصول</span>
+          </div>
+          <h2 class="slide-title">وضعیت فعلی: v1 لایه ۱ آماده پایلوت</h2>
+          <p class="slide-subtitle">پایان فاز توسعه و تست؛ آماده اجرای آزمایشی کنترل‌شده</p>
+        </div>
+        <div class="slide-badge">Pilot Ready Milestones</div>
+      </div>
+
+      <div class="slide-body full-width">
+        <div class="illustration-frame" style="max-height: 360px;">
+          <img src="../../assets/slide12-traction.svg" alt="وضعیت فعلی و نقاط عطف پیشرفت">
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>چک‌یار | سند معرفی سرمایه‌گذار</span>
+        <div class="slide-footer-right">
+          <span>تست‌های نرم‌افزاری سبز، معماری پایدار</span>
+          <span>اسلاید ۱۲ از ۱۴</span>
+        </div>
+      </div>
+
+      <div class="slide-notes-data" style="display:none;">
+        برخلاف طرح‌های اولیه خام، چک‌یار دارای کدهای فرانت‌اند و بک‌اند کامل، تست‌های یکپارچگی موفق و معماری تمیز است و فوراً می‌تواند وارد اجرای پایلوت شود.
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 13: The Ask & Allocation
+         ========================================== -->
+    <section class="slide-stage" data-slide="13" data-title="نیازمندی سرمایه‌گذاری و تخصیص منابع">
+      <div class="slide-header">
+        <div class="slide-title-wrap">
+          <div class="slide-eyebrow">
+            <span>درخواست سرمایه (The Ask)</span>
+            <span>•</span>
+            <span>بخش سیزدهم: جذب سرمایه Seed</span>
+          </div>
+          <h2 class="slide-title">تخصیص هوشمند منابع در راند بذری</h2>
+          <p class="slide-subtitle">تمرکز سرمایه بر اجرای پایلوت، جذب B2B و ارتقای زیرساخت مهندسی</p>
+        </div>
+        <div class="slide-badge info">Seed Round Allocation</div>
+      </div>
+
+      <div class="slide-body full-width">
+        <div class="illustration-frame" style="max-height: 360px;">
+          <img src="../../assets/slide13-fund-allocation.svg" alt="تخصیص سرمایه و هزینه‌ها">
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>چک‌یار | سند معرفی سرمایه‌گذار</span>
+        <div class="slide-footer-right">
+          <span>دوره بازگشت و دستیابی به نقاط عطف ۱۲ ماهه</span>
+          <span>اسلاید ۱۳ از ۱۴</span>
+        </div>
+      </div>
+
+      <div class="slide-notes-data" style="display:none;">
+        سرمایه جذب‌شده برای تامین هزینه‌های اجرای پایلوت، تیم مهندسی، انطباق حقوقی و اخذ استعلام‌های رگولاتوری تخصیص خواهد یافت تا زمینه عرضه عمومی مهیا گردد.
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 14: Vision, Summary & Contact
+         ========================================== -->
+    <section class="slide-stage" data-slide="14" data-title="چشم‌انداز و اطلاعات تماس">
+      <div class="slide-header">
+        <div class="slide-title-wrap">
+          <div class="slide-eyebrow">
+            <span>همراهی در ساخت آینده فین‌تک</span>
+            <span>•</span>
+            <span>بخش چهاردهم: چشم‌انداز و ارتباط</span>
+          </div>
+          <h2 class="slide-title">دموکراسی دسترسی به سرمایه در گردش</h2>
+          <p class="slide-subtitle">دعوت از سرمایه‌گذاران و همکاران تجاری برای تحول در بازار چک کشور</p>
+        </div>
+        <div class="slide-badge">پایان ارائه • تماس و گفتگو</div>
+      </div>
+
+      <div class="slide-body">
+        <div class="feature-list">
+          <div class="content-box">
+            <h3 class="content-box-title">
+              <span class="feature-icon-bullet">✓</span>
+              جمع‌بندی ارزش پیشنهادی
+            </h3>
+            <p class="content-box-text">
+              چک‌یار اولین پاسخ دیجیتال و شفاف به بحران نقدینگی زنجیره تامین در ایران است. ما با محصولی آماده پایلوت و معماری مقیاس‌پذیر در آستانه جهش قرار داریم.
+            </p>
+          </div>
+
+          <div class="content-box">
+            <h3 class="content-box-title">
+              <span class="feature-icon-bullet blue">✉</span>
+              اطلاعات ارتباطی و مشارکت
+            </h3>
+            <div style="font-size:12.5px; line-height: 1.8; color:var(--theme-text-on-surface);">
+              <div><strong>ایمیل تماس:</strong> s.r.alamalhoda@gmail.com</div>
+              <div><strong>مخزن فرانت‌اند:</strong> checkyar-googleai</div>
+              <div><strong>وضعیت استقرار:</strong> آماده اجرای پایلوت کنترل‌شده</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="illustration-frame">
+          <img src="../../assets/slide14-vision-future.svg" alt="چشم‌انداز آینده چک‌یار">
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>چک‌یار | سامانه معامله مطالبات و چک صیادی</span>
+        <div class="slide-footer-right">
+          <span>با سپاس از توجه شما</span>
+          <span>اسلاید ۱۴ از ۱۴</span>
+        </div>
+      </div>
+
+      <div class="slide-notes-data" style="display:none;">
+        ما مشتاقانه آماده پاسخ‌گویی به سوالات سرمایه‌گذاران، ارائه نسخه دمو و هماهنگی برای شرکت در فاز پایلوت هستیم.
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Speaker Notes Collapsible Drawer -->
+  <div class="notes-drawer" id="notes-drawer">
+    <div class="notes-title">
+      <span>نکات کلیدی ارائه (Speaker Notes)</span>
+      <span style="cursor:pointer; color:var(--theme-text-secondary);" id="btn-close-notes">✕</span>
+    </div>
+    <div class="notes-content" id="notes-content">
+      نکات اسلاید در اینجا نمایش داده می‌شود.
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Control Bar -->
+  <footer class="deck-bottombar">
+    <div class="slide-counter">
+      اسلاید <span id="current-slide-num">۱</span> از <span>۱۴</span>
+    </div>
+
+    <div class="nav-controls">
+      <button class="btn btn-secondary" id="btn-prev" title="اسلاید قبلی (کلید راست)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        قبلی
+      </button>
+
+      <button class="btn btn-primary" id="btn-next" title="اسلاید بعدی (کلید چپ یا Space)">
+        بعدی
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Overview Grid Modal (O / Escape) -->
+  <div class="overview-modal" id="overview-modal">
+    <div class="overview-header">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div class="brand-mark">چک</div>
+        <h2 style="font-size:18px; font-weight:800; color:var(--theme-text-primary);">فهرست کلی اسلایدهای ارائه</h2>
+      </div>
+      <button class="btn btn-secondary" id="btn-close-overview">
+        بستن فهرست (Esc)
+      </button>
+    </div>
+
+    <div class="overview-grid" id="overview-grid">
+      <!-- Injected via JavaScript -->
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const totalSlides = 14;
+    let currentSlide = 1;
+    let isScrollMode = false;
+    let isNotesOpen = false;
+
+    // Elements
+    const deckApp = document.getElementById('deck-app');
+    const slides = document.querySelectorAll('.slide-stage');
+    const currentSlideNumEl = document.getElementById('current-slide-num');
+    const progressBar = document.getElementById('progress-bar');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const btnToggleMode = document.getElementById('btn-toggle-mode');
+    const modeText = document.getElementById('mode-text');
+    const btnToggleNotes = document.getElementById('btn-toggle-notes');
+    const btnCloseNotes = document.getElementById('btn-close-notes');
+    const notesDrawer = document.getElementById('notes-drawer');
+    const notesContent = document.getElementById('notes-content');
+    const btnOverview = document.getElementById('btn-overview');
+    const overviewModal = document.getElementById('overview-modal');
+    const btnCloseOverview = document.getElementById('btn-close-overview');
+    const overviewGrid = document.getElementById('overview-grid');
+    const btnFullscreen = document.getElementById('btn-fullscreen');
+
+    // Persian Number conversion helper
+    function toPersianNum(num) {
+      return num.toLocaleString('fa-IR');
+    }
+
+    // Build Overview Grid items
+    slides.forEach((slide, idx) => {
+      const slideIndex = idx + 1;
+      const title = slide.getAttribute('data-title') || ('اسلاید ' + slideIndex);
+      const subtitle = slide.querySelector('.slide-subtitle')?.textContent || '';
+      
+      const thumb = document.createElement('div');
+      thumb.className = 'overview-thumb' + (slideIndex === 1 ? ' active' : '');
+      thumb.setAttribute('data-target-slide', slideIndex);
+      thumb.innerHTML = `
+        <div class="thumb-num">اسلاید ${toPersianNum(slideIndex)} از ${toPersianNum(totalSlides)}</div>
+        <div class="thumb-title">${title}</div>
+        <div class="thumb-desc">${subtitle}</div>
+      `;
+      thumb.addEventListener('click', () => {
+        goToSlide(slideIndex);
+        closeOverview();
+      });
+      overviewGrid.appendChild(thumb);
+    });
+
+    // Update active slide view
+    function updateSlide() {
+      slides.forEach((slide, idx) => {
+        const slideIndex = idx + 1;
+        if (slideIndex === currentSlide) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      // Update overview thumbnails
+      const thumbs = document.querySelectorAll('.overview-thumb');
+      thumbs.forEach((thumb, idx) => {
+        if (idx + 1 === currentSlide) {
+          thumb.classList.add('active');
+        } else {
+          thumb.classList.remove('active');
+        }
+      });
+
+      // Update Bottom Bar Info
+      if (currentSlideNumEl) {
+        currentSlideNumEl.textContent = toPersianNum(currentSlide);
+      }
+
+      // Update Progress Bar
+      const progressPercent = (currentSlide / totalSlides) * 100;
+      if (progressBar) {
+        progressBar.style.width = progressPercent + '%';
+      }
+
+      // Update Prev / Next Buttons state
+      if (btnPrev) {
+        btnPrev.disabled = currentSlide <= 1;
+        btnPrev.style.opacity = currentSlide <= 1 ? '0.5' : '1';
+      }
+      if (btnNext) {
+        btnNext.textContent = currentSlide >= totalSlides ? 'پایان ارائه' : 'بعدی';
+      }
+
+      // Update Speaker Notes Content
+      const activeSlide = document.querySelector(`.slide-stage[data-slide="${currentSlide}"]`);
+      const notesData = activeSlide?.querySelector('.slide-notes-data')?.innerHTML || 'نکته‌ای برای این اسلاید ثبت نشده است.';
+      if (notesContent) {
+        notesContent.innerHTML = notesData;
+      }
+    }
+
+    function goToSlide(n) {
+      if (n < 1) n = 1;
+      if (n > totalSlides) n = totalSlides;
+      currentSlide = n;
+      updateSlide();
+
+      if (isScrollMode) {
+        const targetEl = document.querySelector(`.slide-stage[data-slide="${currentSlide}"]`);
+        targetEl?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        goToSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        goToSlide(currentSlide - 1);
+      }
+    }
+
+    function toggleMode() {
+      isScrollMode = !isScrollMode;
+      if (isScrollMode) {
+        deckApp.classList.add('scroll-mode');
+        modeText.textContent = 'حالت اسلاید';
+      } else {
+        deckApp.classList.remove('scroll-mode');
+        modeText.textContent = 'حالت مطالعه';
+        updateSlide();
+      }
+    }
+
+    function toggleNotes() {
+      isNotesOpen = !isNotesOpen;
+      if (isNotesOpen) {
+        notesDrawer.classList.add('open');
+        btnToggleNotes.classList.add('active');
+      } else {
+        notesDrawer.classList.remove('open');
+        btnToggleNotes.classList.remove('active');
+      }
+    }
+
+    function openOverview() {
+      overviewModal.classList.add('open');
+    }
+
+    function closeOverview() {
+      overviewModal.classList.remove('open');
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Event Listeners
+    btnPrev?.addEventListener('click', prevSlide);
+    btnNext?.addEventListener('click', nextSlide);
+    btnToggleMode?.addEventListener('click', toggleMode);
+    btnToggleNotes?.addEventListener('click', toggleNotes);
+    btnCloseNotes?.addEventListener('click', toggleNotes);
+    btnOverview?.addEventListener('click', openOverview);
+    btnCloseOverview?.addEventListener('click', closeOverview);
+    btnFullscreen?.addEventListener('click', toggleFullscreen);
+
+    // Keyboard navigation
+    // In RTL: ArrowLeft = Next (forward), ArrowRight = Prev (backward)
+    window.addEventListener('keydown', (e) => {
+      if (overviewModal.classList.contains('open')) {
+        if (e.key === 'Escape') closeOverview();
+        return;
+      }
+
+      if (e.key === 'ArrowLeft' || e.key === 'PageDown' || e.key === ' ') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowRight' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'o' || e.key === 'O' || e.key === 'f' || e.key === 'F') {
+        if (e.key.toLowerCase() === 'o') {
+          openOverview();
+        } else {
+          toggleFullscreen();
+        }
+      } else if (e.key === 'n' || e.key === 'N') {
+        toggleNotes();
+      } else if (e.key === 'Home') {
+        goToSlide(1);
+      } else if (e.key === 'End') {
+        goToSlide(totalSlides);
+      }
+    });
+
+    // Initialize
+    updateSlide();
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%" fill="none">
+  <!-- Slide 11: Legal & Regulatory Framework -->
+  <g transform="translate(50, 60)">
+    <!-- Tech Platform Boundary Box -->
+    <rect x="0" y="0" width="240" height="260" rx="14" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+    <rect x="20" y="20" width="40" height="40" rx="10" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1.5"/>
+    <text x="40" y="45" fill="#34d399" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">✓</text>
+    <text x="70" y="36" fill="#f8fafc" font-family="sans-serif" font-size="13" font-weight="bold">نقش پلتفرم چک‌یار</text>
+    <text x="70" y="52" fill="#10b981" font-family="sans-serif" font-size="10">واسط فناورانه (Marketplace)</text>
+
+    <text x="20" y="90" fill="#cbd5e1" font-family="sans-serif" font-size="10">• تابلوی اعلانات هوشمند معاملات چک</text>
+    <text x="20" y="115" fill="#cbd5e1" font-family="sans-serif" font-size="10">• احراز هویت و نظارت بر مدارک</text>
+    <text x="20" y="140" fill="#cbd5e1" font-family="sans-serif" font-size="10">• پیشنهاد نرخ غیراجبارآور بر پایه ریسک</text>
+    <text x="20" y="165" fill="#cbd5e1" font-family="sans-serif" font-size="10">• اتصال دارنده و سرمایه‌گذار معتبر</text>
+    <text x="20" y="190" fill="#cbd5e1" font-family="sans-serif" font-size="10">• ثبت رویدادهای ممیزی امن (Audit Log)</text>
+
+    <rect x="20" y="215" width="200" height="28" rx="6" fill="#10b981" fill-opacity="0.2"/>
+    <text x="120" y="233" fill="#34d399" font-family="sans-serif" font-size="9.5" font-weight="bold" text-anchor="middle">بدون لمس وجوه مالی در لایه ۱</text>
+
+    <!-- Boundary Line -->
+    <path d="M245 40 L 255 40 L 255 220 L 245 220" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 4"/>
+    <text x="250" y="135" fill="#f59e0b" font-family="sans-serif" font-size="8" transform="rotate(-90 250 135)" text-anchor="middle">مرز رگولاتوری</text>
+
+    <!-- Outside Scope / Financial Institutions Box -->
+    <rect x="260" y="0" width="240" height="260" rx="14" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+    <rect x="280" y="20" width="40" height="40" rx="10" fill="#1e293b" stroke="#f43f5e" stroke-width="1.5"/>
+    <text x="300" y="45" fill="#f43f5e" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">✗</text>
+    <text x="330" y="36" fill="#f8fafc" font-family="sans-serif" font-size="13" font-weight="bold">خارج از دامنه (تعهدات طرفین)</text>
+    <text x="330" y="52" fill="#94a3b8" font-family="sans-serif" font-size="10">تسویه و ظهرنویسی بیرونی</text>
+
+    <text x="280" y="90" fill="#cbd5e1" font-family="sans-serif" font-size="10">• عدم دریافت یا انتقال وجه بانکی</text>
+    <text x="280" y="115" fill="#cbd5e1" font-family="sans-serif" font-size="10">• عدم ارائه تضمین وصول یا بیمه چک</text>
+    <text x="280" y="140" fill="#cbd5e1" font-family="sans-serif" font-size="10">• ظهرنویسی در سامانه صیاد بانک مرکزی</text>
+    <text x="280" y="165" fill="#cbd5e1" font-family="sans-serif" font-size="10">• تسویه حساب بین‌بانکی توسط طرفین</text>
+    <text x="280" y="190" fill="#cbd5e1" font-family="sans-serif" font-size="10">• عدم ایجاد تعهد ترازنامه‌ای برای سامانه</text>
+
+    <rect x="280" y="215" width="200" height="28" rx="6" fill="#1e293b"/>
+    <text x="380" y="233" fill="#cbd5e1" font-family="sans-serif" font-size="9.5" text-anchor="middle">انطباق با قانون تجارت و چک صیادی</text>
+  </g>
+</svg>

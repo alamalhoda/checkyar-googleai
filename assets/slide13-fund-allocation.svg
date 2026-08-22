@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%" fill="none">
+  <!-- Slide 13: Fund Allocation & The Ask -->
+  <g transform="translate(60, 60)">
+    <!-- Donut Chart on Left -->
+    <g transform="translate(130, 130)">
+      <!-- 40% Product & Engineering (Emerald) -->
+      <circle cx="0" cy="0" r="85" stroke="#10b981" stroke-width="26" stroke-dasharray="213 321" stroke-dashoffset="0" fill="none"/>
+      <!-- 30% GTM & Merchant Acquisition (Blue) -->
+      <circle cx="0" cy="0" r="85" stroke="#3b82f6" stroke-width="26" stroke-dasharray="160 374" stroke-dashoffset="-213" fill="none"/>
+      <!-- 15% Regulatory & Legal (Amber) -->
+      <circle cx="0" cy="0" r="85" stroke="#f59e0b" stroke-width="26" stroke-dasharray="80 454" stroke-dashoffset="-373" fill="none"/>
+      <!-- 15% Pilot Operations & Working Reserve (Purple) -->
+      <circle cx="0" cy="0" r="85" stroke="#a855f7" stroke-width="26" stroke-dasharray="80 454" stroke-dashoffset="-453" fill="none"/>
+
+      <text x="0" y="-8" fill="#f8fafc" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle">Seed</text>
+      <text x="0" y="14" fill="#94a3b8" font-family="sans-serif" font-size="10" text-anchor="middle">تخصیص سرمایه</text>
+    </g>
+
+    <!-- Legend & Breakdown on Right -->
+    <g transform="translate(280, 20)">
+      <!-- Item 1 -->
+      <g transform="translate(0, 0)">
+        <rect width="18" height="18" rx="4" fill="#10b981"/>
+        <text x="30" y="14" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="bold">۴۰٪ — توسعه محصول و مهندسی</text>
+        <text x="30" y="32" fill="#94a3b8" font-family="sans-serif" font-size="10">توسعه ماژول‌های لایه ۲، امنیت و زیرساخت مقیاس‌پذیر</text>
+      </g>
+
+      <!-- Item 2 -->
+      <g transform="translate(0, 55)">
+        <rect width="18" height="18" rx="4" fill="#3b82f6"/>
+        <text x="30" y="14" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="bold">۳۰٪ — بازاریابی B2B و جذب اولیه</text>
+        <text x="30" y="32" fill="#94a3b8" font-family="sans-serif" font-size="10">اتصال هاب‌های تجاری، اصناف و بازاریابی مستقیم سرمایه‌گذاران</text>
+      </g>
+
+      <!-- Item 3 -->
+      <g transform="translate(0, 110)">
+        <rect width="18" height="18" rx="4" fill="#f59e0b"/>
+        <text x="30" y="14" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="bold">۱۵٪ — استعلام‌های حقوقی و رگولاتوری</text>
+        <text x="30" y="32" fill="#94a3b8" font-family="sans-serif" font-size="10">تکمیل نظرات فقهی، استعلام بانک مرکزی و بیمه اعتباری</text>
+      </g>
+
+      <!-- Item 4 -->
+      <g transform="translate(0, 165)">
+        <rect width="18" height="18" rx="4" fill="#a855f7"/>
+        <text x="30" y="14" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="bold">۱۵٪ — عملیات پایلوت و پشتیبانی</text>
+        <text x="30" y="32" fill="#94a3b8" font-family="sans-serif" font-size="10">تیم نظارت و پشتیبانی کاربران پایلوت</text>
+      </g>
+    </g>
+  </g>
+</svg>
